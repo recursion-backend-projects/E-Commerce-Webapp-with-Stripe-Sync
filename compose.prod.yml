@@ -1,0 +1,51 @@
+services:
+  db:
+    build:
+      context: ./infra/prod/db
+    environment:
+      TZ: Asia/Tokyo
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./src/db/mysql_data:/var/lib/mysql
+
+  app:
+    build:
+      context: .
+      dockerfile: ./infra/prod/app/Dockerfile
+    depends_on:
+      - db
+    environment:
+      RAILS_ENV: production
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src:/docker-rails-test
+    user: root
+
+  web:
+    build:
+      context: ./infra/prod/web
+    ports:
+      - "8080:80" # 実際の環境では80番ポートを指定
+
+    depends_on:
+      - app
+    volumes:
+      - ./infra/prod/web/default.conf:/etc/nginx/conf.d/default.conf
+      - ./src/public:/docker-rails-test/public
+
+  https-portal:
+    image: steveltn/https-portal:1
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMAINS: "docker-rails-test.seiprojects.com -> http://web:80"
+      STAGE: "production"
+    volumes:
+      - https-portal-data:/var/lib/https-portal
+
+volumes:
+  db-data:
+  https-portal-data: # HTTPS-PORTALをアップグレードする際に再署名を避けるために推奨されます
