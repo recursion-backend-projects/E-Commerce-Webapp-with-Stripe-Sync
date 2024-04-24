@@ -1,3 +1,4 @@
+/src/db/mysql_data
 # Created by https://www.toptal.com/developers/gitignore/api/rails,ruby,go,visualstudiocode,macos,windows,linux,composer,node
 # Edit at https://www.toptal.com/developers/gitignore?templates=rails,ruby,go,visualstudiocode,macos,windows,linux,composer,node
 
@@ -224,25 +225,25 @@ dist
 *.rbc
 capybara-*.html
 .rspec
-/db/*.sqlite3
-/db/*.sqlite3-journal
-/db/*.sqlite3-[0-9]*
-/public/system
-/coverage/
-/spec/tmp
+/src/db/*.sqlite3
+/src/db/*.sqlite3-journal
+/src/db/*.sqlite3-[0-9]*
+/src/public/system
+/src/coverage/
+/src/spec/tmp
 *.orig
 rerun.txt
 pickle-email-*.html
 
 # Ignore all logfiles and tempfiles.
-/log/*
-/tmp/*
-!/log/.keep
-!/tmp/.keep
+/src/log/*
+/src/tmp/*
+!/src/log/.keep
+!/src/tmp/.keep
 
 # TODO Comment out this rule if you are OK with secrets being uploaded to the repo
-config/initializers/secret_token.rb
-config/master.key
+/src/config/initializers/secret_token.rb
+/src/config/master.key
 
 # Only include if you have production secrets in this file, which is no longer a Rails default
 # config/secrets.yml
@@ -252,8 +253,8 @@ config/master.key
 .env*.local
 
 ## Environment normalization:
-/.bundle
-/vendor/bundle
+/src/.bundle
+/src/vendor/bundle
 
 # these should all be checked in to normalize the environment:
 # Gemfile.lock, .ruby-version, .ruby-gemset
@@ -262,7 +263,7 @@ config/master.key
 .rvmrc
 
 # if using bower-rails ignore default bower_components path bower.json files
-/vendor/assets/bower_components
+/src/vendor/assets/bower_components
 *.bowerrc
 bower.json
 
@@ -275,17 +276,17 @@ bower.json
 # Ignore node_modules
 
 # Ignore precompiled javascript packs
-/public/packs
-/public/packs-test
-/public/assets
+/src/public/packs
+/src/public/packs-test
+/src/public/assets
 
 # Ignore yarn files
-/yarn-error.log
+/src/yarn-error.log
 
 # Ignore uploaded files in development
-/storage/*
-!/storage/.keep
-/public/uploads
+/src/storage/*
+!/src/storage/.keep
+/src/public/uploads
 
 ### Ruby ###
 *.gem
