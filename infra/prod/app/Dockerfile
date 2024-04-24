@@ -1,5 +1,5 @@
 # ベースイメージ
-FROM ruby:3.2.2
+FROM ruby:3.3.0
 ARG RUBYGEMS_VERSION=3.3.20
 
 # 依存パッケージのインストール
