@@ -1,6 +1,6 @@
-#Docker Hubからruby:3.2.2のイメージをプルする
-FROM ruby:3.2.2
-ARG RUBYGEMS_VERSION=3.3.20
+#Docker Hubからruby:3.3.0のイメージをプルする
+ARG RUBY_VERSION=3.3.0
+FROM registry.docker.com/library/ruby:$RUBY_VERSION
 
 #debian系のためapt-getを使用してnode.jsとyarnをインストール
 RUN apt-get update -qq && \
@@ -13,6 +13,9 @@ WORKDIR /docker-rails-test
 
 # srcをdocker-rails-testにコピー
 COPY src /docker-rails-test
+
+# データベースのセットアップを実行
+ENTRYPOINT ["/docker-rails-test/bin/docker-dev-entrypoint"]
 
 #コンテナ内にコピーしたGemfileを用いてbundel install
 RUN bundle install
