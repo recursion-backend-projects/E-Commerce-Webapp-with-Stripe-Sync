@@ -7,6 +7,11 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 30s
+      retries: 10
     volumes:
       - ./src/db/mysql_data:/var/lib/mysql
 
@@ -15,7 +20,8 @@ services:
       context: .
       dockerfile: ./infra/dev/app/Dockerfile
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
       - "3000:3000"
     volumes:
