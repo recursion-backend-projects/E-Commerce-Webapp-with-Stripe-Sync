@@ -11,11 +11,13 @@ RUN apt-get update -qq && \
 #docker内の作業ディレクトリを作成＆設定
 WORKDIR /docker-rails-test
 
+COPY ../../../src/Gemfile ../../../src/Gemfile.lock ./
+RUN bundle install
+
 # srcをdocker-rails-testにコピー
 COPY src /docker-rails-test
 
 # データベースのセットアップを実行
 ENTRYPOINT ["/docker-rails-test/bin/docker-dev-entrypoint"]
 
-#コンテナ内にコピーしたGemfileを用いてbundel install
-RUN bundle install
+
