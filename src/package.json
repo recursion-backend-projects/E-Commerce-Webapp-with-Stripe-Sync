@@ -4,17 +4,20 @@
 	"dependencies": {
 		"@hotwired/stimulus": "^3.2.2",
 		"@hotwired/turbo-rails": "^8.0.4",
-		"esbuild": "^0.20.2",
 		"flowbite": "^2.3.0"
 	},
 	"devDependencies": {
 		"autoprefixer": "^10.4.19",
+		"esbuild": "^0.20.2",
 		"postcss": "^8.4.38",
 		"tailwindcss": "^3.4.3",
 		"typescript": "^5.4.5"
 	},
 	"scripts": {
-		"build": "esbuild app/javascript/*.*.{js,ts} --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets",
+		"lint": "eslint ./app",
+		"lint:debug": "eslint ./app --debug",
+		"lint:fix": "eslint ./app --fix",
+		"build": "esbuild ./app/javascript/*.*.{js,ts} --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets",
 		"build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify"
 	}
 }
