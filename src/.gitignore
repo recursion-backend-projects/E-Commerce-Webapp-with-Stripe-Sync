@@ -384,3 +384,5 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/rails,ruby,go,visualstudiocode,macos,windows,linux,composer,node
+/app/assets/builds/*
+!/app/assets/builds/.keep
