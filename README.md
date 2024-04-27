@@ -4,7 +4,8 @@
 - Rails 7.1.3.2
 - MySQL 8.3.0
 - Nginx 1.25.4
-- Tailwind Css
+- Tailwind css
+- Rspec
 - flowbite
 - rubocop
 - esbuild(js bundler)
@@ -29,15 +30,17 @@ git clone https://github.com/recursion-backend-projects/E-Commerce-Webapp-with-S
 プロジェクト直下に.env ファイルを配置してください。</br>
 
 ### コンテナのビルド&起動
+docker-rails-testディレクトリで以下を実行
 
 ```bash
-# docker-rails-testディレクトリで以下を実行
-docker compose up -d
+docker compose up -d --build
 ```
 
-### 開発サーバーでの確認
+### 開発サーバー経由で確認
+ポート番号を指定してアクセスするとアプリサーバー経由でのアクセスです。
 
-以下 URL にアクセスして Rails のデフォルト画面が表示できていれば OK</br>
+Docker hubで開発サーバーが起動したことを確認して、以下URLにアクセス。
+Railsのデフォルト画面が表示できていればOKです。
 
 ```
 http://localhost:3000/
@@ -49,7 +52,8 @@ tailwind の動作確認ページ</br>
 http://localhost:3000/sample
 ```
 
-### NGINX経由での確認
+### NGINX経由で確認
+ポート番号を指定しないアクセスはNginx経由でのアクセスです。
 
 #### コンテナ内のbashに接続
 ```bash
@@ -79,3 +83,17 @@ yarn lint
 ```
 yarn lint:fix
 ```
+
+## Rubocop
+以下のコマンドをコンテナ内のターミナルで実行するとRubocopのルールに違反しているコードを確認できます。
+
+```bash
+rubocop 
+```
+
+aオプションをつけると、安全な自動修正ができます
+```bash
+rubocop -a
+```
+
+詳細は[公式ドキュメント](https://docs.rubocop.org/rubocop/1.63/usage/basic_usage.html#rubocop-as-a-formatter)の確認をお願いします！
