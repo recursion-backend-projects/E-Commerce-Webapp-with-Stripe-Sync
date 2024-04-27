@@ -3,9 +3,10 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 module.exports = {
 	content: [
 		"./public/*.html",
-		"./app/helpers/**/*.rb",
+		"./app/helpers/*.rb",
 		"./app/javascript/**/*.js",
-		"./app/views/**/*.{html.erb,haml,html,slim}",
+		"./app/javascript/*.js",
+		"./app/views/**/*",
 		"./node_modules/flowbite/**/*.js",
 	],
 	theme: {
