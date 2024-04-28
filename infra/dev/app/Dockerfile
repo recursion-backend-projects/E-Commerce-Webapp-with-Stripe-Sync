@@ -9,15 +9,15 @@ RUN apt-get update -qq && \
     npm install --global yarn
 
 #docker内の作業ディレクトリを作成＆設定
-WORKDIR /docker-rails-test
+WORKDIR /E-Commerce-Webapp-with-Stripe-Sync
 
 COPY ../../../src/Gemfile ../../../src/Gemfile.lock ./
 RUN bundle install
 
-# srcをdocker-rails-testにコピー
-COPY src /docker-rails-test
+# srcをE-Commerce-Webapp-with-Stripe-Syncにコピー
+COPY src /E-Commerce-Webapp-with-Stripe-Sync
 
 # データベースのセットアップを実行
-ENTRYPOINT ["/docker-rails-test/bin/docker-dev-entrypoint"]
+ENTRYPOINT ["/E-Commerce-Webapp-with-Stripe-Sync/bin/docker-dev-entrypoint"]
 
 

@@ -67,9 +67,9 @@
 #           echo "${{ secrets.PRIVATE_KEY }}" > private_key
 #           chmod 600 private_key
 #           ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=60 -o ServerAliveCountMax=2 ${{ secrets.USER_NAME }}@${{ secrets.HOST_NAME }} -i private_key "\
-#           cd /home/ubuntu/web/docker-rails-test && \
-#           git fetch git@github.com:seiichikick0404/docker-rails-test.git && \
-#           git pull git@github.com:seiichikick0404/docker-rails-test.git && \
+#           cd /home/ubuntu/web/E-Commerce-Webapp-with-Stripe-Sync && \
+#           git fetch git@github.com:seiichikick0404/E-Commerce-Webapp-with-Stripe-Sync.git && \
+#           git pull git@github.com:seiichikick0404/E-Commerce-Webapp-with-Stripe-Sync.git && \
 #           docker compose -f compose.prod.yml down && \
 #           docker compose -f compose.prod.yml build && \
 #           docker compose -f compose.prod.yml up -d && \

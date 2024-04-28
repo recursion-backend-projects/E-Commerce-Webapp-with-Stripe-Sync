@@ -10,13 +10,13 @@ RUN apt-get update -qq && \
     rm -rf /var/lib/apt/lists/*
 
 # 作業ディレクトリの設定
-WORKDIR /docker-rails-test
+WORKDIR /E-Commerce-Webapp-with-Stripe-Sync
 
 #docker内の作業ディレクトリを作成＆設定
-WORKDIR /docker-rails-test
+WORKDIR /E-Commerce-Webapp-with-Stripe-Sync
 
-# srcをdocker-rails-testにコピー
-COPY src /docker-rails-test
+# srcをE-Commerce-Webapp-with-Stripe-Syncにコピー
+COPY src /E-Commerce-Webapp-with-Stripe-Sync
 
 # Bundle install
 RUN bundle install

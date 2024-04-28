@@ -1,6 +1,6 @@
 require "active_support/core_ext/integer/time"
 
-Rails.application.config.hosts << "docker-rails-test.seiprojects.com"
+Rails.application.config.hosts << "E-Commerce-Webapp-with-Stripe-Sync.seiprojects.com"
 
 Rails.application.configure do
   config.hosts << "localhost" # 本来ここは無効にします
