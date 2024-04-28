@@ -2,7 +2,7 @@
 
 - Ruby 3.3.0
 - Rails 7.1.3.2
-- MySQL 8.3.0
+- MySQL 8.0.36
 - Nginx 1.25.4
 - Tailwind css
 - Rspec
