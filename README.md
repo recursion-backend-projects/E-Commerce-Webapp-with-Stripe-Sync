@@ -27,7 +27,7 @@ git clone https://github.com/recursion-backend-projects/E-Commerce-Webapp-with-S
 
 ### 環境ファイルの配置
 
-プロジェクト直下に.env ファイルを配置してください。</br>
+srcディレクトリ内に.env ファイルを配置してください。</br>
 
 ### コンテナのビルド&起動
 
