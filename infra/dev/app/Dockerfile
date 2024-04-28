@@ -5,7 +5,7 @@ FROM registry.docker.com/library/ruby:$RUBY_VERSION
 #debian系のためapt-getを使用してnode.jsとyarnをインストール
 RUN apt-get update -qq && \
     curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
-    apt-get install -y nodejs vim && \
+    apt-get install -y nodejs vim default-mysql-client && \
     npm install --global yarn
 
 #docker内の作業ディレクトリを作成＆設定
