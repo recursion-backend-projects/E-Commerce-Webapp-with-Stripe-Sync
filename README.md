@@ -34,7 +34,7 @@ srcディレクトリ内に.env ファイルを配置してください。</br>
 E-Commerce-Webapp-with-Stripe-Sync ディレクトリで以下を実行
 
 ```bash
-docker compose up -d --build
+docker compose -f src/compose.yml up -d --build
 ```
 
 ### 開発サーバー経由で確認
