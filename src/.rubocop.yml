@@ -5,6 +5,7 @@ require:
   - rubocop-performance
   - rubocop-rspec
   - rubocop-capybara
+  - rubocop-rspec_rails
 
 # 自動生成されるものなどはチェック対象から除外する
 AllCops:
