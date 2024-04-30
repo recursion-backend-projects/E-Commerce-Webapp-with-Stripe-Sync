@@ -1,8 +1,6 @@
 services:
   db:
-    build: ./infra/dev/db
-    env_file:
-      - ./src/.env
+    build: ../infra/dev/db
     environment:
       TZ: Asia/Tokyo
     healthcheck:
@@ -11,19 +9,19 @@ services:
       timeout: 30s
       retries: 10
     volumes:
-      - ./src/db/mysql_data:/var/lib/mysql
+      - ./db/mysql_data:/var/lib/mysql
 
   app:
     build:
       context: .
-      dockerfile: ./infra/dev/app/Dockerfile
+      dockerfile: ../infra/dev/app/Dockerfile
     depends_on:
       db:
         condition: service_healthy
     ports:
       - "3000:3000"
     volumes:
-      - ./src:/E-Commerce-Webapp-with-Stripe-Sync
+      - ./:/E-Commerce-Webapp-with-Stripe-Sync
     environment:
       RAILS_ENV: development
     tty: true
@@ -31,19 +29,14 @@ services:
     command: /bin/bash -c "rm -f tmp/pids/server.pid && yarn install && bin/dev"
 
   web:
-    build: ./infra/dev/web
+    build: ../infra/dev/web
     ports:
       - "80:80"
     depends_on:
       - app
     volumes:
-      - ./infra/dev/web/default.conf:/etc/nginx/conf.d/default.conf
-      - ./src/public:/E-Commerce-Webapp-with-Stripe-Sync/public
-
-  wait:
-    image: willwill/wait-for-it:latest
-    depends_on:
-      - db
+      - ../infra/dev/web/default.conf:/etc/nginx/conf.d/default.conf
+      - ./public:/E-Commerce-Webapp-with-Stripe-Sync/public
 
 volumes:
   db-data:
