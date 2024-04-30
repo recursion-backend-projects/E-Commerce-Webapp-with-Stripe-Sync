@@ -12,7 +12,7 @@ jobs:
 
     env:
         MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
-        MYSQL_ROOT_DATABASE: ${{ secrets.MYSQL_ROOT_DATABASE }}
+        MYSQL_ROOT_DATABASE: ${{ secrets.MYSQL_ROOT_PASSWORD }}
         MYSQL_USER: ${{ secrets.MYSQL_USER }}
         MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
     
