@@ -11,11 +11,11 @@ RUN apt-get update -qq && \
 #docker内の作業ディレクトリを作成＆設定
 WORKDIR /E-Commerce-Webapp-with-Stripe-Sync
 
-COPY ../../../src/Gemfile ../../../src/Gemfile.lock ./
+COPY Gemfile Gemfile.lock ./
 RUN bundle install
 
 # srcをE-Commerce-Webapp-with-Stripe-Syncにコピー
-COPY src /E-Commerce-Webapp-with-Stripe-Sync
+COPY ./ /E-Commerce-Webapp-with-Stripe-Sync
 
 # データベースのセットアップを実行
 ENTRYPOINT ["/E-Commerce-Webapp-with-Stripe-Sync/bin/docker-dev-entrypoint"]
