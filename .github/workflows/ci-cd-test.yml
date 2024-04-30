@@ -24,7 +24,7 @@ jobs:
         run: docker compose -f src/compose.yml up --build -d
 
       - name: run lint
-        run: docker compose -f src/compose.yml exec app src/node_modules/.bin/eslint ./app --max-warnings=0
+        run: docker compose -f src/compose.yml exec app node_modules/.bin/eslint ./app --max-warnings=0
     
       - name: run rubocop
         run: docker compose -f src/compose.yml exec app bundle exec rubocop
