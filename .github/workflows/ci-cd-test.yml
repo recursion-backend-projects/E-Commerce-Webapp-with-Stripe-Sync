@@ -1,57 +1,39 @@
-# 本番環境の準備が整うまでコメントアウト
+name: CI TEST
+run-name: ${{ github.actor }} is CI testing
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
-# name: CI TEST
-# run-name: ${{ github.actor }} is CI testing
-# on:
-#   push:
-#     branches: [main]
-#   pull_request:
-#     branches: [main]
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
 
-# jobs:
-#   build-and-test:
-#     runs-on: ubuntu-latest
+    env:
+        MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+        MYSQL_ROOT_DATABASE: ${{ secrets.MYSQL_ROOT_DATABASE }}
+        MYSQL_USER: ${{ secrets.MYSQL_USER }}
+        MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+    
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
 
-#     steps:
-#       - name: checkout
-#         uses: actions/checkout@v4
+      - name: build and run containers
+        run: docker compose -f src/compose.yml up --build -d
 
-#       - name: Set up Docker Buildx
-#         uses: docker/setup-buildx-action@v3
+      - name: run lint
+        run: docker compose -f src/compose.yml exec app yarn lint:fix
+    
+      - name: run rubocop
+        run: docker compose -f src/compose.yml exec app bundle exec rubocop
 
-#       - name: build and Run containers
-#         shell: bash
-#         run: docker compose up --build -d
-#         env:
-#           MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-#           SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
+      - name: run rspec
+        run: docker compose -f src/compose.yml exec app bundle exec rspec
 
-#       - name: Run compose ps
-#         shell: bash
-#         run: docker compose -f compose.yml ps
-#         env:
-#           MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-#           SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
-
-#       - name: setup db
-#         shell: bash
-#         env:
-#           MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-#           SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
-#         run: |
-#           docker compose -f compose.yml run wait db:3306 -- echo "Database is up"
-#           docker compose exec -T app rails db:create
-#           docker compose exec -T app rails db:migrate
-
-#       - name: run test
-#         shell: bash
-#         run: |
-#           docker compose exec -T app rails test
-#         env:
-#           MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-
-#       - name: Shutdown
-#         run: docker compose down
+      - name: shutdown
+        run: docker compose -f src/compose.yml down
 
 #   deploy-to-production:
 #     needs: build-and-test
