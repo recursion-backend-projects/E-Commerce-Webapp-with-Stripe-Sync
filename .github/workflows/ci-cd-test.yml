@@ -7,41 +7,76 @@ on:
     branches: [main]
 
 jobs:
-  build-and-test:
+  lint:
     runs-on: ubuntu-latest
-    
-    env:
-        MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
-        MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-        MYSQL_USER: ${{ secrets.MYSQL_USER }}
-        MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
-    
     steps:
-      - name: checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-            node-version: '20.x'
+          node-version: '20.x'
+
+      - name: Install yarn
+        run: npm install -g yarn
 
       - name: Install dependencies
         run: yarn --cwd src install
 
-      - name: Run lint
-        run: src/node_modules/.bin/eslint src/app --max-warnings=0
+      - name: Lint Frontend file
+        run: ./src/node_modules/.bin/eslint ./src/app --max-warnings=0
 
-      - name: build and run containers
-        run: docker compose -f src/compose.yml up --build -d
-    
-      - name: run rubocop
-        run: docker compose -f src/compose.yml exec app bundle exec rubocop
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3.0'
+          bundler-cache: true
 
-      - name: run rspec
-        run: docker compose -f src/compose.yml exec app bundle exec rspec
+      - name: Lint Ruby files
+        run: cd src && bundle install && bundle exec rubocop
 
-      - name: shutdown
-        run: docker compose -f src/compose.yml down
+  test:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0.36
+        ports:
+          - "3306:3306"
+        options: --health-cmd "mysqladmin ping -h 127.0.0.1" --health-interval 20s --health-timeout 10s --health-retries 10
+        env:
+          MYSQL_ROOT_PASSWORD: password
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby 3.3.0
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3.0"
+          bundler-cache: true
+
+      - name: Bundle install
+        run: |
+          cd src
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+
+      - name: Set up database
+        run: |
+          cd src
+          cp config/database.yml.ci config/database.yml
+          bundle exec rails db:prepare
+        env:
+          RAILS_ENV: test
+
+      - name: Run rspec
+        run: |
+          cd src
+          bundle exec rspec
+        env:
+          RAILS_ENV: test
 
 #   deploy-to-production:
 #     needs: build-and-test
