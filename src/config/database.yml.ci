@@ -1,0 +1,7 @@
+test:
+  adapter: mysql2
+  encoding: utf8mb4
+  username: root
+  password: password
+  host: 127.0.0.1
+  database: app_test
