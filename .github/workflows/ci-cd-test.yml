@@ -36,47 +36,47 @@ jobs:
       - name: Lint Ruby files
         run: cd src && bundle install && bundle exec rubocop
 
-  # test:
-  #   runs-on: ubuntu-22.04
-  #   services:
-  #     mysql:
-  #       image: mysql:8.0.36
-  #       ports:
-  #         - "3306:3306"
-  #       options: --health-cmd "mysqladmin ping -h 127.0.0.1" --health-interval 20s --health-timeout 10s --health-retries 10
-  #       env:
-  #         MYSQL_ROOT_PASSWORD: password
+  test:
+    runs-on: ubuntu-22.04
+    services:
+      mysql:
+        image: mysql:8.0.36
+        ports:
+          - "3306:3306"
+        options: --health-cmd "mysqladmin ping -h 127.0.0.1" --health-interval 20s --health-timeout 10s --health-retries 10
+        env:
+          MYSQL_ROOT_PASSWORD: password
 
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-  #     - name: Set up Ruby 3.3.0
-  #       uses: ruby/setup-ruby@v1
-  #       with:
-  #         ruby-version: "3.3.0"
-  #         bundler-cache: true
+      - name: Set up Ruby 3.3.0
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3.0"
+          bundler-cache: true
 
-  #     - name: Bundle install
-  #       run: |
-  #         cd src
-  #         gem install bundler
-  #         bundle install --jobs 4 --retry 3
+      - name: Bundle install
+        run: |
+          cd src
+          gem install bundler
+          bundle install --jobs 4 --retry 3
 
-  #     - name: Set up database
-  #       run: |
-  #         cd src
-  #         cp config/database.yml.ci config/database.yml
-  #         bundle exec rails db:prepare
-  #       env:
-  #         RAILS_ENV: test
+      - name: Set up database
+        run: |
+          cd src
+          cp config/database.yml.ci config/database.yml
+          bundle exec rails db:prepare
+        env:
+          RAILS_ENV: test
 
-  #     - name: Run rspec
-  #       run: |
-  #         cd src
-  #         bundle exec rspec
-  #       env:
-  #         RAILS_ENV: test
+      - name: Run rspec
+        run: |
+          cd src
+          bundle exec rspec
+        env:
+          RAILS_ENV: test
 
 #   deploy-to-production:
 #     needs: build-and-test
