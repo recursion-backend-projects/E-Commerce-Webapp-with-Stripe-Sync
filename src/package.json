@@ -1,0 +1,33 @@
+{
+	"name": "E-Commerce-Webapp-with-Stripe-Sync",
+	"version": "1.0.0",
+	"license": "UNLICENSED",
+	"private": true,
+	"dependencies": {
+		"@hotwired/stimulus": "^3.2.2",
+		"@hotwired/turbo-rails": "^8.0.4",
+		"flowbite": "^2.3.0"
+	},
+	"devDependencies": {
+		"@angular-eslint/template-parser": "^17.3.0",
+		"@tailwindcss/aspect-ratio": "^0.4.2",
+		"@tailwindcss/container-queries": "^0.1.1",
+		"@tailwindcss/forms": "^0.5.7",
+		"@tailwindcss/typography": "^0.5.13",
+		"@typescript-eslint/parser": "^7.7.1",
+		"autoprefixer": "^10.4.19",
+		"esbuild": "^0.20.2",
+		"eslint": "^8.57.0",
+		"eslint-plugin-tailwindcss": "^3.15.1",
+		"postcss": "^8.4.38",
+		"tailwindcss": "^3.4.3",
+		"typescript": "^5.4.5"
+	},
+	"scripts": {
+		"lint": "eslint ./app",
+		"lint:debug": "eslint ./app --debug",
+		"lint:fix": "eslint ./app --fix",
+		"build": "esbuild ./app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets",
+		"build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify"
+	}
+}

@@ -1,21 +1,17 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>DockerRailsTest</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-    
-    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
-    <%= stylesheet_link_tag 'sample', media: 'all', 'data-turbo-track': 'reload' %>
-
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-  </head>
-
-  <body>
-    <main class="">
-      <%= yield %>
-    </main>
-  </body>
+    <head>
+        <title>DockerRailsTest</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <%= csrf_meta_tags %>
+        <%= csp_meta_tag %>
+        <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+        <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+        <%= javascript_include_tag "sample", "data-turbo-track": "reload", type: "module" %>
+    </head>
+    <body>
+        <main class="">
+            <%= yield %>
+        </main>
+    </body>
 </html>
