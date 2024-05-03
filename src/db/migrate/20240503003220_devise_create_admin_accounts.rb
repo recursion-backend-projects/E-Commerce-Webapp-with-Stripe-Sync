@@ -15,7 +15,7 @@ class DeviseCreateAdminAccounts < ActiveRecord::Migration[7.1]
       t.datetime :remember_created_at
 
       ## 追加
-      t.string :user_name 
+      t.string :user_name
       t.string :status
 
       ## Trackable
