@@ -10,13 +10,7 @@
     <div class="w-full max-w-md p-6 bg-white shadow-md rounded-lg">
       <h1 class="text-center text-3xl mb-6">ログイン</h1>
       <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-6" }) do |f| %>
-        <% if resource.errors.any? %>
-          <div class="errors">
-            <% resource.errors.full_messages.each do |msg| %>
-              <p><%= msg %></p>
-            <% end %>
-          </div>
-        <% end %>
+        <%= render 'devise/shared/error_messages', resource: resource %>
         <div>
           <%= f.label :email, "メールアドレス", class: "block text-sm font-medium text-gray-700" %>
           <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", placeholder: "email@example.com" %>
