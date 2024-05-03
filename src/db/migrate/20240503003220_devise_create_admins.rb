@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class DeviseCreateAdmins < ActiveRecord::Migration[7.1]
+class DeviseCreateAdminAccounts < ActiveRecord::Migration[7.1]
   def change
-    create_table :admins do |t|
+    create_table :admin_accounts do |t|
       ## Database authenticatable
       t.string :email,              null: false, default: ""
       t.string :encrypted_password, null: false, default: ""
@@ -13,6 +13,10 @@ class DeviseCreateAdmins < ActiveRecord::Migration[7.1]
 
       ## Rememberable
       t.datetime :remember_created_at
+
+      ## 追加
+      t.string :user_name 
+      t.string :status
 
       ## Trackable
       # t.integer  :sign_in_count, default: 0, null: false
@@ -32,13 +36,12 @@ class DeviseCreateAdmins < ActiveRecord::Migration[7.1]
       # t.string   :unlock_token # Only if unlock strategy is :email or :both
       # t.datetime :locked_at
 
-
       t.timestamps null: false
     end
 
-    add_index :admins, :email,                unique: true
-    add_index :admins, :reset_password_token, unique: true
-    # add_index :admins, :confirmation_token,   unique: true
-    # add_index :admins, :unlock_token,         unique: true
+    add_index :admin_accounts, :email,                unique: true
+    add_index :admin_accounts, :reset_password_token, unique: true
+    # add_index :admin_accounts, :confirmation_token,   unique: true
+    # add_index :admin_accounts, :unlock_token,         unique: true
   end
 end
