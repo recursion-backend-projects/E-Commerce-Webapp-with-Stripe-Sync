@@ -10,9 +10,14 @@ class AdminAccounts::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    super do |resource|
+      if resource.persisted?
+        flash[:notice] = 'あなたのメールアドレスへ確認メールを送信しました。メールを開いてリンクへアクセスしてください。'
+        redirect_to registration_path(resource_name) and return
+      end
+    end
+  end
 
   # GET /resource/edit
   # def edit
@@ -38,7 +43,7 @@ class AdminAccounts::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
-  # protected
+  protected
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
@@ -51,10 +56,9 @@ class AdminAccounts::RegistrationsController < Devise::RegistrationsController
   # end
 
   # The path used after sign up.
-  def after_sign_up_path_for(resource)
-    # TODO: ダッシュボード画面のパスに変更する
-    '/sample'
-  end
+  # def after_sign_up_path_for(resource)
+  #   super(resource)
+  # end
 
   # The path used after sign up for inactive accounts.
   # def after_inactive_sign_up_path_for(resource)
