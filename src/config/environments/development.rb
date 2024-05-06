@@ -37,7 +37,7 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
 
   config.action_mailer.perform_caching = false
 
@@ -74,15 +74,16 @@ Rails.application.configure do
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
 
+  # deviseのメーラーURL設定
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
   # メール配信方法をSMTPに設定
   config.action_mailer.delivery_method = :smtp
 
   # SMTPの設定
   config.action_mailer.smtp_settings = {
-    address: 'localhost',
+    address: 'mailhog',
     port: 1025
   }
 
-  # deviseのメーラーURL設定
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 end
