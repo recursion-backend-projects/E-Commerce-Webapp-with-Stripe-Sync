@@ -14,9 +14,11 @@ class AdminAccounts::SessionsController < Devise::SessionsController
   # end
 
   # DELETE /resource/sign_out
-  # def destroy
-  #   super
-  # end
+  def destroy
+    super do
+      flash.clear
+    end
+  end
 
   # ログイン後のリダイレクト先
   def after_sign_in_path_for(resource)
