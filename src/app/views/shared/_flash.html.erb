@@ -1,0 +1,19 @@
+<!-- フラッシュメッセージの表示 -->
+<% flash.each do |type, message| %>
+    <div class="<%= type == 'notice' ? 'bg-green-100 border-green-500 text-green-900' : 'bg-red-100 border-red-500 text-red-900' %> border-l-4 p-4 mb-4">
+        <strong class="font-bold">通知:</strong>
+        <p><%= message %></p>
+    </div>
+    <% end %>
+
+    <!-- Deviseのバリデーションエラーメッセージを表示 -->
+    <% if resource.errors.any? %>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <strong class="font-bold">通知:</strong>
+        <ul>
+        <% resource.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+        <% end %>
+        </ul>
+    </div>
+<% end %>

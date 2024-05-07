@@ -9,25 +9,8 @@
   <main class="min-h-screen flex items-center justify-center">
     <div class="w-full max-w-md p-6 bg-white shadow-md rounded-lg">
       <h1 class="text-center text-3xl mb-6">アカウント作成</h1>
-      <!-- フラッシュメッセージの表示部分 -->
-      <% if flash[:notice] %>
-        <div class="bg-green-100 border-green-500 text-green-900 border-l-4 p-4">
-          <p class="font-bold">通知</p>
-          <p><%= flash[:notice] %></p>
-        </div>
-      <% end %>
 
-      <!-- Deviseのバリデーションエラーメッセージを表示 -->
-      <% if resource.errors.any? %>
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-          <strong class="font-bold">通知:</strong>
-          <ul>
-            <% resource.errors.full_messages.each do |message| %>
-              <li><%= message %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
+      <%= render "shared/flash" %>
 
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :post, class: "space-y-4" }) do |f| %>
         <div>
