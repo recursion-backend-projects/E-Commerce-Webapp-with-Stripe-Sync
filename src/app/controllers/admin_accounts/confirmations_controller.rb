@@ -7,9 +7,14 @@ class AdminAccounts::ConfirmationsController < Devise::ConfirmationsController
   # end
 
   # POST /resource/confirmation
-  # def create
-  #   super
-  # end
+  def create
+    super do |resource|
+      if resource.errors.empty?
+        flash[:notice] = '確認メールを再送しました。メールを確認してください。'
+        redirect_to new_confirmation_path(resource_name) and return
+      end
+    end
+  end
 
   # GET /resource/confirmation?confirmation_token=abcdef
   # def show
