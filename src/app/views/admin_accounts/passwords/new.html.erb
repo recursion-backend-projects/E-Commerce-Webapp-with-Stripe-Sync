@@ -9,6 +9,13 @@
   <main class="min-h-screen flex items-center justify-center">
     <div class="w-full max-w-md p-6 bg-white shadow-md rounded-lg">
       <h1 class="text-center text-3xl mb-6">パスワード再発行</h1>
+      <!-- フラッシュメッセージの表示部分 -->
+      <% if flash[:notice] %>
+        <div class="bg-green-100 border-green-500 text-green-900 border-l-4 p-4">
+          <p class="font-bold">通知</p>
+          <p><%= flash[:notice] %></p>
+        </div>
+      <% end %>
       <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "space-y-4" }) do |f| %>
         <%= render "admin_accounts/shared/error_messages", resource: resource %>
         <p class="text-gray-500 mb-4">
