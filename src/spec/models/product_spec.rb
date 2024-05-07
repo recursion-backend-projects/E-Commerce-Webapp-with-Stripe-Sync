@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Product do
-  it 'is valid with a name, price, stock, description' do
+  it 'is valid with a name, price, description' do
     expect(build(:product)).to be_valid
   end
 
@@ -15,12 +15,6 @@ RSpec.describe Product do
     product = build(:product, price: nil)
     product.valid?
     expect(product.errors[:price]).to include("can't be blank")
-  end
-
-  it 'is invalid without a stock' do
-    product = build(:product, stock: nil)
-    product.valid?
-    expect(product.errors[:stock]).to include("can't be blank")
   end
 
   it 'is invalid without a description' do
