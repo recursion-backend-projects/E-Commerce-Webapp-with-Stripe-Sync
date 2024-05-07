@@ -7,14 +7,9 @@ class AdminAccounts::ConfirmationsController < Devise::ConfirmationsController
   # end
 
   # POST /resource/confirmation
-  def create
-    super do |resource|
-      if resource.errors.empty?
-        flash[:notice] = '確認メールを再送しました。メールを確認してください。'
-        redirect_to new_confirmation_path(resource_name) and return
-      end
-    end
-  end
+  # def create
+  #   super
+  # end
 
   # GET /resource/confirmation?confirmation_token=abcdef
   # def show
@@ -24,9 +19,10 @@ class AdminAccounts::ConfirmationsController < Devise::ConfirmationsController
   protected
 
   # The path used after resending confirmation instructions.
-  # def after_resending_confirmation_instructions_path_for(resource_name)
-  #   super(resource_name)
-  # end
+  def after_resending_confirmation_instructions_path_for(resource_name)
+    flash[:notice] = '確認メールを再送しました。メールを確認してください。'
+    new_admin_account_confirmation_path
+  end
 
   # The path used after confirmation.
   def after_confirmation_path_for(resource_name, resource)

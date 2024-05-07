@@ -9,6 +9,15 @@
   <main class="min-h-screen flex items-center justify-center">
     <div class="w-full max-w-md p-6 bg-white shadow-md rounded-lg">
       <h1 class="text-center text-3xl mb-6">ログイン</h1>
+
+      <!-- フラッシュメッセージの表示 -->
+      <% flash.each do |type, message| %>
+        <div class="<%= type == 'notice' ? 'bg-green-100 border-green-500 text-green-900' : 'bg-red-100 border-red-500 text-red-900' %> border-l-4 p-4 mb-4">
+          <strong class="font-bold">通知:</strong>
+          <p><%= message %></p>
+        </div>
+      <% end %>
+
       <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-6" }) do |f| %>
         <%= render 'devise/shared/error_messages', resource: resource %>
         <div>

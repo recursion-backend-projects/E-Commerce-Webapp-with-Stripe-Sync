@@ -16,8 +16,20 @@
           <p><%= flash[:notice] %></p>
         </div>
       <% end %>
+
+      <!-- Deviseのバリデーションエラーメッセージを表示 -->
+      <% if resource.errors.any? %>
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <strong class="font-bold">通知:</strong>
+          <ul>
+            <% resource.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
       <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "space-y-4" }) do |f| %>
-        <%= render "admin_accounts/shared/error_messages", resource: resource %>
         <p class="text-gray-500 mb-4">
           入力されたメールアドレスへパスワードの再設定用メールを送信します。
         </p>

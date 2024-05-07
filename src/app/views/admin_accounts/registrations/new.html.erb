@@ -16,8 +16,20 @@
           <p><%= flash[:notice] %></p>
         </div>
       <% end %>
+
+      <!-- Deviseのバリデーションエラーメッセージを表示 -->
+      <% if resource.errors.any? %>
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <strong class="font-bold">通知:</strong>
+          <ul>
+            <% resource.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :post, class: "space-y-4" }) do |f| %>
-        <%= render 'devise/shared/error_messages', resource: resource %>
         <div>
           <%= f.label :user_name, "ユーザー名", class: "block font-medium text-gray-700" %>
           <%= f.text_field :user_name, autofocus: true, autocomplete: "username", class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm", placeholder: "ユーザー名" %>

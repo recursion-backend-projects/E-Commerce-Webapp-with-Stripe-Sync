@@ -9,6 +9,7 @@
   <main class="min-h-screen flex items-center justify-center">
     <div class="w-full max-w-md p-6 bg-white shadow-md rounded-lg">
       <h1 class="text-center text-3xl mb-6">確認メール再送信</h1>
+
       <!-- フラッシュメッセージの表示部分 -->
       <% if flash[:notice] %>
         <div class="bg-green-100 border-green-500 text-green-900 border-l-4 p-4">
@@ -16,8 +17,28 @@
           <p><%= flash[:notice] %></p>
         </div>
       <% end %>
+
+      <!-- フラッシュメッセージの表示 -->
+      <% flash.each do |type, message| %>
+        <div class="<%= type == 'notice' ? 'bg-green-100 border-green-500 text-green-900' : 'bg-red-100 border-red-500 text-red-900' %> border-l-4 p-4 mb-4">
+          <strong class="font-bold">通知:</strong>
+          <p><%= message %></p>
+        </div>
+      <% end %>
+
+      <!-- Deviseのバリデーションエラーメッセージを表示 -->
+      <% if resource.errors.any? %>
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <strong class="font-bold">通知:</strong>
+          <ul>
+            <% resource.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
       <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post, class: "space-y-4" }) do |f| %>
-        <%= render 'devise/shared/error_messages', resource: resource %>
         <div>
           <%= f.label :email, "メールアドレス", class: "block font-medium text-gray-700" %>
           <%= f.email_field :email, autofocus: true, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm", placeholder: "email@example.com" %>
