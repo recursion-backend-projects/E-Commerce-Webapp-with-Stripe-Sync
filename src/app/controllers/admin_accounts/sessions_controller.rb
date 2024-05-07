@@ -21,13 +21,13 @@ class AdminAccounts::SessionsController < Devise::SessionsController
   end
 
   # ログイン後のリダイレクト先
-  def after_sign_in_path_for(resource)
+  def after_sign_in_path_for(_resource)
     # TODO: ダッシュボード画面のパスに変更する
     '/sample'
   end
 
   # ログアウト後のリダイレクト先
-  def after_sign_out_path_for(resource)
+  def after_sign_out_path_for(_resource)
     # TODO: ダッシュボード画面のパスに変更する
     '/admin_accounts/sign_in'
   end

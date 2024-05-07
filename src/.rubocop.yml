@@ -19,7 +19,7 @@ AllCops:
     - "config/spring.rb"
     - "config/puma.rb"
     - "config.ru"
-    - "db/*schema.rb"
+    - "db/**/*"
     - "deploy/*"
     - "node_modules/**/*"
     - "spec/rails_helper.rb"
@@ -42,4 +42,28 @@ Style/Documentation:
 
 # https://docs.rubocop.org/rubocop/cops_style.html#stylefrozenstringliteralcomment
 Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# ネストしたクラスの書き方を許可
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+# 行の最大長をチェックしない
+Layout/LineLength:
+  Enabled: false
+
+# ロケールファイルへのエラーメッセージの強制を無効にする
+Rails/I18nLocaleTexts:
+  Enabled: false
+
+# メソッドの行数に対する制限を無効にする
+Metrics/MethodLength:
+  Enabled: false
+
+# 変数名に数字を含むことを許可する
+Naming/VariableNumber:
+  Enabled: false
+
+# テストタイプの推論を無効にする
+RSpecRails/InferredSpecType:
   Enabled: false

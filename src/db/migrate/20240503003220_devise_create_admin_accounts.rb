@@ -4,8 +4,8 @@ class DeviseCreateAdminAccounts < ActiveRecord::Migration[7.1]
   def change
     create_table :admin_accounts do |t|
       ## Database authenticatable
-      t.string :email,              null: false, default: ""
-      t.string :encrypted_password, null: false, default: ""
+      t.string :email,              null: false, default: ''
+      t.string :encrypted_password, null: false, default: ''
 
       ## Recoverable
       t.string   :reset_password_token
@@ -41,7 +41,7 @@ class DeviseCreateAdminAccounts < ActiveRecord::Migration[7.1]
 
     add_index :admin_accounts, :email,                unique: true
     add_index :admin_accounts, :reset_password_token, unique: true
-    # add_index :admin_accounts, :confirmation_token,   unique: true
+    add_index :admin_accounts, :confirmation_token,   unique: true
     # add_index :admin_accounts, :unlock_token,         unique: true
   end
 end
