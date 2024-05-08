@@ -3,7 +3,7 @@ class Product < ApplicationRecord
 
   with_options presence: true do
     validates :name
-    validates :price
+    validates :price, numericality: { only_integer: true }
     validates :description
   end
 end
