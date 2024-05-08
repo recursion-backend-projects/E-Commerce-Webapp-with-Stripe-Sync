@@ -15,7 +15,7 @@ RSpec.describe AdminAccount, type: :model do
 
       it 'adds a correct error message for missing email' do
         admin = build(:admin_account, email: nil)
-        admin.valid?  # バリデーションを明示的に実行
+        admin.valid?
         expect(admin.errors[:email]).to include('を入力してください')
       end
     end
@@ -28,7 +28,7 @@ RSpec.describe AdminAccount, type: :model do
 
       it 'adds a correct error message for missing password' do
         admin = build(:admin_account, password: nil)
-        admin.valid?  # バリデーションを明示的に実行
+        admin.valid?
         expect(admin.errors[:password]).to include('を入力してください')
       end
     end
@@ -45,7 +45,7 @@ RSpec.describe AdminAccount, type: :model do
 
       it 'adds a correct error message for duplicate email' do
         new_admin = build(:admin_account, email: 'admin@example.com')
-        new_admin.valid?  # バリデーションを明示的に実行
+        new_admin.valid?
         expect(new_admin.errors[:email]).to include('はすでに存在します')
       end
     end
