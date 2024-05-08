@@ -33,6 +33,23 @@ RSpec.describe AdminAccount, type: :model do
       end
     end
 
+    context 'when password is too short' do
+      it 'is not valid with a password shorter than 8 characters' do
+        admin = build(:admin_account, password: 'short')
+        admin.valid?
+        expect(admin.errors[:password]).to include('は8文字以上で入力してください')
+      end
+    end
+
+    context 'when password is too long' do
+      it 'is not valid with a password longer than 128 characters' do
+        long_password = 'a' * 129
+        admin = build(:admin_account, password: long_password)
+        admin.valid?
+        expect(admin.errors[:password]).to include('は128文字以内で入力してください')
+      end
+    end
+
     context 'with a duplicate email' do
       before do
         create(:admin_account, email: 'admin@example.com')
