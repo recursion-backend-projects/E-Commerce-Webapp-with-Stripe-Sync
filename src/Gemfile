@@ -55,6 +55,8 @@ group :development, :test do
   gem 'rubocop-performance', '~> 1.21', require: false
   gem 'rubocop-rails', '~> 2.24', '>= 2.24.1', require: false
   gem 'rubocop-rspec', '~> 2.29', '>= 2.29.1', require: false
+  gem 'factory_bot_rails', '~> 6.4'
+  gem 'faker'
 end
 
 group :development do
