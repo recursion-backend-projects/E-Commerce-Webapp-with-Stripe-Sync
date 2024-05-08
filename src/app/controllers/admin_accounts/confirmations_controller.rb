@@ -26,7 +26,8 @@ class AdminAccounts::ConfirmationsController < Devise::ConfirmationsController
 
   # The path used after confirmation.
   def after_confirmation_path_for(_resource_name, _resource)
+    sign_in(resource)
     # TODO: 遷移先をダッシュボードに変更する
-    '/sample'
+    sample_path
   end
 end
