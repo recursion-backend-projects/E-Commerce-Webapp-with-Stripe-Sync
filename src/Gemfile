@@ -50,13 +50,13 @@ group :development, :test do
   gem 'dotenv-rails', '~> 3.1'
   gem 'rspec-rails', '~> 6.1', '>= 6.1.2'
   # rubocop
+  gem 'factory_bot_rails', '~> 6.4'
+  gem 'faker'
   gem 'rubocop', '~> 1.63', '>= 1.63.3', require: false
   gem 'rubocop-capybara', '~> 2.20', require: false
   gem 'rubocop-performance', '~> 1.21', require: false
   gem 'rubocop-rails', '~> 2.24', '>= 2.24.1', require: false
   gem 'rubocop-rspec', '~> 2.29', '>= 2.29.1', require: false
-  gem 'factory_bot_rails', '~> 6.4'
-  gem 'faker'
 end
 
 group :development do
