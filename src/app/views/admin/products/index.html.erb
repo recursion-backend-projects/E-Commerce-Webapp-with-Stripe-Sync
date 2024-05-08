@@ -1,0 +1,374 @@
+<!-- 商品管理 -->
+<div class="flex flex-col items-center pt-10 antialiased">
+	<div class="flex w-full flex-col space-y-4 py-4 md:w-4/5 lg:w-1/2">
+				<h1 class="py-2 text-center text-2xl font-bold md:text-start md:text-4xl">
+			商品管理
+		</h1>
+
+		<div class="mx-2 flex flex-row justify-between">
+			<div>
+				<button
+					id="dropdownActionButton"
+					data-dropdown-toggle="dropdownAction"
+					class="inline-flex items-center rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+					type="button"
+				>
+					<span class="sr-only">フィルターボタン</span>
+					フィルター
+					<svg
+						class="ms-2.5 h-2.5 w-2.5"
+						aria-hidden="true"
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 10 6"
+					>
+						<path
+							stroke="currentColor"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="m1 1 4 4 4-4"
+						/>
+					</svg>
+				</button>
+				<!-- ドロップボタンメニュー -->
+				<div
+					id="dropdownAction"
+					class="z-10 hidden w-44 divide-y divide-gray-100 rounded-lg bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
+				>
+					<ul
+						class="py-1 text-sm text-gray-700 dark:text-gray-200"
+						aria-labelledby="dropdownActionButton"
+					>
+						<li>
+							<a
+								href="#"
+								class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+								>すべての商品</a
+							>
+						</li>
+						<li>
+							<a
+								href="#"
+								class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+								>下書き</a
+							>
+						</li>
+						<li>
+							<a
+								href="#"
+								class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+								>公開中</a
+							>
+						</li>
+						<li>
+							<a
+								href="#"
+								class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+								>アーカイブ済み</a
+							>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<a
+				href="#"
+				class="flex items-center justify-center rounded-lg border border-gray-300 bg-white p-1.5 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+			>
+				商品を追加する
+			</a>
+		</div>
+
+		<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+			<table class="w-full text-left text-sm rtl:text-right">
+				<thead class="bg-gray-300 text-xs uppercase">
+					<tr>
+						<th scope="col" class="px-6 py-3">画像</th>
+						<th scope="col" class="px-6 py-3">名前</th>
+						<th scope="col" class="px-6 py-3">ステータス</th>
+						<th scope="col" class="px-6 py-3">アクション</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!-- 商品01 -->
+					<tr class="bg-gre border-b bg-white hover:bg-gray-100">
+						<td class="p-4">
+							<img
+								src="/src/public/assets/painting2.jpg"
+								class="max-h-full w-12 max-w-full rounded-lg md:w-32"
+								alt=""
+							/>
+						</td>
+						<td class="px-6 py-4 font-semibold">絵画01</td>
+						<td class="px-6 py-4">
+							<div class="flex items-center">
+								<!-- ステータスは、以下3種類 -->
+
+								<!-- 下書き -->
+								<div class="flex items-center">
+									<div
+										class="me-2 h-2.5 w-2.5 rounded-full bg-yellow-500"
+									></div>
+									下書き
+								</div>
+
+								<!-- 公開中 -->
+								<!-- <div class="flex items-center">
+                      <div
+                        class="me-2 h-2.5 w-2.5 rounded-full bg-green-500"
+                      ></div>
+                      公開中
+                    </div> -->
+
+								<!-- アーカイブ済み -->
+								<!-- <div class="flex items-center">
+                      <div
+                        class="me-2 h-2.5 w-2.5 rounded-full bg-red-500"
+                      ></div>
+                      アーカイブ済み
+                    </div> -->
+							</div>
+						</td>
+						<td class="space-x-2 px-2 py-4 md:space-x-10 md:px-6">
+							<a href="#" class="font-medium text-sky-600 hover:underline"
+								>編集</a
+							>
+
+							<button
+								type="button"
+								class="font-medium text-red-600 hover:underline"
+							>
+								削除
+							</button>
+						</td>
+					</tr>
+
+					<!-- 商品02 -->
+					<tr class="bg-gre border-b bg-white hover:bg-gray-100">
+						<td class="p-4">
+							<img
+								src="/src/public/assets/painting2.jpg"
+								class="max-h-full w-12 max-w-full rounded-lg md:w-32"
+								alt=""
+							/>
+						</td>
+						<td class="px-6 py-4 font-semibold">絵画02</td>
+						<td class="px-6 py-4">
+							<div class="flex items-center">
+								<!-- 公開中 -->
+								<div class="flex items-center">
+									<div class="me-2 h-2.5 w-2.5 rounded-full bg-green-500"></div>
+									公開中
+								</div>
+							</div>
+						</td>
+						<td class="space-x-2 px-2 py-4 md:space-x-10 md:px-6">
+							<a href="#" class="font-medium text-sky-600 hover:underline"
+								>編集</a
+							>
+
+							<button
+								type="button"
+								class="font-medium text-red-600 hover:underline"
+							>
+								削除
+							</button>
+						</td>
+					</tr>
+
+					<!-- 商品03 -->
+					<tr class="bg-gre border-b bg-white hover:bg-gray-100">
+						<td class="p-4">
+							<img
+								src="/src/public/assets/painting2.jpg"
+								class="max-h-full w-12 max-w-full rounded-lg md:w-32"
+								alt=""
+							/>
+						</td>
+						<td class="px-6 py-4 font-semibold">絵画03</td>
+						<td class="px-6 py-4">
+							<div class="flex items-center">
+								<!-- アーカイブ済み -->
+								<div class="flex items-center">
+									<div class="me-2 h-2.5 w-2.5 rounded-full bg-red-500"></div>
+									アーカイブ済み
+								</div>
+							</div>
+						</td>
+						<td class="space-x-2 px-2 py-4 md:space-x-10 md:px-6">
+							<a href="#" class="font-medium text-sky-600 hover:underline"
+								>編集</a
+							>
+
+							<button
+								type="button"
+								class="font-medium text-red-600 hover:underline"
+							>
+								削除
+							</button>
+						</td>
+					</tr>
+
+					<!-- 商品04 -->
+					<tr class="bg-gre border-b bg-white hover:bg-gray-100">
+						<td class="p-4">
+							<img
+								src="/src/public/assets/painting2.jpg"
+								class="max-h-full w-12 max-w-full rounded-lg md:w-32"
+								alt=""
+							/>
+						</td>
+						<td class="px-6 py-4 font-semibold">絵画04</td>
+						<td class="px-6 py-4">
+							<div class="flex items-center">
+								<!-- 下書き -->
+								<div class="flex items-center">
+									<div
+										class="me-2 h-2.5 w-2.5 rounded-full bg-yellow-500"
+									></div>
+									下書き
+								</div>
+							</div>
+						</td>
+						<td class="space-x-2 px-2 py-4 md:space-x-10 md:px-6">
+							<a href="#" class="font-medium text-sky-600 hover:underline"
+								>編集</a
+							>
+
+							<button
+								type="button"
+								class="font-medium text-red-600 hover:underline"
+							>
+								削除
+							</button>
+						</td>
+					</tr>
+
+					<!-- 商品05 -->
+					<tr class="bg-gre border-b bg-white hover:bg-gray-100">
+						<td class="p-4">
+							<img
+								src="/src/public/assets/painting2.jpg"
+								class="max-h-full w-12 max-w-full rounded-lg md:w-32"
+								alt=""
+							/>
+						</td>
+						<td class="px-6 py-4 font-semibold">絵画05</td>
+						<td class="px-6 py-4">
+							<div class="flex items-center">
+								<!-- 公開中 -->
+								<div class="flex items-center">
+									<div class="me-2 h-2.5 w-2.5 rounded-full bg-green-500"></div>
+									公開中
+								</div>
+							</div>
+						</td>
+						<td class="space-x-2 px-2 py-4 md:space-x-10 md:px-6">
+							<a href="#" class="font-medium text-sky-600 hover:underline"
+								>編集</a
+							>
+
+							<button
+								type="button"
+								class="font-medium text-red-600 hover:underline"
+							>
+								削除
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!-- ページネーション -->
+<div class="flex items-center justify-center py-6">
+	<nav aria-label="Page navigation">
+		<ul class="flex h-10 items-center -space-x-px text-base">
+			<li>
+				<a
+					href="#"
+					class="ms-0 flex h-10 items-center justify-center rounded-s-lg border border-e-0 border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+				>
+					<span class="sr-only">前へ</span>
+					<svg
+						class="h-3 w-3 rtl:rotate-180"
+						aria-hidden="true"
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 6 10"
+					>
+						<path
+							stroke="currentColor"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M5 1 1 5l4 4"
+						/>
+					</svg>
+				</a>
+			</li>
+			<li>
+				<a
+					href="#"
+					aria-current="page"
+					class="z-10 flex h-10 items-center justify-center border border-blue-300 bg-blue-50 px-4 leading-tight text-blue-600 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
+					>1</a
+				>
+			</li>
+			<li>
+				<a
+					href="#"
+					class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+					>2</a
+				>
+			</li>
+			<li>
+				<a
+					href="#"
+					class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+					>3</a
+				>
+			</li>
+			<li>
+				<a
+					href="#"
+					class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+					>4</a
+				>
+			</li>
+			<li>
+				<a
+					href="#"
+					class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+					>5</a
+				>
+			</li>
+			<li>
+				<a
+					href="#"
+					class="flex h-10 items-center justify-center rounded-e-lg border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+				>
+					<span class="sr-only">次へ</span>
+					<svg
+						class="h-3 w-3 rtl:rotate-180"
+						aria-hidden="true"
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 6 10"
+					>
+						<path
+							stroke="currentColor"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="m1 9 4-4-4-4"
+						/>
+					</svg>
+				</a>
+			</li>
+		</ul>
+	</nav>
+</div>
