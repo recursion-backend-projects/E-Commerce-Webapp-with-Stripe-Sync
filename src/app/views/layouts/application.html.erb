@@ -9,9 +9,17 @@
         <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
         <%= javascript_include_tag "sample", "data-turbo-track": "reload", type: "module" %>
     </head>
-    <body>
+    <body class="bg-gray-100">
+        <!-- admin, customerによって表示するナビとフッターを変更する -->
+        <!-- TODO: ヘルパーメソッドを使ったほうが良いかも -->
+        <% if @admin %>
+            <%= render 'layouts/admin/navbar' %>
+        <% end %>
         <main class="">
             <%= yield %>
         </main>
+        <% if @admin %>
+            <%= render 'layouts/admin/footer' %>
+        <% end %>
     </body>
 </html>
