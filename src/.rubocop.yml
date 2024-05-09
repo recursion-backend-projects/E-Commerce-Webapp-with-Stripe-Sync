@@ -6,6 +6,7 @@ require:
   - rubocop-rspec
   - rubocop-capybara
   - rubocop-rspec_rails
+  - rubocop-factory_bot
 
 # 自動生成されるものなどはチェック対象から除外する
 AllCops:
@@ -43,3 +44,22 @@ Style/Documentation:
 # https://docs.rubocop.org/rubocop/cops_style.html#stylefrozenstringliteralcomment
 Style/FrozenStringLiteralComment:
   Enabled: false
+  
+# namespace 付きのクラスは簡単に書きたい。
+# https://docs.rubocop.org/rubocop/cops_style.html#styleclassandmodulechildren
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+# ============================================================
+# Metrics
+# ============================================================
+
+# 30 ぐらいまでは許容してもいいのでは
+# https://docs.rubocop.org/rubocop/cops_metrics.html#metricsabcsize
+Metrics/AbcSize:
+  Max: 30
+
+# 20くらいは別によいと思う
+# https://docs.rubocop.org/rubocop/cops_metrics.html#metricsmethodlength
+Metrics/MethodLength:
+  Max: 20

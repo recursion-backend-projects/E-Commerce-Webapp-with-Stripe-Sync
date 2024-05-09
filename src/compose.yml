@@ -28,6 +28,7 @@ services:
       - ./:/E-Commerce-Webapp-with-Stripe-Sync
     environment:
       RAILS_ENV: development
+      TZ: Asia/Tokyo
     tty: true
     stdin_open: true
     command: /bin/bash -c "rm -f tmp/pids/server.pid && yarn install && bin/dev"
