@@ -1,6 +1,7 @@
 services:
   db:
     build: ../infra/dev/db
+    platform: linux/amd64
     environment:
       TZ: Asia/Tokyo
       MYSQL_DATABASE: ${MYSQL_DATABASE}
