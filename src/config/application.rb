@@ -25,5 +25,11 @@ module DockerRailsTest
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # Rails自体のアプリケーションの時刻の設定
+    config.time_zone = 'Tokyo'
+
+    # DBを読み書きする際に、DBに記録されている時間をどのタイムゾーンで読み込むかの設定
+    config.active_record.default_timezone = :local
   end
 end
