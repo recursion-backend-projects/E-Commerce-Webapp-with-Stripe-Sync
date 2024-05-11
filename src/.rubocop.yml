@@ -60,10 +60,6 @@ Rails/I18nLocaleTexts:
 Metrics/MethodLength:
   Enabled: false
 
-# 変数名に数字を含むことを許可する
-Naming/VariableNumber:
-  Enabled: false
-
 # テストタイプの推論を無効にする
 RSpecRails/InferredSpecType:
   Enabled: false
