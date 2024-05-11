@@ -121,12 +121,14 @@
                                         </div>
                                     </td>
                                     <td class="space-x-2 px-2 py-4 md:space-x-10 md:px-6">
-                                        <a href="#" class="font-medium text-sky-600 hover:underline"
-								></a>
-                                        <%= link_to '編集', {controller: 'products', action: 'edit', id: product}, {class: 'font-medium text-sky-600 hover:underline'} %>
-                                        <button type="button" class="font-medium text-red-600 hover:underline">
-                                            削除
-                                        </button>
+                                        <%= link_to '編集', edit_admin_product_path(product), class: 'font-medium text-sky-600 hover:underline' %>
+                                        <%= link_to '削除', admin_product_path(product), 
+                                                data: {
+                                                turbo_method: :delete,
+                                                turbo_confirm: "本当に削除してよろしいですか?"
+                                                },
+                                                class: 'font-medium text-red-600 hover:underline'
+                                        %>
                                     </td>
                                 </tr>
                             <% end %>
