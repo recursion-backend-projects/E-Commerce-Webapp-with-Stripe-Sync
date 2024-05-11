@@ -44,6 +44,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_06_102646) do
     t.integer "price", null: false
     t.integer "stock", default: 0
     t.text "description", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "status", default: 0
     t.string "stripe_product_id"
   end
