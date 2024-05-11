@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_03_014119) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_03_013829) do
   create_table "addresses", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "zip_code"
     t.string "state"
@@ -23,16 +23,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_03_014119) do
     t.index ["city"], name: "index_addresses_on_city"
     t.index ["state"], name: "index_addresses_on_state"
     t.index ["zip_code"], name: "index_addresses_on_zip_code"
-  end
-
-  create_table "admin_account_relationships", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "admin_account_id", null: false
-    t.bigint "address_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["address_id"], name: "index_admin_account_relationships_on_address_id"
-    t.index ["admin_account_id", "address_id"], name: "idx_on_admin_account_id_address_id_dbd13b8c78", unique: true
-    t.index ["admin_account_id"], name: "index_admin_account_relationships_on_admin_account_id"
   end
 
   create_table "admin_accounts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -54,6 +44,4 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_03_014119) do
     t.index ["reset_password_token"], name: "index_admin_accounts_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "admin_account_relationships", "addresses"
-  add_foreign_key "admin_account_relationships", "admin_accounts"
 end
