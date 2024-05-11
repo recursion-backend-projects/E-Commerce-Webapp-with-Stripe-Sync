@@ -13,6 +13,6 @@ Rails.application.routes.draw do
   post 'stripe/webhook', to: 'stripe_webhooks#handler'
 
   namespace :admin do
-    resources :products, only: %i[index edit]
+    resources :products, only: %i[index edit destroy]
   end
 end
