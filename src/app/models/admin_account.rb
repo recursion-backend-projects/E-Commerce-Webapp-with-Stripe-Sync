@@ -4,4 +4,9 @@ class AdminAccount < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :confirmable, :timeoutable
+
+  validates :password, format: {
+    with: /\A(?=.*?[a-z])(?=.*?[\d])[a-z\d]+\z/i,
+  },on: :create
+
 end
