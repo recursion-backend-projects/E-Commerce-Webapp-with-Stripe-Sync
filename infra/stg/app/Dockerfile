@@ -21,7 +21,7 @@ WORKDIR /E-Commerce-Webapp-with-Stripe-Sync
 # srcをE-Commerce-Webapp-with-Stripe-Syncにコピー
 COPY ./ /E-Commerce-Webapp-with-Stripe-Sync
 
-# Bundle install
+# Bundlerを使用してGemをインストール
 RUN bundle install
 
 # プリコンパイルが実行できるように環境変数を定義する

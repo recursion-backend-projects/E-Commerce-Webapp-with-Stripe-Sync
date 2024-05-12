@@ -56,3 +56,12 @@ production:
   username: root
   password: password
   host: db
+
+# ステージング用の環境
+staging:
+  <<: *default
+  database: <%= ENV.fetch("MYSQL_DATABASE") %>_staging
+  username: root
+  password: password
+  host: db
+  
