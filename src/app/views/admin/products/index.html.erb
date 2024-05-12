@@ -12,6 +12,7 @@
 					class="inline-flex items-center rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
 					type="button"
 				>
+                    <!-- TODO: フィルタリングを実装する -->
                     <span class="sr-only">フィルターボタン</span>
                     フィルター
                     <svg
@@ -70,6 +71,7 @@
                         </ul>
                     </div>
                 </div>
+                <!-- TODO: 時間に余裕があったら「商品を追加する」を実装する -->
                 <a
 				href="#"
 				class="flex items-center justify-center rounded-lg border border-gray-300 bg-white p-1.5 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
@@ -90,54 +92,53 @@
                     <tbody>
                         <% @products.each do |product|%>
                             <tr class="bg-gre border-b bg-white hover:bg-gray-100">
+                                <!-- TODO: 画像アップロード場所が決まったら実装する -->
                                 <td class="p-4">
-                                    <img
-								src="/src/public/assets/painting2.jpg"
-								class="max-h-full w-12 max-w-full rounded-lg md:w-32"
-								alt=""
-							/>
-                                    </td>
-                                    <td class="px-6 py-4 font-semibold"><%= product.name %></td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center">
-                                            <% if product.status === 'draft' %>
-                                                <div class="flex items-center">
-                                                    <div
+                                    <div class='flex justify-center'>
+                                        <%= image_tag 'sample_image', class: 'max-h-full w-12 max-w-full rounded-lg md:w-32' %>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 font-semibold"><%= product.name %></td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center">
+                                        <% if product.status === 'draft' %>
+                                            <div class="flex items-center">
+                                                <div
 										class="me-2 h-2.5 w-2.5 rounded-full bg-yellow-500"
 									></div>
-                                                    下書き
-                                                </div>
-                                            <% elsif product.status === 'published' %>
-                                                <div class="flex items-center">
-                                                    <div class="me-2 h-2.5 w-2.5 rounded-full bg-green-500"></div>
-                                                    公開中
-                                                </div>
-                                            <% elsif product.status === 'archived' %>
-                                                <div class="flex items-center">
-                                                    <div class="me-2 h-2.5 w-2.5 rounded-full bg-red-500"></div>
-                                                    アーカイブ済み
-                                                </div>
-                                            <% end %>
-                                        </div>
-                                    </td>
-                                    <td class="space-x-2 px-2 py-4 md:space-x-10 md:px-6">
-                                        <%= link_to '編集', edit_admin_product_path(product), class: 'font-medium text-sky-600 hover:underline' %>
-                                        <%= link_to '削除', admin_product_path(product), 
+                                                下書き
+                                            </div>
+                                        <% elsif product.status === 'published' %>
+                                            <div class="flex items-center">
+                                                <div class="me-2 h-2.5 w-2.5 rounded-full bg-green-500"></div>
+                                                公開中
+                                            </div>
+                                        <% elsif product.status === 'archived' %>
+                                            <div class="flex items-center">
+                                                <div class="me-2 h-2.5 w-2.5 rounded-full bg-red-500"></div>
+                                                アーカイブ済み
+                                            </div>
+                                        <% end %>
+                                    </div>
+                                </td>
+                                <td class="space-x-2 px-2 py-4 md:space-x-10 md:px-6">
+                                    <%= link_to '編集', edit_admin_product_path(product), class: 'font-medium text-sky-600 hover:underline' %>
+                                    <%= link_to '削除', admin_product_path(product), 
                                                 data: {
                                                 turbo_method: :delete,
                                                 turbo_confirm: "本当に削除してよろしいですか?"
                                                 },
                                                 class: 'font-medium text-red-600 hover:underline'
                                         %>
-                                    </td>
-                                </tr>
-                            <% end %>
-                        </tbody>
-                    </table>
-                </div>
+                                </td>
+                            </tr>
+                        <% end %>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+</div>
 </div>
 <!-- ページネーション -->
 <%= render 'layouts/pagenation' %>
