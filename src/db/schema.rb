@@ -10,10 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_06_102646) do
-  create_table "articles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "title"
-    t.text "body"
+ActiveRecord::Schema[7.1].define(version: 2024_05_12_101719) do
+  create_table "product_categories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -27,6 +26,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_06_102646) do
     t.datetime "updated_at", null: false
     t.integer "status", default: 0
     t.string "stripe_product_id"
+    t.string "creator"
+    t.bigint "product_category_id"
+    t.string "stripe_price_id"
+    t.index ["product_category_id"], name: "index_products_on_product_category_id"
   end
 
+  add_foreign_key "products", "product_categories"
 end
