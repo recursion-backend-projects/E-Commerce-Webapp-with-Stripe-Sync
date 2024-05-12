@@ -7,3 +7,8 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+#### Product Categories ####
+%w[絵画 彫刻 写真 イラスト].each do |product_category|
+  ProductCategory.find_or_create_by!(name: product_category)
+end
