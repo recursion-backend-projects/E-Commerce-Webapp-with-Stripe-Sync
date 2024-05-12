@@ -1,5 +1,14 @@
 Rails.application.routes.draw do
-  devise_for :customer_accounts
+
+  # アカウント認証(カスタマー)
+  devise_for :customer_accounts, controllers: {
+    sessions: 'customer_accounts/sessions',
+    registrations: 'customer_accounts/registrations',
+    confirmations: 'customer_accounts/confirmations',
+    passwords: 'customer_accounts/passwords'
+  }
+
+  # アカウント認証(管理者)
   devise_for :admin_accounts, controllers: {
     sessions: 'admin_accounts/sessions',
     registrations: 'admin_accounts/registrations',
