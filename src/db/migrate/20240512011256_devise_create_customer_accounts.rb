@@ -14,6 +14,10 @@ class DeviseCreateCustomerAccounts < ActiveRecord::Migration[7.1]
       ## Rememberable
       t.datetime :remember_created_at
 
+      ## 追加
+      t.string :user_name
+      t.string :status
+
       ## Trackable
       # t.integer  :sign_in_count, default: 0, null: false
       # t.datetime :current_sign_in_at
@@ -22,10 +26,10 @@ class DeviseCreateCustomerAccounts < ActiveRecord::Migration[7.1]
       # t.string   :last_sign_in_ip
 
       ## Confirmable
-      # t.string   :confirmation_token
-      # t.datetime :confirmed_at
-      # t.datetime :confirmation_sent_at
-      # t.string   :unconfirmed_email # Only if using reconfirmable
+      t.string   :confirmation_token
+      t.datetime :confirmed_at
+      t.datetime :confirmation_sent_at
+      t.string   :unconfirmed_email # Only if using reconfirmable
 
       ## Lockable
       # t.integer  :failed_attempts, default: 0, null: false # Only if lock strategy is :failed_attempts
@@ -38,7 +42,7 @@ class DeviseCreateCustomerAccounts < ActiveRecord::Migration[7.1]
 
     add_index :customer_accounts, :email,                unique: true
     add_index :customer_accounts, :reset_password_token, unique: true
-    # add_index :customer_accounts, :confirmation_token,   unique: true
+    add_index :customer_accounts, :confirmation_token,   unique: true
     # add_index :customer_accounts, :unlock_token,         unique: true
   end
 end
