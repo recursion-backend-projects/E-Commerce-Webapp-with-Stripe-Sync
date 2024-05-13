@@ -1,5 +1,5 @@
 class CustomerTestsController < ApplicationController
-    before_action :authenticate_customer_account!
+  before_action :authenticate_customer_account!
 
-    def index; end
+  def index; end
 end
