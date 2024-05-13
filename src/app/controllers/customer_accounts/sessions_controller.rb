@@ -14,9 +14,22 @@ class CustomerAccounts::SessionsController < Devise::SessionsController
   # end
 
   # DELETE /resource/sign_out
-  # def destroy
-  #   super
-  # end
+  def destroy
+    super do
+      flash.clear
+    end
+  end
+
+  # ログイン後のリダイレクト先
+  def after_sign_in_path_for(_resource)
+    # TODO: ダッシュボード画面のパスに変更する
+    customer_test_path
+  end
+
+  # ログアウト後のリダイレクト先
+  def after_sign_out_path_for(_resource)
+    customer_account_session_path
+  end
 
   # protected
 

@@ -20,7 +20,6 @@ class AdminAccounts::ConfirmationsController < Devise::ConfirmationsController
 
   # The path used after resending confirmation instructions.
   def after_resending_confirmation_instructions_path_for(_resource_name)
-    flash[:notice] = '確認メールを再送しました。メールを確認してください。'
     new_admin_account_confirmation_path
   end
 

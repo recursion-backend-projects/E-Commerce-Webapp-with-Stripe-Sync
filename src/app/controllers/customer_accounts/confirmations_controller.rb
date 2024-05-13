@@ -16,16 +16,17 @@ class CustomerAccounts::ConfirmationsController < Devise::ConfirmationsControlle
   #   super
   # end
 
-  # protected
+  protected
 
   # The path used after resending confirmation instructions.
-  # def after_resending_confirmation_instructions_path_for(resource_name)
-  #   super(resource_name)
-  # end
+  def after_resending_confirmation_instructions_path_for(_resource_name)
+    new_customer_account_confirmation_path
+  end
 
   # The path used after confirmation.
   def after_confirmation_path_for(resource_name, resource)
-    super(resource_name, resource)
-    sample_path
+    sign_in(resource)
+    # TODO: 遷移先をTOPページに変更する
+    customer_test_path
   end
 end
