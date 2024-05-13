@@ -10,12 +10,7 @@ class AdminAccounts::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    super do |resource|
-      if resource.persisted?
-        flash[:notice] = 'あなたのメールアドレスへ確認メールを送信しました。メールを開いてリンクへアクセスしてください。'
-        redirect_to registration_path(resource_name) and return
-      end
-    end
+    super
   end
 
   # GET /resource/edit
@@ -60,7 +55,7 @@ class AdminAccounts::RegistrationsController < Devise::RegistrationsController
   # end
 
   # The path used after sign up for inactive accounts.
-  # def after_inactive_sign_up_path_for(resource)
-  #   super(resource)
-  # end
+  def after_inactive_sign_up_path_for(resource)
+    new_admin_account_registration_path
+  end
 end
