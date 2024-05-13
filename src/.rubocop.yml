@@ -70,3 +70,9 @@ Metrics/MethodLength:
 # テストタイプの推論を無効にする
 RSpecRails/InferredSpecType:
   Enabled: false
+
+# 未定義メソッドの警告を無効
+Rails/LexicallyScopedActionFilter:
+  Exclude:
+    - "app/controllers/admin_accounts/registrations_controller.rb"
+    - "app/controllers/customer_accounts/registrations_controller.rb"
