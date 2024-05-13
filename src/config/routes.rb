@@ -20,6 +20,8 @@ Rails.application.routes.draw do
 
   get 'sample', to: 'samples#index'
 
+  get 'customer-test', to: 'customer_tests#index'
+
   # Defines the root path route ("/")
   # root "posts#index"
 
