@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Product do
-  it 'is valid with a name, price, description' do
+  it 'is valid with a name, price, description, product_category_id' do
     expect(build(:product)).to be_valid
   end
 
