@@ -5,6 +5,7 @@
             <a href="" class="hover:text-green-200">ホーム</a>
             <a href="" class="hover:text-green-200">ブログ</a>
             <a href="" class="hover:text-green-200">お問い合わせ</a>
+            <%= link_to 'ログアウト', destroy_admin_account_session_path, data: { turbo_method: :delete }, class: 'hover:text-red-200' %>
         </div>
     </nav>
 </header>

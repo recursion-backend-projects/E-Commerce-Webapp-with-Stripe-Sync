@@ -29,6 +29,7 @@ services:
       - ./:/E-Commerce-Webapp-with-Stripe-Sync
     environment:
       RAILS_ENV: development
+      TZ: Asia/Tokyo
     tty: true
     stdin_open: true
     command: /bin/bash -c "rm -f tmp/pids/server.pid && yarn install && bin/dev"
@@ -50,6 +51,16 @@ services:
       STRIPE_API_KEY: ${STRIPE_API_KEY}
       STRIPE_DEVICE_NAME: ${STRIPE_DEVICE_NAME}
     command: "listen --forward-to localhost:3000/stripe/webhook"
+    
+  mail:
+    image: mailhog/mailhog
+    container_name: mailhog
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+    environment:
+      MH_STORAGE: maildir
+      MH_MAILDIR_PATH: /tmp
 
 volumes:
   db-data:

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>DockerRailsTest</title>
+        <title>Art-SA2</title>
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <%= csrf_meta_tags %>
         <%= csp_meta_tag %>
@@ -10,7 +10,7 @@
         <%= javascript_include_tag "sample", "data-turbo-track": "reload", type: "module" %>
     </head>
     <body class="bg-gray-100">
-        <!-- admin, customerによって表示するナビとフッターを変更する -->
+        <!-- admin, customerによって表示するナビを変更する -->
         <!-- TODO: ヘルパーメソッドを使ったほうが良いかも -->
         <% if @admin %>
             <%= render 'layouts/admin/navbar' %>
@@ -18,8 +18,7 @@
         <main class="">
             <%= yield %>
         </main>
-        <% if @admin %>
-            <%= render 'layouts/admin/footer' %>
-        <% end %>
+
+        <%= render "shared/footer" %>
     </body>
 </html>

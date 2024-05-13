@@ -11,6 +11,8 @@ module DockerRailsTest
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.1
 
+    config.i18n.default_locale = :ja
+
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
@@ -25,5 +27,10 @@ module DockerRailsTest
     # config.eager_load_paths << Rails.root.join("extras")
 
     config.i18n.default_locale = :ja
+    # Rails自体のアプリケーションの時刻の設定
+    config.time_zone = 'Tokyo'
+
+    # DBを読み書きする際に、DBに記録されている時間をどのタイムゾーンで読み込むかの設定
+    config.active_record.default_timezone = :local
   end
 end
