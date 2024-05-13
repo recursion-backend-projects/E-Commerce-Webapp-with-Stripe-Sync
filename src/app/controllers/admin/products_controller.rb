@@ -15,15 +15,23 @@ class Admin::ProductsController < ApplicationController
     @product = Product.find(params[:id])
 
     if @product.update(product_params)
-      Stripe::Product.update(@product.stripe_prodouct_id, name: @product.name, description: @product.description)
+      product_category = ProductCategory.find(@product.product_category_id)
+      Stripe::Product.update(@product.stripe_product_id, name: @product.name,
+                                                         description: @product.description,
+                                                         metadata: { product_category: product_category.name })
 
       # Stripe APIではPriceのunit_amountを変更できないので、新しいPriceを作成して、デフォルトの価格を変更して、古い価格は無効にする
       # https://docs.stripe.com/products-prices/manage-prices#edit-price
-      old_price = Stripe::Price.retrieve(@product.string_price_id)
-      new_price = Stripe::Price.create(currencty: 'jpy', unit_amount: @product.price,
-                                       product: @product.stripe_prodouct_id)
-      Stripe::Product.update(@product.stripe_prodouct_id, default_price: new_price.id)
-      Stripe::Price.update(old_price.id, active: false)
+      old_price = Stripe::Price.retrieve(@product.stripe_price_id)
+
+      # 価格が編集された場合のみ、Priceを更新する
+      if @product.price != old_price.unit_amount
+        new_price = Stripe::Price.create(currency: 'jpy', unit_amount: @product.price,
+                                         product: @product.stripe_product_id)
+        Stripe::Product.update(@product.stripe_product_id, default_price: new_price.id)
+        Stripe::Price.update(old_price.id, active: false)
+      end
+
       redirect_to edit_admin_product_path @product
     else
       render :edit, status: :unprocessable_entity
@@ -31,8 +39,9 @@ class Admin::ProductsController < ApplicationController
   end
 
   def destroy
-    @product = Product.find(params)
-    Stripe::Product.delete(@product.stripe_prodouct_id)
+    @product = Product.find(params[:id])
+    # 価格を持っている商品はapiで削除できないので、activeをfalseにする
+    Stripe::Product.update(@product.stripe_product_id, active: false)
     @product.destroy
 
     redirect_to admin_products_path, status: :see_other
