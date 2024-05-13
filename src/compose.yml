@@ -43,5 +43,13 @@ services:
       - ../infra/dev/web/default.conf:/etc/nginx/conf.d/default.conf
       - ./public:/E-Commerce-Webapp-with-Stripe-Sync/public
 
+  stripe:
+    image: stripe/stripe-cli:v1.19.4
+    network_mode: host
+    environment:
+      STRIPE_API_KEY: ${STRIPE_API_KEY}
+      STRIPE_DEVICE_NAME: ${STRIPE_DEVICE_NAME}
+    command: "listen --forward-to localhost:3000/stripe/webhook"
+
 volumes:
   db-data:
