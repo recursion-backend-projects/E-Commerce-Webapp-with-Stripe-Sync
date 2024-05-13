@@ -60,8 +60,6 @@ production:
 # ステージング用の環境
 staging:
   <<: *default
-  database: <%= ENV.fetch("MYSQL_DATABASE") %>_staging
-  username: root
-  password: password
-  host: db
+  database:  <%= ENV.fetch("MYSQL_DATABASE") %>_staging
+
   
