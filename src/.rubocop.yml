@@ -46,27 +46,39 @@ Style/Documentation:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+# ネストしたクラスの書き方を許可
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+# ============================================================
+# Metrics
+# ============================================================
 # 30 ぐらいまでは許容してもいいのでは
 # https://docs.rubocop.org/rubocop/cops_metrics.html#metricsabcsize
 Metrics/AbcSize:
   Max: 30
 
-# ネストしたクラスの書き方を許可
-Style/ClassAndModuleChildren:
-  Enabled: false
+# 20くらいは別によいと思う
+Metrics/MethodLength:
+  Max: 20
 
+# ============================================================
+# Layout
+# ============================================================
 # 行の最大長をチェックしない
 Layout/LineLength:
-  Enabled: false
+  Max: 160
 
-# ロケールファイルへのエラーメッセージの強制を無効にする
-Rails/I18nLocaleTexts:
-  Enabled: false
-
-# メソッドの行数に対する制限を無効にする
-Metrics/MethodLength:
-  Enabled: false
-
+# ============================================================
+# RSpec
+# ============================================================
 # テストタイプの推論を無効にする
 RSpecRails/InferredSpecType:
+  Enabled: false
+
+# ============================================================
+# Rails
+# ============================================================
+# ロケールファイルへのエラーメッセージの強制を無効にする
+Rails/I18nLocaleTexts:
   Enabled: false
