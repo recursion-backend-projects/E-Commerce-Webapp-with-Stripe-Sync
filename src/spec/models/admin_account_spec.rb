@@ -50,6 +50,14 @@ RSpec.describe AdminAccount, type: :model do
       end
     end
 
+    context 'when password is not alphanumeric' do
+      it 'is not valid with a password that is not a mix of letters and numbers' do
+        customer = build(:admin_account, password: 'aaaaaaaa')
+        customer.valid?
+        expect(customer.errors[:password]).to include('は不正な値です')
+      end
+    end
+
     context 'with a duplicate email' do
       before do
         create(:admin_account, email: 'admin@example.com')

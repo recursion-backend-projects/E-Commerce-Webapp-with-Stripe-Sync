@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AdminAccounts::ConfirmationsController < Devise::ConfirmationsController
+class CustomerAccounts::ConfirmationsController < Devise::ConfirmationsController
   # GET /resource/confirmation/new
   # def new
   #   super
@@ -20,13 +20,13 @@ class AdminAccounts::ConfirmationsController < Devise::ConfirmationsController
 
   # The path used after resending confirmation instructions.
   def after_resending_confirmation_instructions_path_for(_resource_name)
-    new_admin_account_confirmation_path
+    new_customer_account_confirmation_path
   end
 
   # The path used after confirmation.
-  def after_confirmation_path_for(_resource_name, _resource)
+  def after_confirmation_path_for(_resource_name, resource)
     sign_in(resource)
-    # TODO: 遷移先をダッシュボードに変更する
-    sample_path
+    # TODO: 遷移先をTOPページに変更する
+    customer_test_path
   end
 end

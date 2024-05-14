@@ -7,3 +7,15 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+require 'dotenv-rails'
+
+#### Admin Accounts ####
+admin_email = ENV['ADMIN_EMAIL']
+admin_password = ENV['ADMIN_PASSWORD']
+
+AdminAccount.find_or_create_by(email: admin_email) do |admin|
+  admin.password = admin_password
+  admin.password_confirmation = admin_password
+  admin.user_name = 'admin'
+end
