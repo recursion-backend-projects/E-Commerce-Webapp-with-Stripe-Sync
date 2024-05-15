@@ -1,0 +1,3 @@
+class WishProductsController < ApplicationController
+    
+end
