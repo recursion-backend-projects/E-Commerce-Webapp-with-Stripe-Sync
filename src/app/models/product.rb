@@ -8,4 +8,5 @@ class Product < ApplicationRecord
   end
 
   has_many :wish_products
+  has_many :customers, through: :wish_products
 end
