@@ -25,4 +25,9 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   post 'stripe/webhook', to: 'stripe_webhooks#handler'
+
+  # 顧客ページ
+  namespace :customer do
+    resources :wishlist, only: %i[index create destroy], controller: 'wish_products'
+  end
 end
