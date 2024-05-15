@@ -46,11 +46,10 @@ services:
 
   stripe:
     image: stripe/stripe-cli:v1.19.4
-    network_mode: host
     environment:
       STRIPE_API_KEY: ${STRIPE_API_KEY}
       STRIPE_DEVICE_NAME: ${STRIPE_DEVICE_NAME}
-    command: "listen --forward-to localhost:3000/stripe/webhook"
+    command: "listen --forward-to 172.17.0.1:3000/stripe/webhook"
     
   mail:
     image: mailhog/mailhog
