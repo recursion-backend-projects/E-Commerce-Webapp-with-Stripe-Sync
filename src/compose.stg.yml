@@ -1,16 +1,4 @@
 services:
-  db:
-    build:
-      context: ../infra/stg/db
-    environment:
-      TZ: Asia/Tokyo
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    volumes:
-      - ./db/mysql_data:/var/lib/mysql
-
   app:
     build:
       context: .
@@ -21,8 +9,6 @@ services:
         - MYSQL_USER=${MYSQL_USER}
         - MYSQL_PASSWORD=${MYSQL_PASSWORD}
         - SECRET_KEY_BASE=${SECRET_KEY_BASE}
-    depends_on:
-      - db
     volumes:
       - ./:/E-Commerce-Webapp-with-Stripe-Sync
     environment:
@@ -35,8 +21,6 @@ services:
   web:
     build:
       context: ../infra/stg/web
-    ports:
-      - "80:80"
     depends_on:
       - app
     volumes:
@@ -44,17 +28,16 @@ services:
       - ./public:/E-Commerce-Webapp-with-Stripe-Sync/public
       - ./tmp:/E-Commerce-Webapp-with-Stripe-Sync/tmp
 
-  # https-portal:
-  #   image: steveltn/https-portal:1
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"
-  #   environment:
-  #     DOMAINS: "E-Commerce-Webapp-with-Stripe-Sync.seiprojects.com -> http://web:80"
-  #     STAGE: "staging"
-  #   volumes:
-  #     - https-portal-data:/var/lib/https-portal
+  https-portal:
+    image: steveltn/https-portal:1
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMAINS: 'art-sa2-stg.com -> http://web:80'
+      STAGE: "production"
+    volumes:
+      - https-portal-data:/var/lib/https-portal
 
 volumes:
-  db-data:
   https-portal-data: # HTTPS-PORTALをアップグレードする際に再署名を避けるために推奨されます
