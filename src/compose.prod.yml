@@ -1,9 +1,6 @@
 services:
   app:
-    image: app
-    build:
-      context: .
-      dockerfile: ../infra/prod/app/Dockerfile
+    image: artsa2/art-sa2-shop:app-latest
     volumes:
       - ./:/E-Commerce-Webapp-with-Stripe-Sync
     environment:
@@ -12,9 +9,7 @@ services:
     user: root
 
   web:
-    image: web
-    build:
-      context: ../infra/prod/web
+    image: artsa2/art-sa2-shop:web-latest
     depends_on:
       - app
     volumes:
