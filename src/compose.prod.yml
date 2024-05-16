@@ -1,5 +1,6 @@
 services:
   app:
+    image: app/ruby
     build:
       context: .
       dockerfile: ../infra/prod/app/Dockerfile
@@ -11,6 +12,7 @@ services:
     user: root
 
   web:
+    image: web/nginx
     build:
       context: ../infra/prod/web
     depends_on:
