@@ -17,15 +17,8 @@ COPY ./ /E-Commerce-Webapp-with-Stripe-Sync
 # Bundlerを使用してGemをインストール
 RUN bundle install
 
-# プリコンパイルが実行できるように環境変数を定義する
-ARG MYSQL_DATABASE
-ARG MYSQL_ROOT_PASSWORD
-ARG MYSQL_USER
-ARG MYSQL_PASSWORD
-ARG SECRET_KEY_BASE
-
-# プリコンパイルの実行
-RUN RAILS_ENV=production bundle exec rake assets:precompile
+# アセットプリコンパイルの実行(https://github.com/rails/rails/pull/46760)
+RUN SECRET_KEY_BASE_DUMMY=1 RAILS_ENV=production bundle exec rake assets:precompile
 
 # 起動コマンド
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]

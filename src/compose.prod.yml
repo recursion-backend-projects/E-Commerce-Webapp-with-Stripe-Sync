@@ -3,20 +3,12 @@ services:
     build:
       context: .
       dockerfile: ../infra/prod/app/Dockerfile
-      args:
-        - MYSQL_DATABASE=${MYSQL_DATABASE}
-        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-        - MYSQL_USER=${MYSQL_USER}
-        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-        - SECRET_KEY_BASE=${SECRET_KEY_BASE}
     volumes:
       - ./:/E-Commerce-Webapp-with-Stripe-Sync
     environment:
       RAILS_ENV: production
       TZ: Asia/Tokyo
     user: root
-    env_file:
-      - .env
 
   web:
     build:
