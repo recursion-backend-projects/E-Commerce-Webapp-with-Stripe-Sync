@@ -2,7 +2,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: ../infra/stg/app/Dockerfile
+      dockerfile: ../infra/prod/app/Dockerfile
       args:
         - MYSQL_DATABASE=${MYSQL_DATABASE}
         - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
@@ -12,7 +12,7 @@ services:
     volumes:
       - ./:/E-Commerce-Webapp-with-Stripe-Sync
     environment:
-      RAILS_ENV: staging
+      RAILS_ENV: production
       TZ: Asia/Tokyo
     user: root
     env_file:
@@ -20,11 +20,11 @@ services:
 
   web:
     build:
-      context: ../infra/stg/web
+      context: ../infra/prod/web
     depends_on:
       - app
     volumes:
-      - ../infra/stg/web/default.conf:/etc/nginx/conf.d/default.conf
+      - ../infra/prod/web/default.conf:/etc/nginx/conf.d/default.conf
       - ./public:/E-Commerce-Webapp-with-Stripe-Sync/public
       - ./tmp:/E-Commerce-Webapp-with-Stripe-Sync/tmp
 

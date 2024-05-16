@@ -1,9 +1,9 @@
 require "active_support/core_ext/integer/time"
 
-Rails.application.config.hosts << "E-Commerce-Webapp-with-Stripe-Sync.seiprojects.com"
+Rails.application.config.hosts << "art-sa2-stg.com"
 
 Rails.application.configure do
-  config.hosts << "localhost" # 本来ここは無効にします
+  # config.hosts << "localhost"
 
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -22,7 +22,7 @@ Rails.application.configure do
 
   # Ensures that a master key has been made available in ENV["RAILS_MASTER_KEY"], config/master.key, or an environment
   # key such as config/credentials/production.key. This key is used to decrypt credentials (and other encrypted files).
-  config.require_master_key = false
+  config.require_master_key = true
 
   # Disable serving static files from `public/`, relying on NGINX/Apache to do so instead.
   # config.public_file_server.enabled = false
@@ -53,8 +53,8 @@ Rails.application.configure do
   # config.assume_ssl = true
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-
-  config.force_ssl = false # 本番環境ではtrueに設定する
+  # アプリへのアクセスをすべて強制的にSSL経由にする
+  config.force_ssl = true 
 
   # Log to STDOUT by default
   config.logger = ActiveSupport::Logger.new(STDOUT)
@@ -74,7 +74,7 @@ Rails.application.configure do
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter = :resque
-  # config.active_job.queue_name_prefix = "docker_rails_test_production"
+  # config.active_job.queue_name_prefix = "E-Commerce-Webapp-with-Stripe-Sync"
 
   config.action_mailer.perform_caching = false
 
@@ -99,4 +99,5 @@ Rails.application.configure do
   # ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
 end
