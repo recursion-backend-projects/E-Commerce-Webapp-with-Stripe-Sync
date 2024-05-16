@@ -60,11 +60,6 @@ jobs:
             ${{ github.ref }}
             refs/head/main
 
-      # 検証用コード
-      - name: Display directory structure
-        run: ls -la
-        continue-on-error: true
-
       # Buildxでイメージをビルド
       - name: Build images - App
         uses: docker/build-push-action@v5
@@ -74,7 +69,7 @@ jobs:
           tags: app/ruby:latest # イメージ名を指定/compose.prod.ymlのimageで定義している名前
           load: true
           context: ./src # srcディレクトリをビルドコンテキストに設定
-          file: ../infra/prod/app/Dockerfile
+          file: ./infra/prod/app/Dockerfile
           cache-from: type=local,src=/tmp/.buildx-cache-app # キャッシュを指定
           cache-to: type=local,dest=/tmp/.buildx-cache-new-app # 新しいキャッシュ名に変更
 
