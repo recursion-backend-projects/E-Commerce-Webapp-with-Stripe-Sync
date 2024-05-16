@@ -21,11 +21,7 @@ Rails.application.routes.draw do
 
   scope module: :customer do
     resources :products, only: %i[show]
-    resources :cart_items, only: %i[index create destroy] do
-      member do
-        patch 'increase'
-        patch 'decrease'
-      end
-    end
+    get 'cart', to: 'carts:show', as: 'cart'
+    post 'add_to_cart', to: 'carts#add_to_cart', as: 'add_to_cart'
   end
 end
