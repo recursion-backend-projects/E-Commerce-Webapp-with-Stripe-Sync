@@ -12,7 +12,7 @@ RUN apt-get update -qq && \
 WORKDIR /E-Commerce-Webapp-with-Stripe-Sync
 
 # srcをE-Commerce-Webapp-with-Stripe-Syncにコピー
-COPY src /E-Commerce-Webapp-with-Stripe-Sync
+COPY ./src /E-Commerce-Webapp-with-Stripe-Sync
 
 # Bundlerを使用してGemをインストール
 RUN bundle install
