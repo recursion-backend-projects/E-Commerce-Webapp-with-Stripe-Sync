@@ -31,39 +31,42 @@
           >
                 <!-- 数量のセレクトボックス -->
                 <div class="flex max-w-sm items-center py-3">
-                    <label for="sort-select" class="ml-1 block text-lg text-gray-900"
+                    <%= form_with  do |f|%>
+                    <%= f.lable @cart_item, '数量:', class: 'ml-1 block text-lg text-gray-900'%>
+                        <label for="sort-select" class="ml-1 block text-lg text-gray-900"
                 >数量 :
-                    </label>
-                    <select
+                        </label>
+                        <select
                 id="sort-select"
                 class="ml-2 block rounded-lg border border-gray-300 bg-gray-200 p-1 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
               >
-                        <option selected>1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </div>
-                <div class="py-3">
-                    <!-- 在庫がある場合 -->
-                    <span class="text-xl">¥6,000</span>
-                    <!-- 在庫がない場合 -->
-                    <!-- <span class="rounded-md bg-red-500 px-4 py-2 font-bold text-white"
+                            <option selected>1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                    <div class="py-3">
+                        <!-- 在庫がある場合 -->
+                        <span class="text-xl">¥6,000</span>
+                        <!-- 在庫がない場合 -->
+                        <!-- <span class="rounded-md bg-red-500 px-4 py-2 font-bold text-white"
               >SOLD OUT</span
             > -->
-                </div>
-                <p class="py-1 text-sm text-red-500">
-                    物理商品を選択された場合は、送料として上記金額に+¥400かかります。
-                </p>
-                <div class="flex justify-center">
-                    <button
+                    </div>
+                    <p class="py-1 text-sm text-red-500">
+                        物理商品を選択された場合は、送料として上記金額に+¥400かかります。
+                    </p>
+                    <div class="flex justify-center">
+                        <button
                 type="button"
                 class="my-2 w-3/4 rounded-full bg-emerald-400 py-2 hover:bg-emerald-500"
               >
-                        カートに入れる
-                    </button>
-                </div>
+                            カートに入れる
+                        </button>
+                    </div>
+                <% end %>
                 <div class="flex justify-center">
                     <button
                 type="button"
