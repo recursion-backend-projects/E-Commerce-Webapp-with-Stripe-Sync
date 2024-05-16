@@ -11,11 +11,8 @@ RUN apt-get update -qq && \
 #docker内の作業ディレクトリを作成＆設定
 WORKDIR /E-Commerce-Webapp-with-Stripe-Sync
 
-# 検証用コード
-RUN ls -la
-
 # srcをE-Commerce-Webapp-with-Stripe-Syncにコピー
-COPY ./src /E-Commerce-Webapp-with-Stripe-Sync
+COPY ./ /E-Commerce-Webapp-with-Stripe-Sync
 
 # Bundlerを使用してGemをインストール
 RUN bundle install

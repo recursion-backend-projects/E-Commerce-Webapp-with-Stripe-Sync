@@ -73,8 +73,8 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }} # Buildxでビルドすることを指定
           tags: app/ruby:latest # イメージ名を指定/compose.prod.ymlのimageで定義している名前
           load: true
-          context: .
-          file: ./infra/prod/app/Dockerfile
+          context: ./src # srcディレクトリをビルドコンテキストに設定
+          file: ../infra/prod/app/Dockerfile
           cache-from: type=local,src=/tmp/.buildx-cache-app # キャッシュを指定
           cache-to: type=local,dest=/tmp/.buildx-cache-new-app # 新しいキャッシュ名に変更
 
