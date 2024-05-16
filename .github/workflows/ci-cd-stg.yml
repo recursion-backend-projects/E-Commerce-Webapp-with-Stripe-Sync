@@ -85,18 +85,16 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache-web
           cache-to: type=local,dest=/tmp/.buildx-cache-new-web
 
-      # docker compose ビルド
-      - name: docker compose build
+      # Dockerイメージをビルドする
+      - name: Docker compose build
         run: |
           cd src
-          docker compose -f compose.prod.yml build
-
-      # docker compose プッシュ
-      - name: docker compose push
+          docker compose -f compose.prod.yml build -t ecsite:latest .
+  
+      # Docker Hubにイメージをpushする
+      - name: Push to docker hub
         id: push
-        run: |
-          cd src
-          docker compose -f compose.prod.yml push
+        run: docker push artsa2/art-sa2-shop:latest
 
       # ビルドプロセスの認証情報生成
       - name: Generate artifact attestation
