@@ -66,7 +66,7 @@ jobs:
         with:
           push: false
           builder: ${{ steps.buildx.outputs.name }} # Buildxでビルドすることを指定
-          tags: app/ruby:latest # イメージ名を指定/compose.prod.ymlのimageで定義している名前
+          tags: app:latest # イメージ名を指定(compose.prod.ymlのimageで定義している名前)
           load: true
           context: ./src # srcディレクトリをビルドコンテキストに設定
           file: ./infra/prod/app/Dockerfile
@@ -78,7 +78,7 @@ jobs:
         with:
           push: false
           builder: ${{ steps.buildx.outputs.name }}
-          tags: web/nginx:latest
+          tags: web:latest
           load: true
           context: .
           file: ./infra/prod/web/Dockerfile
@@ -89,7 +89,7 @@ jobs:
       - name: Docker compose build
         run: |
           cd src
-          docker compose -f compose.prod.yml build -t ecsite:latest .
+          docker compose -f compose.prod.yml build
   
       # Docker Hubにイメージをpushする
       - name: Push to docker hub
