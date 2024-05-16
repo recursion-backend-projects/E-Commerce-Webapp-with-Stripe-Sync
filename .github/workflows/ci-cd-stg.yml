@@ -60,6 +60,11 @@ jobs:
             ${{ github.ref }}
             refs/head/main
 
+      # 検証用コード
+      - name: Display directory structure
+        run: ls -la
+        continue-on-error: true
+
       # Buildxでイメージをビルド
       - name: Build images - App
         uses: docker/build-push-action@v5
