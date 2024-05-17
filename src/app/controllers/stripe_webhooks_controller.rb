@@ -42,8 +42,10 @@ class StripeWebhooksController < ApplicationController
     stripe_product = Stripe::Product.retrieve(product_id)
     # product.createdの時はdefault_priceはnilになることがあるので、price: 0を入れておく
     # product.updatedイベント発火のタイミングで正しい金額に更新する
+    product_category = ProductCategory.find_by(name: stripe_product.metadata.product_category)
     Product.create(name: stripe_product.name, price: 0,
-                   description: stripe_product.description, stripe_product_id: product_id)
+                   description: stripe_product.description, stripe_product_id: product_id,
+                   product_category_id: product_category.id)
   end
 
   def update_product_price(product_id)
@@ -56,7 +58,7 @@ class StripeWebhooksController < ApplicationController
     product = Product.find_by(stripe_product_id: product_id)
     return unless product
 
-    product.update(price: stripe_price.unit_amount)
+    product.update(price: stripe_price.unit_amount, stripe_price_id: stripe_price.id)
 
     # product削除時に、product.updatedが発火してエラーが出るのでキャッチする
   rescue Stripe::InvalidRequestError => e

@@ -1,6 +1,7 @@
 services:
   db:
     build: ../infra/dev/db
+    platform: linux/amd64
     environment:
       TZ: Asia/Tokyo
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -43,6 +44,16 @@ services:
       - ../infra/dev/web/default.conf:/etc/nginx/conf.d/default.conf
       - ./public:/E-Commerce-Webapp-with-Stripe-Sync/public
 
+  stripe:
+    image: stripe/stripe-cli:v1.19.4
+    network_mode: "service:app"
+    depends_on:
+      - app
+    environment:
+      STRIPE_API_KEY: ${STRIPE_API_KEY}
+      STRIPE_DEVICE_NAME: ${STRIPE_DEVICE_NAME}
+    command: "listen --forward-to localhost:3000/stripe/webhook"
+    
   mail:
     image: mailhog/mailhog
     container_name: mailhog

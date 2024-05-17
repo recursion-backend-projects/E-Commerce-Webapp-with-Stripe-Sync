@@ -25,4 +25,8 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   post 'stripe/webhook', to: 'stripe_webhooks#handler'
+
+  namespace :admin do
+    resources :products, only: %i[index edit destroy update]
+  end
 end
