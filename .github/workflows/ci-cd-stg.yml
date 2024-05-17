@@ -85,31 +85,44 @@ jobs:
 
   deploy-to-staging:
     runs-on: ubuntu-22.04
+    needs: push_to_registry
     steps:
       - name: Deploy to Staging
-        run: |
-          # sshでログインしてGitHubのリポジトリからcloneする
-          ssh -o StrictHostKeyChecking=no ${{ secrets.STG_USER_NAME }}@${{ secrets.STG_HOST_NAME }} << 'EOF'
-          cd /web
-          git clone  ${{ github.head_ref || github.ref }} git@github.com:recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync.git
-          cd E-Commerce-Webapp-with-Stripe-Sync/src
-          sudo docker compose down
-          
-          # 残っているコンテナとネットワークの強制削除
-          CONTAINERS=$(docker ps -a -q)
-          if [ -n "$CONTAINERS" ]; then
-            docker rm -f $CONTAINERS
-          fi
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.STG_HOST_NAME }}
+          username: ${{ secrets.STG_USER_NAME }}
+          key: ${{ secrets.STG_PRIVATE_KEY }}
+          script: |
+            cd /web
 
-          NETWORKS=$(docker network ls | grep 'src_default' | awk '{print $1}')
-          if [ -n "$NETWORKS" ]; then
-            docker network rm $NETWORKS
-          fi
+            # 既存のリポジトリフォルダを削除
+            if [ -d "E-Commerce-Webapp-with-Stripe-Sync" ]; then
+              cd E-Commerce-Webapp-with-Stripe-Sync/src
+              sudo docker compose down
 
-          # Docker Hubから最新イメージをpull
-          docker pull artsa2/art-sa2-shop:app-latest
-          docker pull artsa2/art-sa2-shop:web-latest
+              # 残っているコンテナとネットワークの強制削除
+              CONTAINERS=$(docker ps -a -q)
+              if [ -n "$CONTAINERS" ]; then
+                docker rm -f $CONTAINERS
+              fi
 
-          # Docker Composeで新しいコンテナを起動
-          sudo docker compose up -d
+              NETWORKS=$(docker network ls | grep 'src_default' | awk '{print $1}')
+              if [ -n "$NETWORKS" ]; then
+                docker network rm $NETWORKS
+              fi
+
+              cd /web
+              rm -rf E-Commerce-Webapp-with-Stripe-Sync
+            fi
+
+            # GitHub から新たにリポジトリをクローン
+            git clone ${{ github.head_ref || github.ref }} git@github.com:recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync.git
+
+            # Docker Hubから最新イメージをpull
+            docker pull artsa2/art-sa2-shop:app-latest
+            docker pull artsa2/art-sa2-shop:web-latest
+
+            # Docker Composeで新しいコンテナを起動
+            sudo docker compose up -d
 
