@@ -92,7 +92,7 @@ jobs:
         run: |
           echo "${{ secrets.STG_PRIVATE_KEY }}" > private_key
           chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -o ConnectTimeout=60 -i private_key ${{ secrets.STG_USER_NAME }}@${{ secrets.STG_HOST_NAME }} << 'EOF'
+          ssh -tt -o StrictHostKeyChecking=no -o ConnectTimeout=60 -i private_key ${{ secrets.STG_USER_NAME }}@${{ secrets.STG_HOST_NAME }} << 'EOF'
             # 既存のリポジトリフォルダを削除
             if [ -d "/web/E-Commerce-Webapp-with-Stripe-Sync/src" ]; then
               cd /web/E-Commerce-Webapp-with-Stripe-Sync/src
