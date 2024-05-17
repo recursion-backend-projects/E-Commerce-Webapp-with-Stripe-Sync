@@ -22,7 +22,6 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v4
 
-
       # Docker Hubへログイン
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
@@ -43,7 +42,6 @@ jobs:
         with:
           images: artsa2/art-sa2-shop:web
 
-
       # イメージをビルドして Docker Hubにプッシュする
       - name: Build and push Docker image App
         id: push-app
@@ -52,9 +50,7 @@ jobs:
           context: ./src
           file: ./infra/prod/app/Dockerfile
           push: true
-          tags: |
-            artsa2/art-sa2-shop:app-latest
-            artsa2/art-sa2-shop:app-${{ github.sha }}
+          tags: artsa2/art-sa2-shop:app-latest
           labels: ${{ steps.meta-app.outputs.labels }}
 
       - name: Build and push Docker image Web
@@ -64,9 +60,7 @@ jobs:
           context: .
           file: ./infra/prod/web/Dockerfile
           push: true
-          tags: |
-            artsa2/art-sa2-shop:web-latest
-            artsa2/art-sa2-shop:web-${{ github.sha }}
+          tags: artsa2/art-sa2-shop:web-latest
           labels: ${{ steps.meta-web.outputs.labels }}
 
       # ビルドプロセスの認証情報生成
@@ -88,3 +82,34 @@ jobs:
       - name: Post build actions
         if: success()
         run: echo "Docker images built, pushed, and attestation generated successfully!"
+
+  deploy-to-staging:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Deploy to Staging
+        run: |
+          # sshでログインしてGitHubのリポジトリからcloneする
+          ssh -o StrictHostKeyChecking=no ${{ secrets.STG_USER_NAME }}@${{ secrets.STG_HOST_NAME }} << 'EOF'
+          cd /web
+          git clone  ${{ github.head_ref || github.ref }} git@github.com:recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync.git
+          cd E-Commerce-Webapp-with-Stripe-Sync/src
+          sudo docker compose down
+          
+          # 残っているコンテナとネットワークの強制削除
+          CONTAINERS=$(docker ps -a -q)
+          if [ -n "$CONTAINERS" ]; then
+            docker rm -f $CONTAINERS
+          fi
+
+          NETWORKS=$(docker network ls | grep 'src_default' | awk '{print $1}')
+          if [ -n "$NETWORKS" ]; then
+            docker network rm $NETWORKS
+          fi
+
+          # Docker Hubから最新イメージをpull
+          docker pull artsa2/art-sa2-shop:app-latest
+          docker pull artsa2/art-sa2-shop:web-latest
+
+          # Docker Composeで新しいコンテナを起動
+          sudo docker compose up -d
+
