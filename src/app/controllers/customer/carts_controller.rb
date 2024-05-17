@@ -1,14 +1,30 @@
 class Customer::CartsController < ApplicationController
   def show
-    @cart = session[:cart] || Cart.new
+    @cart = session[:cart] || {}
+    p @cart
+    @cart_items = []
+    return if @cart.empty?
+
+    @cart.each_key do |product_id|
+      @cart_items.push(Product.find(product_id))
+    end
   end
 
-  def create
+  def add
     product_id = params[:product_id]
     quantity = params[:quantity].to_i
-    cart = session[:cart] ||= Cart.new
-    cart.add_item(product_id, quantity)
-    session[:cart] = cart
+    session[:cart] ||= {}
+    if session[:cart].key?(product_id)
+      session[:cart][product_id] += quantity
+    else
+      session[:cart][product_id] = quantity
+    end
     redirect_to cart_path
+  end
+
+  def update
+    product_id = params[:product_id]
+    quantity = params[:quantity].to_i
+    session[:cart][product_id] = quantity
   end
 end
