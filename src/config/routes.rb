@@ -34,4 +34,8 @@ Rails.application.routes.draw do
     end
   end
 
+
+  namespace :admin do
+    resources :products, only: %i[index edit destroy update]
+  end
 end

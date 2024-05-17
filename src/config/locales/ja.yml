@@ -1,0 +1,7 @@
+ja:
+  products:
+    status:
+      draft: 下書き
+      published: 公開中
+      archived: アーカイブ済み
+      trashed: ゴミ箱

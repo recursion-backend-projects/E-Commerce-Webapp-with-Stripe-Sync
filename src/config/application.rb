@@ -26,6 +26,9 @@ module DockerRailsTest
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
+    # ステータスの日本語表示のために必要
+    config.i18n.default_locale = :ja
+
     # Rails自体のアプリケーションの時刻の設定
     config.time_zone = 'Tokyo'
 

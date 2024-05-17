@@ -1,5 +1,6 @@
 class Product < ApplicationRecord
-  enum :status, { draft: 0, published: 1, archived: 2, trashed: 3 }
+  belongs_to :product_category
+  enum :status, { draft: 0, published: 1, archived: 2 }
 
   with_options presence: true do
     validates :name

@@ -10,6 +10,11 @@
 
 require 'dotenv-rails'
 
+#### Product Categories ####
+%w[絵画 彫刻 写真 イラスト].each do |product_category|
+  ProductCategory.find_or_create_by!(name: product_category)
+end
+
 #### Admin Accounts ####
 admin_email = ENV['ADMIN_EMAIL']
 admin_password = ENV['ADMIN_PASSWORD']
