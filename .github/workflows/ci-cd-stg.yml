@@ -86,41 +86,42 @@ jobs:
   deploy-to-staging:
     runs-on: ubuntu-22.04
     needs: push_to_registry
+
     steps:
       - name: Deploy to Staging
         run: |
           echo "${{ secrets.STG_PRIVATE_KEY }}" > private_key
           chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -o ConnectTimeout=60 -i private_key ${{ secrets.STG_USER_NAME }}@${{ secrets.STG_HOST_NAME }} '
-            cd /web
-
+          ssh -o StrictHostKeyChecking=no -o ConnectTimeout=60 -i private_key ${{ secrets.STG_USER_NAME }}@${{ secrets.STG_HOST_NAME }} << 'EOF'
             # 既存のリポジトリフォルダを削除
-            if [ -d "E-Commerce-Webapp-with-Stripe-Sync" ]; then
-              cd E-Commerce-Webapp-with-Stripe-Sync/src
+            if [ -d "/web/E-Commerce-Webapp-with-Stripe-Sync/src" ]; then
+              cd /web/E-Commerce-Webapp-with-Stripe-Sync/src
               sudo docker compose down
 
               # 残っているコンテナとネットワークの強制削除
-              CONTAINERS=$(docker ps -a -q)
-              if [ -n "$CONTAINERS" ]; then
-                docker rm -f $CONTAINERS
+              CONTAINERS=\$(docker ps -a -q)
+              if [ -n "\$CONTAINERS" ]; then
+                docker rm -f \$CONTAINERS
               fi
 
-              NETWORKS=$(docker network ls | grep 'src_default' | awk '{print $1}')
-              if [ -n "$NETWORKS" ]; then
-                docker network rm $NETWORKS
+              NETWORKS=\$(docker network ls | grep 'src_default' | awk '{print \$1}')
+              if [ -n "\$NETWORKS" ]; then
+                docker network rm \$NETWORKS
               fi
 
               cd /web
-              rm -rf E-Commerce-Webapp-with-Stripe-Sync
+              rm -rf /E-Commerce-Webapp-with-Stripe-Sync
             fi
 
-            # GitHub から新たにリポジトリをクローン
-            git clone ${{ github.head_ref || github.ref }} git@github.com:recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync.git
+            # GitHubから新たにリポジトリをクローン
+            git clone --branch ${{ github.head_ref || github.ref }} git@github.com:recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync.git
 
             # Docker Hubから最新イメージをpull
             docker pull artsa2/art-sa2-shop:app-latest
             docker pull artsa2/art-sa2-shop:web-latest
 
             # Docker Composeで新しいコンテナを起動
+            cd E-Commerce-Webapp-with-Stripe-Sync/src
             sudo docker compose -f compose.prod.yml up -d
-
+          EOF
+          rm -f private_key
