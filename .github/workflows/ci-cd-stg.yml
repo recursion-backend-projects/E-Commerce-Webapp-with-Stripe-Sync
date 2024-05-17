@@ -54,6 +54,7 @@ jobs:
           push: true
           tags: |
             artsa2/art-sa2-shop:app-latest
+            artsa2/art-sa2-shop:app-${{ github.sha }}
           labels: ${{ steps.meta-app.outputs.labels }}
 
       - name: Build and push Docker image Web
@@ -65,6 +66,7 @@ jobs:
           push: true
           tags: |
             artsa2/art-sa2-shop:web-latest
+            artsa2/art-sa2-shop:web-${{ github.sha }}
           labels: ${{ steps.meta-web.outputs.labels }}
 
       # ビルドプロセスの認証情報生成
