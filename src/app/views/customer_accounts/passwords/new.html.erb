@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>パスワード再発行</title>
+</head>
+<body class="bg-gray-100">
+  <main class="min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-md p-6 bg-white shadow-md rounded-lg">
+      <h1 class="text-center text-3xl mb-6">パスワード再発行</h1>
+
+      <%= render "shared/flash" %>
+
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "space-y-4" }) do |f| %>
+        <p class="text-gray-500 mb-4">
+          入力されたメールアドレスへパスワードの再設定用メールを送信します。
+        </p>
+        <div>
+          <%= f.label :email, "メールアドレス", class: "block font-medium text-gray-700" %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm", placeholder: "email@example.com" %>
+        </div>
+        <div>
+          <%= f.submit "送信", class: "w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-sky-400 hover:bg-sky-500" %>
+        </div>
+      <% end %>
+      <div class="mt-6 text-center">
+        <%= render "admin_accounts/shared/links" %>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

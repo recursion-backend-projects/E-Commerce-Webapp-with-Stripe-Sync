@@ -32,6 +32,9 @@ class Admin::ProductsController < ApplicationController
         Stripe::Price.update(old_price.id, active: false)
       end
 
+      # 更新前のデータが表示される場合があるのでキャッシュを無効化する
+      expires_now
+
       redirect_to edit_admin_product_path @product
     else
       render :edit, status: :unprocessable_entity

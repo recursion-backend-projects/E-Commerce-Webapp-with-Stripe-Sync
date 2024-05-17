@@ -82,3 +82,8 @@ RSpecRails/InferredSpecType:
 # ロケールファイルへのエラーメッセージの強制を無効にする
 Rails/I18nLocaleTexts:
   Enabled: false
+# 未定義メソッドの警告を無効
+Rails/LexicallyScopedActionFilter:
+  Exclude:
+    - "app/controllers/admin_accounts/registrations_controller.rb"
+    - "app/controllers/customer_accounts/registrations_controller.rb"

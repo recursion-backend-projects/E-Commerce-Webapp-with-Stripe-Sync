@@ -2,8 +2,14 @@ ja:
   activerecord:
     models:
       admin_account: "管理者アカウント"
+      customer_account: "顧客アカウント"
     attributes:
       admin_account:
+        email: "メールアドレス"
+        password: "パスワード"
+        password_confirmation: "パスワード（確認）"
+        user_name: "ユーザー名"
+      customer_account:
         email: "メールアドレス"
         password: "パスワード"
         password_confirmation: "パスワード（確認）"
