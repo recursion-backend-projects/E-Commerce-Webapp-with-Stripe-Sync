@@ -68,6 +68,7 @@ jobs:
           cd src
           cp config/database.yml.ci config/database.yml
           bundle exec rails db:prepare
+          bundle exec rails db:seed
         env:
           RAILS_ENV: test
 
