@@ -88,12 +88,10 @@ jobs:
     needs: push_to_registry
     steps:
       - name: Deploy to Staging
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.STG_HOST_NAME }}
-          username: ${{ secrets.STG_USER_NAME }}
-          key: ${{ secrets.STG_PRIVATE_KEY }}
-          script: |
+        run: |
+          echo "${{ secrets.STG_PRIVATE_KEY }}" > private_key
+          chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -o ConnectTimeout=60 -i private_key ${{ secrets.STG_USER_NAME }}@${{ secrets.STG_HOST_NAME }} '
             cd /web
 
             # 既存のリポジトリフォルダを削除
@@ -124,5 +122,5 @@ jobs:
             docker pull artsa2/art-sa2-shop:web-latest
 
             # Docker Composeで新しいコンテナを起動
-            sudo docker compose up -d
+            sudo docker compose -f compose.prod.yml up -d
 
