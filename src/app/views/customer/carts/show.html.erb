@@ -35,29 +35,29 @@
                         </p>
                         <!-- 数量のセレクトボックス -->
                         <div class="flex max-w-sm items-center">
-                            <%= form_with url: update_cart_path do |f| %>
+                            <%= form_with url: update_cart_path, method: :patch do |f| %>
                                 <%= hidden_field_tag 'product_id', cart_item.id%>
                                 <%= label_tag 'quantity', '数量:', class: 'ml-1 block text-sm text-gray-900 md:text-lg'  %>
-                                <%= select_tag 'quantity', options_for_select((1..cart_item.stock).to_a.collect{ |n| [n, n] }, selected: @cart[cart_item.id.to_s]),{class: 'ml-2 block rounded-lg border border-gray-300 bg-gray-200 p-1 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500' }%>
-                            </div>
-                            <!-- TODO: デジタル、物理のテーブルを作成した時に実装する -->
-                            <p>デジタル商品</p>
-                            <p>¥<%= cart_item.price %></p>
+                                <%= select_tag 'quantity', options_for_select((1..cart_item.stock).to_a.collect{ |n| [n, n] }, selected: @cart[cart_item.id.to_s]),{class: 'ml-2 block rounded-lg border border-gray-300 bg-gray-200 p-1 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500', onchange: 'this.form.submit()', data: { turbo: false }  }%>
+                            <% end %>
                         </div>
-                        <!-- 購入と削除ボタン -->
-                        <div
+                        <!-- TODO: デジタル、物理のテーブルを作成した時に実装する -->
+                        <p>デジタル商品</p>
+                        <p>¥<%= cart_item.price %></p>
+                    </div>
+                    <!-- 購入と削除ボタン -->
+                    <div
                 class="flex w-full flex-col items-center justify-center space-y-2 pt-2 md:w-1/3 md:space-y-6 md:pt-0"
               >
-                            <button
+                        <button
                   type="button"
                   class="w-full rounded-full bg-yellow-400 p-3 text-sm hover:bg-yellow-500 lg:p-2 lg:text-base"
                 >
-                                ご購入手続きへ
-                            </button>
-                            <button
-                  type="button"
-                  class="flex w-full justify-center rounded-full border border-gray-300 bg-white p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-                >
+                            ご購入手続きへ
+                        </button>
+                        <%= form_with url: remove_from_cart_path, method: :delete, class: 'w-full' do |f| %>
+                            <%= hidden_field_tag 'product_id', cart_item.id%>
+                            <%= button_tag '削除', type: 'submit', data: { turbo: false }, class: 'flex w-full justify-center rounded-full border border-gray-300 bg-white p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700' do %>
                                 <svg
                     class="h-6 w-6"
                     aria-hidden="true"
@@ -74,9 +74,8 @@
                       stroke-width="2"
                       d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
                     />
-                                    </svg>
-                                    削除
-                                </button>
+                                    </svg>削除
+                                <% end%>
                             <% end %>
                         </div>
                     </div>
