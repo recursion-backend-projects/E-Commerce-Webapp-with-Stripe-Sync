@@ -31,17 +31,25 @@
           >
                 <div class="py-3">
                     <% if @product.stock > 0 %>
-                        <!-- 在庫がある場合 -->
-                        <!-- 数量のセレクトボックス -->
-                        <%= form_with url: add_to_cart_path do |f|%>
-                            <div class="flex max-w-sm items-center py-3">
-                                <%= hidden_field_tag 'product_id', @product.id %>
-                                <%= label_tag 'quantity', '数量:', class: 'ml-1 block text-lg text-gray-900'%>
-                                <%= select_tag 'quantity',options_for_select((1..@product.stock).to_a.collect{ |n| [n, n] }, selected: 1),{class: 'ml-2 block rounded-lg border border-gray-300 bg-gray-200 p-1 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500'} %>
-                            </div>
-                            <span class="text-xl">¥<%=  @product.price %></span>
-                            <div class="flex justify-center">
-                                <%= f.submit 'カートに入れる', class: 'my-2 w-3/4 rounded-full bg-emerald-400 py-2 hover:bg-emerald-500 hover:cursor-pointer' %>
+                        <% if @remaining_stock > 0 %>
+                            <!-- 在庫がある場合 -->
+                            <!-- 数量のセレクトボックス -->
+                            <%= form_with url: add_to_cart_path do |f|%>
+                                <div class="flex max-w-sm items-center py-3">
+                                    <%= hidden_field_tag 'product_id', @product.id %>
+                                    <%= label_tag 'quantity', '数量:', class: 'ml-1 block text-lg text-gray-900'%>
+                                    <%= select_tag 'quantity',options_for_select((1..(@remaining_stock)).to_a.collect{ |n| [n, n] }, selected: 1),{class: 'ml-2 block rounded-lg border border-gray-300 bg-gray-200 p-1 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500'} %>
+                                </div>
+                                <span class="text-xl">¥<%=  @product.price %></span>
+                                <div class="flex justify-center">
+                                    <%= f.submit 'カートに入れる', class: 'my-2 w-3/4 rounded-full bg-emerald-400 py-2 hover:bg-emerald-500 hover:cursor-pointer' %>
+                                </div>
+                            <% end %>
+                        <% else%>
+                            <!-- 在庫数の上限の数を既にカートに入れている場合 -->
+                            <span class="font-semibold text-red-600">在庫数の上限を既にカートに入れているため、これ以上追加できません。</span>
+                            <div class="flex justify-center mt-4">
+                                <button type="button" class="my-2 w-3/4 rounded-full bg-gray-300 py-2 text-center cursor-not-allowed opacity-50" disabled>カートに入れる</button>
                             </div>
                         <% end %>
                     <% else %>
