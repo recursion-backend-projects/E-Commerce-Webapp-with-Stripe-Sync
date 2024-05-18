@@ -10,4 +10,6 @@ class CustomerAccount < ApplicationRecord
   }, on: :create
 
   has_many :customers
+  has_many :wish_products, through: :customers
+  has_many :products, through: :wish_products
 end
