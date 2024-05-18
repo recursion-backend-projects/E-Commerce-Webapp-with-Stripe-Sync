@@ -1,5 +1,6 @@
 class Customer::CartsController < ApplicationController
   def show
+    @customer = true
     @cart = session[:cart] || {}
     p @cart
     @cart_items = []
@@ -26,5 +27,13 @@ class Customer::CartsController < ApplicationController
     product_id = params[:product_id]
     quantity = params[:quantity].to_i
     session[:cart][product_id] = quantity
+  end
+
+  def destroy
+    product_id = params[:product_id]
+    session[:cart][product_id]
+    session[:cart].delete(product_id)
+
+    redirect_to cart_path
   end
 end
