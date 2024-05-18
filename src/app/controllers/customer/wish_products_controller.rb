@@ -1,4 +1,4 @@
-class WishProductsController < ApplicationController
+class Customer::WishProductsController < ApplicationController
     before_action :authenticate_customer_account!
 
     def index

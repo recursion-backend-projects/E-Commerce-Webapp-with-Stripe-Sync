@@ -26,12 +26,19 @@ Rails.application.routes.draw do
 
   post 'stripe/webhook', to: 'stripe_webhooks#handler'
 
-  resources :customer_accounts, only: [] do
-    resources :wish_products, only: [:index]
+  namespace :admin do
+    resources :products, only: %i[index edit destroy update]
   end
 
 
-  namespace :admin do
-    resources :products, only: %i[index edit destroy update]
+  scope module: :customer do
+    resources :products, only: %i[show]
+    get 'cart', to: 'carts#show'
+    post 'add', to: 'carts#add', as: 'add_to_cart'
+    patch 'update', to: 'carts#update', as: 'update_cart'
+
+    resources :customer_accounts, only: [] do
+      resources :wish_products, only: [:index]
+    end
   end
 end
