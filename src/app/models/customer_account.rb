@@ -11,5 +11,5 @@ class CustomerAccount < ApplicationRecord
 
   has_many :customers
   has_many :wish_products, through: :customers
-  has_many :products, through: :wish_products
+  has_many :products, through: :wish_productss
 end
