@@ -1,12 +1,12 @@
 services:
   app:
     image: artsa2/art-sa2-shop:app-latest
-    volumes:
-      - ./:/E-Commerce-Webapp-with-Stripe-Sync
     environment:
       RAILS_ENV: production
       TZ: Asia/Tokyo
     user: root
+    env_file:
+      - .env
 
   web:
     image: artsa2/art-sa2-shop:web-latest

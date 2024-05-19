@@ -112,7 +112,7 @@ jobs:
         run: |
           # SSHのセキュリティグループを開放する
           aws ec2 authorize-security-group-ingress --group-id ${{ secrets.STG_EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
-
+          
           # SSH接続
           echo "${{ secrets.STG_PRIVATE_KEY }}" > private_key
           chmod 600 private_key
@@ -120,33 +120,31 @@ jobs:
             # 既存のリポジトリフォルダを削除
             if [ -d "/web/E-Commerce-Webapp-with-Stripe-Sync/src" ]; then
               cd /web/E-Commerce-Webapp-with-Stripe-Sync/src
+              
+              # 起動中のコンテナを停止させる
+              sudo docker stop $(sudo docker ps -q)
               sudo docker compose down
 
-              # 残っているコンテナとネットワークの強制削除
-              CONTAINERS=\$(docker ps -a -q)
-              if [ -n "\$CONTAINERS" ]; then
-                docker rm -f \$CONTAINERS
-              fi
-
-              NETWORKS=\$(docker network ls | grep 'src_default' | awk '{print \$1}')
-              if [ -n "\$NETWORKS" ]; then
-                docker network rm \$NETWORKS
-              fi
-
               cd /web
-              rm -rf /E-Commerce-Webapp-with-Stripe-Sync
+              sudo rm -rf /E-Commerce-Webapp-with-Stripe-Sync
             fi
 
              # GitHubから新たにリポジトリをクローン
              git clone --branch ${{ github.head_ref || github.ref }} git@github.com:recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync.git
 
-             # Docker Hubから最新イメージをpull
-             docker pull artsa2/art-sa2-shop:app-latest
-             docker pull artsa2/art-sa2-shop:web-latest
-
-             # Docker Composeで新しいコンテナを起動
              cd E-Commerce-Webapp-with-Stripe-Sync/src
-             sudo docker compose -f compose.prod.yml up -d
+
+             # 環境ファイルを作成する
+             touch .env
+             echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env
+             echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env
+             echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env
+             echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
+             echo "MYSQL_HOST=${{ secrets.MYSQL_HOST_STG }}" >> .env
+             echo "RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}" >> .env
+
+             # コンテナを起動する
+             sudo docker compose -f compose.prod.yml up --force-recreate -d
           EOF
           rm -f private_key
 

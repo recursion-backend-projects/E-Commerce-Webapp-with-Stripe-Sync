@@ -14,6 +14,9 @@ WORKDIR /E-Commerce-Webapp-with-Stripe-Sync
 # srcをE-Commerce-Webapp-with-Stripe-Syncにコピー
 COPY ./ /E-Commerce-Webapp-with-Stripe-Sync
 
+# 必要なディレクトリを作成
+RUN mkdir -p tmp/pids tmp/sockets
+
 # Bundlerを使用してGemをインストール
 RUN bundle install
 
