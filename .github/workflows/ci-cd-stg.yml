@@ -86,13 +86,35 @@ jobs:
   deploy-to-staging:
     runs-on: ubuntu-22.04
     needs: push_to_registry
-
     steps:
+      # IP取得ライブラリをインストール
+      - name: Public IP Install
+        id: ip
+        uses: haythem/public-ip@v1.3
+
+      # AWS CLIをインストールする
+      - name: AWS CLI install
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install --update
+          aws --version
+
+      # AWS CLIにキーを設定をする
+      - name: AWS set Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.STG_AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.STG_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-1
+
       - name: Deploy to Staging
         run: |
-          echo "${{ secrets.STG_PRIVATE_KEY }}" > private_key
-          chmod 600 private_key
-          ssh -tt -vvv -o StrictHostKeyChecking=no -o ConnectTimeout=600 -i private_key ${{ secrets.STG_USER_NAME }}@${{ secrets.STG_HOST_NAME }} << 'EOF'
+          # SSHのセキュリティグループを開放する
+          aws ec2 authorize-security-group-ingress --group-id ${{ secrets.STG_EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+
+          # SSH接続
+          ssh -vvv -oStrictHostKeyChecking=no ${{ secrets.STG_USER_NAME }}@${{ secrets.STG_HOST_NAME }} -i private_key << 'EOF'
             # 既存のリポジトリフォルダを削除
             if [ -d "/web/E-Commerce-Webapp-with-Stripe-Sync/src" ]; then
               cd /web/E-Commerce-Webapp-with-Stripe-Sync/src
@@ -113,15 +135,17 @@ jobs:
               rm -rf /E-Commerce-Webapp-with-Stripe-Sync
             fi
 
-            # GitHubから新たにリポジトリをクローン
-            git clone --branch ${{ github.head_ref || github.ref }} git@github.com:recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync.git
+             # GitHubから新たにリポジトリをクローン
+             git clone --branch ${{ github.head_ref || github.ref }} git@github.com:recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync.git
 
-            # Docker Hubから最新イメージをpull
-            docker pull artsa2/art-sa2-shop:app-latest
-            docker pull artsa2/art-sa2-shop:web-latest
+             # Docker Hubから最新イメージをpull
+             docker pull artsa2/art-sa2-shop:app-latest
+             docker pull artsa2/art-sa2-shop:web-latest
 
-            # Docker Composeで新しいコンテナを起動
-            cd E-Commerce-Webapp-with-Stripe-Sync/src
-            sudo docker compose -f compose.prod.yml up -d
+             # Docker Composeで新しいコンテナを起動
+             cd E-Commerce-Webapp-with-Stripe-Sync/src
+             sudo docker compose -f compose.prod.yml up -d
           EOF
-          rm -f private_key
+
+          # SSHのセキュリティグループを閉じる
+          aws ec2 revoke-security-group-ingress --group-id ${{ secrets.STG_EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
