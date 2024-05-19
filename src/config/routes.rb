@@ -32,9 +32,6 @@ Rails.application.routes.draw do
 
   scope module: :customer do
     resources :products, only: %i[show]
-    get 'cart', to: 'carts#show'
-    post 'add', to: 'carts#add', as: 'add_to_cart'
-    patch 'update', to: 'carts#update', as: 'update_cart'
-    delete 'destroy', to: 'carts#destroy', as: 'remove_from_cart'
+    resource :cart, only: %i[show create update destroy]
   end
 end
