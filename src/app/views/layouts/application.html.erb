@@ -21,6 +21,10 @@
             <%= yield %>
         </main>
 
-        <%= render "shared/footer" %>
+        <% if @admin %>
+            <%= render 'layouts/admin/footer' %>
+        <% elsif @customer %>
+            <%= render 'layouts/customer/footer' %>
+        <% end %>
     </body>
 </html>
