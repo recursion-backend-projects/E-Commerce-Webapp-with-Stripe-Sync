@@ -1,6 +1,8 @@
 services:
   app:
     image: artsa2/art-sa2-shop:app-latest
+    volumes:
+      - ./tmp/sockets:/E-Commerce-Webapp-with-Stripe-Sync/tmp/sockets
     environment:
       RAILS_ENV: production
       TZ: Asia/Tokyo

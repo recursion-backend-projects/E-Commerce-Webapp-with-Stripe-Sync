@@ -114,22 +114,22 @@ jobs:
           chmod 600 private_key
           ssh -oStrictHostKeyChecking=no ${{ secrets.STG_USER_NAME }}@${{ secrets.STG_HOST_NAME }} -i private_key << 'EOF'
             # 既存のリポジトリフォルダを削除
-            if [ -d "/web/E-Commerce-Webapp-with-Stripe-Sync/src" ]; then
-              cd /web/E-Commerce-Webapp-with-Stripe-Sync/src
+            if [ -d "~/web/E-Commerce-Webapp-with-Stripe-Sync/src" ]; then
+              cd ~/web/E-Commerce-Webapp-with-Stripe-Sync/src
               
               # 起動中のコンテナを停止させる
               sudo docker stop $(sudo docker ps -q)
               sudo docker compose down
 
-              cd /web
-              sudo rm -rf /E-Commerce-Webapp-with-Stripe-Sync
+              cd ~/web
+              sudo rm -rf ./E-Commerce-Webapp-with-Stripe-Sync
             fi
 
              # GitHubから新たにリポジトリをクローン
              
              git clone --branch ${{ github.head_ref }} git@github.com:recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync.git
 
-             cd E-Commerce-Webapp-with-Stripe-Sync/src
+             cd ./E-Commerce-Webapp-with-Stripe-Sync/src
 
              # 環境ファイルを作成する
              touch .env
@@ -139,6 +139,19 @@ jobs:
              echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
              echo "MYSQL_HOST=${{ secrets.MYSQL_HOST_STG }}" >> .env
              echo "RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}" >> .env
+
+             # Docker Hubから最新のイメージをpull
+             docker pull artsa2/art-sa2-shop:app-latest
+
+             # データコンテナを作成
+             docker create --name data_container artsa2/art-sa2-shop:app-latest
+
+             # コンテナからファイルをコピー
+             docker cp data_container:/E-Commerce-Webapp-with-Stripe-Sync/public ./public
+             docker cp data_container:/E-Commerce-Webapp-with-Stripe-Sync/tmp/sockets ./tmp/sockets
+
+             # データコンテナを削除
+             docker rm data_container
 
              # コンテナを起動する
              sudo docker compose -f compose.prod.yml up --force-recreate -d
