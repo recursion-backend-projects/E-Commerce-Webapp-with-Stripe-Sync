@@ -2,7 +2,6 @@ class Customer::CartsController < ApplicationController
   def show
     @customer = true
     @cart = session[:cart] || {}
-    p @cart
     @cart_items = []
     return if @cart.empty?
 
@@ -11,16 +10,21 @@ class Customer::CartsController < ApplicationController
     end
   end
 
-  def add
+  def create
     product_id = params[:product_id]
+    @product = Product.find(product_id.to_i)
     quantity = params[:quantity].to_i
     session[:cart] ||= {}
-    if session[:cart].key?(product_id)
-      session[:cart][product_id] += quantity
+    @product_count_in_cart = session[:cart]&.dig(product_id) || 0
+    @remaining_stock = @product.stock - @product_count_in_cart
+
+    if quantity > @remaining_stock
+      flash[:alert] = '在庫数を超える数量はカートに追加できません'
+      redirect_to @product
     else
-      session[:cart][product_id] = quantity
+      flash[:notice] = 'カートに追加しました'
+      add_or_update product_id, quantity
     end
-    redirect_to cart_path
   end
 
   def update
@@ -34,6 +38,17 @@ class Customer::CartsController < ApplicationController
     session[:cart][product_id]
     session[:cart].delete(product_id)
 
+    redirect_to cart_path
+  end
+
+  private
+
+  def add_or_update(product_id, quantity)
+    if session[:cart].key?(product_id)
+      session[:cart][product_id] += quantity
+    else
+      session[:cart][product_id] = quantity
+    end
     redirect_to cart_path
   end
 end
