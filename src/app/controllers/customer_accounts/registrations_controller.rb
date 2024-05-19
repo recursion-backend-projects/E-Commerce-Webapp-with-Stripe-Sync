@@ -26,6 +26,7 @@ class CustomerAccounts::RegistrationsController < Devise::RegistrationsControlle
             customer_account_id: resource.id,
             address_id: address.id
           )
+        end
       end
     end
   end
