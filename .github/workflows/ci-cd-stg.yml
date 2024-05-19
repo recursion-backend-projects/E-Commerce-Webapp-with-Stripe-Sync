@@ -116,7 +116,7 @@ jobs:
           # SSH接続
           echo "${{ secrets.STG_PRIVATE_KEY }}" > private_key
           chmod 600 private_key
-          ssh -vvv -oStrictHostKeyChecking=no ${{ secrets.STG_USER_NAME }}@${{ secrets.STG_HOST_NAME }} -i private_key << 'EOF'
+          ssh -oStrictHostKeyChecking=no ${{ secrets.STG_USER_NAME }}@${{ secrets.STG_HOST_NAME }} -i private_key << 'EOF'
             # 既存のリポジトリフォルダを削除
             if [ -d "/web/E-Commerce-Webapp-with-Stripe-Sync/src" ]; then
               cd /web/E-Commerce-Webapp-with-Stripe-Sync/src
@@ -130,7 +130,8 @@ jobs:
             fi
 
              # GitHubから新たにリポジトリをクローン
-             git clone --branch ${{ github.head_ref || github.ref }} git@github.com:recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync.git
+             
+             git clone --branch ${{ github.head_ref }} git@github.com:recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync.git
 
              cd E-Commerce-Webapp-with-Stripe-Sync/src
 
