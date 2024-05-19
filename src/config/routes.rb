@@ -38,7 +38,7 @@ Rails.application.routes.draw do
     patch 'update', to: 'carts#update', as: 'update_cart'
 
     resources :customer_accounts, only: [] do
-      resources :wish_products, only: [:index, :create]
+      resources :wish_products, only: [:index, :create, :destroy]
     end
   end
 end

@@ -17,6 +17,12 @@ class Customer::WishProductsController < ApplicationController
         end
     end
 
+    def destroy
+        @wish_product = WishProduct.find(params[:id])
+        @wish_product.delete
+        redirect_to customer_account_wish_products_path(@customer_account)
+    end
+
     def set_customer_account
         @customer_account = CustomerAccount.find_by(id: params[:customer_account_id])
     end
