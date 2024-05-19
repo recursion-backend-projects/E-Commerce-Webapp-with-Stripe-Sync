@@ -114,6 +114,8 @@ jobs:
           aws ec2 authorize-security-group-ingress --group-id ${{ secrets.STG_EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
 
           # SSH接続
+          echo "${{ secrets.STG_PRIVATE_KEY }}" > private_key
+          chmod 600 private_key
           ssh -vvv -oStrictHostKeyChecking=no ${{ secrets.STG_USER_NAME }}@${{ secrets.STG_HOST_NAME }} -i private_key << 'EOF'
             # 既存のリポジトリフォルダを削除
             if [ -d "/web/E-Commerce-Webapp-with-Stripe-Sync/src" ]; then
@@ -146,6 +148,7 @@ jobs:
              cd E-Commerce-Webapp-with-Stripe-Sync/src
              sudo docker compose -f compose.prod.yml up -d
           EOF
+          rm -f private_key
 
           # SSHのセキュリティグループを閉じる
           aws ec2 revoke-security-group-ingress --group-id ${{ secrets.STG_EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
