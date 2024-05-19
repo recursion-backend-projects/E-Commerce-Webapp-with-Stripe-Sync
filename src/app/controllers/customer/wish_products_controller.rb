@@ -3,6 +3,7 @@ class Customer::WishProductsController < ApplicationController
     before_action :set_is_my_wishlist, only: [:index]
 
     def index
+        @customer = true
         @wish_products = @customer_account.wish_products.includes(:product)
     end
 

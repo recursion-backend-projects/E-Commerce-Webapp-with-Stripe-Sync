@@ -1,384 +1,234 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>ウィッシュリスト</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  </head>
-  <body class="flex h-screen flex-col bg-gray-100">
-  <header class="antialiased shadow-lg">
-    <nav class="border-gray-200 bg-white px-4 py-3 md:px-6 dark:bg-gray-800">
-        <div class="flex flex-wrap items-center justify-between">
-        <div class="flex items-center justify-start">
-            <!-- アプリケーション名とロゴ -->
-            <a href="#" class="mr-4 flex items-center">
-            <img
-                src="https://flowbite.s3.amazonaws.com/logo.svg"
-                class="mr-3 h-10"
-                alt="FlowBite Logo"
-            />
-            <span class="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
-                Art-SA2
-            </span>
-            </a>
+<!-- ウィッシュリスト -->
+<div class="flex flex-col items-center pt-10 antialiased">
+  <div class="flex w-full flex-col space-y-6 py-6 md:w-4/5 lg:w-2/3">
+    <h1 class="py-2 text-center text-3xl font-bold md:text-start md:text-4xl text-gray-900 dark:text-white">
+      ウィッシュリスト
+    </h1>
 
-            <!-- 検索欄 -->
-            <form action="#" method="GET" class="hidden md:block md:pl-2">
-            <label for="topbar-search" class="sr-only">キーワードを検索</label>
-            <div class="relative mt-1 md:w-96">
-                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                <svg
-                    class="h-5 w-5 text-gray-500 dark:text-gray-400"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 20 20"
-                >
-                    <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                    />
-                </svg>
-                </div>
-                <input
-                type="text"
-                name="topbar-search"
-                id="topbar-search"
-                class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
-                placeholder="キーワードを検索"
-                />
-            </div>
-            </form>
+    <div class="flex justify-between px-6 items-center">
+      <!-- ウィッシュリストのアカウント名 -->
+      <div class="flex items-center gap-4">
+        <div class="relative h-10 w-10 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-600">
+          <svg
+            class="absolute h-12 w-12 text-gray-400"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
         </div>
-        <div class="flex items-center md:order-2">
-            <!-- レスポンシブ対応 モバイル画面サイズ時の検索欄 -->
+
+        <div class="font-medium dark:text-white">
+          <% if @is_my_wishlist %>
+            <div>あなたのウィッシュリスト</div>
+          <% else %>
+            <div><%= @customer_account.user_name %>さんのウィッシュリスト</div>
+          <% end %>
+        </div>
+      </div>
+
+      <a href="#" class="flex items-center text-sky-400 hover:text-orange-400 hover:underline">
+        <svg
+          class="h-6 w-6"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M13.213 9.787a3.391 3.391 0 0 0-4.795 0l-3.425 3.426a3.39 3.39 0 0 0 4.795 4.794l.321-.304m-.321-4.49a3.39 3.39 0 0 0 4.795 0l3.424-3.426a3.39 3.39 0 0 0-4.794-4.795l-1.028.961"
+          />
+        </svg>
+        <p>リンクの共有</p>
+      </a>
+    </div>
+
+    <% @wish_products.each do |wish_product| %>
+      <div class="mx-2 flex rounded-xl border border-gray-200 bg-white shadow-md p-3 md:p-6">
+        <!-- 商品画像 -->
+        <div class="flex w-1/2 items-center md:w-2/5 lg:w-1/3">
+          <img
+            src="https://plus.unsplash.com/premium_photo-1667925014062-42cf381d7273?q=80&w=3570&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            class="block h-full rounded-lg shadow-lg"
+            alt="商品画像"
+          />
+        </div>
+
+        <!-- 商品情報 -->
+        <div class="ml-4 flex w-1/2 flex-col justify-between md:w-full md:flex-row md:ml-6">
+          <div class="space-y-2 md:w-2/3">
+            <a href="#" class="text-lg font-semibold text-sky-500 hover:text-orange-400 hover:underline">
+              <%= wish_product.product.name %>
+            </a>
+            <p class="text-sm text-gray-700 dark:text-gray-300"><%= wish_product.product.creator %></p>
+            <p class="text-sm font-bold text-orange-500 lg:text-base">★★★★★</p>
+
+            <!-- 数量のセレクトボックス -->
+            <div class="flex items-center">
+              <label for="sort-select" class="ml-1 block text-sm text-gray-900 lg:text-base">数量 :</label>
+              <select
+                id="sort-select"
+                class="ml-2 block rounded-lg border border-gray-300 bg-gray-200 p-1 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+              >
+                <option selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+
+            <p class="text-sm text-gray-700 dark:text-gray-300">デジタル商品</p>
+            <p class="text-sm font-semibold text-gray-900 dark:text-gray-300">¥<%= wish_product.product.price %></p>
+          </div>
+
+          <!-- オプションボタン -->
+          <div class="flex flex-col items-center space-y-2 md:space-y-4 md:pt-0 md:w-1/3">
             <button
-            id="toggleSidebarMobileSearch"
-            type="button"
-            class="rounded-lg p-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 md:hidden dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
+              type="button"
+              class="w-full rounded-full bg-emerald-400 p-3 text-sm text-white hover:bg-emerald-500 lg:p-2 lg:text-base"
             >
-            <span class="sr-only">キーワードを検索</span>
-            <svg
-                class="h-5 w-5"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 20 20"
-            >
-                <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                />
-            </svg>
+              カートに入れる
             </button>
-
-            <!-- カートボタン -->
-                <svg
-                  class="h-6 w-6 text-gray-800 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"
-                  />
-                </svg>
-                <!-- カートに入ってる商品数(実際の値は、ユーザーがカートに入れた商品数で変化する) -->
-                <span class="font-bold text-orange-500">+26</span>
-
-                <!-- メニューボタン -->
+            <button
+              type="button"
+              class="w-full rounded-full bg-yellow-400 p-3 text-sm text-white hover:bg-yellow-500 lg:p-2 lg:text-base"
+            >
+              ご購入手続きへ
+            </button>
+            <% if @is_my_wishlist %>
+              <%= form_with(url: customer_account_wish_product_path(current_customer_account, wish_product), method: :delete, class: 'w-full') do %>
                 <button
-                  data-tooltip-target="menu-tooltip"
-                  data-tooltip-placement="bottom"
-                  data-dropdown-toggle="menuDropdown"
-                  aria-expanded="true"
-                  aria-controls="sidebar"
-                  class="ml-1 cursor-pointer rounded p-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 md:ml-3 md:inline dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
+                  type="submit"
+                  class="flex w-full justify-center rounded-full border border-gray-300 bg-white p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                 >
                   <svg
-                    class="h-5 w-5"
+                    class="h-6 w-6"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
                     fill="none"
-                    viewBox="0 0 16 12"
+                    viewBox="0 0 24 24"
                   >
                     <path
                       stroke="currentColor"
                       stroke-linecap="round"
                       stroke-linejoin="round"
                       stroke-width="2"
-                      d="M1 1h14M1 6h14M1 11h14M1"
+                      d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
                     />
                   </svg>
-
-                  <div
-                    id="menu-tooltip"
-                    role="tooltip"
-                    class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm dark:bg-gray-700"
-                  >
-                    メニュー
-                    <div class="tooltip-arrow" data-popper-arrow></div>
-                  </div>
+                  削除
                 </button>
-        </div>
-        </div>
-    </nav>
-</header>
-
-    <main class="flex-grow">
-      <!-- ウィッシュリスト -->
-      <div class="flex flex-col items-center pt-10 antialiased">
-        <div class="flex w-full flex-col space-y-6 py-6 md:w-4/5 lg:w-2/3">
-          <h1 class="py-2 text-center text-3xl font-bold md:text-start md:text-4xl text-gray-900 dark:text-white">
-            ウィッシュリスト
-          </h1>
-
-          <div class="flex justify-between px-6 items-center">
-            <!-- ウィッシュリストのアカウント名 -->
-            <div class="flex items-center gap-4">
-              <div class="relative h-10 w-10 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-600">
-                <svg
-                  class="absolute h-12 w-12 text-gray-400"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-              </div>
-
-              <div class="font-medium dark:text-white">
-                <div><%= @customer_account.user_name %>さんのウィッシュリスト</div>
-              </div>
-            </div>
-
-            <a href="#" class="flex items-center text-sky-400 hover:text-orange-400 hover:underline">
-              <svg
-                class="h-6 w-6"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M13.213 9.787a3.391 3.391 0 0 0-4.795 0l-3.425 3.426a3.39 3.39 0 0 0 4.795 4.794l.321-.304m-.321-4.49a3.39 3.39 0 0 0 4.795 0l3.424-3.426a3.39 3.39 0 0 0-4.794-4.795l-1.028.961"
-                />
-              </svg>
-              <p>リンクの共有</p>
-            </a>
+              <% end %>
+            <% end %>
           </div>
-
-          <% @wish_products.each do |wish_product| %>
-            <div class="mx-2 flex rounded-xl border border-gray-200 bg-white shadow-md p-3 md:p-6">
-              <!-- 商品画像 -->
-              <div class="flex w-1/2 items-center md:w-2/5 lg:w-1/3">
-                <img
-                  src="https://plus.unsplash.com/premium_photo-1667925014062-42cf381d7273?q=80&w=3570&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  class="block h-full rounded-lg shadow-lg"
-                  alt="商品画像"
-                />
-              </div>
-
-              <!-- 商品情報 -->
-              <div class="ml-4 flex w-1/2 flex-col justify-between md:w-full md:flex-row md:ml-6">
-                <div class="space-y-2 md:w-2/3">
-                  <a href="#" class="text-lg font-semibold text-sky-500 hover:text-orange-400 hover:underline">
-                    <%= wish_product.product.name %>
-                  </a>
-                  <p class="text-sm text-gray-700 dark:text-gray-300"><%= wish_product.product.creator %></p>
-                  <p class="text-sm font-bold text-orange-500 lg:text-base">★★★★★</p>
-
-                  <!-- 数量のセレクトボックス -->
-                  <div class="flex items-center">
-                    <label for="sort-select" class="ml-1 block text-sm text-gray-900 lg:text-base">数量 :</label>
-                    <select
-                      id="sort-select"
-                      class="ml-2 block rounded-lg border border-gray-300 bg-gray-200 p-1 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
-                    >
-                      <option selected>1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                    </select>
-                  </div>
-
-                  <p class="text-sm text-gray-700 dark:text-gray-300">デジタル商品</p>
-                  <p class="text-sm font-semibold text-gray-900 dark:text-gray-300">¥<%= wish_product.product.price %></p>
-                </div>
-
-                <!-- オプションボタン -->
-                <div class="flex flex-col items-center space-y-2 md:space-y-4 md:pt-0 md:w-1/3">
-                  <button
-                    type="button"
-                    class="w-full rounded-full bg-emerald-400 p-3 text-sm text-white hover:bg-emerald-500 lg:p-2 lg:text-base"
-                  >
-                    カートに入れる
-                  </button>
-                  <button
-                    type="button"
-                    class="w-full rounded-full bg-yellow-400 p-3 text-sm text-white hover:bg-yellow-500 lg:p-2 lg:text-base"
-                  >
-                    ご購入手続きへ
-                  </button>
-                  <% if @is_my_wishlist %>
-                    <%= form_with(url: customer_account_wish_product_path(current_customer_account, wish_product), method: :delete, class: 'w-full') do %>
-                      <button
-                        type="submit"
-                        class="flex w-full justify-center rounded-full border border-gray-300 bg-white p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-                      >
-                        <svg
-                          class="h-6 w-6"
-                          aria-hidden="true"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            stroke="currentColor"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
-                          />
-                        </svg>
-                        削除
-                      </button>
-                    <% end %>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-          <% end %>
         </div>
       </div>
+    <% end %>
+  </div>
+</div>
 
-      <!-- ページネーション -->
-      <div class="flex items-center justify-center py-6">
-        <nav aria-label="Page navigation">
-          <ul class="flex h-10 items-center -space-x-px text-base">
-            <li>
-              <a
-                href="#"
-                class="ms-0 flex h-10 items-center justify-center rounded-s-lg border border-e-0 border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                <span class="sr-only">前へ</span>
-                <svg
-                  class="h-3 w-3 rtl:rotate-180"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 6 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 1 1 5l4 4"
-                  />
-                </svg>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                aria-current="page"
-                class="z-10 flex h-10 items-center justify-center border border-blue-300 bg-blue-50 px-4 leading-tight text-blue-600 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-                >1</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                >2</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                >3</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                >4</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                >5</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex h-10 items-center justify-center rounded-e-lg border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                <span class="sr-only">次へ</span>
-                <svg
-                  class="h-3 w-3 rtl:rotate-180"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 6 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m1 9 4-4-4-4"
-                  />
-                </svg>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </main>
+<!-- ページネーション -->
+<div class="flex items-center justify-center py-6">
+  <nav aria-label="Page navigation">
+    <ul class="flex h-10 items-center -space-x-px text-base">
+      <li>
+        <a
+          href="#"
+          class="ms-0 flex h-10 items-center justify-center rounded-s-lg border border-e-0 border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+        >
+          <span class="sr-only">前へ</span>
+          <svg
+            class="h-3 w-3 rtl:rotate-180"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 6 10"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 1 1 5l4 4"
+            />
+          </svg>
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          aria-current="page"
+          class="z-10 flex h-10 items-center justify-center border border-blue-300 bg-blue-50 px-4 leading-tight text-blue-600 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
+          >1</a
+        >
+      </li>
+      <li>
+        <a
+          href="#"
+          class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          >2</a
+        >
+      </li>
+      <li>
+        <a
+          href="#"
+          class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          >3</a
+        >
+      </li>
+      <li>
+        <a
+          href="#"
+          class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          >4</a
+        >
+      </li>
+      <li>
+        <a
+          href="#"
+          class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          >5</a
+        >
+      </li>
+      <li>
+        <a
+          href="#"
+          class="flex h-10 items-center justify-center rounded-e-lg border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+        >
+          <span class="sr-only">次へ</span>
+          <svg
+            class="h-3 w-3 rtl:rotate-180"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 6 10"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m1 9 4-4-4-4"
+            />
+          </svg>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
 
-    <footer class="bg-black text-white">
-      <div class="flex flex-col items-center space-y-4 py-6">
-        <h3 class="text-lg font-bold md:text-xl">コーポレート</h3>
-        <a href="#" class="text-sm font-bold hover:underline md:text-base">お問い合わせ</a>
-      </div>
-      <div class="text-center py-3 border-gray-600">
-        <p>© 2024 Art-SA2</p>
-      </div>
-    </footer>
-  </body>
-</html>
