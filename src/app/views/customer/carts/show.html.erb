@@ -1,3 +1,14 @@
+<% if flash[:notice] %>
+    <div class="flex items-center p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+        <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+        </svg>
+        <span class="sr-only">Info</span>
+        <div>
+            <span class="font-medium"><%= flash[:notice] %></span>
+        </div>
+    </div>
+<% end %>
 <!-- カートリスト -->
 <div class="flex flex-col items-center pt-10 antialiased">
     <div class="flex w-full flex-col space-y-4 py-4 md:w-4/5 lg:w-1/2">
@@ -35,7 +46,7 @@
                         </p>
                         <!-- 数量のセレクトボックス -->
                         <div class="flex max-w-sm items-center">
-                            <%= form_with url: update_cart_path, method: :patch do |f| %>
+                            <%= form_with url: cart_path, method: :patch do |f| %>
                                 <%= hidden_field_tag 'product_id', cart_item.id%>
                                 <%= label_tag 'quantity', '数量:', class: 'ml-1 block text-sm text-gray-900 md:text-lg'  %>
                                 <%= select_tag 'quantity', options_for_select((1..cart_item.stock).to_a.collect{ |n| [n, n] }, selected: @cart[cart_item.id.to_s]),{class: 'ml-2 block rounded-lg border border-gray-300 bg-gray-200 p-1 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500', onchange: 'this.form.submit()', data: { turbo: false }  }%>
@@ -55,7 +66,7 @@
                 >
                             ご購入手続きへ
                         </button>
-                        <%= form_with url: remove_from_cart_path, method: :delete, class: 'w-full' do |f| %>
+                        <%= form_with url: cart_path, method: :delete, class: 'w-full' do |f| %>
                             <%= hidden_field_tag 'product_id', cart_item.id%>
                             <%= button_tag '削除', type: 'submit', data: { turbo: false }, class: 'flex w-full justify-center rounded-full border border-gray-300 bg-white p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700' do %>
                                 <svg
