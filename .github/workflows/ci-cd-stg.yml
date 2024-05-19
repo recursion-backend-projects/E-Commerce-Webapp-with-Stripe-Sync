@@ -1,12 +1,8 @@
 name: Publish Docker image and CD Staging
 run-name: ${{ github.actor }} is building a staging environment
 on:
-    push:
-        # 検証用コード
-        branches: [feature/#8_cicd]
-#     branches: [main]
-#   pull_request:
-#     branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   push_to_registry:
