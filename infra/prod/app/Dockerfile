@@ -20,6 +20,9 @@ RUN mkdir -p tmp/pids tmp/sockets
 # Bundlerを使用してGemをインストール
 RUN bundle install
 
+# CSSのビルド
+RUN yarn build:css
+
 # アセットプリコンパイルの実行(https://github.com/rails/rails/pull/46760)
 RUN SECRET_KEY_BASE_DUMMY=1 RAILS_ENV=production bundle exec rake assets:precompile
 
