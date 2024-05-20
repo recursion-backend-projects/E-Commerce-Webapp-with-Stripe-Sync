@@ -88,15 +88,12 @@
                                     </div>
                                 </button>
                                 <!-- カートボタン -->
-                                <a
-              href="#"
-              data-tooltip-target="cart-tooltip"
-              data-tooltip-placement="bottom"
-              data-dropdown-toggle="menuDropdown"
-              aria-expanded="true"
-              aria-controls="sidebar"
-              class="ml-1 cursor-pointer rounded p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:ml-3 md:inline"
-            >
+                                <%= link_to cart_path, 
+            data: { tooltip_target: 'cart-tooltip', 
+                    tooltip_placement: 'bottom', 
+                    dropdown_toggle: 'menuDropdown' }, 
+            aria: { expanded: 'true', controls: 'sidebar' }, 
+            class: 'ml-1 cursor-pointer rounded p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:ml-3 md:inline' do %>
                                     <div class="flex">
                                         <!-- カートアイコン -->
                                         <svg
@@ -117,7 +114,7 @@
                   />
                                             </svg>
                                             <!-- カートに入ってる商品数(実際の値は、ユーザーがカートに入れた商品数で変化する) -->
-                                            <span class="font-bold text-orange-500">+26</span>
+                                            <span class="font-bold text-orange-500">+<%= @cart_items_count %></span>
                                         </div>
                                         <div
                 id="cart-tooltip"
@@ -128,8 +125,9 @@
                                             <div class="tooltip-arrow" data-popper-arrow></div>
                                         </div>
                                     </a>
-                                    <!-- メニューボタン -->
-                                    <button
+                                <% end %>
+                                <!-- メニューボタン -->
+                                <button
               data-tooltip-target="menu-tooltip"
               data-tooltip-placement="bottom"
               data-dropdown-toggle="menuDropdown"
@@ -137,135 +135,135 @@
               aria-controls="sidebar"
               class="ml-1 cursor-pointer rounded p-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:ml-3 md:inline"
             >
-                                        <svg
+                                    <svg
                 class="size-5"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 16 12"
               >
-                                            <path
+                                        <path
                   stroke="currentColor"
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
                   d="M1 1h14M1 6h14M1 11h14M1"
                 />
-                                            </svg>
-                                            <div
+                                        </svg>
+                                        <div
                 id="menu-tooltip"
                 role="tooltip"
                 class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm dark:bg-gray-700"
               >
-                                                メニュー
-                                                <div class="tooltip-arrow" data-popper-arrow></div>
-                                            </div>
-                                        </button>
-                                        <!-- メニューのドロップダウンリスト -->
-                                        <div
+                                            メニュー
+                                            <div class="tooltip-arrow" data-popper-arrow></div>
+                                        </div>
+                                    </button>
+                                    <!-- メニューのドロップダウンリスト -->
+                                    <div
               id="menuDropdown"
               class="z-10 hidden w-44 divide-y divide-gray-100 rounded bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
             >
-                                            <ul
+                                        <ul
                 class="py-1 text-sm text-gray-800 dark:text-gray-200"
                 aria-labelledby="menuDropdownButton"
               >
-                                                <li>
-                                                    <a
+                                            <li>
+                                                <a
                     href="#"
                     class="block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                     >ホーム</a
                   >
-                                                </li>
-                                                <!-- ゲストユーザーの場合 -->
-                                                <li>
-                                                    <p
+                                            </li>
+                                            <!-- ゲストユーザーの場合 -->
+                                            <li>
+                                                <p
                     data-tooltip-target="wishlist-tooltip"
                     data-tooltip-placement="left"
                     class="block px-4 py-2 font-bold text-gray-300 dark:text-gray-400"
                   >
-                                                        ウィッシュリスト
-                                                    </p>
-                                                    <div
+                                                    ウィッシュリスト
+                                                </p>
+                                                <div
                     id="wishlist-tooltip"
                     role="tooltip"
                     class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm dark:bg-gray-700"
                   >
-                                                        ログインすると、ウィッシュリストを利用できます
-                                                        <div class="tooltip-arrow" data-popper-arrow></div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <p
+                                                    ログインすると、ウィッシュリストを利用できます
+                                                    <div class="tooltip-arrow" data-popper-arrow></div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <p
                     data-tooltip-target="favorite-tooltip"
                     data-tooltip-placement="left"
                     class="block px-4 py-2 font-bold text-gray-300 dark:text-gray-400"
                   >
-                                                        お気に入り
-                                                    </p>
-                                                    <div
+                                                    お気に入り
+                                                </p>
+                                                <div
                     id="favorite-tooltip"
                     role="tooltip"
                     class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm dark:bg-gray-700"
                   >
-                                                        ログインすると、お気に入りを利用できます
-                                                        <div class="tooltip-arrow" data-popper-arrow></div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <p
+                                                    ログインすると、お気に入りを利用できます
+                                                    <div class="tooltip-arrow" data-popper-arrow></div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <p
                     data-tooltip-target="chatlist-tooltip"
                     data-tooltip-placement="left"
                     class="block px-4 py-2 font-bold text-gray-300 dark:text-gray-400"
                   >
-                                                        チャット
-                                                    </p>
-                                                    <div
+                                                    チャット
+                                                </p>
+                                                <div
                     id="chatlist-tooltip"
                     role="tooltip"
                     class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm dark:bg-gray-700"
                   >
-                                                        ログインすると、チャットを利用できます
-                                                        <div class="tooltip-arrow" data-popper-arrow></div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <p
+                                                    ログインすると、チャットを利用できます
+                                                    <div class="tooltip-arrow" data-popper-arrow></div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <p
                     data-tooltip-target="purchase-history-tooltip"
                     data-tooltip-placement="left"
                     class="block px-4 py-2 font-bold text-gray-300 dark:text-gray-400"
                   >
-                                                        購入履歴
-                                                    </p>
-                                                    <div
+                                                    購入履歴
+                                                </p>
+                                                <div
                     id="purchase-history-tooltip"
                     role="tooltip"
                     class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm dark:bg-gray-700"
                   >
-                                                        ログインすると、購入履歴を利用できます
-                                                        <div class="tooltip-arrow" data-popper-arrow></div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <p
+                                                    ログインすると、購入履歴を利用できます
+                                                    <div class="tooltip-arrow" data-popper-arrow></div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <p
                     href="#"
                     data-tooltip-target="account-info-tooltip"
                     data-tooltip-placement="left"
                     class="block px-4 py-2 font-bold text-gray-300 dark:text-gray-400"
                   >
-                                                        アカウント情報
-                                                    </p>
-                                                    <div
+                                                    アカウント情報
+                                                </p>
+                                                <div
                     id="account-info-tooltip"
                     role="tooltip"
                     class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm dark:bg-gray-700"
                   >
-                                                        ログインすると、アカウント情報を利用できます
-                                                        <div class="tooltip-arrow" data-popper-arrow></div>
-                                                    </div>
-                                                </li>
-                                                <!-- ログインユーザーの場合 -->
-                                                <!-- <li>
+                                                    ログインすると、アカウント情報を利用できます
+                                                    <div class="tooltip-arrow" data-popper-arrow></div>
+                                                </div>
+                                            </li>
+                                            <!-- ログインユーザーの場合 -->
+                                            <!-- <li>
                   <a
                     href="#"
                     class="block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -300,107 +298,107 @@
                     >アカウント情報</a
                   >
                 </li> -->
-                                            </ul>
-                                            <div class="py-1">
-                                                <ul
+                                        </ul>
+                                        <div class="py-1">
+                                            <ul
                   class="py-1 text-sm text-gray-700 dark:text-gray-200"
                   aria-labelledby="menuDropdownButton"
                 >
-                                                    <!-- ゲストユーザーの場合 -->
-                                                    <li>
-                                                        <a
+                                                <!-- ゲストユーザーの場合 -->
+                                                <li>
+                                                    <a
                       href="#"
                       class="block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                       >アカウント作成</a
                     >
-                                                    </li>
-                                                    <li>
-                                                        <a
+                                                </li>
+                                                <li>
+                                                    <a
                       href="#"
                       class="block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                       >ログイン</a
                     >
-                                                    </li>
-                                                    <!-- ログインユーザーの場合 -->
-                                                    <!-- <li>
+                                                </li>
+                                                <!-- ログインユーザーの場合 -->
+                                                <!-- <li>
                     <a
                       href="#"
                       class="block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                       >ログアウト</a
                     >
                   </li> -->
-                                                </ul>
-                                            </div>
-                                            <div class="py-1">
-                                                <ul
+                                            </ul>
+                                        </div>
+                                        <div class="py-1">
+                                            <ul
                   class="py-1 text-sm text-gray-700 dark:text-gray-200"
                   aria-labelledby="menuDropdownButton"
                 >
-                                                    <li>
-                                                        <p
+                                                <li>
+                                                    <p
                       class="block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                     >
-                                                            カテゴリー
-                                                        </p>
-                                                    </li>
-                                                    <li>
-                                                        <a
+                                                        カテゴリー
+                                                    </p>
+                                                </li>
+                                                <li>
+                                                    <a
                       href="#"
                       class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                       >絵画</a
                     >
-                                                    </li>
-                                                    <li>
-                                                        <a
+                                                </li>
+                                                <li>
+                                                    <a
                       href="#"
                       class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                       >彫刻</a
                     >
-                                                    </li>
-                                                    <li>
-                                                        <a
+                                                </li>
+                                                <li>
+                                                    <a
                       href="#"
                       class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                       >写真</a
                     >
-                                                    </li>
-                                                    <li>
-                                                        <a
+                                                </li>
+                                                <li>
+                                                    <a
                       href="#"
                       class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                       >イラスト</a
                     >
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- ログインしているアカウント名(ログインしていない場合は、ゲストユーザー) -->
-                                <div class="flex items-center gap-4 pb-1 pt-4">
-                                    <!-- デフォルトアバターアイコン -->
-                                    <div
+                            </div>
+                            <!-- ログインしているアカウント名(ログインしていない場合は、ゲストユーザー) -->
+                            <div class="flex items-center gap-4 pb-1 pt-4">
+                                <!-- デフォルトアバターアイコン -->
+                                <div
             class="relative size-8 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-600"
           >
-                                        <svg
+                                    <svg
               class="absolute -left-1 size-12 text-gray-400"
               fill="currentColor"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
-                                            <path
+                                        <path
                 fill-rule="evenodd"
                 d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
                 clip-rule="evenodd"
               ></path>
-                                        </svg>
-                                    </div>
-                                    <div class="font-medium dark:text-white">
-                                        <!-- ゲストユーザーの場合 -->
-                                        <div>ゲストユーザー</div>
-                                        <!-- ログインユーザーの場合 -->
-                                        <!-- <div>UserAさん</div> -->
-                                    </div>
+                                    </svg>
                                 </div>
-                            </nav>
-                        </header>
+                                <div class="font-medium dark:text-white">
+                                    <!-- ゲストユーザーの場合 -->
+                                    <div>ゲストユーザー</div>
+                                    <!-- ログインユーザーの場合 -->
+                                    <!-- <div>UserAさん</div> -->
+                                </div>
+                            </div>
+                        </nav>
+                    </header>
