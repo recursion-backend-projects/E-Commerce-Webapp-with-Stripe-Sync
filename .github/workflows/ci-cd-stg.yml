@@ -141,17 +141,17 @@ jobs:
              echo "RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}" >> .env
 
              # Docker Hubから最新のイメージをpull
-             docker pull artsa2/art-sa2-shop:app-latest
+             sudo docker pull artsa2/art-sa2-shop:app-latest
 
              # データコンテナを作成
-             docker create --name data_container artsa2/art-sa2-shop:app-latest
+             sudo docker create --name data_container artsa2/art-sa2-shop:app-latest
 
              # コンテナからファイルをコピー
-             docker cp data_container:/E-Commerce-Webapp-with-Stripe-Sync/public ./public
-             docker cp data_container:/E-Commerce-Webapp-with-Stripe-Sync/tmp/sockets ./tmp/sockets
+             sudo docker cp data_container:/E-Commerce-Webapp-with-Stripe-Sync/public ./public
+             sudo docker cp data_container:/E-Commerce-Webapp-with-Stripe-Sync/tmp/sockets ./tmp/sockets
 
              # データコンテナを削除
-             docker rm data_container
+             sudo docker rm data_container
 
              # コンテナを起動する
              sudo docker compose -f compose.prod.yml up --force-recreate -d
