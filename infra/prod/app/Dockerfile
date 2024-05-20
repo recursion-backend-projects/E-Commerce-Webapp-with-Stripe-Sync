@@ -23,7 +23,8 @@ RUN bundle install
 # TailwindCSSのインストール
 RUN yarn add tailwindcss
 
-# CSSのビルド
+# JavaScriptとCSSのビルド
+RUN yarn build
 RUN yarn build:css
 
 # アセットプリコンパイルの実行(https://github.com/rails/rails/pull/46760)
