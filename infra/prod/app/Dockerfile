@@ -20,6 +20,9 @@ RUN mkdir -p tmp/pids tmp/sockets
 # Bundlerを使用してGemをインストール
 RUN bundle install
 
+# TailwindCSSのインストール
+RUN yarn add tailwindcss
+
 # CSSのビルド
 RUN yarn build:css
 
