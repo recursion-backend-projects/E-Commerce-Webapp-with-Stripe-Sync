@@ -14,9 +14,11 @@ jobs:
       attestations: write
       id-token: write
     steps:
-      # リポジトリからコードをチェックアウト
-      - name: Check out the repo
+      # リポジトリからプルリクエストの最新コミットをチェックアウト
+      - name: Check out the pull request HEAD commit
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       # Docker Hubへログイン
       - name: Log in to Docker Hub
@@ -126,7 +128,6 @@ jobs:
             fi
 
              # GitHubから新たにリポジトリをクローン
-             
              git clone --branch ${{ github.head_ref }} git@github.com:recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync.git
 
              cd ./E-Commerce-Webapp-with-Stripe-Sync/src
