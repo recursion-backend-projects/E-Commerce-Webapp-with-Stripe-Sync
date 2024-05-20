@@ -141,19 +141,6 @@ jobs:
              echo "MYSQL_HOST=${{ secrets.MYSQL_HOST_STG }}" >> .env
              echo "RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}" >> .env
 
-             # Docker Hubから最新のイメージをpull
-             sudo docker pull artsa2/art-sa2-shop:app-latest
-
-             # データコンテナを作成
-             sudo docker create --name data_container artsa2/art-sa2-shop:app-latest
-
-             # コンテナからファイルをコピー
-             sudo docker cp data_container:/E-Commerce-Webapp-with-Stripe-Sync/public/assets ./public/assets
-             sudo docker cp data_container:/E-Commerce-Webapp-with-Stripe-Sync/tmp/sockets/puma.sock ./tmp/sockets/puma.sock
-
-             # データコンテナを削除
-             sudo docker rm data_container
-
              # コンテナを起動する
              sudo docker compose -f compose.prod.yml up --force-recreate -d
           EOF
