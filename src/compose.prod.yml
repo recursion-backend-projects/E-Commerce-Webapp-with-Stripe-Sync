@@ -2,7 +2,7 @@ services:
   app:
     image: artsa2/art-sa2-shop:app-latest
     volumes:
-      - ./tmp/sockets:/E-Commerce-Webapp-with-Stripe-Sync/tmp/sockets
+      - ./tmp/sockets/puma.sock:/E-Commerce-Webapp-with-Stripe-Sync/tmp/sockets/puma.sock
     environment:
       RAILS_ENV: production
       TZ: Asia/Tokyo
@@ -17,7 +17,7 @@ services:
     volumes:
       - ../infra/prod/web/default.conf:/etc/nginx/conf.d/default.conf
       - ./public:/E-Commerce-Webapp-with-Stripe-Sync/public
-      - ./tmp:/E-Commerce-Webapp-with-Stripe-Sync/tmp
+      - ./tmp/sockets/puma.sock:/E-Commerce-Webapp-with-Stripe-Sync/tmp/sockets/puma.sock
 
   https-portal:
     image: steveltn/https-portal:1

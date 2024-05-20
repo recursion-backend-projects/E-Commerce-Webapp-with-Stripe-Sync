@@ -115,7 +115,6 @@ jobs:
           echo "${{ secrets.STG_PRIVATE_KEY }}" > private_key
           chmod 600 private_key
           ssh -oStrictHostKeyChecking=no ${{ secrets.STG_USER_NAME }}@${{ secrets.STG_HOST_NAME }} -i private_key << 'EOF'
-            # 既存のリポジトリフォルダを削除
             if [ -d "~/web/E-Commerce-Webapp-with-Stripe-Sync/src" ]; then
               cd ~/web/E-Commerce-Webapp-with-Stripe-Sync/src
               
@@ -123,11 +122,12 @@ jobs:
               sudo docker stop $(sudo docker ps -q)
               sudo docker compose down
 
-              cd ~/web
-              sudo rm -rf ./E-Commerce-Webapp-with-Stripe-Sync
+              # 既存のリポジトリフォルダを削除
+              sudo rm -rf ~/web/E-Commerce-Webapp-with-Stripe-Sync
             fi
 
              # GitHubから新たにリポジトリをクローン
+             cd ~/web
              git clone --branch ${{ github.head_ref }} git@github.com:recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync.git
 
              cd ./E-Commerce-Webapp-with-Stripe-Sync/src
@@ -148,8 +148,8 @@ jobs:
              sudo docker create --name data_container artsa2/art-sa2-shop:app-latest
 
              # コンテナからファイルをコピー
-             sudo docker cp data_container:/E-Commerce-Webapp-with-Stripe-Sync/public ./public
-             sudo docker cp data_container:/E-Commerce-Webapp-with-Stripe-Sync/tmp/sockets ./tmp/sockets
+             sudo docker cp data_container:/E-Commerce-Webapp-with-Stripe-Sync/public/assets ./public/assets
+             sudo docker cp data_container:/E-Commerce-Webapp-with-Stripe-Sync/tmp/sockets/puma.sock ./tmp/sockets/puma.sock
 
              # データコンテナを削除
              sudo docker rm data_container
