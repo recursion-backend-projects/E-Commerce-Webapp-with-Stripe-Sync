@@ -23,5 +23,11 @@ RUN bundle install
 # アセットプリコンパイルの実行(https://github.com/rails/rails/pull/46760)
 RUN SECRET_KEY_BASE_DUMMY=1 RAILS_ENV=production bundle exec rake assets:precompile
 
-# 起動コマンド
-CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
+# entrypoint.shをコピー
+COPY ./entrypoint.sh /usr/local/bin/
+
+# entrypoint.shを実行可能にする
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# エントリポイントを設定
+ENTRYPOINT ["entrypoint.sh"]
