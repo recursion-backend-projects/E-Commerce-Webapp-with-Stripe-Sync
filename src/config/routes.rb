@@ -16,29 +16,15 @@ Rails.application.routes.draw do
   }
 
   get 'up' => 'rails/health#show', as: :rails_health_check
-
   get 'sample', to: 'samples#index'
-
   get 'customer-test', to: 'customer_tests#index'
-
-  # Defines the root path route ("/")
-  # root "posts#index"
-
   post 'stripe/webhook', to: 'stripe_webhooks#handler'
 
+  # 管理者のルーティング
   namespace :admin do
     resources :products, only: %i[index edit destroy update]
   end
 
-
-  scope module: :customer do
-    resources :products, only: %i[show]
-    get 'cart', to: 'carts#show'
-    post 'add', to: 'carts#add', as: 'add_to_cart'
-    patch 'update', to: 'carts#update', as: 'update_cart'
-
-    resources :customer_accounts, only: [] do
-      resources :wish_products, only: [:index, :create, :destroy]
-    end
-  end
+  # カスタマーのルーティング
+  draw :customer_routes
 end

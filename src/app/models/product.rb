@@ -8,6 +8,6 @@ class Product < ApplicationRecord
     validates :description
   end
 
-  has_many :wish_products
+  has_many :wish_products, dependent: :destroy
   has_many :customers, through: :wish_products
 end
