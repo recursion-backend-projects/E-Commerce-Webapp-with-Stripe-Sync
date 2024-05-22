@@ -115,7 +115,7 @@ jobs:
           echo "${{ secrets.STG_PRIVATE_KEY }}" > private_key
           chmod 600 private_key
           ssh -oStrictHostKeyChecking=no ${{ secrets.STG_USER_NAME }}@${{ secrets.STG_HOST_NAME }} -i private_key << 'EOF'
-            if [ -d "~/web/E-Commerce-Webapp-with-Stripe-Sync/src" ]; then
+            if [ -d ~/web/E-Commerce-Webapp-with-Stripe-Sync/src ]; then
               cd ~/web/E-Commerce-Webapp-with-Stripe-Sync/src
               
               # 起動中のコンテナを停止させる
