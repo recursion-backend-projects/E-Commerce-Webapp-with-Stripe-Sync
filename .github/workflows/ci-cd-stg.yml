@@ -61,20 +61,20 @@ jobs:
           tags: artsa2/art-sa2-shop:web-latest
           labels: ${{ steps.meta-web.outputs.labels }}
 
-      # ビルドプロセスの認証情報生成
-      - name: Generate artifact attestation App
-        uses: actions/attest-build-provenance@v1
-        with:
-           subject-name: docker.io/artsa2/art-sa2-shop # 認証情報を生成する対象の名前
-           subject-digest: ${{ steps.push-app.outputs.digest }} # 前のステップで生成されたイメージのダイジェストを使用する
-           push-to-registry: true
+      # ビルドプロセスの認証情報生成(ステージングでは、イメージが頻繁に更新されるため、対象外とする)
+      # - name: Generate artifact attestation App
+      #   uses: actions/attest-build-provenance@v1
+      #   with:
+      #      subject-name: docker.io/artsa2/art-sa2-shop # 認証情報を生成する対象の名前
+      #      subject-digest: ${{ steps.push-app.outputs.digest }} # 前のステップで生成されたイメージのダイジェストを使用する
+      #      push-to-registry: true
 
-      - name: Generate artifact attestation Web
-        uses: actions/attest-build-provenance@v1
-        with:
-          subject-name: docker.io/artsa2/art-sa2-shop
-          subject-digest: ${{ steps.push-web.outputs.digest }}
-          push-to-registry: true
+      # - name: Generate artifact attestation Web
+      #   uses: actions/attest-build-provenance@v1
+      #   with:
+      #     subject-name: docker.io/artsa2/art-sa2-shop
+      #     subject-digest: ${{ steps.push-web.outputs.digest }}
+      #     push-to-registry: true
 
       # Docker イメージのビルドおよびプッシュが成功した場合、メッセージをログに出力する
       - name: Post build actions
