@@ -20,12 +20,6 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
-      # 検証用コード
-      - name: Verify checked out commit
-        run: |
-          echo "Checked out commit:"
-          git log -1
-
       # Docker Hubへログイン
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
@@ -56,7 +50,6 @@ jobs:
           push: true
           tags: artsa2/art-sa2-shop:app-latest
           labels: ${{ steps.meta-app.outputs.labels }}
-          no-cache: true
 
       - name: Build and push Docker image Web
         id: push-web
@@ -67,7 +60,6 @@ jobs:
           push: true
           tags: artsa2/art-sa2-shop:web-latest
           labels: ${{ steps.meta-web.outputs.labels }}
-          no-cache: true
 
       # ビルドプロセスの認証情報生成
       - name: Generate artifact attestation App
@@ -129,6 +121,9 @@ jobs:
               # 起動中のコンテナを停止させる
               sudo docker stop $(sudo docker ps -q)
               sudo docker compose down
+
+              # 未使用のイメージ、コンテナ、ネットワーク、ボリュームを削除
+              sudo docker system prune -a -f
 
               # 既存のリポジトリフォルダを削除
               sudo rm -rf ~/web/E-Commerce-Webapp-with-Stripe-Sync
