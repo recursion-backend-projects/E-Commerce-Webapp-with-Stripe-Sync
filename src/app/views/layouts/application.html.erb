@@ -14,6 +14,8 @@
         <!-- TODO: ヘルパーメソッドを使ったほうが良いかも -->
         <% if @admin %>
             <%= render 'layouts/admin/navbar' %>
+        <% elsif @customer %>
+            <%= render 'layouts/customer/navbar' %>
         <% end %>
         <main class="">
             <%= yield %>

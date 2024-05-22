@@ -29,4 +29,9 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :products, only: %i[index edit destroy update]
   end
+
+  scope module: :customer do
+    resources :products, only: %i[show]
+    resource :cart, only: %i[show create update destroy]
+  end
 end
