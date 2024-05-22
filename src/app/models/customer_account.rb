@@ -9,5 +9,5 @@ class CustomerAccount < ApplicationRecord
     with: /\A(?=.*?[a-z])(?=.*?[\d])[a-z\d]+\z/i
   }, on: :create
 
-  has_one :customer, foreign_key: :customer_account_id, dependent: :destroy
+  has_one :customer, dependent: :destroy
 end
