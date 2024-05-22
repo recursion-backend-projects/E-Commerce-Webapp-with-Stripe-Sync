@@ -16,6 +16,7 @@ class CustomerAccounts::SessionsController < Devise::SessionsController
   # DELETE /resource/sign_out
   def destroy
     super do
+      reset_session # セッションをリセットして、すべてのセッションデータをクリア
       flash.clear
     end
   end
