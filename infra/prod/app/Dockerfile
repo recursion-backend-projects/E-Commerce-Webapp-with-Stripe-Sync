@@ -21,7 +21,7 @@ RUN bundle install
 RUN yarn add -D tailwindcss
 
 # entrypoint.shをコピー
-COPY ./bin/docker-prod-entrypoint.sh /usr/local/bin/
+COPY ./src/bin/docker-prod-entrypoint.sh /usr/local/bin/
 
 # entrypoint.shを実行可能にする
 RUN chmod +x /usr/local/bin/docker-prod-entrypoint.sh
