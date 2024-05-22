@@ -35,7 +35,7 @@
         </div>
       </div>
 
-      <a id="share-link" href="#" data-url="<%= request.original_url %>" class="flex items-center text-sky-400 hover:text-orange-400 hover:underline">
+      <button id="share-link" data-url="<%= request.original_url %>" class="flex items-center text-sky-400 hover:text-orange-400 hover:underline bg-transparent border-none p-0 cursor-pointer">
         <svg
           class="h-6 w-6"
           aria-hidden="true"
@@ -54,7 +54,7 @@
           />
         </svg>
         <p>リンクの共有</p>
-      </a>
+      </button>
     </div>
 
     <% if @wish_products.any? %>
@@ -150,11 +150,7 @@
   </div>
 </div>
 
-
-
-
 <!-- ページネーション -->
 <%= render 'layouts/pagenation' %>
 
 <%= javascript_include_tag "clipboard", "data-turbo-track": "reload", type: "module" %>
-
