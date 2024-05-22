@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :wish_product do
-    customer
-    product
+    association :customer
+    association :product
   end
 end
+

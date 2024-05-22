@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :customer do
-    customer_account
-    address
+    association :customer_account
+    association :address
   end
 end

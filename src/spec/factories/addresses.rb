@@ -1,9 +1,11 @@
 FactoryBot.define do
-  factory :address do
-    zip_code { Faker::Address.zip_code }
-    state { Faker::Address.state }
-    city { Faker::Address.city }
-    street_address { Faker::Address.street_address }
-    street_address_2 { Faker::Address.secondary_address }
+    factory :address do
+      zip_code { "12345" }
+      state { "TestState" }
+      city { "TestCity" }
+      street_address { "TestStreet" }
+      street_address_2 { "TestStreet2" }
+      association :addressable, factory: :customer_account
+    end
   end
-end
+  
