@@ -1,4 +1,4 @@
 class Address < ApplicationRecord
-  has_many :customer, dependent: :destroy
-  has_many :admin, dependent: :destroy
+  belongs_to :customer, optional: true
+  belongs_to :admin, optional: true
 end

@@ -30,7 +30,7 @@
           <% if @is_my_wishlist %>
             <div>あなたのウィッシュリスト</div>
           <% else %>
-            <div><%= @customer_account.user_name %>さんのウィッシュリスト</div>
+            <div><%= @customer.customer_account.user_name %>さんのウィッシュリスト</div>
           <% end %>
         </div>
       </div>

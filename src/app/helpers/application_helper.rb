@@ -1,6 +1,8 @@
 module ApplicationHelper
   def wishlist_button(product, current_customer_account)
-    already_in_wishlist = current_customer_account.wish_products.exists?(product_id: product.id)
+    customer = current_customer_account.customer
+    # 既にウィッシュリストに商品が存在するかチェック
+    already_in_wishlist = customer.wish_products.exists?(product_id: product.id)
     if already_in_wishlist
       content_tag(:div, class: 'my-2 md:mx-6 md:w-1/3') do
         button_tag(type: 'button', class: 'rounded-xl border border-gray-300 bg-gray-200 px-6 py-2 text-gray-500 cursor-not-allowed w-full',

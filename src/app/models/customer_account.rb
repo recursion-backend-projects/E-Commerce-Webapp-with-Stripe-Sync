@@ -9,7 +9,5 @@ class CustomerAccount < ApplicationRecord
     with: /\A(?=.*?[a-z])(?=.*?[\d])[a-z\d]+\z/i
   }, on: :create
 
-  has_many :customers, dependent: :destroy
-  has_many :wish_products, through: :customers
-  has_many :products, through: :wish_productss
+  has_one :customer, foreign_key: :customer_account_id, dependent: :destroy
 end
