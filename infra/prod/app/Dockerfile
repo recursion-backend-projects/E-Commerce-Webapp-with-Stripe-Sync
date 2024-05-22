@@ -17,6 +17,9 @@ COPY ./ /E-Commerce-Webapp-with-Stripe-Sync
 # Bundlerを使用してGemをインストール
 RUN bundle install
 
+# TailwindCSSのインストール
+RUN yarn add tailwindcss
+
 # entrypoint.shをコピー
 COPY ./bin/docker-prod-entrypoint.sh /usr/local/bin/
 
