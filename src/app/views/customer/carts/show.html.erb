@@ -99,7 +99,7 @@
                                     <dd class="text-base font-bold text-gray-900 dark:text-white">¥<%= @total %></dd>
                                 </dl>
                             </div>
-                            <a href="#" class="flex w-full items-center justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">レジに進む</a>
+                            <%= button_to 'レジに進む', checkouts_path, data: { turbo: false }, class: 'flex w-full items-center justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' %>
                         </div>
                     </div>
                 <% end %>
