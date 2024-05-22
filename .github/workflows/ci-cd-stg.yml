@@ -124,6 +124,7 @@ jobs:
 
               # 未使用のイメージ、コンテナ、ネットワーク、ボリュームを削除
               sudo docker system prune -af
+              sudo docker volume rm $(docker volume ls -q)
 
               # 既存のリポジトリフォルダを削除
               sudo rm -rf ~/web/E-Commerce-Webapp-with-Stripe-Sync
