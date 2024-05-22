@@ -18,7 +18,7 @@ COPY ./ /E-Commerce-Webapp-with-Stripe-Sync
 RUN bundle install
 
 # TailwindCSSのインストール
-RUN yarn add tailwindcss
+RUN yarn add -D tailwindcss
 
 # entrypoint.shをコピー
 COPY ./bin/docker-prod-entrypoint.sh /usr/local/bin/
@@ -27,4 +27,4 @@ COPY ./bin/docker-prod-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-prod-entrypoint.sh
 
 # エントリポイントを設定
-ENTRYPOINT ["docker-prod-entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/docker-prod-entrypoint.sh"]
