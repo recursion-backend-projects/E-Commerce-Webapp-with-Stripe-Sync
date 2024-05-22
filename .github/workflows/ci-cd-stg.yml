@@ -51,7 +51,7 @@ jobs:
         id: push-app
         uses: docker/build-push-action@v5
         with:
-          context: ./src
+          context: .
           file: ./infra/prod/app/Dockerfile
           push: true
           tags: artsa2/art-sa2-shop:app-latest
