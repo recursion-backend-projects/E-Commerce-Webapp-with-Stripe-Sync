@@ -123,7 +123,7 @@ jobs:
               sudo docker compose down
 
               # 未使用のイメージ、コンテナ、ネットワーク、ボリュームを削除
-              sudo docker system prune -a -f
+              sudo docker system prune -af
 
               # 既存のリポジトリフォルダを削除
               sudo rm -rf ~/web/E-Commerce-Webapp-with-Stripe-Sync
@@ -145,7 +145,7 @@ jobs:
              echo "RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}" >> .env
 
              # コンテナを起動する
-             sudo docker compose -f compose.prod.yml up --force-recreate -d
+             sudo docker compose -f compose.prod.yml up -d
           EOF
           rm -f private_key
 
