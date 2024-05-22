@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# 必要なディレクトリを作成
+mkdir -p tmp/pids tmp/sockets
+
 # JavaScriptのビルド
 yarn build
 
