@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Customer, type: :model do
   let(:customer_account) { create(:customer_account) }
   let(:address) { create(:address, addressable: customer_account) }
-  let(:customer) { create(:customer, customer_account: customer_account, address: address) }
+  let(:customer) { create(:customer, customer_account:, address:) }
 
   describe 'Associations' do
     it 'belongs to a customer_account' do

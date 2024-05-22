@@ -18,7 +18,7 @@ class CustomerAccounts::RegistrationsController < Devise::RegistrationsControlle
         if address.persisted?
           Customer.create(
             customer_account: resource,
-            address: address
+            address:
           )
         end
       end
