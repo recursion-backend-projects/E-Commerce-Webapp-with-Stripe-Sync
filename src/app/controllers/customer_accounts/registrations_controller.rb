@@ -13,13 +13,12 @@ class CustomerAccounts::RegistrationsController < Devise::RegistrationsControlle
   def create
     super do |resource|
       if resource.persisted?
-        address = Address.new
-        address.save
+        address = Address.create(addressable: resource)
 
         if address.persisted?
           Customer.create(
-            customer_account_id: resource.id,
-            address_id: address.id
+            customer_account: resource,
+            address: address
           )
         end
       end
