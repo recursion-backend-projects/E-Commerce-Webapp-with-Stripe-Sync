@@ -30,13 +30,13 @@ jobs:
       # メタデータ設定
       - name: Extract metadata (tags, labels) for App
         id: meta-app
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: artsa2/art-sa2-shop:app
 
       - name: Extract metadata (tags, labels) for Web
         id: meta-web
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: artsa2/art-sa2-shop:web
 
@@ -50,7 +50,6 @@ jobs:
           push: true
           tags: artsa2/art-sa2-shop:app-latest
           labels: ${{ steps.meta-app.outputs.labels }}
-          no-cache: true
 
       - name: Build and push Docker image Web
         id: push-web
@@ -61,7 +60,6 @@ jobs:
           push: true
           tags: artsa2/art-sa2-shop:web-latest
           labels: ${{ steps.meta-web.outputs.labels }}
-          no-cache: true
 
       # ビルドプロセスの認証情報生成
       - name: Generate artifact attestation App
@@ -102,7 +100,7 @@ jobs:
 
       # AWS CLIにキーを設定をする
       - name: AWS set Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.STG_AWS_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.STG_AWS_SECRET_ACCESS_KEY }}

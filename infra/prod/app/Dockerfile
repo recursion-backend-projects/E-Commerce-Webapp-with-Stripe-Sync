@@ -14,27 +14,14 @@ WORKDIR /E-Commerce-Webapp-with-Stripe-Sync
 # srcをE-Commerce-Webapp-with-Stripe-Syncにコピー
 COPY ./ /E-Commerce-Webapp-with-Stripe-Sync
 
-# 必要なディレクトリを作成
-RUN mkdir -p tmp/pids tmp/sockets
-
 # Bundlerを使用してGemをインストール
 RUN bundle install
 
-# TailwindCSSのインストール
-RUN yarn add tailwindcss
-
-# JavaScriptとCSSのビルド
-RUN yarn build
-RUN yarn build:css
-
-# アセットプリコンパイルの実行(https://github.com/rails/rails/pull/46760)
-RUN SECRET_KEY_BASE_DUMMY=1 RAILS_ENV=production bundle exec rake assets:precompile
-
 # entrypoint.shをコピー
-COPY ./entrypoint.sh /usr/local/bin/
+COPY ./bin/docker-prod-entrypoint.sh /usr/local/bin/
 
 # entrypoint.shを実行可能にする
-RUN chmod +x /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-prod-entrypoint.sh
 
 # エントリポイントを設定
-ENTRYPOINT ["entrypoint.sh"]
+ENTRYPOINT ["docker-prod-entrypoint.sh"]
