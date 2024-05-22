@@ -35,6 +35,7 @@
         </div>
       </div>
 
+      <% if @is_my_wishlist %>
       <button id="share-link" data-url="<%= request.original_url %>" class="flex items-center text-sky-400 hover:text-orange-400 hover:underline bg-transparent border-none p-0 cursor-pointer">
         <svg
           class="h-6 w-6"
@@ -55,6 +56,7 @@
         </svg>
         <p>リンクの共有</p>
       </button>
+      <% end%>
     </div>
 
     <% if @wish_products.any? %>
