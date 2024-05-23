@@ -1,8 +1,8 @@
-class StripeWebhooksController < ApplicationController
+class Webhooks::StripesController < ApplicationController
   # handler関数ではCSRFトークンの検証をスキップする
-  protect_from_forgery except: :handler
+  protect_from_forgery except: :create
 
-  def handler
+  def create
     payload = request.body.read
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
     endpoint_secret = Rails.application.credentials.dig(:stripe, :endpoint_secret)
@@ -10,6 +10,13 @@ class StripeWebhooksController < ApplicationController
     event = construct_stripe_event(payload, sig_header, endpoint_secret)
     return head :bad_request unless event
 
+    event_hundler event
+    head :ok
+  end
+
+  private
+
+  def event_hundler(event)
     # イベントのハンドリング
     case event.type
     when 'product.created'
@@ -21,14 +28,14 @@ class StripeWebhooksController < ApplicationController
     when 'product.deleted'
       delete_product(event.data.object.id)
 
+    # 決済が完了した後に実行したい関数をここに追加していく
+    when 'checkout.session.completed'
+      session = event.data.object
+      p session
     else
       logger.debug("Unhandled event type: #{event.type}")
     end
-
-    head :ok
   end
-
-  private
 
   def construct_stripe_event(payload, sig_header, endpoint_secret)
     Stripe::Webhook.construct_event(payload, sig_header, endpoint_secret)
