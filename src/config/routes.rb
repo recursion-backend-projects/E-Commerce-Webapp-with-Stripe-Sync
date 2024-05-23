@@ -24,8 +24,6 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
-  post 'stripe/webhook', to: 'stripe_webhooks#handler'
-
   namespace :admin do
     resources :products, only: %i[index edit destroy update]
   end
@@ -34,5 +32,10 @@ Rails.application.routes.draw do
     resources :products, only: %i[show]
     resource :cart, only: %i[show create update destroy]
     resources :checkouts, only: [:create]
+    get 'checkout/success', to: 'checkouts#success'
+  end
+
+  namespace :webhooks do
+    resource :stripe, only: [:create]
   end
 end
