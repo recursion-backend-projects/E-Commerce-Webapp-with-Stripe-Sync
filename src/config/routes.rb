@@ -24,14 +24,10 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :products, only: %i[index edit destroy update]
   end
-
   # カスタマーのルーティング
   scope module: :customer do
     resources :products, only: %i[show]
-    get 'cart', to: 'carts#show'
-    post 'add', to: 'carts#add', as: 'add_to_cart'
-    patch 'update', to: 'carts#update', as: 'update_cart'
-
+    resource :cart, only: %i[show create update destroy]
     resources :customer_accounts, only: [] do
       resources :wish_products, only: %i[index create destroy]
     end

@@ -33,18 +33,23 @@
           </div>
         </button>
         <!-- カートボタン -->
-        <a href="#" data-tooltip-target="cart-tooltip" data-tooltip-placement="bottom" data-dropdown-toggle="menuDropdown" aria-expanded="true" aria-controls="sidebar" class="ml-1 cursor-pointer rounded p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:ml-3 md:inline">
+        <%= link_to cart_path, 
+            data: { tooltip_target: 'cart-tooltip', 
+                    tooltip_placement: 'bottom', 
+                    dropdown_toggle: 'menuDropdown' }, 
+            aria: { expanded: 'true', controls: 'sidebar' }, 
+            class: 'ml-1 cursor-pointer rounded p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:ml-3 md:inline' do %>
           <div class="flex">
             <svg class="size-6 text-gray-800 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"/>
             </svg>
-            <span class="font-bold text-orange-500">+26</span>
+            <span class="font-bold text-orange-500">+<%= @cart_items_count %></span>
           </div>
           <div id="cart-tooltip" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm dark:bg-gray-700">
             カートリスト
             <div class="tooltip-arrow" data-popper-arrow></div>
           </div>
-        </a>
+        <% end %>
         <!-- メニューボタン -->
         <button data-tooltip-target="menu-tooltip" data-tooltip-placement="bottom" data-dropdown-toggle="menuDropdown" aria-expanded="true" aria-controls="sidebar" class="ml-1 cursor-pointer rounded p-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:ml-3 md:inline">
           <svg class="size-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
