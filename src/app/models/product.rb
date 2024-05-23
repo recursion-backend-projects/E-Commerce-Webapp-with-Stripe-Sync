@@ -7,4 +7,7 @@ class Product < ApplicationRecord
     validates :price, numericality: { only_integer: true }
     validates :description
   end
+
+  has_many :wish_products, dependent: :destroy
+  has_many :customers, through: :wish_products
 end

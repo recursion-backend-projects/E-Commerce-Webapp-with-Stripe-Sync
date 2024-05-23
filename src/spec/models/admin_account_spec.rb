@@ -60,16 +60,16 @@ RSpec.describe AdminAccount, type: :model do
 
     context 'with a duplicate email' do
       before do
-        create(:admin_account, email: 'admin@example.com')
+        create(:admin_account, email: 'admin12345@example.com')
       end
 
       it 'is not valid with a non-unique email' do
-        new_admin = build(:admin_account, email: 'admin@example.com')
+        new_admin = build(:admin_account, email: 'admin12345@example.com')
         expect(new_admin).not_to be_valid
       end
 
       it 'adds a correct error message for duplicate email' do
-        new_admin = build(:admin_account, email: 'admin@example.com')
+        new_admin = build(:admin_account, email: 'admin12345@example.com')
         new_admin.valid?
         expect(new_admin.errors[:email]).to include('はすでに存在します')
       end
