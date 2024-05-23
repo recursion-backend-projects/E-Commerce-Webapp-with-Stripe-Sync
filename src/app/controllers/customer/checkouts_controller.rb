@@ -4,11 +4,27 @@ class Customer::CheckoutsController < ApplicationController
     session = Stripe::Checkout::Session.create({
                                                  line_items:,
                                                  mode: 'payment',
-                                                 #  TODO: 支払いに成功・失敗した時に表示するページを準備する
-                                                 cancel_url: 'http://localhost:3000/cart',
-                                                 success_url: 'http://localhost:3000/cart'
+                                                 #  ユーザーがCheckoutで戻るボタンをクリックするとこのページにリダイレクトされるURL
+                                                 cancel_url: cart_url,
+                                                 #  決済が完了したときにリダイレクトされるURL
+                                                 success_url: 'http://localhost:3000/checkout/success?session_id={CHECKOUT_SESSION_ID}'
                                                })
     redirect_to session.url, allow_other_host: true
+  end
+
+  # 支払いが成功した時に表示するページを表示するアクション
+  def success
+    @customer = true
+
+    # 有効なsession_idのクエリじゃない場合はアラートを出す
+    begin
+      Stripe::Checkout::Session.retrieve(params[:session_id])
+    rescue Stripe::InvalidRequestError => e
+      logger.error(e)
+      # TODO: root_pathに変更する
+      redirect_to cart_path
+      flash[:alert] = '無効なページです'
+    end
   end
 
   private
