@@ -1,0 +1,18 @@
+<%= content_for :additional_js do %>
+    <%= javascript_include_tag 'https://js.stripe.com/v3/'%>
+<% end %>
+
+<!-- TODO: デジタル製品のみの場合は、住所入力の部分は隠す -->
+<div class="py-8 antialiased dark:bg-gray-900 md:py-16">
+    <div class="mx-auto max-w-screen-xl px-4 2xl:px-0 w-full lg:w-1/2">
+        <form id="address-form">
+            <h3 class="mb-2">住所</h3>
+            <div id="address-element">
+                <!-- Elements will create form elements here -->
+            </div>
+        </form>
+    </div>
+</div>
+<%= content_for :js do %>
+    <%= javascript_include_tag 'checkout'%>
+<% end %>
