@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_23_234426) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_24_133513) do
   create_table "addresses", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "zip_code"
     t.string "state"
@@ -81,6 +81,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_23_234426) do
     t.bigint "product_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["customer_id", "product_id"], name: "index_favorite_products_on_customer_id_and_product_id", unique: true
     t.index ["customer_id"], name: "index_favorite_products_on_customer_id"
     t.index ["product_id"], name: "index_favorite_products_on_product_id"
   end
