@@ -1,0 +1,135 @@
+<!-- Toast container -->
+<div id="toast-container" class="fixed bottom-5 right-5 flex flex-col gap-3"></div>
+
+<!-- お気に入りリスト -->
+<div class="flex flex-col items-center pt-10 antialiased">
+  <div class="flex w-full flex-col space-y-6 py-6 md:w-4/5 lg:w-2/3">
+    <h1 class="py-2 text-center text-3xl font-bold md:text-start md:text-4xl text-gray-900 dark:text-white">
+      お気に入りリスト
+    </h1>
+
+    <div class="flex justify-between px-6 items-center">
+      <!-- お気に入りリストのアカウント名 -->
+
+
+      <% if @is_my_favorite_list %>
+      <button id="share-link" data-url="<%= request.original_url %>" class="flex items-center text-sky-400 hover:text-orange-400 hover:underline bg-transparent border-none p-0 cursor-pointer">
+        <svg
+          class="h-6 w-6"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M13.213 9.787a3.391 3.391 0 0 0-4.795 0l-3.425 3.426a3.39 3.39 0 0 0 4.795 4.794l.321-.304m-.321-4.49a3.39 3.39 0 0 0 4.795 0l3.424-3.426a3.39 3.39 0 0 0-4.794-4.795l-1.028.961"
+          />
+        </svg>
+        <p>リンクの共有</p>
+      </button>
+      <% end%>
+    </div>
+
+    <% if @favorite_products.any? %>
+      <% @favorite_products.each do |favorite_product| %>
+        <div class="mx-2 flex rounded-xl border border-gray-200 bg-white shadow-md p-3 md:p-6">
+          <!-- 商品画像 -->
+          <div class="flex w-1/2 items-center md:w-2/5 lg:w-1/3">
+            <img
+              src="https://plus.unsplash.com/premium_photo-1667925014062-42cf381d7273?q=80&w=3570&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              class="block h-full rounded-lg shadow-lg"
+              alt="商品画像"
+            />
+          </div>
+
+          <!-- 商品情報 -->
+          <div class="ml-4 flex w-1/2 flex-col justify-between md:w-full md:flex-row md:ml-6">
+            <div class="space-y-2 md:w-2/3">
+              <a href="#" class="text-lg font-semibold text-sky-500 hover:text-orange-400 hover:underline">
+                <%= favorite_product.product.name %>
+              </a>
+              <p class="text-sm text-gray-700 dark:text-gray-300"><%= favorite_product.product.creator %></p>
+              <p class="text-sm font-bold text-orange-500 lg:text-base">★★★★★</p>
+
+              <!-- 数量のセレクトボックス -->
+              <div class="flex items-center">
+                <label for="sort-select" class="ml-1 block text-sm text-gray-900 lg:text-base">数量 :</label>
+                <select
+                  id="sort-select"
+                  class="ml-2 block rounded-lg border border-gray-300 bg-gray-200 p-1 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+                >
+                  <option selected>1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
+
+              <p class="text-sm text-gray-700 dark:text-gray-300">デジタル商品</p>
+              <p class="text-sm font-semibold text-gray-900 dark:text-gray-300">¥<%= favorite_product.product.price %></p>
+            </div>
+
+            <!-- オプションボタン -->
+            <div class="flex flex-col items-center space-y-2 md:space-y-4 md:pt-0 md:w-1/3">
+              <button
+                type="button"
+                class="w-full rounded-full bg-emerald-400 p-3 text-sm text-white hover:bg-emerald-500 lg:p-2 lg:text-base"
+              >
+                カートに入れる
+              </button>
+              <button
+                type="button"
+                class="w-full rounded-full bg-yellow-400 p-3 text-sm text-white hover:bg-yellow-500 lg:p-2 lg:text-base"
+              >
+                ご購入手続きへ
+              </button>
+              <% if @is_my_favorite_list %>
+                <%= form_with(url: customer_account_favorite_product_path(current_customer_account, favorite_product), method: :delete, class: 'w-full') do %>
+                  <button
+                    type="submit"
+                    class="flex w-full justify-center rounded-full border border-gray-300 bg-white p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                  >
+                    <svg
+                      class="h-6 w-6"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
+                      />
+                    </svg>
+                    削除
+                  </button>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="text-center text-gray-700 dark:text-gray-300">
+        お気に入りリストに商品がありません。
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- ページネーション -->
+<%= render 'layouts/pagenation' %>
+
+<%= javascript_include_tag "clipboard", "data-turbo-track": "reload", type: "module" %>
