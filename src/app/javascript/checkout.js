@@ -2,7 +2,10 @@ const stripe = Stripe(
 	"pk_test_51PBXzv2KrybDMqMJtQuWpFeIaQ8rlZekNQCYFZs7gThbcuFXRjebfC4cQVpgv3npIPNDFTYz0zEoYz1vjg1Mxe3M00eK64iAhv"
 );
 
+const paymentForm = document.getElementById('payment-form')
+
 const options = {
+	clientSecret: paymentForm.dataset.secret,
 	// Fully customizable with appearance API.
 	appearance: {
 		/* ... */
@@ -13,6 +16,10 @@ const options = {
 // Create a new Elements instance if needed, passing the
 // optional appearance object.
 const elements = stripe.elements(options);
+
+// Create and mount the Payment Element
+const paymentElement = elements.create('payment');
+paymentElement.mount('#payment-element');
 
 // Create and mount the Address Element in shipping mode
 const addressElement = elements.create("address", {
