@@ -1,18 +1,53 @@
 <%= content_for :additional_js do %>
     <%= javascript_include_tag 'https://js.stripe.com/v3/'%>
 <% end %>
-
 <!-- TODO: デジタル製品のみの場合は、住所入力の部分は隠す -->
-<div class="py-8 antialiased dark:bg-gray-900 md:py-16">
-    <div class="mx-auto max-w-screen-xl px-4 2xl:px-0 w-full lg:w-1/2">
-        <form id="address-form">
-            <h3 class="mb-2">住所</h3>
-            <div id="address-element">
-                <!-- Elements will create form elements here -->
-            </div>
-        </form>
-    </div>
-</div>
-<%= content_for :js do %>
-    <%= javascript_include_tag 'checkout'%>
-<% end %>
+<div class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
+    <form id="payment-form"  data-secret="<%= @intent.client_secret %>" class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+        <div class="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12 xl:gap-16">
+            <div class="min-w-0 flex-1 space-y-8">
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold text-gray-900 dark:text-white">配送先住所</h2>
+                    <div id="address-element">
+                    </div>
+                    <div class="space-y-4">
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">支払い</h3>
+                        <div id="payment-element">
+                        </div>
+                    </div>
+                    <div class="mt-6 w-full space-y-6 sm:mt-8 lg:mt-0 lg:max-w-xs xl:max-w-md">
+                        <div class="flow-root">
+                            <div class="-my-3 divide-y divide-gray-200 dark:divide-gray-800">
+                                <dl class="flex items-center justify-between gap-4 py-3">
+                                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Subtotal</dt>
+                                    <dd class="text-base font-medium text-gray-900 dark:text-white">$8,094.00</dd>
+                                </dl>
+                                <dl class="flex items-center justify-between gap-4 py-3">
+                                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Savings</dt>
+                                    <dd class="text-base font-medium text-green-500">0</dd>
+                                </dl>
+                                <dl class="flex items-center justify-between gap-4 py-3">
+                                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Store Pickup</dt>
+                                    <dd class="text-base font-medium text-gray-900 dark:text-white">$99</dd>
+                                </dl>
+                                <dl class="flex items-center justify-between gap-4 py-3">
+                                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Tax</dt>
+                                    <dd class="text-base font-medium text-gray-900 dark:text-white">$199</dd>
+                                </dl>
+                                <dl class="flex items-center justify-between gap-4 py-3">
+                                    <dt class="text-base font-bold text-gray-900 dark:text-white">Total</dt>
+                                    <dd class="text-base font-bold text-gray-900 dark:text-white">$8,392.00</dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <button type="submit" class="flex w-full items-center justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4  focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Proceed to Payment</button>
+                            <p class="text-sm font-normal text-gray-500 dark:text-gray-400">One or more items in your cart require an account. <a href="#" title="" class="font-medium text-blue-700 underline hover:no-underline dark:text-blue-500">Sign in or create an account now.</a>.</p>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </section>
+        <%= content_for :js do %>
+            <%= javascript_include_tag 'checkout'%>
+        <% end %>
