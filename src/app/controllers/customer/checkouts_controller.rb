@@ -3,23 +3,36 @@ class Customer::CheckoutsController < ApplicationController
     @customer = true
     cart = current_cart
 
-    return unless cart.empty?
+    if cart.empty?
+      redirect_to cart_path
+    else
+      # PaymentIntentを作成
+      # https://docs.stripe.com/api/payment_intents
+      @intent = Stripe::PaymentIntent.create(
+        amount: calculate_order_amount,
+        currency: 'jpy'
+      )
+      p @intent
 
-    redirect_to cart_path
+      respond_to do |format|
+        format.html
+        format.json { render json: { intent: @intent } }
+      end
+    end
   end
 
-  def create
-    line_items = generate_line_items
-    session = Stripe::Checkout::Session.create({
-                                                 line_items:,
-                                                 mode: 'payment',
-                                                 #  ユーザーがCheckoutで戻るボタンをクリックするとこのページにリダイレクトされるURL
-                                                 cancel_url: cart_url,
-                                                 #  決済が完了したときにリダイレクトされるURL
-                                                 success_url: 'http://localhost:3000/checkout/success?session_id={CHECKOUT_SESSION_ID}'
-                                               })
-    redirect_to session.url, allow_other_host: true
-  end
+  # def create
+  #   line_items = generate_line_items
+  #   session = Stripe::Checkout::Session.create({
+  #                                                line_items:,
+  #                                                mode: 'payment',
+  #                                                #  ユーザーがCheckoutで戻るボタンをクリックするとこのページにリダイレクトされるURL
+  #                                                cancel_url: cart_url,
+  #                                                #  決済が完了したときにリダイレクトされるURL
+  #                                                success_url: 'http://localhost:3000/checkout/success?session_id={CHECKOUT_SESSION_ID}'
+  #                                              })
+  #   redirect_to session.url, allow_other_host: true
+  # end
 
   # 支払いが成功した時に表示するページを表示するアクション
   def success
@@ -55,5 +68,9 @@ class Customer::CheckoutsController < ApplicationController
     end
 
     line_items
+  end
+
+  def calculate_order_amount
+    1099
   end
 end
