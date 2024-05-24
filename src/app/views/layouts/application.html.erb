@@ -8,6 +8,7 @@
         <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
         <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
         <%= javascript_include_tag "sample", "data-turbo-track": "reload", type: "module" %>
+        <%= yield :additional_js %>
     </head>
     <body class="bg-gray-100">
         <!-- admin, customerによって表示するナビを変更する -->
@@ -22,5 +23,6 @@
         </main>
 
         <%= render "shared/footer" %>
+        <%= yield :js %>
     </body>
 </html>
