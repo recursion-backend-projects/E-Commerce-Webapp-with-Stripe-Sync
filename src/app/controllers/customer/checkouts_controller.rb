@@ -1,4 +1,13 @@
 class Customer::CheckoutsController < ApplicationController
+  def show
+    @customer = true
+    cart = current_cart
+
+    return unless cart.empty?
+
+    redirect_to cart_path
+  end
+
   def create
     line_items = generate_line_items
     session = Stripe::Checkout::Session.create({
@@ -31,7 +40,7 @@ class Customer::CheckoutsController < ApplicationController
 
   def generate_line_items
     line_items = []
-    cart = session[:cart]
+    cart = current_cart
     cart.each do |product_id, quantity|
       product = Product.find_by(id: product_id.to_i)
 
