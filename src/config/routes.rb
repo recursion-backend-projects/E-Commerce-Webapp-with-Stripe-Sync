@@ -31,7 +31,7 @@ Rails.application.routes.draw do
   scope module: :customer do
     resources :products, only: %i[show]
     resource :cart, only: %i[show create update destroy]
-    resources :checkouts, only: [:create]
+    resource :checkout, only: %i[show create]
     get 'checkout/success', to: 'checkouts#success'
   end
 
