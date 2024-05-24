@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  root 'home#index'
+
   # アカウント認証(カスタマー)
   devise_for :customer_accounts, controllers: {
     sessions: 'customer_accounts/sessions',
@@ -26,7 +28,7 @@ Rails.application.routes.draw do
   end
   # カスタマーのルーティング
   scope module: :customer do
-    resources :products, only: %i[show index]
+    resources :products, only: %i[show]
     resource :cart, only: %i[show create update destroy]
     resources :customer_accounts, only: [] do
       resources :wish_products, only: %i[index create destroy]
