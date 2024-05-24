@@ -3,10 +3,10 @@
     <div class="flex flex-wrap items-center justify-between">
       <div class="flex items-center justify-start">
         <!-- アプリケーション名とロゴ -->
-        <a href="#" class="mr-4 flex">
+        <%= link_to root_path, class: 'mr-4 flex' do %>
           <img src="https://flowbite.s3.amazonaws.com/logo.svg" class="mr-3 h-8" alt="FlowBite Logo" />
           <span class="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">Art-SA2</span>
-        </a>
+        <% end %>
         <!-- 検索欄 -->
         <form action="#" method="GET" class="hidden md:block md:pl-2">
           <label for="topbar-search" class="sr-only">キーワードを検索</label>
@@ -64,7 +64,7 @@
         <div id="menuDropdown" class="z-10 hidden w-44 divide-y divide-gray-100 rounded bg-white shadow dark:divide-gray-600 dark:bg-gray-700">
           <ul class="py-1 text-sm text-gray-800 dark:text-gray-200" aria-labelledby="menuDropdownButton">
             <li>
-              <a href="#" class="block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">ホーム</a>
+              <%= link_to 'ホーム', root_path, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
             </li>
             <% if current_customer_account %>
               <li>
