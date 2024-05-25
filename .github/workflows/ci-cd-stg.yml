@@ -122,9 +122,10 @@ jobs:
               sudo docker stop $(sudo docker ps -q)
               sudo docker compose down
 
-              # 未使用のイメージ、コンテナ、ネットワーク、ボリュームを削除
+              # 未使用のイメージ、コンテナ、ネットワークを削除
               sudo docker system prune -af
-              sudo docker volume rm $(docker volume ls -q)
+              # 未使用のボリュームを削除(ただし、再署名を避けるため、src_https_portalは削除しない)
+              sudo ./bin/cleanup_volumes.sh
 
               # 既存のリポジトリフォルダを削除
               sudo rm -rf ~/web/E-Commerce-Webapp-with-Stripe-Sync
