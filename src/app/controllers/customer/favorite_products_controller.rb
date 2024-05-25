@@ -21,6 +21,8 @@ class Customer::FavoriteProductsController < ApplicationController
     favorite_product = current_customer_account.customer.favorite_products.find(params[:id])
     favorite_product.destroy
 
-    redirect_to customer_account_favorite_products_path(current_customer_account), notice: 'Product removed from favorites successfully.'
+    redirect_to favorite_products_path(), notice: 'Product removed from favorites.'
+  rescue ActiveRecord::RecordNotFound
+    redirect_to favorite_products_path(), alert: 'Favorite product not found.'
   end
 end

@@ -8,34 +8,6 @@
       お気に入りリスト
     </h1>
 
-    <div class="flex justify-between px-6 items-center">
-      <!-- お気に入りリストのアカウント名 -->
-
-
-      <% if @is_my_favorite_list %>
-      <button id="share-link" data-url="<%= request.original_url %>" class="flex items-center text-sky-400 hover:text-orange-400 hover:underline bg-transparent border-none p-0 cursor-pointer">
-        <svg
-          class="h-6 w-6"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M13.213 9.787a3.391 3.391 0 0 0-4.795 0l-3.425 3.426a3.39 3.39 0 0 0 4.795 4.794l.321-.304m-.321-4.49a3.39 3.39 0 0 0 4.795 0l3.424-3.426a3.39 3.39 0 0 0-4.794-4.795l-1.028.961"
-          />
-        </svg>
-        <p>リンクの共有</p>
-      </button>
-      <% end%>
-    </div>
-
     <% if @favorite_products.any? %>
       <% @favorite_products.each do |favorite_product| %>
         <div class="mx-2 flex rounded-xl border border-gray-200 bg-white shadow-md p-3 md:p-6">
@@ -90,33 +62,31 @@
               >
                 ご購入手続きへ
               </button>
-              <% if @is_my_favorite_list %>
-                <%= form_with(url: customer_account_favorite_product_path(current_customer_account, favorite_product), method: :delete, class: 'w-full') do %>
-                  <button
+                <%= form_with(url: favorite_product_path(favorite_product), method: :delete, class: 'w-full') do %>
+                    <button
                     type="submit"
                     class="flex w-full justify-center rounded-full border border-gray-300 bg-white p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-                  >
-                    <svg
-                      class="h-6 w-6"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      fill="none"
-                      viewBox="0 0 24 24"
                     >
-                      <path
+                    <svg
+                        class="h-6 w-6"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
                         stroke="currentColor"
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         stroke-width="2"
                         d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
-                      />
+                        />
                     </svg>
                     削除
-                  </button>
+                    </button>
                 <% end %>
-              <% end %>
             </div>
           </div>
         </div>
