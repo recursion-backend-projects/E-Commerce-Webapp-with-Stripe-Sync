@@ -1,10 +1,10 @@
 FactoryBot.define do
   factory :address do
-    zip_code { '12345' }
-    state { 'TestState' }
-    city { 'TestCity' }
-    street_address { 'TestStreet' }
-    street_address_2 { 'TestStreet2' }
-    addressable { association :customer_account }
+    zip_code { "1234567" }
+    state { "Tokyo" }
+    city { "Chiyoda" }
+    street_address { "1-1-1" }
+    street_address_2 { "Building 101" }
+    addressable { association :customer }
   end
 end
