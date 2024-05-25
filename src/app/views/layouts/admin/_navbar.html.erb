@@ -1,87 +1,85 @@
 <header class="antialiased">
-      <nav
-        class="border-gray-200 bg-white px-4 py-2.5 dark:bg-gray-800 md:px-6"
-      >
-        <div class="flex flex-wrap items-center justify-between">
-          <div class="flex items-center justify-start">
-            <!-- アプリケーション名とロゴ -->
-            <a href="#" class="mr-4 flex">
-              <!-- ロゴは、後で作成するか。。。 -->
-              <img
-                src="https://flowbite.s3.amazonaws.com/logo.svg"
-                class="mr-3 h-8"
-                alt="FlowBite Logo"
-              />
-              <span
-                class="self-center whitespace-nowrap text-2xl font-semibold dark:text-white"
-                >Art-SA2</span
-              >
-            </a>
+  <nav class="border-gray-200 bg-white px-4 py-2.5 md:px-6 dark:bg-gray-800">
+    <div class="flex flex-wrap items-center justify-between">
+      <div class="flex items-center justify-start">
+        <!-- アプリケーション名とロゴ -->
+        <a href="#" class="mr-4 flex">
+          <!-- ロゴは、後で作成するか。。。 -->
+          <img
+            src="https://flowbite.s3.amazonaws.com/logo.svg"
+            class="mr-3 h-8"
+            alt="FlowBite Logo"
+          />
+          <span
+            class="self-center whitespace-nowrap text-2xl font-semibold dark:text-white"
+            >Art-SA2</span
+          >
+        </a>
+      </div>
+
+      <div class="flex items-center md:order-2">
+        <!-- メニューボタン -->
+        <button
+          data-tooltip-target="menu-tooltip"
+          data-tooltip-placement="bottom"
+          data-dropdown-toggle="menuDropdown"
+          aria-expanded="true"
+          aria-controls="sidebar"
+          class="ml-1 cursor-pointer rounded p-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 md:ml-3 md:inline dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
+        >
+          <svg
+            class="size-5"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 16 12"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M1 1h14M1 6h14M1 11h14M1"
+            />
+          </svg>
+
+          <div
+            id="menu-tooltip"
+            role="tooltip"
+            class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm dark:bg-gray-700"
+          >
+            メニュー
+            <div class="tooltip-arrow" data-popper-arrow></div>
           </div>
+        </button>
 
-          <div class="flex items-center md:order-2">
-            <!-- メニューボタン -->
-            <button
-              data-tooltip-target="menu-tooltip"
-              data-tooltip-placement="bottom"
-              data-dropdown-toggle="menuDropdown"
-              aria-expanded="true"
-              aria-controls="sidebar"
-              class="ml-1 cursor-pointer rounded p-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:ml-3 md:inline"
-            >
-              <svg
-                class="size-5"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 16 12"
+        <!-- メニューのドロップダウンリスト -->
+        <div
+          id="menuDropdown"
+          class="z-10 hidden w-44 divide-y divide-gray-100 rounded bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
+        >
+          <ul
+            class="py-1 text-sm text-gray-800 dark:text-gray-200"
+            aria-labelledby="menuDropdownButton"
+          >
+            <li>
+              <a
+                href="#"
+                class="block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >商品管理</a
               >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M1 1h14M1 6h14M1 11h14M1"
-                />
-              </svg>
-
-              <div
-                id="menu-tooltip"
-                role="tooltip"
-                class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm dark:bg-gray-700"
+            </li>
+            <!-- ログインユーザーの場合 -->
+            <li>
+              <a
+                href="#"
+                class="block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >ログアウト</a
               >
-                メニュー
-                <div class="tooltip-arrow" data-popper-arrow></div>
-              </div>
-            </button>
-
-            <!-- メニューのドロップダウンリスト -->
-            <div
-              id="menuDropdown"
-              class="z-10 hidden w-44 divide-y divide-gray-100 rounded bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
-            >
-              <ul
-                class="py-1 text-sm text-gray-800 dark:text-gray-200"
-                aria-labelledby="menuDropdownButton"
-              >
-                <li>
-                  <a
-                    href="#"
-                    class="block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                    >商品管理</a
-                  >
-                </li>
-                <!-- ログインユーザーの場合 -->
-                <li>
-                  <a
-                    href="#"
-                    class="block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                    >ログアウト</a
-                  >
-                </li>
-              </ul>
-            </div>
-          </div>
+            </li>
+          </ul>
         </div>
-      </nav>
-    </header>
+      </div>
+    </div>
+  </nav>
+</header>
