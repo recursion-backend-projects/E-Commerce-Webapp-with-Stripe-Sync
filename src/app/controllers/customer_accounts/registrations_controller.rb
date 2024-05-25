@@ -18,7 +18,7 @@ class CustomerAccounts::RegistrationsController < Devise::RegistrationsControlle
 
       if address.persisted?
         super do |resource|
-          resource.update(customer: customer)
+          resource.update(customer:)
         end
       else
         customer.destroy
