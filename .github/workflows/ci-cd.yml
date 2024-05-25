@@ -80,7 +80,6 @@ jobs:
 
   build-and-push-docker-images:
     runs-on: ubuntu-22.04
-    if: github.event_name == 'pull_request'
     needs: [lint, test]
     permissions:
       packages: write
@@ -150,13 +149,9 @@ jobs:
       #     subject-digest: ${{ steps.push-web.outputs.digest }}
       #     push-to-registry: true
 
-      # Docker イメージのビルドおよびプッシュが成功した場合、メッセージをログに出力する
-      - name: Post build actions
-        if: success()
-        run: echo "Docker images built, pushed, and attestation generated successfully!"
-
   deploy-to-staging:
     runs-on: ubuntu-22.04
+    if: github.event_name == 'pull_request'
     needs: build-and-push-docker-images
     steps:
       # IP取得ライブラリをインストール
