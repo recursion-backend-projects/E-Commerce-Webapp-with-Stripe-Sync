@@ -6,18 +6,22 @@ class Customer::CheckoutsController < ApplicationController
     if cart.empty?
       redirect_to cart_path
     else
+      @total = 0
+      cart.each_key do |product_id|
+        product = Product.find_by(id: product_id.to_i)
+        if product.nil? || product.stock <= 0
+          # 商品が削除されている場合はカートにリダイレクトする
+          redirect_to cart_path
+        else
+          @total += product.price * session[:cart][product_id]
+        end
+      end
       # PaymentIntentを作成
       # https://docs.stripe.com/api/payment_intents
       @intent = Stripe::PaymentIntent.create(
         amount: calculate_order_amount,
         currency: 'jpy'
       )
-      p @intent
-
-      respond_to do |format|
-        format.html
-        format.json { render json: { intent: @intent } }
-      end
     end
   end
 
@@ -39,14 +43,14 @@ class Customer::CheckoutsController < ApplicationController
     @customer = true
 
     # 有効なsession_idのクエリじゃない場合はアラートを出す
-    begin
-      Stripe::Checkout::Session.retrieve(params[:session_id])
-    rescue Stripe::InvalidRequestError => e
-      logger.error(e)
-      # TODO: root_pathに変更する
-      redirect_to cart_path
-      flash[:alert] = '無効なページです'
-    end
+    # begin
+    #   Stripe::Checkout::Session.retrieve(params[:session_id])
+    # rescue Stripe::InvalidRequestError => e
+    #   logger.error(e)
+    #   # TODO: root_pathに変更する
+    #   redirect_to cart_path
+    #   flash[:alert] = '無効なページです'
+    # end
   end
 
   private
