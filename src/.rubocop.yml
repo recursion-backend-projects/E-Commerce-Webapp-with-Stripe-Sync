@@ -91,3 +91,7 @@ Rails/LexicallyScopedActionFilter:
 Metrics/BlockLength:
   Exclude:
     - "config/routes.rb"
+
+Naming/VariableNumber:
+  Exclude:
+    - "spec/factories/customers.rb"
