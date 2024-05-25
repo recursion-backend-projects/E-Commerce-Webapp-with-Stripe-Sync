@@ -76,9 +76,7 @@
             <% if current_customer_account %>
               <div class="flex flex-col items-center md:flex-row">
                   <%= wishlist_button(@product, current_customer_account) %>
-                  <button type="button" class="my-2 rounded-xl border border-gray-300 bg-white px-6 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 md:mx-6 md:w-1/3">
-                      お気に入りリストに追加する
-                  </button>
+                  <%= favorite_button(@product, current_customer_account) %>
                   <button type="button" class="my-2 rounded-xl border border-gray-300 bg-white px-6 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 md:mx-6 md:w-1/3">
                       商品についてチャットする
                   </button>

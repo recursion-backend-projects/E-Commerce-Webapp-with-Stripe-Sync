@@ -11,9 +11,9 @@ class Customer::FavoriteProductsController < ApplicationController
     favorite_product = current_customer_account.customer.favorite_products.new(product:)
 
     if favorite_product.save
-      redirect_to customer_account_favorite_products_path(current_customer_account), notice: 'Product added to favorites successfully.'
+        redirect_to product_path(product.id)
     else
-      redirect_to products_path, alert: 'Failed to add product to favorites.'
+        redirect_to products_path, alert: 'Failed to add product to favorites.'
     end
   end
 
