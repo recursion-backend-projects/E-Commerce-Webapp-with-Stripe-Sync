@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   scope module: :customer do
     resources :products, only: %i[show]
     resource :cart, only: %i[show create update destroy]
+    resources :review_entries, only: %i[show]
     resources :customer_accounts, only: [] do
       resources :wish_products, only: %i[index create destroy]
     end
