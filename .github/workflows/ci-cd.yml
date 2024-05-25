@@ -78,7 +78,7 @@ jobs:
         env:
           RAILS_ENV: test
 
-  push_to_registry:
+  build-and-push-docker-images:
     runs-on: ubuntu-22.04
     if: github.event_name == 'pull_request'
     needs: [lint, test]
@@ -157,7 +157,7 @@ jobs:
 
   deploy-to-staging:
     runs-on: ubuntu-22.04
-    needs: push_to_registry
+    needs: build-and-push-docker-images
     steps:
       # IP取得ライブラリをインストール
       - name: Public IP Install
