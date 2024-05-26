@@ -17,6 +17,8 @@ class ApplicationController < ActionController::Base
 
   def reset_cart
     session[:cart] = {}
+    session[:cart_items_count] = 0
+    @cart_items_count = session[:cart_items_count]
     @current_cart = session[:cart]
   end
 
