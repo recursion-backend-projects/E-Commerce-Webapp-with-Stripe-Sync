@@ -13,4 +13,9 @@ class ApplicationController < ActionController::Base
   def cart_items_count
     @cart_items_count = session[:cart_items_count] ||= @current_cart.values.sum
   end
+
+  def reset_cart
+    session[:cart] = {}
+    @current_cart = session[:cart]
+  end
 end
