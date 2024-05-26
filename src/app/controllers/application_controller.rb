@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   before_action :current_cart
   before_action :cart_items_count
+  before_action :current_customer, if: :customer_account_signed_in?
 
   private
 
@@ -17,5 +18,9 @@ class ApplicationController < ActionController::Base
   def reset_cart
     session[:cart] = {}
     @current_cart = session[:cart]
+  end
+
+  def current_customer
+    @current_customer ||= Customer.find_by(id: current_customer_account&.customer_id)
   end
 end
