@@ -26,7 +26,6 @@ class CustomerAccounts::ConfirmationsController < Devise::ConfirmationsControlle
   # The path used after confirmation.
   def after_confirmation_path_for(_resource_name, resource)
     sign_in(resource)
-    # TODO: 遷移先をTOPページに変更する
-    customer_test_path
+    root_path
   end
 end

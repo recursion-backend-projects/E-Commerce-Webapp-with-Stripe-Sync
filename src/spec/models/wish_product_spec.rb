@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.describe WishProduct, type: :model do
   let(:customer_account) { create(:customer_account) }
-  let(:address) { create(:address, addressable: customer_account) }
-  let(:customer) { create(:customer, customer_account:, address:) }
+  let(:customer) { customer_account.customer }
   let(:product) { create(:product) }
 
   describe 'Validations' do

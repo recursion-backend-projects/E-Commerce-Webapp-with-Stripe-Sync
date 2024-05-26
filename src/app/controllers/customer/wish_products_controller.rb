@@ -20,14 +20,17 @@ class Customer::WishProductsController < ApplicationController
     @wish_product = WishProduct.find(params[:id])
     @wish_product.delete if @wish_product.customer.customer_account == current_customer_account
 
-    redirect_to customer_account_wish_products_path(@customer.customer_account)
+    redirect_to customer_account_wish_products_path(current_customer_account)
   end
 
+  private
+
   def set_customer
-    @customer = Customer.find_by(customer_account_id: params[:customer_account_id])
+    customer_account = CustomerAccount.find(params[:customer_account_id])
+    @customer = customer_account.customer
   end
 
   def set_is_my_wishlist
-    @is_my_wishlist = current_customer_account == @customer.customer_account
+    @is_my_wishlist = current_customer_account.customer == @customer
   end
 end

@@ -16,15 +16,14 @@ class CustomerAccounts::SessionsController < Devise::SessionsController
   # DELETE /resource/sign_out
   def destroy
     super do
-      reset_session # セッションをリセットして、すべてのセッションデータをクリア
+      reset_session
       flash.clear
     end
   end
 
   # ログイン後のリダイレクト先
   def after_sign_in_path_for(_resource)
-    # TODO: ダッシュボード画面のパスに変更する
-    customer_test_path
+    root_path
   end
 
   # ログアウト後のリダイレクト先
