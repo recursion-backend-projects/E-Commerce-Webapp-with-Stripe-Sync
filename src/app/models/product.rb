@@ -11,4 +11,5 @@ class Product < ApplicationRecord
   has_many :wish_products, dependent: :destroy
   has_many :favorite_products, dependent: :destroy
   has_many :customers, through: :wish_products
+  has_many_attached :images
 end
