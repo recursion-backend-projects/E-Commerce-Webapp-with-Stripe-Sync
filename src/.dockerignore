@@ -20,6 +20,10 @@
 !/log/.keep
 !/tmp/.keep
 
+# Ignore socketsfiles, but keep the directory.
+/tmp/sockets/*
+!/tmp/sockets
+
 # Ignore pidfiles, but keep the directory.
 /tmp/pids/*
 !/tmp/pids/.keep
