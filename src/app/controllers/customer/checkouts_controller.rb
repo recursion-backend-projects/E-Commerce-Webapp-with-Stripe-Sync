@@ -1,7 +1,11 @@
 class Customer::CheckoutsController < ApplicationController
   def create
     line_items = generate_line_items
+    customer = current_customer
+
     session = Stripe::Checkout::Session.create({
+                                                 client_reference_id: customer.present? ? customer.id : nil,
+                                                 customer: customer.present? ? customer&.stripe_customer_id : nil,
                                                  line_items:,
                                                  mode: 'payment',
                                                  #  ユーザーがCheckoutで戻るボタンをクリックするとこのページにリダイレクトされるURL
