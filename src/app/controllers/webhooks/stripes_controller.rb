@@ -31,7 +31,7 @@ class Webhooks::StripesController < ApplicationController
     # 決済が完了した後に実行したい関数をここに追加していく
     when 'checkout.session.completed'
       session = event.data.object
-      p session
+      logger.debug(session)
     else
       logger.debug("Unhandled event type: #{event.type}")
     end
