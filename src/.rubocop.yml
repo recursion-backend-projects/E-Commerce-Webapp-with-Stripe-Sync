@@ -87,3 +87,7 @@ Rails/LexicallyScopedActionFilter:
   Exclude:
     - "app/controllers/admin_accounts/registrations_controller.rb"
     - "app/controllers/customer_accounts/registrations_controller.rb"
+
+Metrics/BlockLength:
+  Exclude:
+    - "config/routes.rb"

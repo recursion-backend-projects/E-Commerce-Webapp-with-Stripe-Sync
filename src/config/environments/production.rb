@@ -1,9 +1,9 @@
 require "active_support/core_ext/integer/time"
 
-Rails.application.config.hosts << "E-Commerce-Webapp-with-Stripe-Sync.seiprojects.com"
+Rails.application.config.hosts << "art-sa2-stg.com"
 
 Rails.application.configure do
-  config.hosts << "localhost" # 本来ここは無効にします
+  # config.hosts << "localhost"
 
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -53,8 +53,8 @@ Rails.application.configure do
   # config.assume_ssl = true
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-
-  config.force_ssl = false # 本番環境ではtrueに設定する
+  # アプリへのアクセスをすべて強制的にSSL経由にする
+  config.force_ssl = true 
 
   # Log to STDOUT by default
   config.logger = ActiveSupport::Logger.new(STDOUT)
@@ -74,7 +74,7 @@ Rails.application.configure do
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter = :resque
-  # config.active_job.queue_name_prefix = "docker_rails_test_production"
+  # config.active_job.queue_name_prefix = "E-Commerce-Webapp-with-Stripe-Sync"
 
   config.action_mailer.perform_caching = false
 

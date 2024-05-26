@@ -10,9 +10,20 @@ class CustomerAccounts::RegistrationsController < Devise::RegistrationsControlle
   # end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    super do |resource|
+      if resource.persisted?
+        address = Address.create(addressable: resource)
+
+        if address.persisted?
+          Customer.create(
+            customer_account: resource,
+            address:
+          )
+        end
+      end
+    end
+  end
 
   # GET /resource/edit
   # def edit

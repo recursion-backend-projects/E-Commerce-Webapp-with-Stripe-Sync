@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_15_030252) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_22_090039) do
   create_table "addresses", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "zip_code"
     t.string "state"
@@ -19,6 +19,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_15_030252) do
     t.string "street_address_2"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "addressable_type"
+    t.bigint "addressable_id"
+    t.index ["addressable_type", "addressable_id"], name: "index_addresses_on_addressable"
     t.index ["city", "zip_code"], name: "index_addresses_on_city_and_zip_code"
     t.index ["city"], name: "index_addresses_on_city"
     t.index ["state"], name: "index_addresses_on_state"
@@ -64,8 +67,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_15_030252) do
   end
 
   create_table "customers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "customer_account_id", null: false
+    t.bigint "address_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["address_id"], name: "index_customers_on_address_id"
+    t.index ["customer_account_id", "address_id"], name: "index_customers_on_customer_account_id_and_address_id", unique: true
+    t.index ["customer_account_id"], name: "index_customers_on_customer_account_id"
   end
 
   create_table "product_categories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -89,5 +97,19 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_15_030252) do
     t.index ["product_category_id"], name: "index_products_on_product_category_id"
   end
 
+  create_table "wish_products", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "customer_id", null: false
+    t.bigint "product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id", "product_id"], name: "index_wish_products_on_customer_id_and_product_id", unique: true
+    t.index ["customer_id"], name: "index_wish_products_on_customer_id"
+    t.index ["product_id"], name: "index_wish_products_on_product_id"
+  end
+
+  add_foreign_key "customers", "addresses"
+  add_foreign_key "customers", "customer_accounts"
   add_foreign_key "products", "product_categories"
+  add_foreign_key "wish_products", "customers"
+  add_foreign_key "wish_products", "products"
 end
