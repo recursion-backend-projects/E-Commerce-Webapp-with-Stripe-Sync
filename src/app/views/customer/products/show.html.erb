@@ -67,23 +67,55 @@
         </div>
     </div>
     <!-- 購入を検討しているユーザーへのオプション -->
-    <div class="w-full py-4 md:w-3/4">
-        <div class="flex flex-col space-y-4">
-            <h2 class="pl-12 text-sm md:pl-6 md:text-lg">
-                購入するか迷われていますか?<br />
-                以下の機能を利用してさらに情報を集めてみましょう。
-            </h2>
-            <% if current_customer_account %>
-              <div class="flex flex-col items-center md:flex-row">
-                  <%= wishlist_button(@product, current_customer_account) %>
-                  <%= favorite_button(@product, current_customer_account) %>
-                  <button type="button" class="my-2 rounded-xl border border-gray-300 bg-white px-6 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 md:mx-6 md:w-1/3">
-                      商品についてチャットする
-                  </button>
-              </div>
-            <% end %>
+<div class="w-full py-4 md:w-3/4">
+  <div class="flex flex-col space-y-4">
+    <h2 class="pl-12 text-sm md:pl-6 md:text-lg">
+      購入するか迷われていますか?<br />
+      以下の機能を利用してさらに情報を集めてみましょう。
+    </h2>
+    <div class="flex flex-col items-center md:flex-row">
+      <% if current_customer_account %>
+        <%= wishlist_button(@product, current_customer_account) %>
+        <%= favorite_button(@product, current_customer_account) %>
+        <button type="button" class="my-2 rounded-xl border border-gray-300 bg-white px-6 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 md:mx-6 md:w-1/3">
+          商品についてチャットする
+        </button>
+      <% else %>
+        <div class="relative my-2 md:mx-6 md:w-1/3" data-tooltip-target="wishlist-tooltip-1" data-tooltip-placement="top">
+          <button type="button" class="rounded-xl border border-gray-300 bg-white px-6 py-2 text-gray-500 cursor-not-allowed w-full" disabled>
+            ウィッシュリストに追加
+          </button>
+          <div id="wishlist-tooltip-1" role="tooltip" class="absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm dark:bg-gray-700">
+            この機能はログインすると使用可能です
+            <div class="tooltip-arrow" data-popper-arrow></div>
+          </div>
         </div>
+        <div class="relative my-2 md:mx-6 md:w-1/3" data-tooltip-target="favorite-tooltip-1" data-tooltip-placement="top">
+          <button type="button" class="rounded-xl border border-gray-300 bg-white px-6 py-2 text-gray-500 cursor-not-allowed w-full" disabled>
+            お気に入りに追加
+          </button>
+          <div id="favorite-tooltip-1" role="tooltip" class="absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm dark:bg-gray-700">
+            この機能はログインすると使用可能です
+            <div class="tooltip-arrow" data-popper-arrow></div>
+          </div>
+        </div>
+        <div class="relative my-2 md:mx-6 md:w-1/3" data-tooltip-target="chat-tooltip-1" data-tooltip-placement="top">
+          <button type="button" class="rounded-xl border border-gray-300 bg-white px-6 py-2 text-gray-500 cursor-not-allowed w-full" disabled>
+            商品についてチャットする
+          </button>
+          <div id="chat-tooltip-1" role="tooltip" class="absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm dark:bg-gray-700">
+            この機能はログインすると使用可能です
+            <div class="tooltip-arrow" data-popper-arrow></div>
+          </div>
+        </div>
+
+      <% end %>
     </div>
+  </div>
+</div>
+
+
+
     <!-- レビュー -->
     <div class="w-full py-4 md:w-3/4">
         <div class="flex flex-col space-y-4 pl-12 md:pl-6">
