@@ -33,7 +33,9 @@ Rails.application.routes.draw do
     resources :favorite_products, only: %i[index create destroy]
     resources :customer_accounts, only: [] do
       resources :wish_products, only: %i[index create destroy]
-      resources :review_entries, only: %i[edit]
+    end
+    resources :products, only: [] do
+      resources :product_reviews, only: %i[show new create]
     end
   end
 end

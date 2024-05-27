@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_25_023349) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_25_231108) do
   create_table "addresses", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "zip_code"
     t.string "state"
@@ -130,6 +130,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_25_023349) do
   add_foreign_key "customer_accounts", "customers"
   add_foreign_key "favorite_products", "customers"
   add_foreign_key "favorite_products", "products"
+  add_foreign_key "product_reviews", "customers"
+  add_foreign_key "product_reviews", "products"
   add_foreign_key "products", "product_categories"
   add_foreign_key "wish_products", "customers"
   add_foreign_key "wish_products", "products"
