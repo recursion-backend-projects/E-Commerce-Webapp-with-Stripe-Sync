@@ -9,5 +9,6 @@ class Product < ApplicationRecord
   end
 
   has_many :wish_products, dependent: :destroy
+  has_many :favorite_products, dependent: :destroy
   has_many :customers, through: :wish_products
 end

@@ -11,17 +11,21 @@ class CustomerAccounts::RegistrationsController < Devise::RegistrationsControlle
 
   # POST /resource
   def create
-    super do |resource|
-      if resource.persisted?
-        address = Address.create(addressable: resource)
+    customer = Customer.create
 
-        if address.persisted?
-          Customer.create(
-            customer_account: resource,
-            address:
-          )
+    if customer.persisted?
+      address = Address.create(addressable: customer)
+
+      if address.persisted?
+        super do |resource|
+          resource.update(customer:)
         end
+      else
+        customer.destroy
+        redirect_to new_customer_account_registration_path
       end
+    else
+      redirect_to new_customer_account_registration_path
     end
   end
 
