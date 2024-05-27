@@ -31,7 +31,7 @@ class Webhooks::StripesController < ApplicationController
     # 決済が完了した後に実行したい関数をここに追加していく
     when 'checkout.session.completed'
       session = event.data.object
-      logger.debug(session)
+      create_order session
     else
       logger.debug("Unhandled event type: #{event.type}")
     end
@@ -75,5 +75,20 @@ class Webhooks::StripesController < ApplicationController
   def delete_product(product_id)
     product = Product.find_by(stripe_product_id: product_id)
     product.destroy
+  end
+
+  def create_order(session)
+    session_object = Stripe::Checkout::Session.retrieve({
+                                                          expand: ['line_items'],
+                                                          id: session.id
+                                                        })
+    line_items = session_object.line_items
+    payment_intent = Stripe::PaymentIntent.retrieve(session.payment_intent)
+    charge = Stripe::Charge.retrieve(payment_intent.latest_charge)
+    receipt_url = charge.receipt_url
+
+    logger.debug("session: #{session_object}")
+    logger.debug("line_items: #{line_items}")
+    logger.debug("receipt_url: #{receipt_url}")
   end
 end
