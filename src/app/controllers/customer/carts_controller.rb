@@ -8,6 +8,7 @@ class Customer::CartsController < ApplicationController
     @customer = true
     @cart = current_cart
     @cart_items = []
+    @total = 0
     return if @cart.empty?
 
     @cart.each_key do |product_id|
@@ -17,6 +18,7 @@ class Customer::CartsController < ApplicationController
         flash.now[:alert] = 'カート内の商品が削除されました'
         update_cart_items_count
       else
+        @total += product.price * session[:cart][product_id]
         @cart_items.push(product)
       end
     end
