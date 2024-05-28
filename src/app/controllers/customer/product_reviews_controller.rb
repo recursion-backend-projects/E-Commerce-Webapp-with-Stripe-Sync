@@ -1,5 +1,5 @@
 class Customer::ProductReviewsController < ApplicationController
-  before_action :authenticate_customer_account!
+  before_action :authenticate_customer_account!, only: [:new, :create]
   before_action :set_product, only: [:show, :new, :create]
 
   def show

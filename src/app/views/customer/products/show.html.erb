@@ -126,9 +126,7 @@
         <% end %>
         <!-- レビューリストページへのリンク -->
         <div class="py-4">
-          <a href="#" class="text-sky-400 hover:text-orange-400 hover:underline md:text-lg">
-            レビューをすべて見る
-          </a>
+          <%= link_to 'レビューをすべて見る', product_product_reviews_path(@product), class: 'text-sky-400 hover:text-orange-400 hover:underline md:text-lg' %>
         </div>
       <% else %>
         <p class="text-sm lg:text-base py-4">この商品にはまだレビューがありません。</p>
