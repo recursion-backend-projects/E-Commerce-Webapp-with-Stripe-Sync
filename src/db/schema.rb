@@ -99,10 +99,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_27_082654) do
     t.integer "total"
     t.datetime "order_date"
     t.string "guest_email"
-    t.bigint "customer_id", null: false
+    t.string "receipt_url"
+    t.bigint "customer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["customer_id"], name: "index_orders_on_customer_id"
+    t.index ["order_number"], name: "index_orders_on_order_number", unique: true
   end
 
   create_table "product_categories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
