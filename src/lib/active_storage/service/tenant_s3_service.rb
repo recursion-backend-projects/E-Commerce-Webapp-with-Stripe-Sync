@@ -5,11 +5,11 @@ module ActiveStorage
     private
 
     def object_for(key)
-        if ENV["S3_ENV"] == "stg"
-            bucket.object File.join('stg', key)
-        else
-            bucket.object File.join('prod', key)
-        end
+      if ENV['S3_ENV'] == 'stg'
+        bucket.object File.join('stg', key)
+      else
+        bucket.object File.join('prod', key)
+      end
     end
   end
 end

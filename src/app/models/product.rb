@@ -9,7 +9,7 @@ class Product < ApplicationRecord
   end
 
   validates :images, attached: true, content_type: ['image/png', 'image/jpeg', 'image/jpg'],
-                     size: { less_than: 5.megabytes , message: 'ファイルサイズは5MB以下にしてください' }
+                     size: { less_than: 5.megabytes, message: 'ファイルサイズは5MB以下にしてください' }
 
   has_many :wish_products, dependent: :destroy
   has_many :favorite_products, dependent: :destroy
