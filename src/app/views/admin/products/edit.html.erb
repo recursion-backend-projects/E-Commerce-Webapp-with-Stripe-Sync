@@ -21,8 +21,16 @@
       <div class="space-y-4">
         <label for="product-images" class="font-bold">画像</label>
         <!-- 商品画像 -->
-        <% image = @product.images.attached? && @product.images.first.content_type.in?(%w[image/png image/jpg image/jpeg]) ? @product.images.first : nil %>
-        <%= image ? image_tag(image.variant(resize_to_fill: [127, 73]), class: 'block rounded-lg shadow-xl') : image_tag('sample_image.jpg', class: 'block rounded-lg shadow-xl', size: '127x73') %>
+        <% if @product.images.attached? %>
+            <% image = @product.images.first %>
+        <% if image.content_type.in?(%w[image/png image/jpg image/jpeg]) && image.byte_size <= 5.megabyte %>
+            <%= image_tag image.variant(resize_to_fill: [127, 73]), class: 'block rounded-lg shadow-xl' %>
+        <% else %>
+            <%= image_tag 'sample_image.jpg', class: 'block rounded-lg shadow-xl', size: "127x73" %>
+        <% end %>
+        <% else %>
+            <%= image_tag 'sample_image.jpg', class: 'block rounded-lg shadow-xl', size: "127x73" %>
+        <% end %>
 
         <%= form.file_field :images, multiple: true, class: 'block cursor-pointer rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-400' %>
         <% @product.errors.full_messages_for(:images).each do |message| %>
