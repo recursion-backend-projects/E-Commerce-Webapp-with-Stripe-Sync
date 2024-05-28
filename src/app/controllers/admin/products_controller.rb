@@ -53,6 +53,10 @@ class Admin::ProductsController < ApplicationController
   private
 
   def product_params
-    params.require(:product).permit(:name, :price, :stock, :description, :status, :creator, :product_category_id, images: [])
+    if params[:product][:images].reject(&:blank?).present?
+      params.require(:product).permit(:name, :price, :stock, :description, :status, :creator, :product_category_id, images: [])
+    else
+      params.require(:product).permit(:name, :price, :stock, :description, :status, :creator, :product_category_id)
+    end
   end
 end

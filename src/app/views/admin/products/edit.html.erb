@@ -21,17 +21,15 @@
             <div class="space-y-4">
                 <label for="product-images">画像</label>
                 <!-- 商品画像 -->
-                <div id="image-preview" class="grid grid-cols-3 gap-4">
-                    <% if @product.images.attached? %>
-                        <% @product.images.each do |image| %>
-                            <%= image_tag image.variant(resize_to_limit: [300, 300]), class: 'block h-40 w-full rounded-lg shadow-xl' %>
-                        <% end %>
-                    <% else %>
-                        <%= image_tag 'sample_image.jpg', class: 'block h-40 w-full rounded-lg shadow-xl' %>
-                    <% end %>
-                </div>
-                <%= form.file_field :images, multiple: true, class: 'block cursor-pointer rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-400', onchange: "previewImages()" %>
+                <% if @product.images.attached? %>
+                    <%= image_tag @product.images.first.variant(resize_to_fill: [127, 73]), class: 'block rounded-lg shadow-xl' %>
+                <% else %>
+                    <%= image_tag 'sample_image.jpg', class: 'block rounded-lg shadow-xl', size: "127x73" %>
+                <% end %>
+                <%= form.file_field :images, multiple: true, class: 'block cursor-pointer rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-400' %>
             </div>
+
+
             <div class="flex flex-col">
                 <%= form.label '作者'%>
                 <%= form.text_field :creator, class: 'rounded border border-gray-300 p-2'%>
