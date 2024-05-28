@@ -13,33 +13,47 @@ class Admin::ProductsController < ApplicationController
   def update
     @admin = true
     @product = Product.find(params[:id])
-
-    if @product.update(product_params)
-      product_category = ProductCategory.find(@product.product_category_id)
-      Stripe::Product.update(@product.stripe_product_id, name: @product.name,
-                                                         description: @product.description,
-                                                         metadata: { product_category: product_category.name })
-
-      # Stripe APIではPriceのunit_amountを変更できないので、新しいPriceを作成して、デフォルトの価格を変更して、古い価格は無効にする
-      # https://docs.stripe.com/products-prices/manage-prices#edit-price
-      old_price = Stripe::Price.retrieve(@product.stripe_price_id)
-
-      # 価格が編集された場合のみ、Priceを更新する
-      if @product.price != old_price.unit_amount
-        new_price = Stripe::Price.create(currency: 'jpy', unit_amount: @product.price,
-                                         product: @product.stripe_product_id)
-        Stripe::Product.update(@product.stripe_product_id, default_price: new_price.id)
-        Stripe::Price.update(old_price.id, active: false)
+  
+    begin
+      if @product.update(product_params)
+        product_category = ProductCategory.find(@product.product_category_id)
+  
+        Stripe::Product.update(@product.stripe_product_id, {
+          name: @product.name,
+          description: @product.description,
+          metadata: { product_category: product_category.name }
+        })
+  
+        old_price = Stripe::Price.retrieve(@product.stripe_price_id)
+        if @product.price != old_price.unit_amount
+          new_price = Stripe::Price.create({
+            currency: 'jpy',
+            unit_amount: @product.price,
+            product: @product.stripe_product_id
+          })
+          Stripe::Product.update(@product.stripe_product_id, {
+            default_price: new_price.id
+          })
+          Stripe::Price.update(old_price.id, { active: false })
+        end
+  
+        expires_now
+        redirect_to edit_admin_product_path(@product), notice: '商品が更新されました。'
+      else
+        @categories = ProductCategory.all
+        render :edit, status: :unprocessable_entity
       end
-
-      # 更新前のデータが表示される場合があるのでキャッシュを無効化する
-      expires_now
-
-      redirect_to edit_admin_product_path @product
-    else
+    rescue ActiveStorage::IntegrityError, ActiveRecord::RecordInvalid, ArgumentError => e
+      @product.errors.add(:base, "保存エラー: #{e.message}")
+      @categories = ProductCategory.all
+      render :edit, status: :unprocessable_entity
+    rescue Stripe::InvalidRequestError => e
+      @product.errors.add(:base, "Stripeの更新エラー: #{e.message}")
+      @categories = ProductCategory.all
       render :edit, status: :unprocessable_entity
     end
   end
+  
 
   def destroy
     @product = Product.find(params[:id])
