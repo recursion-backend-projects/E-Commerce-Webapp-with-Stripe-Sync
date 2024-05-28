@@ -1,9 +1,19 @@
 FactoryBot.define do
   factory :order do
-    order_number { "MyString" }
-    total { 1 }
-    order_date { "2024-05-27 17:19:52" }
-    guest_email { "MyString" }
+    order_number { '123-1234567-1234567' }
+    total { 0 }
+    order_date { Time.current }
+    guest_email { 'test@gmail.com' }
     customer { nil }
+    receipt_url { 'https://receipt.com' }
+
+    trait :with_customer do
+      guest_email { nil }
+      customer
+    end
+  end
+
+  factory :login_user_order, parent: :order do
+    customer
   end
 end
