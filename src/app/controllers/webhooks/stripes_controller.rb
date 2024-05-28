@@ -87,8 +87,42 @@ class Webhooks::StripesController < ApplicationController
     charge = Stripe::Charge.retrieve(payment_intent.latest_charge)
     receipt_url = charge.receipt_url
 
-    logger.debug("session: #{session_object}")
-    logger.debug("line_items: #{line_items}")
-    logger.debug("receipt_url: #{receipt_url}")
+    is_guest_order = session_object.client_reference_id.nil?
+    customer = is_guest_order ? nil : Customer.find_by(id: session_object.client_reference_id.to_i)
+
+    order = Order.create(
+      order_number: generate_order_number,
+      total: session.amount_total,
+      order_date: Time.current,
+      guest_email: is_guest_order ? session_object.customer_details.email : nil,
+      customer:,
+      receipt_url:
+    )
+
+    create_order_items(line_items, order)
+  end
+
+  def create_order_items(line_items, order)
+    line_items.data.each do |line_item|
+      product = Product.find_by(stripe_product_id: line_item.price.product)
+
+      OrderItem.create(
+        quantity: line_item.quantity,
+        order:,
+        product:
+      )
+    end
+  end
+
+  def generate_order_number
+    loop do
+      new_order_number = "#{generate_random_digit(3)}-#{generate_random_digit(7)}-#{generate_random_digit(7)}"
+
+      return new_order_number unless Order.exists?(order_number: new_order_number)
+    end
+  end
+
+  def generate_random_digit(digit)
+    Array.new(digit) { rand(9) }.join
   end
 end
