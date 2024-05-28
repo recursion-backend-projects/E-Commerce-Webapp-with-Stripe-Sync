@@ -1,22 +1,13 @@
 class Order < ApplicationRecord
   belongs_to :customer, optional: true
-  before_create :generate_order_number
+  has_many :order_items, dependent: :destroy
 
   with_options presence: true do
-    validates :order_number, uniqueness: true
-    validates :total, numericality: { only_integer: true }
+    validates :order_number, uniqueness: true, length: { is: 19 }, format: { with: /\A\d{3}-\d{7}-\d{7}\z/ }
+    validates :total, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
     validates :order_date
+    validates :receipt_url, format: { with: /\A#{URI::DEFAULT_PARSER.make_regexp(%w[http https])}\z/ }
   end
 
   validates :guest_email, format: { with: URI::MailTo::EMAIL_REGEXP }, allow_nil: true
-  validates_associated :customer, allow_nil: true
-
-  private
-
-  def generate_order_number
-    loop do
-      self.order_number = SecureRandom.hex(6)
-      break unless Order.exists?(order_number:)
-    end
-  end
 end
