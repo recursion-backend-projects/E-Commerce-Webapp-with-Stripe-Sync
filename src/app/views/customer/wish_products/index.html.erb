@@ -1,3 +1,6 @@
+<!-- Toast container -->
+<div id="toast-container" class="fixed bottom-5 right-5 flex flex-col gap-3"></div>
+
 <!-- ウィッシュリスト -->
 <div class="flex flex-col items-center pt-10 antialiased">
   <div class="flex w-full flex-col space-y-6 py-6 md:w-4/5 lg:w-2/3">
@@ -53,7 +56,7 @@
         </svg>
         <p>リンクの共有</p>
       </button>
-      <% end%>
+      <% end %>
     </div>
 
     <% if @wish_products.any? %>
@@ -64,7 +67,7 @@
             <% if wish_product.product.images.attached? %>
               <%= image_tag wish_product.product.images.first.variant(resize_to_fill: [300, 200]).processed, class: 'block rounded-lg shadow-lg', alt: '商品画像' %>
             <% else %>
-              <%= image_tag 'sample_image.jpg', class: 'rounded-lg shadow-md', size: "300x200" %>
+              <%= image_tag 'sample_image.jpg', class: 'block rounded-lg shadow-lg', size: "300x200", alt: '商品画像' %>
             <% end %>
           </div>
 
