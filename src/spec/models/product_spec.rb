@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Product do
+RSpec.describe Product, type: :model do
   let(:product) { create(:product) }
   let(:valid_image) { fixture_file_upload(Rails.root.join('spec/fixtures/files/valid_image.jpg'), 'image/jpeg') }
   let(:invalid_type_image) { fixture_file_upload(Rails.root.join('spec/fixtures/files/invalid_image.txt'), 'text/plain') }
