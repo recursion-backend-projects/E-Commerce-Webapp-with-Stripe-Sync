@@ -34,7 +34,6 @@ class Admin::ProductsController < ApplicationController
 
   def destroy
     @product = Product.find(params[:id])
-    # 価格を持っている商品はapiで削除できないので、activeをfalseにする
     Stripe::Product.update(@product.stripe_product_id, active: false)
     @product.destroy
 
@@ -45,6 +44,8 @@ class Admin::ProductsController < ApplicationController
 
   def product_params
     if params[:product][:images].reject(&:blank?).present?
+      params.require(:product).permit(:name, :price, :stock, :description, :status, :creator, :product_category_id, images: [])
+    elsif params[:product][:remove_image] == '1'
       params.require(:product).permit(:name, :price, :stock, :description, :status, :creator, :product_category_id, images: [])
     else
       params.require(:product).permit(:name, :price, :stock, :description, :status, :creator, :product_category_id)
