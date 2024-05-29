@@ -38,8 +38,6 @@ jobs:
 
   test:
     runs-on: ubuntu-22.04
-    strategy:
-      max-parallel: 1
     services:
       mysql:
         image: mysql:8.0.36
