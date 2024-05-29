@@ -14,3 +14,7 @@ ja:
         password: "パスワード"
         password_confirmation: "パスワード（確認）"
         user_name: "ユーザー名"
+      product:
+        name: "名前"
+        description: "説明"
+        images: "画像"
