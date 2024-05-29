@@ -4,7 +4,7 @@
 <!-- ウィッシュリスト -->
 <div class="flex flex-col items-center pt-10 antialiased">
   <div class="flex w-full flex-col space-y-6 py-6 md:w-4/5 lg:w-2/3">
-    <h1 class="py-2 text-center text-3xl font-bold md:text-start md:text-4xl text-gray-900 dark:text-white">
+    <h1 class="py-2 text-center text-2xl font-bold md:text-start md:text-4xl">
       ウィッシュリスト
     </h1>
 
@@ -26,7 +26,7 @@
           </svg>
         </div>
 
-        <div class="font-medium dark:text-white">
+        <div class="font-medium">
           <% if @is_my_wishlist %>
             <div>あなたのウィッシュリスト</div>
           <% else %>
@@ -78,7 +78,7 @@
                 <%= wish_product.product.name %>
               </a>
               <p class="text-sm text-gray-700 dark:text-gray-300"><%= wish_product.product.creator %></p>
-              <p class="text-sm font-bold text-orange-500 lg:text-base">★★★★★</p>
+              <p class="text-sm font-bold text-orange-500 lg:text-base"><%= star_rating(@average_ratings[wish_product.product.id]) %></p>
 
               <!-- 数量のセレクトボックス -->
               <div class="flex items-center">
@@ -95,8 +95,8 @@
                 </select>
               </div>
 
-              <p class="text-sm text-gray-700 dark:text-gray-300">デジタル商品</p>
-              <p class="text-sm font-semibold text-gray-900 dark:text-gray-300">¥<%= wish_product.product.price %></p>
+              <p class="text-sm lg:text-base">デジタル商品</p>
+              <p class="text-sm font-semibold text-gray-900">¥<%= wish_product.product.price %></p>
             </div>
 
             <!-- オプションボタン -->

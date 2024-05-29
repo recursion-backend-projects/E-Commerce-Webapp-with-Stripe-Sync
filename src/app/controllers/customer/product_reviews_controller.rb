@@ -46,7 +46,7 @@ class Customer::ProductReviewsController < ApplicationController
     @customer = true
     @product = Product.find(params[:product_id])
     @product_review = ProductReview.find_by(product: @product, customer: current_customer_account)
-    @product_reviews = @product.product_reviews.includes(customer: :customer_account)
+    @product_reviews = @product.product_reviews
     @average_rating = @product_reviews.average(:rating).to_i
     @errors = flash[:errors]
   end

@@ -35,10 +35,7 @@
                                 </h1>
                             </a>
                             <p class="text-sm md:text-base"><%= cart_item.creator %></p>
-                            <!-- 星評価を★と☆で表現する -->
-                            <p class="text-sm font-bold text-orange-500 md:text-base">
-                                ★★★★★
-                            </p>
+                            <p class="text-sm font-bold text-orange-500 md:text-base"><%= star_rating(@average_ratings[cart_item.id]) %></p>
                             <!-- 数量のセレクトボックス -->
                             <div class="flex max-w-sm items-center">
                                 <%= form_with url: cart_path, method: :patch do |f| %>
@@ -48,7 +45,7 @@
                                 <% end %>
                             </div>
                             <!-- TODO: デジタル、物理のテーブルを作成した時に実装する -->
-                            <p>デジタル商品</p>
+                            <p class="text-sm lg:text-base">デジタル商品</p>
                             <p>¥<%= cart_item.price %></p>
                         </div>
                         <!-- 購入と削除ボタン -->

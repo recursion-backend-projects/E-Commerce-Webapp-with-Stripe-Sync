@@ -8,6 +8,7 @@ class Customer::CartsController < ApplicationController
     @customer = true
     @cart = current_cart
     @cart_items = []
+    @average_ratings = {}
     return if @cart.empty?
 
     @cart.each_key do |product_id|
@@ -18,6 +19,7 @@ class Customer::CartsController < ApplicationController
         update_cart_items_count
       else
         @cart_items.push(product)
+        @average_ratings[product_id.to_i] = product.product_reviews.average(:rating).to_i
       end
     end
   end
