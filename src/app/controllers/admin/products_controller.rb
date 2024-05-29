@@ -43,13 +43,9 @@ class Admin::ProductsController < ApplicationController
   private
 
   def product_params
-    if params[:product][:images].reject(&:blank?).present?
-      params.require(:product).permit(:name, :price, :stock, :description, :status, :creator, :product_category_id, images: [])
-    elsif params[:product][:remove_image] == '1'
-      params.require(:product).permit(:name, :price, :stock, :description, :status, :creator, :product_category_id, images: [])
-    else
-      params.require(:product).permit(:name, :price, :stock, :description, :status, :creator, :product_category_id)
-    end
+    permitted_params = %i[name price stock description status creator product_category_id]
+    permitted_params << { images: [] } if params[:product][:images].reject(&:blank?).present? || params[:product][:remove_image] == '1'
+    params.require(:product).permit(permitted_params)
   end
 
   def update_stripe_product(product)
