@@ -1,3 +1,5 @@
+<%= render 'layouts/customer/flash' %>
+
 <!-- レビュー記入 -->
 <div
 class="flex flex-col items-center divide-y-2 divide-gray-300 pt-10 antialiased"
@@ -27,12 +29,12 @@ class="flex flex-col items-center divide-y-2 divide-gray-300 pt-10 antialiased"
             </div>
             <div>
                 <%= form.label :rating, "評価", class: "ml-1 block text-lg text-gray-900" %>
-                <%= form.select :rating, options_for_select([["評価してください", nil], ["5", 5], ["4", 4], ["3", 3], ["2", 2], ["1", 1]]), {}, class: "ml-2 block rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" %>
+                <%= form.select :rating, options_for_select([["評価してください", nil], ["5", 5], ["4", 4], ["3", 3], ["2", 2], ["1", 1]], @product_review.rating), {}, class: "ml-2 block rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" %>
             </div>
             <div>
                 <%= form.hidden_field :product_id, value: @product.id %>
                 <%= form.hidden_field :customer_id, value: current_customer_account.id %>
-                <%= form.submit "投稿する", class: "my-2 w-full rounded bg-yellow-400 py-2 hover:bg-yellow-500" %>
+                <%= form.submit "更新する", class: "my-2 w-full rounded bg-yellow-400 py-2 hover:bg-yellow-500" %>
             </div>
         <% end %>
         </div>

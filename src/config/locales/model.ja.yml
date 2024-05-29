@@ -3,6 +3,7 @@ ja:
     models:
       admin_account: "管理者アカウント"
       customer_account: "顧客アカウント"
+      product_review: "レビュー"
     attributes:
       admin_account:
         email: "メールアドレス"
@@ -14,3 +15,8 @@ ja:
         password: "パスワード"
         password_confirmation: "パスワード（確認）"
         user_name: "ユーザー名"
+      product_review:
+        title: "タイトル"
+        review: "レビュー"
+        rating: "評価"
+

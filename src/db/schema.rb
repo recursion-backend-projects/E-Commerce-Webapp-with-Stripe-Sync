@@ -92,7 +92,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_25_231108) do
   create_table "product_reviews", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "rating", null: false
     t.string "title", null: false
-    t.string "review", null: false
+    t.text "review", null: false
     t.bigint "customer_id", null: false
     t.bigint "product_id", null: false
     t.datetime "created_at", null: false
