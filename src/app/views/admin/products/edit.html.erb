@@ -25,6 +25,10 @@
           <% image = @product.images.first %>
           <% if image.persisted? && image.content_type.in?(%w[image/png image/jpg image/jpeg]) && image.byte_size <= 5.megabyte %>
             <%= image_tag image.variant(resize_to_fill: [127, 73]), class: 'block rounded-lg shadow-xl' %>
+            <div class="mt-2 flex items-center">
+              <%= form.check_box :remove_image, { class: 'mr-2' }, '1', '0' %>
+              <%= form.label :remove_image, "画像を削除" %>
+            </div>
           <% else %>
             <%= image_tag 'sample_image.jpg', class: 'block rounded-lg shadow-xl', size: "127x73" %>
           <% end %>
