@@ -106,6 +106,9 @@ class Webhooks::StripesController < ApplicationController
     line_items.data.each do |line_item|
       product = Product.find_by(stripe_product_id: line_item.price.product)
 
+      # 在庫数を減らす
+      product.update(stock: product.stock - line_item.quantity)
+
       OrderItem.create(
         quantity: line_item.quantity,
         order:,
