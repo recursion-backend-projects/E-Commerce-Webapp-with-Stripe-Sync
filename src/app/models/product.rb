@@ -9,11 +9,17 @@ class Product < ApplicationRecord
     validates :description
   end
 
+  # 商品画像バリデーション
   validates :images, attached: false, content_type: ['image/png', 'image/jpeg', 'image/jpg'],
                      size: { less_than: 3.megabytes }
+
+  # ダウンロード用zipバリデーション
+  validates :digital_file, attached: false, content_type: ['application/zip'],
+    size: { less_than: 50.megabytes }
 
   has_many :wish_products, dependent: :destroy
   has_many :favorite_products, dependent: :destroy
   has_many :customers, through: :wish_products
   has_many_attached :images
+  has_one_attached :digital_file
 end
