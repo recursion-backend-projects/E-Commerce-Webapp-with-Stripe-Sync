@@ -56,7 +56,7 @@
         </svg>
         <p>リンクの共有</p>
       </button>
-      <% end%>
+      <% end %>
     </div>
 
     <% if @wish_products.any? %>
@@ -64,11 +64,11 @@
         <div class="mx-2 flex rounded-xl border border-gray-200 bg-white shadow-md p-3 md:p-6">
           <!-- 商品画像 -->
           <div class="flex w-1/2 items-center md:w-2/5 lg:w-1/3">
-            <img
-              src="https://plus.unsplash.com/premium_photo-1667925014062-42cf381d7273?q=80&w=3570&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              class="block h-full rounded-lg shadow-lg"
-              alt="商品画像"
-            />
+            <% if wish_product.product.images.attached? %>
+              <%= image_tag wish_product.product.images.first.variant(resize_to_fill: [300, 200]).processed, class: 'block rounded-lg shadow-lg', alt: '商品画像' %>
+            <% else %>
+              <%= image_tag 'sample_image.jpg', class: 'block rounded-lg shadow-lg', size: "300x200", alt: '商品画像' %>
+            <% end %>
           </div>
 
           <!-- 商品情報 -->

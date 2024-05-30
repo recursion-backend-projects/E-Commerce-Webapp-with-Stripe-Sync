@@ -16,7 +16,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: "20.x"
 
       - name: Install yarn
         run: npm install -g yarn
@@ -30,7 +30,7 @@ jobs:
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.3.0'
+          ruby-version: "3.3.0"
           bundler-cache: true
 
       - name: Lint Ruby files
@@ -179,7 +179,7 @@ jobs:
         run: |
           # SSHのセキュリティグループを開放する
           aws ec2 authorize-security-group-ingress --group-id ${{ secrets.STG_EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
-          
+
           # SSH接続
           echo "${{ secrets.STG_PRIVATE_KEY }}" > private_key
           chmod 600 private_key
