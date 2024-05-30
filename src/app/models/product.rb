@@ -15,7 +15,7 @@ class Product < ApplicationRecord
 
   # ダウンロード用zipバリデーション
   validates :digital_file, attached: false, content_type: ['application/zip'],
-    size: { less_than: 50.megabytes }
+    size: { less_than: 20.megabytes }
 
   has_many :wish_products, dependent: :destroy
   has_many :favorite_products, dependent: :destroy

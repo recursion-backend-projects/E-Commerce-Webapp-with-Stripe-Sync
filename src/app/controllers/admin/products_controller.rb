@@ -45,6 +45,7 @@ class Admin::ProductsController < ApplicationController
   def product_params
     permitted_params = %i[name price stock description status creator product_category_id product_type]
     permitted_params << { images: [] } if params[:product][:images].compact_blank.present? || params[:product][:remove_image] == '1'
+    permitted_params << :digital_file if params[:product][:digital_file].present?
     params.require(:product).permit(permitted_params)
   end
 
