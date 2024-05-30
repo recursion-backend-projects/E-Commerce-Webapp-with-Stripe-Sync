@@ -5,3 +5,6 @@ ja:
       published: 公開中
       archived: アーカイブ済み
       trashed: ゴミ箱
+    product_type:
+      physics: "物理"
+      digital: "デジタル"

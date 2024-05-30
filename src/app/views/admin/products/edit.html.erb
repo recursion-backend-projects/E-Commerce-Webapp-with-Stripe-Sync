@@ -45,6 +45,10 @@
         <%= form.text_field :creator, class: 'rounded border border-gray-300 p-2 focus:ring focus:ring-blue-500' %>
       </div>
       <div class="flex flex-col">
+        <%= form.label :product_type, "商品タイプ", class: 'font-bold' %>
+        <%= form.select :product_type, Product.product_types.keys.map { |pt| [I18n.t("products.product_type.#{pt}"), pt] }, {}, { class: 'block rounded-lg border border-gray-300 bg-gray-200 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500' } %>
+      </div>
+      <div class="flex flex-col">
         <%= form.label 'カテゴリー', class: 'font-bold' %>
         <%= form.select :product_category_id, options_for_select(@categories.map { |c| [c.name, c.id] }, @product.product_category_id), {}, { class: 'block rounded-lg border border-gray-300 bg-gray-200 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500' } %>
       </div>
