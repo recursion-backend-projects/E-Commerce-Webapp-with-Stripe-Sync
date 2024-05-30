@@ -40,12 +40,10 @@ module ApplicationHelper
   end
 
   def star_rating(rating)
-    if rating.nil?
-      rating = 0
-    end
+    rating = 0 if rating.nil?
 
-    full_stars = "★" * rating
-    empty_stars = "☆" * (5 - rating)
+    full_stars = '★' * rating
+    empty_stars = '☆' * (5 - rating)
     full_stars + empty_stars
   end
 end

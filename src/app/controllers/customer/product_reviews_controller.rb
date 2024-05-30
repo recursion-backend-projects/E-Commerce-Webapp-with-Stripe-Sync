@@ -1,6 +1,6 @@
 class Customer::ProductReviewsController < ApplicationController
-  before_action :authenticate_customer_account!, only: [:new, :create, :edit, :update, :destroy]
-  before_action :set_product, only: [:show, :new, :create]
+  before_action :authenticate_customer_account!, only: %i[new create edit update destroy]
+  before_action :set_product, only: %i[show new create]
 
   def show
     @customer = true
@@ -24,6 +24,15 @@ class Customer::ProductReviewsController < ApplicationController
     end
   end
 
+  def edit
+    @customer = true
+    @product = Product.find(params[:product_id])
+    @product_review = ProductReview.find_by(product: @product, customer: current_customer_account)
+    @product_reviews = @product.product_reviews
+    @average_rating = @product_reviews.average(:rating).to_i
+    @errors = flash[:errors]
+  end
+
   def create
     @product = Product.find(params[:product_id])
     @existing_review = ProductReview.find_by(product: @product, customer: current_customer_account)
@@ -40,15 +49,6 @@ class Customer::ProductReviewsController < ApplicationController
       flash[:errors] = @product_review.errors.full_messages
       redirect_to new_product_product_reviews_path(@product)
     end
-  end
-
-  def edit
-    @customer = true
-    @product = Product.find(params[:product_id])
-    @product_review = ProductReview.find_by(product: @product, customer: current_customer_account)
-    @product_reviews = @product.product_reviews
-    @average_rating = @product_reviews.average(:rating).to_i
-    @errors = flash[:errors]
   end
 
   def update
