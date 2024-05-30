@@ -140,7 +140,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_29_235325) do
     t.string "creator"
     t.bigint "product_category_id"
     t.string "stripe_price_id"
-    t.integer "type", default: 0
+    t.integer "product_type", default: 0
     t.index ["product_category_id"], name: "index_products_on_product_category_id"
   end
 
