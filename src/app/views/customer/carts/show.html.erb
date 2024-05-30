@@ -1,67 +1,55 @@
 <%= render 'layouts/customer/flash' %>
-<!-- カートリスト -->
-<div class="flex flex-col items-center pt-10 antialiased">
-    <div class="flex w-full flex-col space-y-4 py-4 md:w-4/5 lg:w-1/2">
-        <h1
-            class="py-2 text-center text-2xl font-bold md:text-start md:text-4xl"
-          >
-            カートリスト
-        </h1>
-        <% if @cart_items.empty?%>
-            <div class="mx-2 rounded-2xl border border-black bg-white p-3 md:p-6">
-                <p class="text-center">お客様のカートに商品はありません</p>
-            </div>
-        <% else %>
-            <!-- 商品1 -->
-            <% @cart_items.each do |cart_item| %>
-                <div
-            class="mx-2 flex rounded-2xl border border-black bg-white p-3 md:p-6"
-          >
-                    <!-- 商品画像 -->
-                    <!-- TODO: 画像アップロード場所が決まったら実装する -->
-                    <div class="flex w-1/2 items-center md:w-2/5 lg:w-1/3">
-                        <%= image_tag 'sample_image.jpg', class: 'block h-1/2 rounded-lg shadow-xl md:h-auto' %>
+<section class="py-8 antialiased dark:bg-gray-900 md:py-16">
+    <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">カートリスト</h2>
+        <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
+            <div class="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
+                <!-- 各アイテム -->
+                <% if @cart_items.empty? %>
+                    <div class="mx-2 rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800 p-3 md:p-6">
+                        <p class="text-center">お客様のカートに商品はありません</p>
                     </div>
-                    <!-- 商品情報 -->
-                    <div
+                <% else %>
+                    <!-- 商品 -->
+                    <% @cart_items.each do |cart_item| %>
+                        <div
+            class="mx-2 flex rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800 p-3 md:p-6"
+          >
+                            <!-- 商品画像 -->
+                            <!-- TODO: 画像アップロード場所が決まったら実装する -->
+                            <div class="flex w-1/2 items-center md:w-2/5 lg:w-1/3">
+                                <%= image_tag 'sample_image.jpg', class: 'block h-1/2 rounded-lg shadow-xl md:h-auto' %>
+                            </div>
+                            <!-- 商品情報 -->
+                            <div
               class="ml-2 flex w-1/2 flex-col justify-center md:ml-6 md:w-full md:flex-row md:justify-between"
             >
-                        <div class="w-full space-y-2 md:w-2/3">
-                            <a href="#">
-                                <h1
-                    class="text-lg text-sky-400 hover:text-orange-400 hover:underline"
-                  >
-                                    <%= link_to cart_item.name, cart_item %>
-                                </h1>
-                            </a>
-                            <p class="text-sm md:text-base"><%= cart_item.creator %></p>
-                            <p class="text-sm font-bold text-orange-500 md:text-base"><%= star_rating(@average_ratings[cart_item.id]) %></p>
-                            <!-- 数量のセレクトボックス -->
-                            <div class="flex max-w-sm items-center">
-                                <%= form_with url: cart_path, method: :patch do |f| %>
-                                    <%= hidden_field_tag 'product_id', cart_item.id%>
-                                    <%= label_tag 'quantity', '数量:', class: 'ml-1 block text-sm text-gray-900 md:text-lg'  %>
-                                    <%= select_tag 'quantity', options_for_select((1..cart_item.stock).to_a.collect{ |n| [n, n] }, selected: @cart[cart_item.id.to_s]),{class: 'ml-2 block rounded-lg border border-gray-300 bg-gray-200 p-1 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500', onchange: 'this.form.submit()', data: { turbo: false }  }%>
-                                <% end %>
-                            </div>
-                            <!-- TODO: デジタル、物理のテーブルを作成した時に実装する -->
-                            <p class="text-sm lg:text-base">デジタル商品</p>
-                            <p>¥<%= cart_item.price %></p>
-                        </div>
-                        <!-- 購入と削除ボタン -->
-                        <div
+                                <div class="w-full space-y-2 md:w-2/3">
+                                        <div>
+                                            <%= link_to cart_item.name, cart_item, class: 'text-lg text-sky-400 hover:text-orange-400 hover:underline' %>
+                                        </div>
+                                    <p class="text-sm md:text-base"><%= cart_item.creator %></p>
+                                    <p class="text-sm font-bold text-orange-500 md:text-base"><%= star_rating(@average_ratings[cart_item.id]) %></p>
+                                    <!-- 数量のセレクトボックス -->
+                                    <div class="flex max-w-sm items-center">
+                                        <%= form_with url: cart_path, method: :patch do |f| %>
+                                            <%= hidden_field_tag 'product_id', cart_item.id%>
+                                            <%= label_tag 'quantity', '数量:', class: 'ml-1 block text-sm text-gray-900 md:text-lg'  %>
+                                            <%= select_tag 'quantity', options_for_select((1..cart_item.stock).to_a.collect{ |n| [n, n] }, selected: @cart[cart_item.id.to_s]),{class: 'ml-2 block rounded-lg border border-gray-300 bg-gray-200 p-1 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500', onchange: 'this.form.submit()', data: { turbo: false }  }%>
+                                        <% end %>
+                                    </div>
+                                    <!-- TODO: デジタル、物理のテーブルを作成した時に実装する -->
+                                    <p class="text-sm lg:text-base">デジタル商品</p>
+                                </div>
+                                <!-- 削除ボタン -->
+                                <div
                 class="flex w-full flex-col items-center justify-center space-y-2 pt-2 md:w-1/3 md:space-y-6 md:pt-0"
               >
-                            <button
-                  type="button"
-                  class="w-full rounded-full bg-yellow-400 p-3 text-sm hover:bg-yellow-500 lg:p-2 lg:text-base"
-                >
-                                ご購入手続きへ
-                            </button>
-                            <%= form_with url: cart_path, method: :delete, class: 'w-full' do |f| %>
-                                <%= hidden_field_tag 'product_id', cart_item.id%>
-                                <%= button_tag '削除', type: 'submit', data: { turbo: false }, class: 'flex w-full justify-center rounded-full border border-gray-300 bg-white p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700' do %>
-                                    <svg
+                                    <p class="text-base font-bold text-gray-900 dark:text-white">¥<%= cart_item.price * @cart[cart_item.id.to_s]%></p>
+                                    <%= form_with url: cart_path, method: :delete, class: 'w-full' do |f| %>
+                                        <%= hidden_field_tag 'product_id', cart_item.id%>
+                                        <%= button_tag '削除', type: 'submit', data: { turbo: false }, class: 'flex w-full justify-center rounded-full border border-gray-300 bg-white p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700' do %>
+                                            <svg
                     class="h-6 w-6"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
@@ -70,18 +58,48 @@
                     fill="none"
                     viewBox="0 0 24 24"
                   >
-                                        <path
+                                                <path
                       stroke="currentColor"
                       stroke-linecap="round"
                       stroke-linejoin="round"
                       stroke-width="2"
                       d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
                     />
-                                        </svg>削除
-                                    <% end%>
-                                <% end %>
+                                                </svg>削除
+                                            <% end%>
+                                        <% end %>
+                                    </div>
+                                </div>
                             </div>
+                        <% end %>
+                    <% end %>
+                </div>
+                <!-- 合計金額 -->
+                <% unless @cart_items.empty? %>
+                    <div class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
+                        <div class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
+                            <p class="text-xl font-semibold text-gray-900 dark:text-white">注文内容</p>
+                            <div class="space-y-4">
+                                <div class="space-y-2">
+                                    <dl class="flex items-center justify-between gap-4">
+                                        <dt class="text-base font-normal text-gray-500 dark:text-gray-400">価格</dt>
+                                        <dd class="text-base font-medium text-gray-900 dark:text-white">¥<%= @total %></dd>
+                                    </dl>
+                                    <dl class="flex items-center justify-between gap-4">
+                                        <!-- TODO: 送料に関して考慮する場合は実装する。必要ない場合は削除する -->
+                                        <dt class="text-base font-normal text-gray-500 dark:text-gray-400">送料</dt>
+                                        <dd class="text-base font-medium text-gray-900 dark:text-white">¥0</dd>
+                                    </dl>
+                                </div>
+                                <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
+                                    <dt class="text-base font-bold text-gray-900 dark:text-white">合計（税込）</dt>
+                                    <dd class="text-base font-bold text-gray-900 dark:text-white">¥<%= @total %></dd>
+                                </dl>
+                            </div>
+                            <%= button_to 'レジに進む', "/checkout", data:{ turbo: false},  class: 'flex w-full items-center justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' %>
                         </div>
                     </div>
                 <% end %>
-            <% end %>
+            </div>
+        </div>
+    </section>

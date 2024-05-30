@@ -20,7 +20,9 @@ Rails.application.routes.draw do
   get 'up' => 'rails/health#show', as: :rails_health_check
   get 'sample', to: 'samples#index'
   get 'customer-test', to: 'customer_tests#index'
-  post 'stripe/webhook', to: 'stripe_webhooks#handler'
+
+  # Defines the root path route ("/")
+  # root "posts#index"
 
   # 管理者のルーティング
   namespace :admin do
@@ -38,5 +40,11 @@ Rails.application.routes.draw do
     resources :products, only: [] do
       resource :product_reviews, only: %i[show new create edit update destroy]
     end
+    resource :checkout, only: %i[create]
+    get 'checkout/success', to: 'checkouts#success'
+  end
+
+  namespace :webhooks do
+    resource :stripe, only: [:create]
   end
 end

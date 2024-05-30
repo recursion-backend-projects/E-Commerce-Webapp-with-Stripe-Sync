@@ -9,6 +9,7 @@ class Customer::CartsController < ApplicationController
     @cart = current_cart
     @cart_items = []
     @average_ratings = {}
+    @total = 0
     return if @cart.empty?
 
     @cart.each_key do |product_id|
@@ -18,6 +19,7 @@ class Customer::CartsController < ApplicationController
         flash.now[:alert] = 'カート内の商品が削除されました'
         update_cart_items_count
       else
+        @total += product.price * session[:cart][product_id]
         @cart_items.push(product)
         @average_ratings[product_id.to_i] = product.product_reviews.average(:rating).to_i
       end
