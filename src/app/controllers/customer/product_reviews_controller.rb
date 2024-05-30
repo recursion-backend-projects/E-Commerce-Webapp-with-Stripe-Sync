@@ -1,17 +1,15 @@
 class Customer::ProductReviewsController < ApplicationController
   before_action :authenticate_customer_account!, only: %i[new create edit update destroy]
-  before_action :set_product, only: %i[show new create]
+  before_action :set_customer, only: %i[show new edit]
+  before_action :set_product
+  before_action :set_product_review, only: %i[edit update]
 
   def show
-    @customer = true
-    @product = Product.find(params[:product_id])
     @product_reviews = @product.product_reviews.order(created_at: :desc).includes(customer: :customer_account)
     @average_rating = @product_reviews.average(:rating).to_i
   end
 
   def new
-    @customer = true
-    @product = Product.find(params[:product_id])
     @existing_review = ProductReview.find_by(product: @product, customer: current_customer_account)
     @product_reviews = @product.product_reviews.includes(customer: :customer_account)
     @average_rating = @product_reviews.average(:rating).to_i
@@ -25,16 +23,12 @@ class Customer::ProductReviewsController < ApplicationController
   end
 
   def edit
-    @customer = true
-    @product = Product.find(params[:product_id])
-    @product_review = ProductReview.find_by(product: @product, customer: current_customer_account)
     @product_reviews = @product.product_reviews
     @average_rating = @product_reviews.average(:rating).to_i
     @errors = flash[:errors]
   end
 
   def create
-    @product = Product.find(params[:product_id])
     @existing_review = ProductReview.find_by(product: @product, customer: current_customer_account)
     @product_review = ProductReview.new(product_review_params)
 
@@ -52,9 +46,6 @@ class Customer::ProductReviewsController < ApplicationController
   end
 
   def update
-    @product = Product.find(params[:product_id])
-    @product_review = ProductReview.find_by(product: @product, customer: current_customer_account)
-
     if @product_review.update(product_review_params)
       redirect_to product_product_reviews_path(@product), notice: 'レビューが更新されました。'
     else
@@ -71,11 +62,19 @@ class Customer::ProductReviewsController < ApplicationController
 
   private
 
+  def set_customer
+    @customer = true
+  end
+
   def set_product
     @product = Product.find(params[:product_id])
   rescue ActiveRecord::RecordNotFound
-    flash[:alert] = '商品が見つかりません'
-    redirect_to root_path
+    redirect_to root_path, alert: '商品が見つかりません'
+  end
+
+  def set_product_review
+    @product_review = ProductReview.find_by(product: @product, customer: current_customer_account)
+    redirect_to root_path, alert: 'レビューが見つかりません' if @product_review.nil?
   end
 
   def product_review_params
