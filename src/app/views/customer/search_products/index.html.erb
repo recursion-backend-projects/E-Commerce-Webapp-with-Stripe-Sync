@@ -1,0 +1,287 @@
+<!-- 商品リスト -->
+<div class="flex justify-center pt-10 antialiased">
+    <div class="flex flex-col md:w-3/4">
+        <h1 class="ml-1 text-2xl font-bold md:text-4xl">商品リスト</h1>
+        <h2 class="ml-1 py-3 text-lg text-gray-700 md:text-2xl">
+        絵画カテゴリーでの検索結果
+        </h2>
+        <form class="flex max-w-sm items-center">
+        <label for="sort-select" class="ml-1 block text-lg text-gray-900"
+            >並び替え :
+        </label>
+        <select
+            id="sort-select"
+            class="ml-2 block w-1/2 rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+        >
+            <option selected>高評価順</option>
+            <option value="new">新着順</option>
+            <option value="high-price">高価格順</option>
+            <option value="low-price">低価格順</option>
+        </select>
+        </form>
+
+        <div class="grid grid-cols-2 items-center gap-4 py-4 md:grid-cols-5">
+        <div class="rounded-lg bg-gray-200 p-3">
+            <!-- 商品情報は、商品毎に異なります -->
+            <a
+            href="#"
+            class="text-lg text-sky-400 hover:text-orange-400 hover:underline"
+            >
+            <img
+                class="mb-2 h-auto max-w-full rounded-lg"
+                src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg"
+                alt=""
+            />
+            絵画01
+            </a>
+            <!-- 物理商品 or デジタル商品 のどちらか -->
+            <p>デジタル商品</p>
+            <!-- 星評価を★と☆で表現する -->
+            <p class="pb-1 text-orange-500">★★★★★</p>
+
+            <!-- 在庫がある場合 -->
+            <span class="text-xl">¥100</span>
+            <!-- 在庫がない場合 -->
+            <!-- <span class="rounded-md bg-red-500 p-1 font-bold text-white"
+            >SOLD OUT</span
+        > -->
+        </div>
+        <div class="rounded-lg bg-gray-200 p-3">
+            <a
+            href="#"
+            class="text-lg text-sky-400 hover:text-orange-400 hover:underline"
+            >
+            <img
+                class="mb-2 h-auto max-w-full rounded-lg"
+                src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg"
+                alt=""
+            />
+            絵画02
+            </a>
+            <p>デジタル商品</p>
+            <p class="pb-1 text-orange-500">★★★★☆</p>
+            <span class="text-xl">¥100</span>
+        </div>
+        <div class="rounded-lg bg-gray-200 p-3">
+            <a
+            href="#"
+            class="text-lg text-sky-400 hover:text-orange-400 hover:underline"
+            >
+            <img
+                class="mb-2 h-auto max-w-full rounded-lg"
+                src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg"
+                alt=""
+            />
+            絵画03
+            </a>
+            <p>デジタル商品</p>
+            <p class="pb-1 text-orange-500">★★★☆☆</p>
+            <span class="rounded-md bg-red-500 p-1 font-bold text-white"
+            >SOLD OUT</span
+            >
+        </div>
+        <div class="rounded-lg bg-gray-200 p-3">
+            <a
+            href="#"
+            class="text-lg text-sky-400 hover:text-orange-400 hover:underline"
+            >
+            <img
+                class="mb-2 h-auto max-w-full rounded-lg"
+                src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg"
+                alt=""
+            />
+            絵画04
+            </a>
+            <p>デジタル商品</p>
+            <p class="pb-1 text-orange-500">★★☆☆☆</p>
+            <span class="text-xl">¥100</span>
+        </div>
+        <div class="rounded-lg bg-gray-200 p-3">
+            <a
+            href="#"
+            class="text-lg text-sky-400 hover:text-orange-400 hover:underline"
+            >
+            <img
+                class="mb-2 h-auto max-w-full rounded-lg"
+                src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg"
+                alt=""
+            />
+            絵画05
+            </a>
+            <p>デジタル商品</p>
+            <p class="pb-1 text-orange-500">★☆☆☆☆</p>
+            <span class="text-xl">¥100</span>
+        </div>
+        <div class="rounded-lg bg-gray-200 p-3">
+            <a
+            href="#"
+            class="text-lg text-sky-400 hover:text-orange-400 hover:underline"
+            >
+            <img
+                class="mb-2 h-auto max-w-full rounded-lg"
+                src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg"
+                alt=""
+            />
+            絵画06
+            </a>
+            <p>物理商品</p>
+            <p class="pb-1 text-orange-500">☆☆☆☆☆</p>
+            <span class="text-xl">¥6,500</span>
+        </div>
+        <div class="rounded-lg bg-gray-200 p-3">
+            <a
+            href="#"
+            class="text-lg text-sky-400 hover:text-orange-400 hover:underline"
+            >
+            <img
+                class="mb-2 h-auto max-w-full rounded-lg"
+                src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-6.jpg"
+                alt=""
+            />
+            絵画07
+            </a>
+            <p>物理商品</p>
+            <p class="pb-1 text-orange-500">★★★★★</p>
+            <span class="text-xl">¥7,200</span>
+        </div>
+        <div class="rounded-lg bg-gray-200 p-3">
+            <a
+            href="#"
+            class="text-lg text-sky-400 hover:text-orange-400 hover:underline"
+            >
+            <img
+                class="mb-2 h-auto max-w-full rounded-lg"
+                src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-7.jpg"
+                alt=""
+            />
+            絵画08
+            </a>
+            <p>物理商品</p>
+            <p class="pb-1 text-orange-500">★★★★★</p>
+            <span class="text-xl">¥6,700</span>
+        </div>
+        <div class="rounded-lg bg-gray-200 p-3">
+            <a
+            href="#"
+            class="text-lg text-sky-400 hover:text-orange-400 hover:underline"
+            >
+            <img
+                class="mb-2 h-auto max-w-full rounded-lg"
+                src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-8.jpg"
+                alt=""
+            />
+            絵画09
+            </a>
+            <p>物理商品</p>
+            <p class="pb-1 text-orange-500">★★★★★</p>
+            <span class="text-xl">¥9,200</span>
+        </div>
+        <div class="rounded-lg bg-gray-200 p-3">
+            <a
+            href="#"
+            class="text-lg text-sky-400 hover:text-orange-400 hover:underline"
+            >
+            <img
+                class="mb-2 h-auto max-w-full rounded-lg"
+                src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-9.jpg"
+                alt=""
+            />
+            絵画10
+            </a>
+            <p>物理商品</p>
+            <p class="pb-1 text-orange-500">★★★★★</p>
+            <span class="text-xl">¥10,000</span>
+        </div>
+        </div>
+
+        <!-- ページネーション -->
+        <div class="flex items-center justify-center py-4">
+        <nav aria-label="Page navigation">
+            <ul class="flex h-10 items-center -space-x-px text-base">
+            <li>
+                <a
+                href="#"
+                class="ms-0 flex h-10 items-center justify-center rounded-s-lg border border-e-0 border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                >
+                <span class="sr-only">前へ</span>
+                <svg
+                    class="h-3 w-3 rtl:rotate-180"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 6 10"
+                >
+                    <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 1 1 5l4 4"
+                    />
+                </svg>
+                </a>
+            </li>
+            <li>
+                <a
+                href="#"
+                aria-current="page"
+                class="z-10 flex h-10 items-center justify-center border border-blue-300 bg-blue-50 px-4 leading-tight text-blue-600 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
+                >1</a
+                >
+            </li>
+            <li>
+                <a
+                href="#"
+                class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                >2</a
+                >
+            </li>
+            <li>
+                <a
+                href="#"
+                class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                >3</a
+                >
+            </li>
+            <li>
+                <a
+                href="#"
+                class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                >4</a
+                >
+            </li>
+            <li>
+                <a
+                href="#"
+                class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                >5</a
+                >
+            </li>
+            <li>
+                <a
+                href="#"
+                class="flex h-10 items-center justify-center rounded-e-lg border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                >
+                <span class="sr-only">次へ</span>
+                <svg
+                    class="h-3 w-3 rtl:rotate-180"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 6 10"
+                >
+                    <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 9 4-4-4-4"
+                    />
+                </svg>
+                </a>
+            </li>
+            </ul>
+        </nav>
+        </div>
+    </div>
+</div>
