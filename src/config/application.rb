@@ -34,5 +34,7 @@ module DockerRailsTest
 
     # DBを読み書きする際に、DBに記録されている時間をどのタイムゾーンで読み込むかの設定
     config.active_record.default_timezone = :local
+
+    config.active_storage.urls_expire_in = 1.hour
   end
 end
