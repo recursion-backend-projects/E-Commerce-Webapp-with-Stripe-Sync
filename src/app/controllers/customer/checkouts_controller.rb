@@ -16,6 +16,7 @@ class Customer::CheckoutsController < ApplicationController
                                                  shipping_address_collection: {
                                                    allowed_countries: %w[JP]
                                                  },
+                                                 # requiredにしないと、請求先は国だけ選べるという微妙な見た目になってしまう
                                                  billing_address_collection: 'required'
                                                })
     redirect_to session.url, allow_other_host: true
