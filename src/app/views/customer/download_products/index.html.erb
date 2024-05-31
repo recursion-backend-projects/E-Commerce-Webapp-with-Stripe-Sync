@@ -1,1 +1,63 @@
-ダウンロードリスト
+<!-- Toast container -->
+<div id="toast-container" class="fixed bottom-5 right-5 flex flex-col gap-3"></div>
+
+<!-- ダウンロードリスト -->
+<div class="flex flex-col items-center pt-10 antialiased">
+  <div class="flex w-full flex-col space-y-6 py-6 md:w-4/5 lg:w-2/3">
+    <h1 class="py-2 text-center text-3xl font-bold md:text-start md:text-4xl text-gray-900 dark:text-white">
+      ダウンロードリスト
+    </h1>
+
+    <% if @download_products.any? %>
+      <% @download_products.each do |download_product| %>
+        <div class="mx-2 flex rounded-xl border border-gray-200 bg-white shadow-md p-3 md:p-6">
+          <!-- 商品画像 -->
+          <div class="flex w-1/2 items-center md:w-2/5 lg:w-1/3">
+            <% if download_product.product.images.attached? %>
+              <%= image_tag download_product.product.images.first.variant(resize_to_fill: [300, 200]).processed, class: 'block rounded-lg shadow-lg', alt: '商品画像' %>
+            <% else %>
+              <%= image_tag 'sample_image.jpg', class: 'rounded-lg shadow-md', size: "300x200", alt: '商品画像' %>
+            <% end %>
+          </div>
+
+          <!-- 商品情報 -->
+          <div class="ml-4 flex w-1/2 flex-col justify-between md:w-full md:flex-row md:ml-6">
+            <div class="space-y-2 md:w-2/3">
+              <a href="#" class="text-lg font-semibold text-sky-500 hover:text-orange-400 hover:underline">
+                <%= download_product.product.name %>
+              </a>
+              <p class="text-sm text-gray-700 dark:text-gray-300"><%= download_product.product.creator %></p>
+              <p class="text-sm font-bold text-orange-500 lg:text-base">★★★★★</p>
+
+              <p class="text-sm text-gray-700 dark:text-gray-300">デジタル商品</p>
+              <p class="text-sm font-semibold text-gray-900 dark:text-gray-300">有効期限: <%= (download_product.created_at + 30.days).strftime("%Y-%m-%d %H:%M:%S") %></p>
+              <p class="text-sm font-semibold text-gray-900 dark:text-gray-300">¥<%= download_product.product.price %></p>
+            </div>
+
+            <!-- オプションボタン -->
+            <div class="flex flex-col items-center space-y-2 md:space-y-4 md:pt-0 md:w-1/3">
+              <% if download_product.product.digital_file.attached? %>
+                <%= link_to 'ダウンロード', rails_blob_path(download_product.product.digital_file, disposition: "attachment"), class: 'w-full text-center rounded-full bg-emerald-400 p-3 text-sm text-white hover:bg-emerald-500 lg:p-2 lg:text-base' %>
+              <% end %>
+              <button
+                type="button"
+                class="w-full rounded-full bg-yellow-400 p-3 text-sm text-white hover:bg-yellow-500 lg:p-2 lg:text-base"
+              >
+                再度購入
+              </button>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="text-center text-gray-700 dark:text-gray-300">
+        ダウンロードリストに商品がありません。
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- ページネーション -->
+<%= render 'layouts/pagenation' %>
+
+<%= javascript_include_tag "clipboard", "data-turbo-track": "reload", type: "module" %>
