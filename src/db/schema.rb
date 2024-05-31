@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_29_235325) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_31_110338) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -107,6 +107,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_29_235325) do
     t.bigint "product_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "download_url"
     t.index ["customer_id", "product_id"], name: "index_download_products_on_customer_id_and_product_id", unique: true
     t.index ["customer_id"], name: "index_download_products_on_customer_id"
     t.index ["product_id"], name: "index_download_products_on_product_id"
