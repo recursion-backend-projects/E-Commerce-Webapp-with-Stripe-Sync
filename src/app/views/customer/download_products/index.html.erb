@@ -25,9 +25,7 @@
           <!-- 商品情報 -->
           <div class="ml-4 flex w-1/2 flex-col justify-between md:w-full md:flex-row md:ml-6">
             <div class="space-y-2 md:w-2/3">
-              <a href="#" class="text-lg font-semibold text-sky-500 hover:text-orange-400 hover:underline">
-                <%= download_product.product.name %>
-              </a>
+              <%= link_to download_product.product.name, product_path(download_product.product), class: 'text-lg font-semibold text-sky-500 hover:text-orange-400 hover:underline' %>
               <p class="text-sm text-gray-700 dark:text-gray-300"><%= download_product.product.creator %></p>
               <p class="text-sm font-bold text-orange-500 lg:text-base">★★★★★</p>
 
