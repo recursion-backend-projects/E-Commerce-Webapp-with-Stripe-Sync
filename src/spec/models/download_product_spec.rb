@@ -5,19 +5,33 @@ RSpec.describe DownloadProduct, type: :model do
   let(:product) { create(:product) }
 
   it 'is valid with valid attributes' do
-    download_product = DownloadProduct.new(customer: customer, product: product)
+    download_product = described_class.new(customer:, product:)
     expect(download_product).to be_valid
   end
 
-  it 'is not valid without a customer' do
-    download_product = DownloadProduct.new(customer: nil, product: product)
-    expect(download_product).to_not be_valid
-    expect(download_product.errors[:customer]).to include("を入力してください")
+  context 'without a customer' do
+    let(:download_product) { described_class.new(customer: nil, product:) }
+
+    it 'is not valid' do
+      expect(download_product).not_to be_valid
+    end
+
+    it 'has an error on customer' do
+      download_product.valid?
+      expect(download_product.errors[:customer]).to include('を入力してください')
+    end
   end
 
-  it 'is not valid without a product' do
-    download_product = DownloadProduct.new(customer: customer, product: nil)
-    expect(download_product).to_not be_valid
-    expect(download_product.errors[:product]).to include("を入力してください")
+  context 'without a product' do
+    let(:download_product) { described_class.new(customer:, product: nil) }
+
+    it 'is not valid' do
+      expect(download_product).not_to be_valid
+    end
+
+    it 'has an error on product' do
+      download_product.valid?
+      expect(download_product.errors[:product]).to include('を入力してください')
+    end
   end
 end
