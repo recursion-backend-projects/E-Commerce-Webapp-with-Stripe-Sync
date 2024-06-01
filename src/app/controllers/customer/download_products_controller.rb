@@ -3,6 +3,6 @@ class Customer::DownloadProductsController < ApplicationController
 
     def index
       @customer = true
-      @download_products = current_customer.download_products
+      @download_products = current_customer.download_products.order(updated_at: :desc)
     end
 end
