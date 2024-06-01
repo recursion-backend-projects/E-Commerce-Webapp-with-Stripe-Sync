@@ -131,7 +131,6 @@ class Webhooks::StripesController < ApplicationController
 
       # 商品がデジタル商品でない場合は登録せず次のループに飛ばす
       unless product.product_type == digital_status
-        Rails.logger.debug("デジタル商品ではないので飛ばします")
         next
       end
 
