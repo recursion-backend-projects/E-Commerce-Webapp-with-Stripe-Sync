@@ -141,6 +141,19 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_31_110338) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "product_reviews", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "rating", null: false
+    t.string "title", null: false
+    t.text "review", null: false
+    t.bigint "customer_id", null: false
+    t.bigint "product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id", "product_id"], name: "index_product_reviews_on_customer_id_and_product_id", unique: true
+    t.index ["customer_id"], name: "index_product_reviews_on_customer_id"
+    t.index ["product_id"], name: "index_product_reviews_on_product_id"
+  end
+
   create_table "products", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.integer "price", null: false
@@ -174,6 +187,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_31_110338) do
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "products"
   add_foreign_key "orders", "customers"
+  add_foreign_key "product_reviews", "customers"
+  add_foreign_key "product_reviews", "products"
   add_foreign_key "products", "product_categories"
   add_foreign_key "wish_products", "customers"
   add_foreign_key "wish_products", "products"
