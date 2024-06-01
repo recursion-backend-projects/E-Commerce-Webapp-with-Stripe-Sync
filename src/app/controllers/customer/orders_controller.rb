@@ -6,7 +6,7 @@ class Customer::OrdersController < ApplicationController
     @product_reviews = @orders.each_with_object({}) do |order, hash|
       order.order_items.each do |order_item|
         product = order_item.product
-        review = ProductReview.find_by(product: product, customer: current_customer_account)
+        review = ProductReview.find_by(product:, customer: current_customer_account)
         hash[product.id] = review if review
       end
     end
