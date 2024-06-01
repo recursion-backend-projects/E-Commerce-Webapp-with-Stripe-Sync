@@ -57,7 +57,7 @@ class Customer::ProductReviewsController < ApplicationController
   def destroy
     @product_review = ProductReview.find(params[:productReview_id])
     @product_review.destroy
-    redirect_to purchase_histories_path, notice: 'レビューが削除されました。'
+    redirect_to orders_path, notice: 'レビューが削除されました。'
   end
 
   private
