@@ -5,3 +5,12 @@ ja:
       published: 公開中
       archived: アーカイブ済み
       trashed: ゴミ箱
+  activerecord:
+    attributes:
+      shipping:
+        carriers:
+          sagawa: "佐川急便"
+          yamato: "ヤマト運輸"
+          nihon_yubin: "日本郵便"
+          seinou: "西濃運輸"
+          hukuyama: "福山運輸"
