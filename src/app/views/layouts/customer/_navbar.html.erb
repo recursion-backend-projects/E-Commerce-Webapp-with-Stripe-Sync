@@ -147,16 +147,16 @@
                 </p>
               </li>
               <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">絵画</a>
+                <%= link_to '絵画', search_products_path(type: 'category', keyword: '絵画'), data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
               </li>
               <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">彫刻</a>
+                <%= link_to '彫刻', search_products_path(type: 'category', keyword: '彫刻'), data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
               </li>
               <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">写真</a>
+                <%= link_to '写真', search_products_path(type: 'category', keyword: '写真'), data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
               </li>
               <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">イラスト</a>
+                <%= link_to 'イラスト', search_products_path(type: 'category', keyword: 'イラスト'), data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
               </li>
             </ul>
           </div>

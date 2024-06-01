@@ -21,7 +21,37 @@
         </form>
 
         <div class="grid grid-cols-2 items-center gap-4 py-4 md:grid-cols-5">
-        <div class="rounded-lg bg-gray-200 p-3">
+            <% if @products.any? %>
+                <% @products.each do |product| %>
+                    <div class="rounded-lg bg-gray-200 p-3">
+                        <!-- 商品情報は、商品毎に異なります -->
+                        <a
+                        href="#"
+                        class="text-lg text-sky-400 hover:text-orange-400 hover:underline"
+                        >
+                        <img
+                            class="mb-2 h-auto max-w-full rounded-lg"
+                            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg"
+                            alt=""
+                        />
+                        <%= product.name %>
+                        </a>
+                        <!-- 物理商品 or デジタル商品 のどちらか -->
+                        <p>デジタル商品</p>
+                        <!-- 星評価を★と☆で表現する -->
+                        <p class="pb-1 text-orange-500">★★★★★</p>
+
+                        <!-- 在庫がある場合 -->
+                        <span class="text-xl">¥100</span>
+                        <!-- 在庫がない場合 -->
+                        <!-- <span class="rounded-md bg-red-500 p-1 font-bold text-white"
+                        >SOLD OUT</span
+                    > -->
+                    </div>
+                <% end %>
+            <% end %>
+
+        <%# <div class="rounded-lg bg-gray-200 p-3">
             <!-- 商品情報は、商品毎に異なります -->
             <a
             href="#"
@@ -191,7 +221,7 @@
             <p>物理商品</p>
             <p class="pb-1 text-orange-500">★★★★★</p>
             <span class="text-xl">¥10,000</span>
-        </div>
+        </div> %>
         </div>
 
         <!-- ページネーション -->
