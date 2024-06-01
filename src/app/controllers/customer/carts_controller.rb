@@ -8,6 +8,7 @@ class Customer::CartsController < ApplicationController
     @customer = true
     @cart = current_cart
     @cart_items = []
+    @average_ratings = {}
     @total = 0
     return if @cart.empty?
 
@@ -20,6 +21,7 @@ class Customer::CartsController < ApplicationController
       else
         @total += product.price * session[:cart][product_id]
         @cart_items.push(product)
+        @average_ratings[product_id.to_i] = product.product_reviews.average(:rating).to_i
       end
     end
   end

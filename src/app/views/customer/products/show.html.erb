@@ -15,7 +15,7 @@
       <p class="text-sm lg:text-base">リリース日 : 2021年4月25日</p>
       <!-- 星評価を★と☆で表現する -->
       <p class="text-sm font-bold text-orange-500 lg:text-base">
-        総合評価 : ★★★★★
+        総合評価 : <%= star_rating(@average_rating) %>
       </p>
       <p class="text-sm lg:text-base">在庫数 : 3</p>
       <p class="text-sm lg:text-base">鮮やかな色合いが特徴の商品。</p>
@@ -107,99 +107,34 @@
   </div>
   <!-- レビュー -->
   <div class="w-full py-4 md:w-3/4">
-    <div class="flex flex-col space-y-4 pl-12 md:pl-6">
+    <div class="flex flex-col pl-12 md:pl-6">
       <h2 class="text-sm md:text-lg">レビュー</h2>
-      <!-- レビュー1 -->
-      <div class="flex items-center gap-4 pt-2">
-        <!-- デフォルトアバターアイコン -->
-        <div class="relative h-8 w-8 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-600">
-          <svg class="absolute -left-1 h-12 w-12 text-gray-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-          </svg>
+      <!-- レビューリスト -->
+      <% if @product_reviews.any? %>
+        <% @product_reviews.each do |review| %>
+          <div class="flex items-center gap-4 pt-4">
+              <!-- デフォルトアバターアイコン -->
+              <div class="relative h-8 w-8 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-600">
+              <svg class="absolute -left-1 h-12 w-12 text-gray-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+              </svg>
+              </div>
+              <p class="font-medium"><%= review.customer_account.user_name %></p>
+          </div>
+          <p class="pt-2 w-5/6 text-sm md:w-2/3">投稿日 : <%= review.created_at.strftime("%Y年%m月%d日") %></p>
+          <div class="py-1 flex">
+              <p class="font-bold text-orange-500"><%= star_rating(review.rating) %></p>
+              <p class="ml-1 w-5/6 md:w-2/3"><%= review.title %></p>
+          </div>
+          <p class="w-5/6 text-sm md:w-2/3"><%=safe_join(review.review.split("\n"),tag(:br))%></p>
+        <% end %>
+        <!-- レビューリストページへのリンク -->
+        <div class="py-4">
+          <%= link_to 'レビューをすべて見る', product_product_reviews_path(@product), class: 'text-sky-400 hover:text-orange-400 hover:underline md:text-lg' %>
         </div>
-        <p class="font-medium">User01</p>
-      </div>
-      <div class="flex">
-        <p class="font-bold text-orange-500">★★★★★</p>
-        <p class="ml-1 w-5/6 md:w-2/3">購入してみました</p>
-      </div>
-      <p class="w-5/6 text-sm md:w-2/3">
-        デジタル商品を購入して、PCのデスクトップ画像にしました。PCをつけると、今日も頑張ろうと思えます!
-      </p>
-      <!-- レビュー2 -->
-      <div class="flex items-center gap-4 pt-2">
-        <!-- デフォルトアバターアイコン -->
-        <div class="relative h-8 w-8 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-600">
-          <svg class="absolute -left-1 h-12 w-12 text-gray-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-          </svg>
-        </div>
-        <p class="font-medium">User02</p>
-      </div>
-      <div class="flex">
-        <p class="font-bold text-orange-500">★★★★★</p>
-        <p class="ml-1 w-5/6 md:w-2/3">購入してみました</p>
-      </div>
-      <p class="w-5/6 text-sm md:w-2/3">
-        デジタル商品を購入して、PCのデスクトップ画像にしました。PCをつけると、今日も頑張ろうと思えます!
-      </p>
-      <!-- レビュー3 -->
-      <div class="flex items-center gap-4 pt-2">
-        <!-- デフォルトアバターアイコン -->
-        <div class="relative h-8 w-8 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-600">
-          <svg class="absolute -left-1 h-12 w-12 text-gray-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-          </svg>
-        </div>
-        <p class="font-medium">User03</p>
-      </div>
-      <div class="flex">
-        <p class="font-bold text-orange-500">★★★★★</p>
-        <p class="ml-1 w-5/6 md:w-2/3">購入してみました</p>
-      </div>
-      <p class="w-5/6 text-sm md:w-2/3">
-        デジタル商品を購入して、PCのデスクトップ画像にしました。PCをつけると、今日も頑張ろうと思えます!
-      </p>
-      <!-- レビュー4 -->
-      <div class="flex items-center gap-4 pt-2">
-        <!-- デフォルトアバターアイコン -->
-        <div class="relative h-8 w-8 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-600">
-          <svg class="absolute -left-1 h-12 w-12 text-gray-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-          </svg>
-        </div>
-        <p class="font-medium">User04</p>
-      </div>
-      <div class="flex">
-        <p class="font-bold text-orange-500">★★★★★</p>
-        <p class="ml-1 w-5/6 md:w-2/3">購入してみました</p>
-      </div>
-      <p class="w-5/6 text-sm md:w-2/3">
-        デジタル商品を購入して、PCのデスクトップ画像にしました。PCをつけると、今日も頑張ろうと思えます!
-      </p>
-      <!-- レビュー5 -->
-      <div class="flex items-center gap-4 pt-2">
-        <!-- デフォルトアバターアイコン -->
-        <div class="relative h-8 w-8 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-600">
-          <svg class="absolute -left-1 h-12 w-12 text-gray-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-          </svg>
-        </div>
-        <p class="font-medium">User05</p>
-      </div>
-      <div class="flex">
-        <p class="font-bold text-orange-500">★★★★★</p>
-        <p class="ml-1 w-5/6 md:w-2/3">購入してみました</p>
-      </div>
-      <p class="w-5/6 text-sm md:w-2/3">
-        デジタル商品を購入して、PCのデスクトップ画像にしました。PCをつけると、今日も頑張ろうと思えます!
-      </p>
-      <!-- レビューリストページへのリンク -->
-      <div class="py-4">
-        <a href="#" class="text-sky-400 hover:text-orange-400 hover:underline md:text-lg">
-          レビューをすべて見る
-        </a>
-      </div>
+      <% else %>
+        <p class="text-sm lg:text-base py-4">この商品にはまだレビューがありません。</p>
+      <% end %>
     </div>
   </div>
 </div>
