@@ -5,7 +5,6 @@ class DownloadProduct < ApplicationRecord
 
     #validates :customer_id, uniqueness: { scope: :product_id, message: 'この商品はすでにお気に入りリストに追加されています。' }
 
-    private
 
     def generate_download_url
         self.download_url = Rails.application.routes.url_helpers.rails_blob_path(

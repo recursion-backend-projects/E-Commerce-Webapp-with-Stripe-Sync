@@ -30,7 +30,7 @@
               <p class="text-sm font-bold text-orange-500 lg:text-base">★★★★★</p>
 
               <p class="text-sm text-gray-700 dark:text-gray-300">デジタル商品</p>
-              <p class="text-sm font-semibold text-gray-900 dark:text-gray-300">有効期限: <%= (download_product.created_at + 30.days).strftime("%Y-%m-%d %H:%M:%S") %></p>
+              <p class="text-sm font-semibold text-gray-900 dark:text-gray-300">有効期限: <%= (download_product.updated_at + 30.days).strftime("%Y-%m-%d %H:%M:%S") %></p>
               <p class="text-sm font-semibold text-gray-900 dark:text-gray-300">¥<%= download_product.product.price %></p>
             </div>
 
