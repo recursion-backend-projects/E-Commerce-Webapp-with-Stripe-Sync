@@ -100,6 +100,7 @@ class Webhooks::StripesController < ApplicationController
     )
 
     create_order_items(line_items, order)
+    create_shipping(order)
   end
 
   def create_order_items(line_items, order)
@@ -127,5 +128,10 @@ class Webhooks::StripesController < ApplicationController
 
   def generate_random_digit(digit)
     Array.new(digit) { rand(9) }.join
+  end
+
+  # TODO: 物理製品を含んでいる場合のみcreate_shippingするようにする
+  def create_shipping(order)
+    Shipping.create(order:)
   end
 end
