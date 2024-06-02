@@ -10,7 +10,9 @@
         <p><%= I18n.t("shipping.carriers.#{@shipping.carrier}")  %> 追跡番号: <code><%= @shipping.tracking_number %></code></p>
         <h3>配送中のアイテム</h3>
         <% @order.order_items.each do |order_item|%>
-            <h4><%= order_item.product.name + ' × ' +  order_item.quantity.to_s %></h4>
+            <% if order_item.product.physics? %>
+                <h4><%= order_item.product.name + ' × ' +  order_item.quantity.to_s %></h4>
+            <% end %>
         <% end %>
         <p>ご質問やご不明な点がございましたら、下記アドレスまでお問い合わせ頂きますようお願い致します。</p>
         <p>E-Mail: art-sa2.shop@gmail.com</p>
