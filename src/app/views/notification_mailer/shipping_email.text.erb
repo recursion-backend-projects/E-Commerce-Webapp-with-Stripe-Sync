@@ -6,7 +6,9 @@
 
 配送中のアイテム
 <% @order.order_items.each do |order_item|%>
-    <%= order_item.product.name + ' × ' +  order_item.quantity.to_s %>
+    <% if order_item.product.physics? %>
+        <h4><%= order_item.product.name + ' × ' +  order_item.quantity.to_s %></h4>
+    <% end %>
 <% end %>
 
 ご質問やご不明な点がございましたら、下記アドレスまでお問い合わせ頂きますようお願い致します。
