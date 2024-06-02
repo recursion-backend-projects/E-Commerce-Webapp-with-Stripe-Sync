@@ -2,7 +2,7 @@
 お客様のご注文は配送中です。
 
 追跡番号から配送状況をご確認いただけます。
-<%= I18n.t("activerecord.attributes.shipping.carriers.#{@shipping.carrier}")  %> 追跡番号: <%= @shipping.tracking_number %>
+<%= I18n.t("shipping.carriers.#{@shipping.carrier}")  %> 追跡番号: <%= @shipping.tracking_number %>
 
 配送中のアイテム
 <% @order.order_items.each do |order_item|%>

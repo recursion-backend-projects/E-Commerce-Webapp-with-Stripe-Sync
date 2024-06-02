@@ -19,9 +19,9 @@
             <div class="flex flex-col">
                 <%= form.label :carrier, "配送会社", class: 'font-bold' %>
                 <% if @shipping.shipped? %>
-                    <%= form.select :carrier, Shipping.carriers.keys.map{|key|[I18n.t("activerecord.attributes.shipping.carriers.#{key}"), key]},{},{ disabled: true, class: 'block rounded-lg border border-gray-300 bg-gray-200 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500  cursor-not-allowed' } %>
+                    <%= form.select :carrier, Shipping.carriers.keys.map{|key|[I18n.t("shipping.carriers.#{key}"), key]},{},{ disabled: true, class: 'block rounded-lg border border-gray-300 bg-gray-200 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500  cursor-not-allowed' } %>
                 <% else %>
-                    <%= form.select :carrier, Shipping.carriers.keys.map{|key|[I18n.t("activerecord.attributes.shipping.carriers.#{key}"), key]}, { prompt: "選択してください"  }, { required: true,class: 'block rounded-lg border border-gray-300 bg-gray-200 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500' } %>
+                    <%= form.select :carrier, Shipping.carriers.keys.map{|key|[I18n.t("shipping.carriers.#{key}"), key]}, { prompt: "選択してください"  }, { required: true,class: 'block rounded-lg border border-gray-300 bg-gray-200 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500' } %>
                 <% end %>
             </div>
             <div class="flex flex-col">
