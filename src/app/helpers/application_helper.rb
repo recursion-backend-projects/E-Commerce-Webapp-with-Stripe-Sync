@@ -38,4 +38,11 @@ module ApplicationHelper
       end
     end
   end
+
+  def star_rating(rating)
+    rating = 0 if rating.nil?
+    full_stars = '★' * rating
+    empty_stars = '☆' * (5 - rating)
+    full_stars + empty_stars
+  end
 end

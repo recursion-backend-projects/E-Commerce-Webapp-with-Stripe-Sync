@@ -5,6 +5,11 @@ class Customer::WishProductsController < ApplicationController
 
   def index
     @wish_products = @customer.wish_products
+    @average_ratings = {}
+
+    @wish_products.each do |wish_product|
+      @average_ratings[wish_product.product.id] = wish_product.product.product_reviews.average(:rating).to_i
+    end
   end
 
   def create
