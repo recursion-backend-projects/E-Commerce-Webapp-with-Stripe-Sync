@@ -63,11 +63,10 @@
             aria-labelledby="menuDropdownButton"
           >
             <li>
-              <a
-                href="#"
-                class="block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >商品管理</a
-              >
+              <%= link_to '商品管理', admin_products_path, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
+            </li>
+            <li>
+              <%= link_to '発送管理', admin_shippings_path, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
             </li>
             <!-- ログインユーザーの場合 -->
             <li>
