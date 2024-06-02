@@ -23,4 +23,5 @@ class Product < ApplicationRecord
   has_many :product_reviews, dependent: :destroy
   has_many_attached :images
   has_one_attached :digital_file
+  has_one :order_item
 end
