@@ -1,0 +1,13 @@
+ご注文番号 <%= @order.order_number %> の商品を発送いたしました。
+お客様のご注文は配送中です。
+
+追跡番号から配送状況をご確認いただけます。
+<%= I18n.t("activerecord.attributes.shipping.carriers.#{@shipping.carrier}")  %> 追跡番号: <%= @shipping.tracking_number %>
+
+配送中のアイテム
+<% @order.order_items.each do |order_item|%>
+    <%= order_item.product.name + ' × ' +  order_item.quantity.to_s %>
+<% end %>
+
+ご質問やご不明な点がございましたら、下記アドレスまでお問い合わせ頂きますようお願い致します。
+E-Mail: art-sa2.shop@gmail.com
