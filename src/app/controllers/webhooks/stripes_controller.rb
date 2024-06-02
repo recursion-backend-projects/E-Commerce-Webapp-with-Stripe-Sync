@@ -78,10 +78,7 @@ class Webhooks::StripesController < ApplicationController
   end
 
   def create_order(session)
-    session_object = Stripe::Checkout::Session.retrieve({
-                                                          expand: ['line_items'],
-                                                          id: session.id
-                                                        })
+    session_object = Stripe::Checkout::Session.retrieve({ expand: ['line_items'], id: session.id })
     line_items = session_object.line_items
     payment_intent = Stripe::PaymentIntent.retrieve(session.payment_intent)
     charge = Stripe::Charge.retrieve(payment_intent.latest_charge)
@@ -161,8 +158,9 @@ class Webhooks::StripesController < ApplicationController
     Array.new(digit) { rand(9) }.join
   end
 
-  # TODO: 物理製品を含んでいる場合のみcreate_shippingするようにする
   def create_shipping(order)
+    return unless order.order_items.any? { |order_item| order_item.product.physics? }
+
     Shipping.create(order:)
   end
 end
