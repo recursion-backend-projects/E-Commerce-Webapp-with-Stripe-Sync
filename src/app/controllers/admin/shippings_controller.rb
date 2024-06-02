@@ -13,14 +13,20 @@ class Admin::ShippingsController < ApplicationController
     @admin = true
     @shipping = Shipping.find(params[:id])
 
-    begin
-      if @shipping.update!(shipping_params)
-        redirect_to :edit, status: :ok
-      else
-        render :edit, status: :unprocessable_entity
-      end
-    rescue ActiveRecord::RecordInvalid => e
-      flash[:alert] = '追跡番号は8文字以上18桁以内、英数字（大文字のみ）有効です'
+    if @shipping.update(shipping_params)
+      @shipping.update(status: :shipped)
+
+      expires_now
+      redirect_to edit_admin_shipping_path(@shipping), notice: '商品発送の通知メールを送信しました'
+
+      email = @shipping.order.guest_email? ? @shipping.order.guest_email : @shipping.order.customer.customer_account.email
+
+      # 発送通知メールを顧客に送信
+      NotificationMailer.with(email:, shipping: @shipping).shipping_email.deliver_later
+    else
+      flash.now[:alert] = '正しい値を入力してください'
+      render :edit, status: :unprocessable_entity
+
     end
   end
 
