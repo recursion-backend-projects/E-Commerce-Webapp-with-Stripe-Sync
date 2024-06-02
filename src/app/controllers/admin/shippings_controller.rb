@@ -14,7 +14,7 @@ class Admin::ShippingsController < ApplicationController
     @shipping = Shipping.find(params[:id])
 
     if @shipping.update(shipping_params)
-      @shipping.update(status: :shipped)
+      @shipping.update(status: :shipped, shipping_at: Time.current)
 
       expires_now
       redirect_to edit_admin_shipping_path(@shipping), notice: '商品発送の通知メールを送信しました'
