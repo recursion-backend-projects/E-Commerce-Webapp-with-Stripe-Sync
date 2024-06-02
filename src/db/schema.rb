@@ -102,6 +102,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_31_110338) do
     t.string "stripe_customer_id"
   end
 
+  create_table "download_products", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "customer_id", null: false
+    t.bigint "product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "download_url"
+    t.index ["customer_id", "product_id"], name: "index_download_products_on_customer_id_and_product_id", unique: true
+    t.index ["customer_id"], name: "index_download_products_on_customer_id"
+    t.index ["product_id"], name: "index_download_products_on_product_id"
+  end
+
   create_table "favorite_products", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "customer_id", null: false
     t.bigint "product_id", null: false
@@ -166,6 +177,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_31_110338) do
     t.string "creator"
     t.bigint "product_category_id"
     t.string "stripe_price_id"
+    t.integer "product_type", default: 0
     t.index ["product_category_id"], name: "index_products_on_product_category_id"
   end
 
@@ -182,6 +194,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_31_110338) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "customer_accounts", "customers"
+  add_foreign_key "download_products", "customers"
+  add_foreign_key "download_products", "products"
   add_foreign_key "favorite_products", "customers"
   add_foreign_key "favorite_products", "products"
   add_foreign_key "order_items", "orders"

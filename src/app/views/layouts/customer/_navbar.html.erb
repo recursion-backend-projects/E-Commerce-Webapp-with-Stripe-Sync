@@ -80,6 +80,9 @@
                 <%= link_to '購入履歴', orders_path, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
               </li>
               <li>
+              <%= link_to 'ダウンロードリスト', download_products_path, data: { turbo_method: :get }, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
+              </li>
+              <li>
                 <a href="#" class="block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">アカウント情報</a>
               </li>
               <li>
@@ -119,6 +122,15 @@
                 </p>
                 <div id="orderlist-tooltip" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm dark:bg-gray-700">
                   ログインすると、購入履歴を利用できます
+                  <div class="tooltip-arrow" data-popper-arrow></div>
+                </div>
+              </li>
+              <li>
+                <p data-tooltip-target="download-list-tooltip" data-tooltip-placement="left" class="block px-4 py-2 font-bold text-gray-300 dark:text-gray-400">
+                  ダウンロードリスト
+                </p>
+                <div id="download-list-tooltip" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm dark:bg-gray-700">
+                  ログインすると、ダウンロードリストを利用できます
                   <div class="tooltip-arrow" data-popper-arrow></div>
                 </div>
               </li>

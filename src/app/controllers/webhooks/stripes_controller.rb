@@ -100,6 +100,7 @@ class Webhooks::StripesController < ApplicationController
     )
 
     create_order_items(line_items, order)
+    create_download_products(line_items, order)
   end
 
   def create_order_items(line_items, order)
@@ -114,6 +115,36 @@ class Webhooks::StripesController < ApplicationController
         order:,
         product:
       )
+    end
+  end
+
+  def create_download_products(line_items, order)
+    unless order.customer_id
+      Rails.logger.debug { "注文 #{order.id} に customer_id が見つかりませんでした" }
+      return
+    end
+
+    digital_status = 'digital'
+
+    line_items.data.each do |line_item|
+      product = Product.find_by(stripe_product_id: line_item.price.product)
+
+      # 商品がデジタル商品でない場合は登録せず次のループに飛ばす
+      next unless product.product_type == digital_status
+
+      # 既に同じ顧客と商品の組み合わせが存在する場合は更新
+      download_product = DownloadProduct.find_or_initialize_by(
+        customer_id: order.customer_id,
+        product_id: product.id
+      )
+
+      if download_product.new_record?
+        download_product.save
+        Rails.logger.debug { "DownloadProductを新規作成しました - customer_id: #{order.customer_id}, product_id: #{product.id}" }
+      else
+        download_product.generate_download_url
+        Rails.logger.debug { "DownloadProductを更新しました - customer_id: #{order.customer_id}, product_id: #{product.id}" }
+      end
     end
   end
 
