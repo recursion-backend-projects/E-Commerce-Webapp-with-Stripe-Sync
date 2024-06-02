@@ -45,6 +45,10 @@
         <%= form.text_field :creator, class: 'rounded border border-gray-300 p-2 focus:ring focus:ring-blue-500' %>
       </div>
       <div class="flex flex-col">
+        <%= form.label :product_type, "商品タイプ", class: 'font-bold' %>
+        <%= form.select :product_type, Product.product_types.keys.map { |pt| [I18n.t("products.product_type.#{pt}"), pt] }, {}, { class: 'block rounded-lg border border-gray-300 bg-gray-200 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500' } %>
+      </div>
+      <div class="flex flex-col">
         <%= form.label 'カテゴリー', class: 'font-bold' %>
         <%= form.select :product_category_id, options_for_select(@categories.map { |c| [c.name, c.id] }, @product.product_category_id), {}, { class: 'block rounded-lg border border-gray-300 bg-gray-200 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500' } %>
       </div>
@@ -62,6 +66,27 @@
         <%= form.label :status, "ステータス", class: 'font-bold' %>
         <%= form.select :status, Product.statuses.keys.map { |s| [I18n.t("products.status.#{s}"), s] }, {}, { class: 'block rounded-lg border border-gray-300 bg-gray-200 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500' } %>
       </div>
+      <div class="flex flex-col">
+        <% if @product.order_item.nil? %>
+          <%= form.label :digital_file, "配信ファイル", class: 'font-bold' %>
+          <% if @product.digital_file.attached? && @product.digital_file.persisted? %>
+            <div class="flex flex-col space-y-2">
+              <%= link_to @product.digital_file.filename, rails_blob_path(@product.digital_file, disposition: 'attachment'), class: 'text-blue-600 underline hover:text-blue-800' %>
+              <div class="mt-2 flex items-center">
+                <%= form.check_box :remove_digital_file, { class: 'mr-2' }, '1', '0' %>
+                <%= form.label :remove_digital_file, "ファイルを削除" %>
+              </div>
+            </div>
+          <% end %>
+          <%= form.file_field :digital_file, class: 'mt-2 block cursor-pointer rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-400' %>
+          <% @product.errors.full_messages_for(:digital_file).each do |message| %>
+            <div class="text-red-500 text-sm mt-1 bg-red-100 p-2 rounded-md"><%= message %></div>
+          <% end %>
+        <% else %>
+          <p class="text-red-500">この商品は既に購入されたため、配信ファイルの変更や削除はできません。</p>
+        <% end %>
+      </div>
+
       <div class="flex justify-between">
         <%= link_to 'キャンセル', admin_products_path, class: 'text-center my-2 w-1/4 rounded-lg border border-gray-300 bg-white py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700' %>
         <%= form.submit '保存する', class: 'my-2 w-1/4 rounded bg-yellow-400 py-2 hover:bg-yellow-500 hover:cursor-pointer' %>

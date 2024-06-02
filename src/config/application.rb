@@ -39,5 +39,7 @@ module DockerRailsTest
     config.action_view.field_error_proc = Proc.new do |html_tag, instance|
       %Q(#{html_tag}).html_safe
     end
+    # Active Storage URLの有効期限を30日に設定
+    config.active_storage.urls_expire_in = 30.days
   end
 end

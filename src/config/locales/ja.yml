@@ -14,3 +14,6 @@ ja:
           nihon_yubin: "日本郵便"
           seinou: "西濃運輸"
           hukuyama: "福山運輸"
+    product_type:
+      physics: "物理"
+      digital: "デジタル"

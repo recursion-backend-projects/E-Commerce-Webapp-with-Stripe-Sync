@@ -95,3 +95,6 @@ Metrics/BlockLength:
 Naming/VariableNumber:
   Exclude:
     - "spec/factories/customers.rb"
+
+Metrics/ClassLength:
+  Max: 120
