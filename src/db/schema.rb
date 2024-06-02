@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_01_015501) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_02_005424) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -102,6 +102,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_01_015501) do
     t.string "stripe_customer_id"
   end
 
+  create_table "download_products", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "customer_id", null: false
+    t.bigint "product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "download_url"
+    t.index ["customer_id", "product_id"], name: "index_download_products_on_customer_id_and_product_id", unique: true
+    t.index ["customer_id"], name: "index_download_products_on_customer_id"
+    t.index ["product_id"], name: "index_download_products_on_product_id"
+  end
+
   create_table "favorite_products", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "customer_id", null: false
     t.bigint "product_id", null: false
@@ -141,6 +152,19 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_01_015501) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "product_reviews", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "rating", null: false
+    t.string "title", null: false
+    t.text "review", null: false
+    t.bigint "customer_id", null: false
+    t.bigint "product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id", "product_id"], name: "index_product_reviews_on_customer_id_and_product_id", unique: true
+    t.index ["customer_id"], name: "index_product_reviews_on_customer_id"
+    t.index ["product_id"], name: "index_product_reviews_on_product_id"
+  end
+
   create_table "products", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.integer "price", null: false
@@ -153,6 +177,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_01_015501) do
     t.string "creator"
     t.bigint "product_category_id"
     t.string "stripe_price_id"
+    t.integer "product_type", default: 0
     t.index ["product_category_id"], name: "index_products_on_product_category_id"
   end
 
@@ -165,6 +190,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_01_015501) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["order_id"], name: "index_shippings_on_order_id"
+    t.index ["tracking_number"], name: "index_shippings_on_tracking_number", unique: true
   end
 
   create_table "wish_products", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -180,11 +206,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_01_015501) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "customer_accounts", "customers"
+  add_foreign_key "download_products", "customers"
+  add_foreign_key "download_products", "products"
   add_foreign_key "favorite_products", "customers"
   add_foreign_key "favorite_products", "products"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "products"
   add_foreign_key "orders", "customers"
+  add_foreign_key "product_reviews", "customers"
+  add_foreign_key "product_reviews", "products"
   add_foreign_key "products", "product_categories"
   add_foreign_key "shippings", "orders"
   add_foreign_key "wish_products", "customers"
