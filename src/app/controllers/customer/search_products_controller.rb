@@ -8,6 +8,7 @@ class Customer::SearchProductsController < ApplicationController
     @keyword = params[:keyword]
     @products = nil
     @column_name = nil
+    @average_ratings = {}
 
     if @type.present? && @keyword.present? && VALID_COLUMNS.keys.include?(@type)
       if @type == "category"
@@ -16,6 +17,12 @@ class Customer::SearchProductsController < ApplicationController
         @products = Product.where("#{@type} LIKE ?", "%#{@keyword}%")
       end
       @column_name = VALID_COLUMNS[@type]
+    end
+
+    if @products.present?
+      @products.each do |product|
+        @average_ratings[product.id] = product.product_reviews.average(:rating).to_i
+      end
     end
   end
 end
