@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_02_005424) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_03_081220) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -41,18 +41,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_02_005424) do
 
   create_table "addresses", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "zip_code"
-    t.string "state"
-    t.string "city"
     t.string "street_address"
     t.string "street_address_2"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "addressable_type"
     t.bigint "addressable_id"
+    t.integer "prefecture_id"
     t.index ["addressable_type", "addressable_id"], name: "index_addresses_on_addressable"
-    t.index ["city", "zip_code"], name: "index_addresses_on_city_and_zip_code"
-    t.index ["city"], name: "index_addresses_on_city"
-    t.index ["state"], name: "index_addresses_on_state"
+    t.index ["zip_code"], name: "index_addresses_on_city_and_zip_code"
     t.index ["zip_code"], name: "index_addresses_on_zip_code"
   end
 
@@ -90,6 +87,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_02_005424) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "customer_id"
+    t.string "shipping_name"
+    t.string "phone_number"
     t.index ["confirmation_token"], name: "index_customer_accounts_on_confirmation_token", unique: true
     t.index ["customer_id"], name: "index_customer_accounts_on_customer_id"
     t.index ["email"], name: "index_customer_accounts_on_email", unique: true
