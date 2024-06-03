@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_31_110338) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_02_005424) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -181,6 +181,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_31_110338) do
     t.index ["product_category_id"], name: "index_products_on_product_category_id"
   end
 
+  create_table "shippings", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "carrier"
+    t.string "tracking_number"
+    t.integer "status"
+    t.datetime "shipping_at"
+    t.bigint "order_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_shippings_on_order_id"
+    t.index ["tracking_number"], name: "index_shippings_on_tracking_number", unique: true
+  end
+
   create_table "wish_products", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "customer_id", null: false
     t.bigint "product_id", null: false
@@ -204,6 +216,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_31_110338) do
   add_foreign_key "product_reviews", "customers"
   add_foreign_key "product_reviews", "products"
   add_foreign_key "products", "product_categories"
+  add_foreign_key "shippings", "orders"
   add_foreign_key "wish_products", "customers"
   add_foreign_key "wish_products", "products"
 end

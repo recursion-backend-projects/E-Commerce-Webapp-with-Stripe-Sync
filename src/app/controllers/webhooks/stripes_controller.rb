@@ -78,10 +78,7 @@ class Webhooks::StripesController < ApplicationController
   end
 
   def create_order(session)
-    session_object = Stripe::Checkout::Session.retrieve({
-                                                          expand: ['line_items'],
-                                                          id: session.id
-                                                        })
+    session_object = Stripe::Checkout::Session.retrieve({ expand: ['line_items'], id: session.id })
     line_items = session_object.line_items
     payment_intent = Stripe::PaymentIntent.retrieve(session.payment_intent)
     charge = Stripe::Charge.retrieve(payment_intent.latest_charge)
@@ -100,6 +97,7 @@ class Webhooks::StripesController < ApplicationController
     )
 
     create_order_items(line_items, order)
+    create_shipping(order)
     create_download_products(line_items, order)
   end
 
@@ -158,5 +156,11 @@ class Webhooks::StripesController < ApplicationController
 
   def generate_random_digit(digit)
     Array.new(digit) { rand(9) }.join
+  end
+
+  def create_shipping(order)
+    return unless order.order_items.any? { |order_item| order_item.product.physics? }
+
+    Shipping.create(order:)
   end
 end

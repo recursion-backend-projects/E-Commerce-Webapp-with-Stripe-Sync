@@ -1,0 +1,43 @@
+<%= render 'layouts/flash' %>
+<div class="flex flex-col items-center pt-10 antialiased">
+    <div class="flex w-full flex-col space-y-4 py-4 md:w-4/5 lg:w-1/3">
+        <h1 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
+            追跡番号の編集
+        </h1>
+        <%= form_with model: [:admin, @shipping],data: { turbo_confirm: "1度送信すると再編集できません。よろしいですか？" }, class: 'space-y-4 rounded-xl border border-gray-200 bg-white p-4 shadow-xl' do |form| %>
+            <% if @shipping.shipped? %>
+                <div class="flex items-center p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+                    <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                    </svg>
+                    <span class="sr-only">Info</span>
+                    <div>
+                        既に商品は発送済みです
+                    </div>
+                </div>
+            <% end %>
+            <div class="flex flex-col">
+                <%= form.label :carrier, "配送会社", class: 'font-bold' %>
+                <% if @shipping.shipped? %>
+                    <%= form.select :carrier, Shipping.carriers.keys.map{|key|[I18n.t("shipping.carriers.#{key}"), key]},{},{ disabled: true, class: 'block rounded-lg border border-gray-300 bg-gray-200 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500  cursor-not-allowed' } %>
+                <% else %>
+                    <%= form.select :carrier, Shipping.carriers.keys.map{|key|[I18n.t("shipping.carriers.#{key}"), key]}, { prompt: "選択してください"  }, { required: true,class: 'block rounded-lg border border-gray-300 bg-gray-200 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500' } %>
+                <% end %>
+            </div>
+            <div class="flex flex-col">
+                <%= form.label :tracking_number, "追跡番号", class: 'font-bold' %>
+                <% if @shipping.shipped? %>
+                    <%= form.text_field :tracking_number , disabled: true ,class: 'rounded border border-gray-300 p-2 bg-gray-100 focus:ring focus:ring-blue-500  cursor-not-allowed' %>
+                <% else %>
+                    <%= form.text_field :tracking_number ,required: true, minlength: 8  ,maxlength: 18, placeholder: '大文字の英数字を8桁から18桁で入力してください' ,class: 'rounded border border-gray-300 p-2 focus:ring focus:ring-blue-500' %>
+                <% end %>
+            </div>
+            <div class="flex justify-between">
+                <%= link_to 'キャンセル', admin_shippings_path,  class: 'text-center my-2 w-1/4 rounded-lg border border-gray-300 bg-white py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700' %>
+                <% if !@shipping.shipped? %>
+                    <%= form.submit '発送通知を送る',  class: 'my-2 w-1/4 rounded bg-yellow-400 py-2 hover:bg-yellow-500 hover:cursor-pointer' %>
+                <% end %>
+            </div>
+        <% end %>
+    </div>
+</div>
