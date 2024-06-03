@@ -4,6 +4,11 @@ class Customer::FavoriteProductsController < ApplicationController
   def index
     @customer = true
     @favorite_products = current_customer_account.customer.favorite_products
+    @average_ratings = {}
+
+    @favorite_products.each do |favorite_product|
+      @average_ratings[favorite_product.product.id] = favorite_product.product.product_reviews.average(:rating).to_i
+    end
   end
 
   def create

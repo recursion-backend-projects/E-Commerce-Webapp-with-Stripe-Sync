@@ -4,7 +4,7 @@
 <!-- ウィッシュリスト -->
 <div class="flex flex-col items-center pt-10 antialiased">
   <div class="flex w-full flex-col space-y-6 py-6 md:w-4/5 lg:w-2/3">
-    <h1 class="py-2 text-center text-3xl font-bold md:text-start md:text-4xl text-gray-900 dark:text-white">
+    <h1 class="py-2 text-center text-2xl font-bold md:text-start md:text-4xl">
       ウィッシュリスト
     </h1>
 
@@ -26,7 +26,7 @@
           </svg>
         </div>
 
-        <div class="font-medium dark:text-white">
+        <div class="font-medium">
           <% if @is_my_wishlist %>
             <div>あなたのウィッシュリスト</div>
           <% else %>
@@ -56,7 +56,7 @@
         </svg>
         <p>リンクの共有</p>
       </button>
-      <% end%>
+      <% end %>
     </div>
 
     <% if @wish_products.any? %>
@@ -64,11 +64,11 @@
         <div class="mx-2 flex rounded-xl border border-gray-200 bg-white shadow-md p-3 md:p-6">
           <!-- 商品画像 -->
           <div class="flex w-1/2 items-center md:w-2/5 lg:w-1/3">
-            <img
-              src="https://plus.unsplash.com/premium_photo-1667925014062-42cf381d7273?q=80&w=3570&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              class="block h-full rounded-lg shadow-lg"
-              alt="商品画像"
-            />
+            <% if wish_product.product.images.attached? %>
+              <%= image_tag wish_product.product.images.first.variant(resize_to_fill: [300, 200]).processed, class: 'block rounded-lg shadow-lg', alt: '商品画像' %>
+            <% else %>
+              <%= image_tag 'sample_image.jpg', class: 'block rounded-lg shadow-lg', size: "300x200", alt: '商品画像' %>
+            <% end %>
           </div>
 
           <!-- 商品情報 -->
@@ -78,7 +78,7 @@
                 <%= wish_product.product.name %>
               </a>
               <p class="text-sm text-gray-700 dark:text-gray-300"><%= wish_product.product.creator %></p>
-              <p class="text-sm font-bold text-orange-500 lg:text-base">★★★★★</p>
+              <p class="text-sm font-bold text-orange-500 lg:text-base"><%= star_rating(@average_ratings[wish_product.product.id]) %></p>
 
               <!-- 数量のセレクトボックス -->
               <div class="flex items-center">
@@ -95,8 +95,8 @@
                 </select>
               </div>
 
-              <p class="text-sm text-gray-700 dark:text-gray-300">デジタル商品</p>
-              <p class="text-sm font-semibold text-gray-900 dark:text-gray-300">¥<%= wish_product.product.price %></p>
+              <p class="text-sm lg:text-base">デジタル商品</p>
+              <p class="text-sm font-semibold text-gray-900">¥<%= wish_product.product.price %></p>
             </div>
 
             <!-- オプションボタン -->
@@ -145,7 +145,7 @@
         </div>
       <% end %>
     <% else %>
-      <div class="text-center text-gray-700 dark:text-gray-300">
+      <div class="text-center text-gray-700">
         ウィッシュリストに商品がありません。
       </div>
     <% end %>

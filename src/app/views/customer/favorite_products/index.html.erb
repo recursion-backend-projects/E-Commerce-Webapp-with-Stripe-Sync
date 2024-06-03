@@ -4,7 +4,7 @@
 <!-- お気に入りリスト -->
 <div class="flex flex-col items-center pt-10 antialiased">
   <div class="flex w-full flex-col space-y-6 py-6 md:w-4/5 lg:w-2/3">
-    <h1 class="py-2 text-center text-3xl font-bold md:text-start md:text-4xl text-gray-900 dark:text-white">
+    <h1 class="py-2 text-center text-2xl font-bold md:text-start md:text-4xl">
       お気に入りリスト
     </h1>
 
@@ -13,11 +13,11 @@
         <div class="mx-2 flex rounded-xl border border-gray-200 bg-white shadow-md p-3 md:p-6">
           <!-- 商品画像 -->
           <div class="flex w-1/2 items-center md:w-2/5 lg:w-1/3">
-            <img
-              src="https://plus.unsplash.com/premium_photo-1667925014062-42cf381d7273?q=80&w=3570&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              class="block h-full rounded-lg shadow-lg"
-              alt="商品画像"
-            />
+            <% if favorite_product.product.images.attached? %>
+              <%= image_tag favorite_product.product.images.first.variant(resize_to_fill: [300, 200]).processed, class: 'block rounded-lg shadow-lg', alt: '商品画像' %>
+            <% else %>
+              <%= image_tag 'sample_image.jpg', class: 'rounded-lg shadow-md', size: "300x200", alt: '商品画像' %>
+            <% end %>
           </div>
 
           <!-- 商品情報 -->
@@ -26,8 +26,8 @@
               <a href="#" class="text-lg font-semibold text-sky-500 hover:text-orange-400 hover:underline">
                 <%= favorite_product.product.name %>
               </a>
-              <p class="text-sm text-gray-700 dark:text-gray-300"><%= favorite_product.product.creator %></p>
-              <p class="text-sm font-bold text-orange-500 lg:text-base">★★★★★</p>
+              <p class="text-sm text-gray-700"><%= favorite_product.product.creator %></p>
+              <p class="text-sm font-bold text-orange-500 lg:text-base"><%= star_rating(@average_ratings[favorite_product.product.id]) %></p>
 
               <!-- 数量のセレクトボックス -->
               <div class="flex items-center">
@@ -44,8 +44,8 @@
                 </select>
               </div>
 
-              <p class="text-sm text-gray-700 dark:text-gray-300">デジタル商品</p>
-              <p class="text-sm font-semibold text-gray-900 dark:text-gray-300">¥<%= favorite_product.product.price %></p>
+              <p class="text-sm lg:text-base">デジタル商品</p>
+              <p class="text-sm font-semibold text-gray-900">¥<%= favorite_product.product.price %></p>
             </div>
 
             <!-- オプションボタン -->
@@ -62,37 +62,37 @@
               >
                 ご購入手続きへ
               </button>
-                <%= form_with(url: favorite_product_path(favorite_product), method: :delete, class: 'w-full') do %>
-                    <button
-                    type="submit"
-                    class="flex w-full justify-center rounded-full border border-gray-300 bg-white p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-                    >
-                    <svg
-                        class="h-6 w-6"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
-                        />
-                    </svg>
-                    削除
-                    </button>
-                <% end %>
+              <%= form_with(url: favorite_product_path(favorite_product), method: :delete, class: 'w-full') do %>
+                <button
+                  type="submit"
+                  class="flex w-full justify-center rounded-full border border-gray-300 bg-white p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                >
+                  <svg
+                    class="h-6 w-6"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
+                    />
+                  </svg>
+                  削除
+                </button>
+              <% end %>
             </div>
           </div>
         </div>
       <% end %>
     <% else %>
-      <div class="text-center text-gray-700 dark:text-gray-300">
+      <div class="text-center text-gray-700">
         お気に入りリストに商品がありません。
       </div>
     <% end %>

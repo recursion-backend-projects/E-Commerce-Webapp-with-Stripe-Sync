@@ -34,11 +34,17 @@ Rails.application.routes.draw do
     resources :search_products, only: %i[index]
     resource :cart, only: %i[show create update destroy]
     resources :favorite_products, only: %i[index create destroy]
+    resources :download_products, only: %i[index]
     resources :customer_accounts, only: [] do
       resources :wish_products, only: %i[index create destroy]
     end
+    resources :products, only: [] do
+      resource :product_reviews, only: %i[show new create edit update destroy]
+    end
     resource :checkout, only: %i[create]
     get 'checkout/success', to: 'checkouts#success'
+
+    resources :orders, only: [:index]
   end
 
   namespace :webhooks do

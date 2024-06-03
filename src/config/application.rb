@@ -34,5 +34,8 @@ module DockerRailsTest
 
     # DBを読み書きする際に、DBに記録されている時間をどのタイムゾーンで読み込むかの設定
     config.active_record.default_timezone = :local
+
+    # Active Storage URLの有効期限を30日に設定
+    config.active_storage.urls_expire_in = 30.days
   end
 end

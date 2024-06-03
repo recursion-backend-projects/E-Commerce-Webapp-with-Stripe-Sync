@@ -1,144 +1,86 @@
 <!-- 商品管理 -->
 <div class="flex flex-col items-center pt-10 antialiased">
-    <div class="flex w-full flex-col space-y-4 py-4 md:w-4/5 lg:w-1/2">
-        <h1 class="py-2 text-center text-2xl font-bold md:text-start md:text-4xl">
-            商品管理
-        </h1>
-        <div class="mx-2 flex flex-row justify-between">
-            <div>
-                <button
-					id="dropdownActionButton"
-					data-dropdown-toggle="dropdownAction"
-					class="inline-flex items-center rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
-					type="button"
-				>
-                    <!-- TODO: フィルタリングを実装する -->
-                    <span class="sr-only">フィルターボタン</span>
-                    フィルター
-                    <svg
-						class="ms-2.5 h-2.5 w-2.5"
-						aria-hidden="true"
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="0 0 10 6"
-					>
-                        <path
-							stroke="currentColor"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="m1 1 4 4 4-4"
-						/>
-                        </svg>
-                    </button>
-                    <!-- ドロップボタンメニュー -->
-                    <div
-					id="dropdownAction"
-					class="z-10 hidden w-44 divide-y divide-gray-100 rounded-lg bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
-				>
-                        <ul
-						class="py-1 text-sm text-gray-700 dark:text-gray-200"
-						aria-labelledby="dropdownActionButton"
-					>
-                            <li>
-                                <a
-								href="#"
-								class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-								>すべての商品</a
-							>
-                            </li>
-                            <li>
-                                <a
-								href="#"
-								class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-								>下書き</a
-							>
-                            </li>
-                            <li>
-                                <a
-								href="#"
-								class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-								>公開中</a
-							>
-                            </li>
-                            <li>
-                                <a
-								href="#"
-								class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-								>アーカイブ済み</a
-							>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- TODO: 時間に余裕があったら「商品を追加する」を実装する -->
-                <a
-				href="#"
-				class="flex items-center justify-center rounded-lg border border-gray-300 bg-white p-1.5 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-			>
-                    商品を追加する
-                </a>
-            </div>
-            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                <table class="w-full text-left text-sm rtl:text-right">
-                    <thead class="bg-gray-300 text-xs uppercase">
-                        <tr>
-                            <th scope="col" class="px-6 py-3">画像</th>
-                            <th scope="col" class="px-6 py-3">名前</th>
-                            <th scope="col" class="px-6 py-3">ステータス</th>
-                            <th scope="col" class="px-6 py-3">アクション</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% @products.each do |product|%>
-                            <tr class="bg-gre border-b bg-white hover:bg-gray-100">
-                                <!-- TODO: 画像アップロード場所が決まったら実装する -->
-                                <td class="p-4">
-                                    <div class='flex justify-center'>
-                                        <%= image_tag 'sample_image', class: 'max-h-full w-12 max-w-full rounded-lg md:w-32' %>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 font-semibold"><%= product.name %></td>
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center">
-                                        <% if product.status === 'draft' %>
-                                            <div class="flex items-center">
-                                                <div
-										class="me-2 h-2.5 w-2.5 rounded-full bg-yellow-500"
-									></div>
-                                                下書き
-                                            </div>
-                                        <% elsif product.status === 'published' %>
-                                            <div class="flex items-center">
-                                                <div class="me-2 h-2.5 w-2.5 rounded-full bg-green-500"></div>
-                                                公開中
-                                            </div>
-                                        <% elsif product.status === 'archived' %>
-                                            <div class="flex items-center">
-                                                <div class="me-2 h-2.5 w-2.5 rounded-full bg-red-500"></div>
-                                                アーカイブ済み
-                                            </div>
-                                        <% end %>
-                                    </div>
-                                </td>
-                                <td class="space-x-2 px-2 py-4 md:space-x-10 md:px-6">
-                                    <%= link_to '編集', edit_admin_product_path(product), class: 'font-medium text-sky-600 hover:underline' %>
-                                    <%= link_to '削除', admin_product_path(product), 
-                                                data: {
-                                                turbo_method: :delete,
-                                                turbo_confirm: "本当に削除してよろしいですか?"
-                                                },
-                                                class: 'font-medium text-red-600 hover:underline'
-                                        %>
-                                </td>
-                            </tr>
-                        <% end %>
-                    </tbody>
-                </table>
-            </div>
+  <div class="flex w-full flex-col space-y-4 py-4 md:w-4/5 lg:w-1/2">
+    <h1 class="py-2 text-center text-2xl font-bold md:text-start md:text-4xl">商品管理</h1>
+    <div class="mx-2 flex flex-row justify-between">
+      <div>
+        <button
+          id="dropdownActionButton"
+          data-dropdown-toggle="dropdownAction"
+          class="inline-flex items-center rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+          type="button"
+        >
+          <span class="sr-only">フィルターボタン</span>
+          フィルター
+          <svg class="ms-2.5 h-2.5 w-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+          </svg>
+        </button>
+        <!-- ドロップボタンメニュー -->
+        <div id="dropdownAction" class="z-10 hidden w-44 divide-y divide-gray-100 rounded-lg bg-white shadow dark:divide-gray-600 dark:bg-gray-700">
+          <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownActionButton">
+            <li><a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">すべての商品</a></li>
+            <li><a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">下書き</a></li>
+            <li><a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">公開中</a></li>
+            <li><a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">アーカイブ済み</a></li>
+          </ul>
         </div>
+      </div>
+      <a href="#" class="flex items-center justify-center rounded-lg border border-gray-300 bg-white p-1.5 text-gray-500 hover:bg-gray-100 hover:text-gray-700">商品を追加する</a>
     </div>
-</div>
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <table class="w-full text-left text-sm">
+        <thead class="bg-gray-300 text-xs uppercase">
+          <tr>
+            <th scope="col" class="px-6 py-3">画像</th>
+            <th scope="col" class="px-6 py-3">名前</th>
+            <th scope="col" class="px-6 py-3">ステータス</th>
+            <th scope="col" class="px-6 py-3">アクション</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @products.each do |product| %>
+            <tr class="border-b bg-white hover:bg-gray-100">
+              <td class="p-4">
+                <div class='flex justify-center'>
+                  <% if product.images.attached? %>
+                    <%= image_tag product.images.first.variant(resize_to_fill: [127, 73]), class: 'rounded-lg shadow-md' %>
+                  <% else %>
+                    <%= image_tag 'sample_image.jpg', class: 'rounded-lg shadow-md', size: "127x73" %>
+                  <% end %>
+                </div>
+              </td>
+              <td class="px-6 py-4 font-semibold"><%= product.name %></td>
+              <td class="px-6 py-4">
+                <div class="flex items-center">
+                  <% if product.status == 'draft' %>
+                    <div class="flex items-center">
+                      <div class="me-2 h-2.5 w-2.5 rounded-full bg-yellow-500"></div>
+                      下書き
+                    </div>
+                  <% elsif product.status == 'published' %>
+                    <div class="flex items-center">
+                      <div class="me-2 h-2.5 w-2.5 rounded-full bg-green-500"></div>
+                      公開中
+                    </div>
+                  <% elsif product.status == 'archived' %>
+                    <div class="flex items-center">
+                      <div class="me-2 h-2.5 w-2.5 rounded-full bg-red-500"></div>
+                      アーカイブ済み
+                    </div>
+                  <% end %>
+                </div>
+              </td>
+              <td class="space-x-2 px-2 py-4 md:space-x-4 md:px-6">
+                <%= link_to '編集', edit_admin_product_path(product), class: 'font-medium text-sky-600 hover:underline', data: { turbo: false } %>
+                <%= link_to '削除', admin_product_path(product), data: { turbo_method: :delete, turbo_confirm: "本当に削除してよろしいですか?" }, class: 'font-medium text-red-600 hover:underline' %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 <!-- ページネーション -->
 <%= render 'layouts/pagenation' %>
