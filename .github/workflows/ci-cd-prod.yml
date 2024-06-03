@@ -59,6 +59,7 @@ jobs:
           chmod 600 private_key
 
           # GitHubのホストキーをknown_hostsに追加
+          mkdir -p ~/.ssh
           ssh-keyscan github.com >> ~/.ssh/known_hosts
 
           ssh -oStrictHostKeyChecking=no ${{ secrets.PROD_USER_NAME }}@${{ secrets.PROD_HOST_NAME }} -i private_key << 'EOF'
