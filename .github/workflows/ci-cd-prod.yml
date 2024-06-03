@@ -1,9 +1,17 @@
 name: Deploy to Production
 run-name: ${{ github.actor }} is deploying to production
+
 on:
   push:
-    tags:
-      - "v*.*.*" # バージョンタグをトリガーにする
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# 本番はこれを使う
+# on:
+#   push:
+#     tags:
+#       - "v*.*.*" # バージョンタグをトリガーにする
 
 jobs:
   deploy-to-production:
