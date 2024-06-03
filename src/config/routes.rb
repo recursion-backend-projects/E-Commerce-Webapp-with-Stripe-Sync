@@ -45,6 +45,7 @@ Rails.application.routes.draw do
     get 'checkout/success', to: 'checkouts#success'
 
     resources :orders, only: [:index]
+    resource :account, only: %i[show edit update]
   end
 
   namespace :webhooks do
