@@ -57,6 +57,10 @@ jobs:
           # SSH接続
           echo "${{ secrets.PROD_PRIVATE_KEY }}" > private_key
           chmod 600 private_key
+
+          # GitHubのホストキーをknown_hostsに追加
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
           ssh -oStrictHostKeyChecking=no ${{ secrets.PROD_USER_NAME }}@${{ secrets.PROD_HOST_NAME }} -i private_key << 'EOF'
             # Docker Hubにログイン
             echo "${{ secrets.DOCKERHUB_TOKEN }}" | sudo docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
@@ -80,7 +84,7 @@ jobs:
 
             # GitHubから新たにリポジトリをクローン
             cd ~/web
-            git clone --branch ${{ github.head_ref }} git@github.com:recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync.git
+            git clone --branch ${{ github.ref_name }} git@github.com:recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync.git
 
             cd ./E-Commerce-Webapp-with-Stripe-Sync/src
 
