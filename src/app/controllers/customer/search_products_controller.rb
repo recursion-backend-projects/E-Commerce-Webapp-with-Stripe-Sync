@@ -1,24 +1,21 @@
 class Customer::SearchProductsController < ApplicationController
   # 許可するカラム名を指定
-  VALID_COLUMNS = ["name", "description", "category", "creator"]
+  VALID_COLUMNS = {"name" => "商品名", "description" => "商品説明", "creator" => "作者", "category" => "カテゴリー", "created_at" => "リリース日"}
 
   def index
     @customer = true
+    @type = params[:type]
+    @keyword = params[:keyword]
+    @products = nil
+    @column_name = nil
 
-    if params[:type].present? && params[:keyword].present? && VALID_COLUMNS.include?(params[:type])
-      if params[:type] == "category"
-        @products = Product.joins(:product_category).where(product_category: { name: "#{params[:keyword]}" }) 
+    if @type.present? && @keyword.present? && VALID_COLUMNS.keys.include?(@type)
+      if @type == "category"
+        @products = Product.joins(:product_category).where(product_category: { name: "#{@keyword}" }) 
       else
-        @products = Product.where("#{params[:type]} LIKE ?", "%#{params[:keyword]}%")
+        @products = Product.where("#{@type} LIKE ?", "%#{@keyword}%")
       end
-    else
-      @products = Product.all
+      @column_name = VALID_COLUMNS[@type]
     end
   end
-
-  # def set_product
-  #   @product = Product.find(params[:product_id])
-  # rescue ActiveRecord::RecordNotFound
-  #   redirect_to root_path, alert: '商品が見つかりません'
-  # end
 end
