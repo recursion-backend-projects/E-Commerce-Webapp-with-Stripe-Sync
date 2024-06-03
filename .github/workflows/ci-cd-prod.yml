@@ -85,7 +85,7 @@ jobs:
 
             # GitHubから新たにリポジトリをクローン
             cd ~/web
-            git clone --branch ${{ github.ref_name }} git@github.com:recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync.git
+            GIT_SSH_COMMAND='ssh -i private_key -o StrictHostKeyChecking=no' git clone --branch ${{ github.ref_name }} git@github.com:recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync.git
 
             cd ./E-Commerce-Webapp-with-Stripe-Sync/src
 
