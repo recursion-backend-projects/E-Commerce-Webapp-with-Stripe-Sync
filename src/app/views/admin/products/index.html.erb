@@ -72,7 +72,7 @@
                 </div>
               </td>
               <td class="space-x-2 px-2 py-4 md:space-x-4 md:px-6">
-                <%= link_to '編集', edit_admin_product_path(product), class: 'font-medium text-sky-600 hover:underline' %>
+                <%= link_to '編集', edit_admin_product_path(product), class: 'font-medium text-sky-600 hover:underline', data: { turbo: false } %>
                 <%= link_to '削除', admin_product_path(product), data: { turbo_method: :delete, turbo_confirm: "本当に削除してよろしいですか?" }, class: 'font-medium text-red-600 hover:underline' %>
               </td>
             </tr>
