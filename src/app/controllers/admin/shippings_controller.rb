@@ -1,7 +1,7 @@
 class Admin::ShippingsController < ApplicationController
   def index
     @admin = true
-    @shippings = Shipping.all
+    @shippings = Shipping.all.order(created_at: :desc)
   end
 
   def edit
