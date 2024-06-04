@@ -1,6 +1,7 @@
 class Customer::SearchProductsController < ApplicationController
   # 許可するカラム名を指定
-  VALID_COLUMNS = {"name" => "商品名", "description" => "商品説明", "creator" => "作者", "category" => "カテゴリー", "created_at" => "リリース日"}
+  # TODO リリース日をVALID_COLUMNSに追加する
+  VALID_COLUMNS = {"name" => "商品名", "description" => "商品説明", "creator" => "作者", "category" => "カテゴリー"}
 
   def index
     @customer = true

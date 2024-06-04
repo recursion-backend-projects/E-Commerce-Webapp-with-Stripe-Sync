@@ -9,7 +9,8 @@
       <!-- 検索欄 -->
       <%= form_with(url: search_products_path, method: :get, local: true, data: { turbo: false }, class: "order-last w-full pt-2 md:order-none md:w-1/2 md:pt-0") do |form| %>
         <div class="flex">
-          <%= form.select :type, options_for_select([["商品名", "name"], ["商品説明", "description"], ["作者", "creator"], ["リリース日", "created_at"]]), {}, class: "flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-500 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600" %>
+          <!-- TODO リリース日を追加する -->
+          <%= form.select :type, options_for_select([["商品名", "name"], ["商品説明", "description"], ["作者", "creator"]]), {}, class: "flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-500 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600" %>
           <div class="relative w-full">
             <%= form.label :keyword, class: "mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white" %>
             <%= form.text_field :keyword, placeholder: "キーワードを検索", class: "block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" %>
