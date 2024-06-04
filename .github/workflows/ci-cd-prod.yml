@@ -77,24 +77,24 @@ jobs:
             fi
 
             # GitHubから新たにリポジトリをクローン
-          #   cd ~/web
-          #   git clone --branch ${{ github.head_ref }} git@github.com:recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync.git
+            cd ~/web
+            git clone --branch ${{ github.head_ref }} git@github.com:recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync.git
 
-          #   cd ./E-Commerce-Webapp-with-Stripe-Sync/src
+            cd ./E-Commerce-Webapp-with-Stripe-Sync/src
 
-          #   # 環境ファイルを作成する
-          #   touch .env
-          #   echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env
-          #   echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env
-          #   echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env
-          #   echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
-          #   echo "MYSQL_HOST=${{ secrets.MYSQL_HOST_PROD }}" >> .env
-          #   echo "RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}" >> .env
+            # 環境ファイルを作成する
+            touch .env
+            echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env
+            echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env
+            echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env
+            echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
+            echo "MYSQL_HOST=${{ secrets.MYSQL_HOST_PROD }}" >> .env
+            echo "RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}" >> .env
 
-          #   # 既にビルドされたイメージをプルしてコンテナを起動する
-          #   sudo docker compose -f compose.prod.yml up -d --pull always
-          # EOF
-          # rm -f private_key
+            # 既にビルドされたイメージをプルしてコンテナを起動する
+            sudo docker compose -f compose.prod.yml up -d --pull always
+          EOF
+          rm -f private_key
 
           # SSHのセキュリティグループを閉じる
           aws ec2 revoke-security-group-ingress --group-id ${{ secrets.PROD_EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
