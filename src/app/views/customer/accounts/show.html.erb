@@ -1,3 +1,4 @@
+<%= render 'layouts/flash' %>
 <!-- アカウント情報 -->
 <div class="mb-10 flex flex-col items-center pt-10 antialiased">
     <div class="flex w-full flex-col py-4 md:w-1/2 lg:w-1/3">
@@ -21,47 +22,51 @@
                 </div>
                 <div>
                     <p>ユーザー名</p>
-                    <p class="w-full rounded border border-gray-300 p-2">UserA</p>
+                    <p class="w-full rounded border border-gray-300 p-2"><%= @current_customer.customer_account.user_name.blank? ? '---': @current_customer.customer_account.user_name%></p>
                 </div>
                 <div>
                     <p>氏名</p>
                     <p class="w-full rounded border border-gray-300 p-2">
-                        FULL NAME
+                        <%= @current_customer.customer_account.shipping_name.blank? ? '---': @current_customer.customer_account.shipping_name %>
                     </p>
                 </div>
                 <div>
                     <p>メールアドレス</p>
                     <p class="w-full rounded border border-gray-300 p-2">
-                        email@example.com
+                        <%= @current_customer.customer_account.email%>
                     </p>
                 </div>
                 <div>
                     <p>電話番号</p>
                     <p class="w-full rounded border border-gray-300 p-2">
-                        123-4567-8901
+                        <%= @current_customer.customer_account.phone_number.blank? ? '---': @current_customer.customer_account.phone_number %>
                     </p>
                 </div>
                 <h2 class="text-xl font-bold md:text-2xl">2. お届け先</h2>
-                <p for="zip-code-front">郵便番号</p>
-                <div class="flex">
-                    <p class="w-1/3 rounded border border-gray-300 p-2">123</p>
-                    <p class="px-3 py-2">ー</p>
-                    <p class="w-1/3 rounded border border-gray-300 p-2">4567</p>
+                <div>
+                    <p >郵便番号</p>
+                    <p class="w-full rounded border border-gray-300 p-2"><%= @current_customer.address.zip_code.blank? ? '---': @current_customer.address.zip_code%></p>
                 </div>
                 <div>
-                    <p class="ml-1 block text-lg text-gray-900">都道府県</p>
-                    <p class="w-1/3 rounded border border-gray-300 p-2">北海道</p>
+                    <p class="block text-lg text-gray-900">都道府県</p>
+                    <p class="w-full rounded border border-gray-300 p-2"><%= @current_customer.address.prefecture.blank? ? '---': @current_customer.address.prefecture.name%></p>
+                </div>
+                <div>
+                    <p>市区町村</p>
+                    <p class="w-full rounded border border-gray-300 p-2">
+                        ---
+                    </p>
                 </div>
                 <div>
                     <p>住所(1行目)</p>
                     <p class="w-full rounded border border-gray-300 p-2">
-                        xx市oo町12-3
+                        <%= @current_customer.address.street_address.blank? ? '---': @current_customer.address.street_address%>
                     </p>
                 </div>
                 <div>
                     <p>住所(2行目)</p>
                     <p class="w-full rounded border border-gray-300 p-2">
-                        xxマンション123
+                        <%= @current_customer.address.street_address_2.blank? ? '---': @current_customer.address.street_address_2%>
                     </p>
                 </div>
                 <h2 class="text-xl font-bold md:text-2xl">3. お支払い方法</h2>
