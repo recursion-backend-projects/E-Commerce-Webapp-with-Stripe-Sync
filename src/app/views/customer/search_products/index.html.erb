@@ -33,16 +33,13 @@
                                 <% end %>
                             <% end %>
                         </div>
-                        <%= link_to product.name, product, class: "text-lg text-sky-400 hover:text-orange-400 hover:underline" %>
-
-                        <!-- 物理商品 or デジタル商品 のどちらか -->
-                        <p>デジタル商品</p>
-                        <p class="pb-1 text-orange-500"><%= star_rating(@average_ratings[product.id]) %></p>
-
+                        <%= link_to product.name, product, class: "text-lg lg:text-xl text-sky-400 hover:text-orange-400 hover:underline" %>
+                        <p class="text-sm lg:text-base"><%= I18n.t("products.product_type.#{product.product_type}") + "商品" %></p>
+                        <p class="pb-1 text-sm font-bold text-orange-500 lg:text-base"><%= star_rating(@average_ratings[product.id]) %></p>
                         <% if product.stock > 0 %>
-                            <span class="text-xl">¥<%= product.price %></span>
+                            <span class="text-base lg:text-lg">¥<%= product.price %></span>
                         <% else %>
-                            <span class="rounded-md bg-red-500 p-1 font-bold text-white">SOLD OUT</span>
+                            <span class="text-base lg:text-lg rounded-md bg-red-500 p-1 font-bold text-white">SOLD OUT</span>
                         <% end %>
                     </div>
                 <% end %>
