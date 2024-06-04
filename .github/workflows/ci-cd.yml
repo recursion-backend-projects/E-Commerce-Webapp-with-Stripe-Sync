@@ -1,225 +1,225 @@
-# name: CI/CD
-# run-name: ${{ github.actor }} is CI/CD to run
-# on:
-#   push:
-#     branches: [main]
-#   pull_request:
-#     branches: [main]
+name: CI/CD
+run-name: ${{ github.actor }} is CI/CD to run
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
-# jobs:
-#   lint:
-#     runs-on: ubuntu-22.04
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v4
+jobs:
+  lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-#       - name: Use Node.js
-#         uses: actions/setup-node@v4
-#         with:
-#           node-version: "20.x"
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
 
-#       - name: Install yarn
-#         run: npm install -g yarn
+      - name: Install yarn
+        run: npm install -g yarn
 
-#       - name: Install dependencies
-#         run: yarn --cwd src install
+      - name: Install dependencies
+        run: yarn --cwd src install
 
-#       - name: Lint Frontend file
-#         run: ./src/node_modules/.bin/eslint ./src/app --max-warnings=0
+      - name: Lint Frontend file
+        run: ./src/node_modules/.bin/eslint ./src/app --max-warnings=0
 
-#       - name: Install Ruby and gems
-#         uses: ruby/setup-ruby@v1
-#         with:
-#           ruby-version: "3.3.0"
-#           bundler-cache: true
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3.0"
+          bundler-cache: true
 
-#       - name: Lint Ruby files
-#         run: cd src && bundle install && bundle exec rubocop
+      - name: Lint Ruby files
+        run: cd src && bundle install && bundle exec rubocop
 
-#   test:
-#     runs-on: ubuntu-22.04
-#     services:
-#       mysql:
-#         image: mysql:8.0.36
-#         ports:
-#           - "3306:3306"
-#         options: --health-cmd "mysqladmin ping -h 127.0.0.1" --health-interval 20s --health-timeout 10s --health-retries 10
-#         env:
-#           MYSQL_ROOT_PASSWORD: password
+  test:
+    runs-on: ubuntu-22.04
+    services:
+      mysql:
+        image: mysql:8.0.36
+        ports:
+          - "3306:3306"
+        options: --health-cmd "mysqladmin ping -h 127.0.0.1" --health-interval 20s --health-timeout 10s --health-retries 10
+        env:
+          MYSQL_ROOT_PASSWORD: password
 
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-#       - name: Set up Ruby 3.3.0
-#         uses: ruby/setup-ruby@v1
-#         with:
-#           ruby-version: "3.3.0"
-#           bundler-cache: true
+      - name: Set up Ruby 3.3.0
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3.0"
+          bundler-cache: true
 
-#       - name: Bundle install
-#         run: |
-#           cd src
-#           gem install bundler
-#           bundle install --jobs 4 --retry 3
+      - name: Bundle install
+        run: |
+          cd src
+          gem install bundler
+          bundle install --jobs 4 --retry 3
 
-#       - name: Set up database
-#         run: |
-#           cd src
-#           cp config/database.yml.ci config/database.yml
-#           bundle exec rails db:prepare
-#         env:
-#           RAILS_ENV: test
+      - name: Set up database
+        run: |
+          cd src
+          cp config/database.yml.ci config/database.yml
+          bundle exec rails db:prepare
+        env:
+          RAILS_ENV: test
 
-#       - name: Run rspec
-#         run: |
-#           cd src
-#           bundle exec rspec
-#         env:
-#           RAILS_ENV: test
+      - name: Run rspec
+        run: |
+          cd src
+          bundle exec rspec
+        env:
+          RAILS_ENV: test
 
-#   build-and-push-docker-images:
-#     runs-on: ubuntu-22.04
-#     needs: [lint, test]
-#     permissions:
-#       packages: write
-#       contents: read
-#       attestations: write
-#       id-token: write
-#     steps:
-#       # リポジトリからプルリクエストの最新コミットをチェックアウト
-#       - name: Check out the pull request HEAD commit
-#         uses: actions/checkout@v4
-#         with:
-#           ref: ${{ github.event.pull_request.head.sha }}
+  build-and-push-docker-images:
+    runs-on: ubuntu-22.04
+    needs: [lint, test]
+    permissions:
+      packages: write
+      contents: read
+      attestations: write
+      id-token: write
+    steps:
+      # リポジトリからプルリクエストの最新コミットをチェックアウト
+      - name: Check out the pull request HEAD commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
-#       # Docker Hubへログイン
-#       - name: Log in to Docker Hub
-#         uses: docker/login-action@v3
-#         with:
-#           username: ${{ secrets.DOCKER_USERNAME }}
-#           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      # Docker Hubへログイン
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-#       # メタデータ設定
-#       - name: Extract metadata (tags, labels) for App
-#         id: meta-app
-#         uses: docker/metadata-action@v5
-#         with:
-#           images: artsa2/art-sa2-shop:app
+      # メタデータ設定
+      - name: Extract metadata (tags, labels) for App
+        id: meta-app
+        uses: docker/metadata-action@v5
+        with:
+          images: artsa2/art-sa2-shop:app
 
-#       - name: Extract metadata (tags, labels) for Web
-#         id: meta-web
-#         uses: docker/metadata-action@v5
-#         with:
-#           images: artsa2/art-sa2-shop:web
+      - name: Extract metadata (tags, labels) for Web
+        id: meta-web
+        uses: docker/metadata-action@v5
+        with:
+          images: artsa2/art-sa2-shop:web
 
-#       # イメージをビルドして Docker Hubにプッシュする
-#       - name: Build and push Docker image App
-#         id: push-app
-#         uses: docker/build-push-action@v5
-#         with:
-#           context: .
-#           file: ./infra/prod/app/Dockerfile
-#           push: true
-#           tags: artsa2/art-sa2-shop:app-latest
-#           labels: ${{ steps.meta-app.outputs.labels }}
+      # イメージをビルドして Docker Hubにプッシュする
+      - name: Build and push Docker image App
+        id: push-app
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./infra/prod/app/Dockerfile
+          push: true
+          tags: artsa2/art-sa2-shop:app-latest
+          labels: ${{ steps.meta-app.outputs.labels }}
 
-#       - name: Build and push Docker image Web
-#         id: push-web
-#         uses: docker/build-push-action@v5
-#         with:
-#           context: .
-#           file: ./infra/prod/web/Dockerfile
-#           push: true
-#           tags: artsa2/art-sa2-shop:web-latest
-#           labels: ${{ steps.meta-web.outputs.labels }}
+      - name: Build and push Docker image Web
+        id: push-web
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./infra/prod/web/Dockerfile
+          push: true
+          tags: artsa2/art-sa2-shop:web-latest
+          labels: ${{ steps.meta-web.outputs.labels }}
 
-#       # ビルドプロセスの認証情報生成(ステージングでは、イメージが頻繁に更新されるため、対象外とする)
-#       # - name: Generate artifact attestation App
-#       #   uses: actions/attest-build-provenance@v1
-#       #   with:
-#       #      subject-name: docker.io/artsa2/art-sa2-shop # 認証情報を生成する対象の名前
-#       #      subject-digest: ${{ steps.push-app.outputs.digest }} # 前のステップで生成されたイメージのダイジェストを使用する
-#       #      push-to-registry: true
+      # ビルドプロセスの認証情報生成(ステージングでは、イメージが頻繁に更新されるため、対象外とする)
+      # - name: Generate artifact attestation App
+      #   uses: actions/attest-build-provenance@v1
+      #   with:
+      #      subject-name: docker.io/artsa2/art-sa2-shop # 認証情報を生成する対象の名前
+      #      subject-digest: ${{ steps.push-app.outputs.digest }} # 前のステップで生成されたイメージのダイジェストを使用する
+      #      push-to-registry: true
 
-#       # - name: Generate artifact attestation Web
-#       #   uses: actions/attest-build-provenance@v1
-#       #   with:
-#       #     subject-name: docker.io/artsa2/art-sa2-shop
-#       #     subject-digest: ${{ steps.push-web.outputs.digest }}
-#       #     push-to-registry: true
+      # - name: Generate artifact attestation Web
+      #   uses: actions/attest-build-provenance@v1
+      #   with:
+      #     subject-name: docker.io/artsa2/art-sa2-shop
+      #     subject-digest: ${{ steps.push-web.outputs.digest }}
+      #     push-to-registry: true
 
-#   deploy-to-staging:
-#     runs-on: ubuntu-22.04
-#     if: github.event_name == 'pull_request'
-#     needs: build-and-push-docker-images
-#     steps:
-#       # IP取得ライブラリをインストール
-#       - name: Public IP Install
-#         id: ip
-#         uses: haythem/public-ip@v1.3
+  deploy-to-staging:
+    runs-on: ubuntu-22.04
+    if: github.event_name == 'pull_request'
+    needs: build-and-push-docker-images
+    steps:
+      # IP取得ライブラリをインストール
+      - name: Public IP Install
+        id: ip
+        uses: haythem/public-ip@v1.3
 
-#       # AWS CLIをインストールする
-#       - name: AWS CLI install
-#         run: |
-#           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-#           unzip awscliv2.zip
-#           sudo ./aws/install --update
-#           aws --version
+      # AWS CLIをインストールする
+      - name: AWS CLI install
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install --update
+          aws --version
 
-#       # AWS CLIにキーを設定をする
-#       - name: AWS set Credentials
-#         uses: aws-actions/configure-aws-credentials@v4
-#         with:
-#           aws-access-key-id: ${{ secrets.STG_AWS_ACCESS_KEY }}
-#           aws-secret-access-key: ${{ secrets.STG_AWS_SECRET_ACCESS_KEY }}
-#           aws-region: ap-northeast-1
+      # AWS CLIにキーを設定をする
+      - name: AWS set Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.STG_AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.STG_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-1
 
-#       - name: Deploy to Staging
-#         run: |
-#           # SSHのセキュリティグループを開放する
-#           aws ec2 authorize-security-group-ingress --group-id ${{ secrets.STG_EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+      - name: Deploy to Staging
+        run: |
+          # SSHのセキュリティグループを開放する
+          aws ec2 authorize-security-group-ingress --group-id ${{ secrets.STG_EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
 
-#           # SSH接続
-#           echo "${{ secrets.STG_PRIVATE_KEY }}" > private_key
-#           chmod 600 private_key
-#           ssh -oStrictHostKeyChecking=no ${{ secrets.STG_USER_NAME }}@${{ secrets.STG_HOST_NAME }} -i private_key << 'EOF'
-#             if [ -d ~/web/E-Commerce-Webapp-with-Stripe-Sync/src ]; then
-#               cd ~/web/E-Commerce-Webapp-with-Stripe-Sync/src
+          # SSH接続
+          echo "${{ secrets.STG_PRIVATE_KEY }}" > private_key
+          chmod 600 private_key
+          ssh -oStrictHostKeyChecking=no ${{ secrets.STG_USER_NAME }}@${{ secrets.STG_HOST_NAME }} -i private_key << 'EOF'
+            if [ -d ~/web/E-Commerce-Webapp-with-Stripe-Sync/src ]; then
+              cd ~/web/E-Commerce-Webapp-with-Stripe-Sync/src
+              
+              # 起動中のコンテナを停止させる
+              sudo docker stop $(sudo docker ps -q)
+              sudo docker compose down
 
-#               # 起動中のコンテナを停止させる
-#               sudo docker stop $(sudo docker ps -q)
-#               sudo docker compose down
+              # 未使用のイメージ、コンテナ、ネットワークを削除
+              sudo docker system prune -af
+              # 未使用のボリュームを削除(ただし、再署名を避けるため、src_https_portalは削除しない)
+              sudo chmod +x ./bin/cleanup_volumes.sh
+              sudo ./bin/cleanup_volumes.sh
 
-#               # 未使用のイメージ、コンテナ、ネットワークを削除
-#               sudo docker system prune -af
-#               # 未使用のボリュームを削除(ただし、再署名を避けるため、src_https_portalは削除しない)
-#               sudo chmod +x ./bin/cleanup_volumes.sh
-#               sudo ./bin/cleanup_volumes.sh
+              # 既存のリポジトリフォルダを削除
+              sudo rm -rf ~/web/E-Commerce-Webapp-with-Stripe-Sync
+            fi
 
-#               # 既存のリポジトリフォルダを削除
-#               sudo rm -rf ~/web/E-Commerce-Webapp-with-Stripe-Sync
-#             fi
+             # GitHubから新たにリポジトリをクローン
+             cd ~/web
+             git clone --branch ${{ github.head_ref }} git@github.com:recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync.git
 
-#              # GitHubから新たにリポジトリをクローン
-#              cd ~/web
-#              git clone --branch ${{ github.head_ref }} git@github.com:recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync.git
+             cd ./E-Commerce-Webapp-with-Stripe-Sync/src
 
-#              cd ./E-Commerce-Webapp-with-Stripe-Sync/src
+             # 環境ファイルを作成する
+             touch .env
+             echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env
+             echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env
+             echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env
+             echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
+             echo "MYSQL_HOST=${{ secrets.MYSQL_HOST_STG }}" >> .env
+             echo "RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}" >> .env
 
-#              # 環境ファイルを作成する
-#              touch .env
-#              echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env
-#              echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env
-#              echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env
-#              echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
-#              echo "MYSQL_HOST=${{ secrets.MYSQL_HOST_STG }}" >> .env
-#              echo "RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}" >> .env
+             # コンテナを起動する
+             sudo docker compose -f compose.prod.yml up -d
+          EOF
+          rm -f private_key
 
-#              # コンテナを起動する
-#              sudo docker compose -f compose.prod.yml up -d
-#           EOF
-#           rm -f private_key
-
-#           # SSHのセキュリティグループを閉じる
-#           aws ec2 revoke-security-group-ingress --group-id ${{ secrets.STG_EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+          # SSHのセキュリティグループを閉じる
+          aws ec2 revoke-security-group-ingress --group-id ${{ secrets.STG_EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
