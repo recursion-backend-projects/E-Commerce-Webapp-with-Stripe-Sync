@@ -93,8 +93,9 @@ Metrics/BlockLength:
     - "config/routes.rb"
 
 Naming/VariableNumber:
+  EnforcedStyle: snake_case
   Exclude:
-    - "spec/factories/customers.rb"
+    - "app/controllers/customer/accounts_controller.rb" #　customer.updateの引数で引っかかるので除外
 
 Metrics/ClassLength:
   Max: 120
