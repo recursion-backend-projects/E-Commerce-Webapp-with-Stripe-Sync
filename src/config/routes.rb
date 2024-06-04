@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   # 管理者のルーティング
   namespace :admin do
     resources :products, only: %i[index edit destroy update]
+    resources :shippings, only: %i[index edit update]
   end
   # カスタマーのルーティング
   scope module: :customer do

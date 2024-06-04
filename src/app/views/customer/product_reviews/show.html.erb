@@ -1,126 +1,122 @@
-<%= render 'layouts/customer/flash' %>
-
+<%= render 'layouts/flash' %>
 <!-- レビューリスト -->
 <div
 class="flex flex-col items-center divide-y-2 divide-gray-300 pt-10 antialiased"
 >
     <%= render 'product_info', product_review: @product_review %>
-
     <!-- レビューリスト -->
     <div class="flex w-full flex-col py-4 md:w-1/2">
         <div class="items-center justify-center pl-12 md:pl-0">
-        <h2 class="py-2 text-xl md:text-2xl">レビュー</h2>
-
-        <% if @product_reviews.any? %>
-            <% @product_reviews.each do |review| %>
-                <div class="flex items-center gap-4 pt-4">
-                    <!-- デフォルトアバターアイコン -->
-                    <div class="relative h-8 w-8 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-600">
-                    <svg class="absolute -left-1 h-12 w-12 text-gray-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-                    </svg>
+            <h2 class="py-2 text-xl md:text-2xl">レビュー</h2>
+            <% if @product_reviews.any? %>
+                <% @product_reviews.each do |review| %>
+                    <div class="flex items-center gap-4 pt-4">
+                        <!-- デフォルトアバターアイコン -->
+                        <div class="relative h-8 w-8 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-600">
+                            <svg class="absolute -left-1 h-12 w-12 text-gray-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <p class="font-medium"><%= review.customer_account.user_name %></p>
                     </div>
-                    <p class="font-medium"><%= review.customer_account.user_name %></p>
-                </div>
-                <p class="pt-2 w-5/6 text-sm md:w-2/3">投稿日 : <%= review.created_at.strftime("%Y年%m月%d日") %></p>
-                <div class="py-1 flex">
-                    <p class="font-bold text-orange-500"><%= star_rating(review.rating) %></p>
-                    <p class="ml-1 w-5/6 md:w-2/3"><%= review.title %></p>
-                </div>
-                <p class="w-5/6 text-sm md:w-2/3"><%=safe_join(review.review.split("\n"),tag(:br))%></p>
-            <% end %>
-
-            <!-- ページネーション -->
-            <div class="flex items-center justify-center py-12">
-            <nav aria-label="Page navigation">
-                <ul class="flex h-10 items-center -space-x-px text-base">
-                <li>
-                    <a
+                    <p class="pt-2 w-5/6 text-sm md:w-2/3">投稿日 : <%= review.created_at.strftime("%Y年%m月%d日") %></p>
+                    <div class="py-1 flex">
+                        <p class="font-bold text-orange-500"><%= star_rating(review.rating) %></p>
+                        <p class="ml-1 w-5/6 md:w-2/3"><%= review.title %></p>
+                    </div>
+                    <p class="w-5/6 text-sm md:w-2/3"><%=safe_join(review.review.split("\n"),tag(:br))%></p>
+                <% end %>
+                <!-- ページネーション -->
+                <div class="flex items-center justify-center py-12">
+                    <nav aria-label="Page navigation">
+                        <ul class="flex h-10 items-center -space-x-px text-base">
+                            <li>
+                                <a
                     href="#"
                     class="ms-0 flex h-10 items-center justify-center rounded-s-lg border border-e-0 border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                     >
-                    <span class="sr-only">前へ</span>
-                    <svg
+                                    <span class="sr-only">前へ</span>
+                                    <svg
                         class="h-3 w-3 rtl:rotate-180"
                         aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 6 10"
                     >
-                        <path
+                                        <path
                         stroke="currentColor"
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         stroke-width="2"
                         d="M5 1 1 5l4 4"
                         />
-                    </svg>
-                    </a>
-                </li>
-                <li>
-                    <a
+                                        </svg>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
                     href="#"
                     aria-current="page"
                     class="z-10 flex h-10 items-center justify-center border border-blue-300 bg-blue-50 px-4 leading-tight text-blue-600 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
                     >1</a
                     >
-                </li>
-                <li>
-                    <a
+                                </li>
+                                <li>
+                                    <a
                     href="#"
                     class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                     >2</a
                     >
-                </li>
-                <li>
-                    <a
+                                </li>
+                                <li>
+                                    <a
                     href="#"
                     class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                     >3</a
                     >
-                </li>
-                <li>
-                    <a
+                                </li>
+                                <li>
+                                    <a
                     href="#"
                     class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                     >4</a
                     >
-                </li>
-                <li>
-                    <a
+                                </li>
+                                <li>
+                                    <a
                     href="#"
                     class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                     >5</a
                     >
-                </li>
-                <li>
-                    <a
+                                </li>
+                                <li>
+                                    <a
                     href="#"
                     class="flex h-10 items-center justify-center rounded-e-lg border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                     >
-                    <span class="sr-only">次へ</span>
-                    <svg
+                                        <span class="sr-only">次へ</span>
+                                        <svg
                         class="h-3 w-3 rtl:rotate-180"
                         aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 6 10"
                     >
-                        <path
+                                            <path
                         stroke="currentColor"
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         stroke-width="2"
                         d="m1 9 4-4-4-4"
                         />
-                    </svg>
-                    </a>
-                </li>
-                </ul>
-            </nav>
+                                            </svg>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    <% else %>
+                        <p class="text-sm lg:text-base py-4">この商品にはまだレビューがありません。</p>
+                    <% end %>
+                </div>
             </div>
-        <% else %>
-            <p class="text-sm lg:text-base py-4">この商品にはまだレビューがありません。</p>
-        <% end %>
-    </div>
-</div>
