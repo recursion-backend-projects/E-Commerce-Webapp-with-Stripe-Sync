@@ -58,50 +58,46 @@ jobs:
           echo "${{ secrets.PROD_PRIVATE_KEY }}" > private_key
           chmod 600 private_key
 
-          # GitHubのホストキーをknown_hostsに追加
-          mkdir -p ~/.ssh
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          # ssh -oStrictHostKeyChecking=no ${{ secrets.PROD_USER_NAME }}@${{ secrets.PROD_HOST_NAME }} -i private_key << 'EOF'
+          #   # Docker Hubにログイン
+          #   echo "${{ secrets.DOCKERHUB_TOKEN }}" | sudo docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
-          ssh -oStrictHostKeyChecking=no ${{ secrets.PROD_USER_NAME }}@${{ secrets.PROD_HOST_NAME }} -i private_key << 'EOF'
-            # Docker Hubにログイン
-            echo "${{ secrets.DOCKERHUB_TOKEN }}" | sudo docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          #   if [ -d ~/web/E-Commerce-Webapp-with-Stripe-Sync/src ]; then
+          #     cd ~/web/E-Commerce-Webapp-with-Stripe-Sync/src
 
-            if [ -d ~/web/E-Commerce-Webapp-with-Stripe-Sync/src ]; then
-              cd ~/web/E-Commerce-Webapp-with-Stripe-Sync/src
+          #     # 起動中のコンテナを停止させる
+          #     sudo docker stop $(sudo docker ps -q)
+          #     sudo docker compose down
 
-              # 起動中のコンテナを停止させる
-              sudo docker stop $(sudo docker ps -q)
-              sudo docker compose down
+          #     # 未使用のイメージ、コンテナ、ネットワークを削除
+          #     sudo docker system prune -af
+          #     # 未使用のボリュームを削除(ただし、再署名を避けるため、src_https_portalは削除しない)
+          #     sudo chmod +x ./bin/cleanup_volumes.sh
+          #     sudo ./bin/cleanup_volumes.sh
 
-              # 未使用のイメージ、コンテナ、ネットワークを削除
-              sudo docker system prune -af
-              # 未使用のボリュームを削除(ただし、再署名を避けるため、src_https_portalは削除しない)
-              sudo chmod +x ./bin/cleanup_volumes.sh
-              sudo ./bin/cleanup_volumes.sh
+          #     # 既存のリポジトリフォルダを削除
+          #     sudo rm -rf ~/web/E-Commerce-Webapp-with-Stripe-Sync
+          #   fi
 
-              # 既存のリポジトリフォルダを削除
-              sudo rm -rf ~/web/E-Commerce-Webapp-with-Stripe-Sync
-            fi
+          #   # GitHubから新たにリポジトリをクローン
+          #   cd ~/web
+          #   GIT_SSH_COMMAND='ssh -i private_key -o StrictHostKeyChecking=no' git clone --branch ${{ github.ref_name }} git@github.com:recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync.git
 
-            # GitHubから新たにリポジトリをクローン
-            cd ~/web
-            GIT_SSH_COMMAND='ssh -i private_key -o StrictHostKeyChecking=no' git clone --branch ${{ github.ref_name }} git@github.com:recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync.git
+          #   cd ./E-Commerce-Webapp-with-Stripe-Sync/src
 
-            cd ./E-Commerce-Webapp-with-Stripe-Sync/src
+          #   # 環境ファイルを作成する
+          #   touch .env
+          #   echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env
+          #   echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env
+          #   echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env
+          #   echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
+          #   echo "MYSQL_HOST=${{ secrets.MYSQL_HOST_PROD }}" >> .env
+          #   echo "RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}" >> .env
 
-            # 環境ファイルを作成する
-            touch .env
-            echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env
-            echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env
-            echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env
-            echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
-            echo "MYSQL_HOST=${{ secrets.MYSQL_HOST_PROD }}" >> .env
-            echo "RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}" >> .env
+          #   # 既にビルドされたイメージをプルしてコンテナを起動する
+          #   sudo docker compose -f compose.prod.yml up -d --pull always
+          # EOF
+          # rm -f private_key
 
-            # 既にビルドされたイメージをプルしてコンテナを起動する
-            sudo docker compose -f compose.prod.yml up -d --pull always
-          EOF
-          rm -f private_key
-
-          # SSHのセキュリティグループを閉じる
-          aws ec2 revoke-security-group-ingress --group-id ${{ secrets.PROD_EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+          # # SSHのセキュリティグループを閉じる
+          # aws ec2 revoke-security-group-ingress --group-id ${{ secrets.PROD_EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
