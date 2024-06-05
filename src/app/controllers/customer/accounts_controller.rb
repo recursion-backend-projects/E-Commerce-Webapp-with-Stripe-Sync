@@ -1,4 +1,6 @@
 class Customer::AccountsController < ApplicationController
+  before_action :authenticate_customer_account!
+
   def show
     @customer = true
   end
@@ -12,10 +14,11 @@ class Customer::AccountsController < ApplicationController
     @customer = true
     @current_customer = current_customer
     if @current_customer.update(customer_params)
-      # Stripe::Customer.update(@current_customer.stripe_customer_id,
-      #                         shipping: { name: @current_customer.customer_account.shipping_name,
-      #                                     address: { country: 'JP', postal_code: @current_customer.address.zip_code, state: @current_customer.prefecture&.name,
-      #                                                line1: @current_customer.address.street_address, line2: @current_customer.address.street_address_2 } })
+      Stripe::Customer.update(@current_customer.stripe_customer_id,
+                              shipping: { name: @current_customer.customer_account.shipping_name,
+                                          address: { country: 'JP', postal_code: @current_customer.address.zip_code,
+                                                     state: @current_customer.address.prefecture&.name,
+                                                     line1: @current_customer.address.street_address, line2: @current_customer.address.street_address_2 } })
       redirect_to account_path, notice: 'アカウント情報が更新されました'
     else
       render :edit
