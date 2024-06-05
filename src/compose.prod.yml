@@ -2,8 +2,9 @@ services:
   app:
     image: artsa2/art-sa2-shop:app-latest
     volumes:
-      - public-data:/E-Commerce-Webapp-with-Stripe-Sync/public
-      - tmp-data:/E-Commerce-Webapp-with-Stripe-Sync/tmp
+      - ./:/E-Commerce-Webapp-with-Stripe-Sync
+      # - public-data:/E-Commerce-Webapp-with-Stripe-Sync/public
+      # - tmp-data:/E-Commerce-Webapp-with-Stripe-Sync/tmp
     environment:
       RAILS_ENV: production
       TZ: Asia/Tokyo
@@ -17,8 +18,9 @@ services:
       - app
     volumes:
       - ../infra/prod/web/default.conf:/etc/nginx/conf.d/default.conf
-      - public-data:/E-Commerce-Webapp-with-Stripe-Sync/public
-      - tmp-data:/E-Commerce-Webapp-with-Stripe-Sync/tmp
+      # - public-data:/E-Commerce-Webapp-with-Stripe-Sync/public
+      # - tmp-data:/E-Commerce-Webapp-with-Stripe-Sync/tmp
+      - ./public:/E-Commerce-Webapp-with-Stripe-Sync/public
 
   https-portal:
     image: steveltn/https-portal:1
@@ -32,6 +34,6 @@ services:
       - https-portal-data:/var/lib/https-portal
 
 volumes:
-  public-data:
-  tmp-data:
+  # public-data:
+  # tmp-data:
   https-portal-data: # HTTPS-PORTALをアップグレードする際に再署名を避けるために推奨されます
