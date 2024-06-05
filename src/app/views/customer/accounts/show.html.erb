@@ -52,12 +52,6 @@
                     <p class="w-full rounded border border-gray-300 p-2"><%= @current_customer.address.prefecture.blank? ? '---': @current_customer.address.prefecture.name%></p>
                 </div>
                 <div>
-                    <p>市区町村</p>
-                    <p class="w-full rounded border border-gray-300 p-2">
-                        ---
-                    </p>
-                </div>
-                <div>
                     <p>住所(1行目)</p>
                     <p class="w-full rounded border border-gray-300 p-2">
                         <%= @current_customer.address.street_address.blank? ? '---': @current_customer.address.street_address%>
