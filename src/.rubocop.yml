@@ -76,6 +76,16 @@ Layout/LineLength:
 RSpecRails/InferredSpecType:
   Enabled: false
 
+# 厳密にテストしたい場合に複数条件を入れるのはよいかと
+# https://docs.rubocop.org/rubocop-rspec/cops_rspec.html#rspecmultipleexpectations
+RSpec/MultipleExpectations:
+  Enabled: false
+
+# 厳密にテストしたい場合に多少長くなるのはしょうがない
+# https://docs.rubocop.org/rubocop-rspec/cops_rspec.html#rspecexamplelength
+RSpec/ExampleLength:
+  Max: 30
+
 # ============================================================
 # Rails
 # ============================================================
