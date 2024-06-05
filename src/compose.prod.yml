@@ -28,7 +28,7 @@ services:
       - "80:80"
       - "443:443"
     environment:
-      DOMAINS: "art-sa2.com -> http://web:80"
+      DOMAINS: "art-sa2-stg.com -> http://web:80"
       STAGE: "production"
     volumes:
       - https-portal-data:/var/lib/https-portal
