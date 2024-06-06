@@ -3,6 +3,7 @@ services:
     image: artsa2shop/art-sa2-shop-prod:app-latest
     volumes:
       - ./:/E-Commerce-Webapp-with-Stripe-Sync
+      - /E-Commerce-Webapp-with-Stripe-Sync/tmp/sockets:/E-Commerce-Webapp-with-Stripe-Sync/tmp/sockets
     environment:
       RAILS_ENV: production
       TZ: Asia/Tokyo
@@ -17,6 +18,7 @@ services:
     volumes:
       - ../infra/prod2/web/default.conf:/etc/nginx/conf.d/default.conf
       - ./public:/E-Commerce-Webapp-with-Stripe-Sync/public
+      - /E-Commerce-Webapp-with-Stripe-Sync/tmp/sockets:/E-Commerce-Webapp-with-Stripe-Sync/tmp/sockets
 
   https-portal:
     image: steveltn/https-portal:1
