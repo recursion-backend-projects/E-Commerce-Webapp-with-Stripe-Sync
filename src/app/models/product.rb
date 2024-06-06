@@ -1,4 +1,6 @@
 class Product < ApplicationRecord
+  acts_as_taggable_on :tags
+
   belongs_to :product_category
   enum :status, { draft: 0, published: 1, archived: 2 }
   enum :product_type, { digital: 0, physics: 1 }
@@ -24,4 +26,5 @@ class Product < ApplicationRecord
   has_many_attached :images
   has_one_attached :digital_file
   has_one :order_item, dependent: :destroy
+
 end
