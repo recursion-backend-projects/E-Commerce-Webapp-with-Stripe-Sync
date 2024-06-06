@@ -14,7 +14,8 @@ on:
 #       - "v*.*.*" # バージョンタグをトリガーにする
 
 jobs:
-  deploy-to-production:
+  # Dockerイメージのビルドとプッシュのジョブ
+  build-and-push-docker-images:
     runs-on: ubuntu-22.04
     permissions:
       packages: write
@@ -22,12 +23,62 @@ jobs:
       attestations: write
       id-token: write
     steps:
-      - name: Checkout code
+      # リポジトリの最新コミットをチェックアウト
+      - name: Check out code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # 必要なすべてのコミット履歴を取得
-          ref: ${{ github.ref }} # タグのコミットをチェックアウト
+          fetch-depth: 0
 
+      # Docker Hubにログイン
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME_PROD }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN_PROD }}
+
+      # メタデータを設定してDockerイメージのタグとラベルを抽出
+      - name: Extract metadata for App
+        id: meta-app
+        uses: docker/metadata-action@v5
+        with:
+          images: artsa2/art-sa2-shop:app-prod
+
+      - name: Extract metadata for Web
+        id: meta-web
+        uses: docker/metadata-action@v5
+        with:
+          images: artsa2/art-sa2-shop:web-prod
+
+      # App用のDockerイメージをビルドしてプッシュ
+      - name: Build and push Docker image App
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./infra/prod2/app/Dockerfile
+          push: true
+          tags: artsa2/art-sa2-shop:app-prod-latest
+          labels: ${{ steps.meta-app.outputs.labels }}
+
+      # Web用のDockerイメージをビルドしてプッシュ
+      - name: Build and push Docker image Web
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./infra/prod2/web/Dockerfile
+          push: true
+          tags: artsa2/art-sa2-shop:web-prod-latest
+          labels: ${{ steps.meta-web.outputs.labels }}
+
+  # 本番環境へのデプロイジョブ
+  deploy-to-production:
+    runs-on: ubuntu-22.04
+    needs: build-and-push-docker-images
+    permissions:
+      packages: write
+      contents: read
+      attestations: write
+      id-token: write
+    steps:
       # IP取得ライブラリをインストール
       - name: Public IP Install
         id: ip
@@ -91,7 +142,7 @@ jobs:
             echo "MYSQL_HOST=${{ secrets.MYSQL_HOST_PROD }}" >> .env
             echo "RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}" >> .env
 
-            # 既にビルドされたイメージをプルしてコンテナを起動する
+            # Docker Hubから最新のイメージをプルしてコンテナを起動する
             sudo docker compose -f compose.prod2.yml up -d --pull always
           EOF
           rm -f private_key
