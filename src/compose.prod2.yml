@@ -1,10 +1,8 @@
 services:
   app:
-    image: artsa2/art-sa2-shop:app-latest
+    image: artsa2shop/art-sa2-shop-prod:app-latest
     volumes:
       - ./:/E-Commerce-Webapp-with-Stripe-Sync
-      # - public-data:/E-Commerce-Webapp-with-Stripe-Sync/public
-      # - tmp-data:/E-Commerce-Webapp-with-Stripe-Sync/tmp
     environment:
       RAILS_ENV: production
       TZ: Asia/Tokyo
@@ -13,13 +11,11 @@ services:
       - .env
 
   web:
-    image: artsa2/art-sa2-shop:web-latest
+    image: artsa2shop/art-sa2-shop-prod:web-latest
     depends_on:
       - app
     volumes:
       - ../infra/prod2/web/default.conf:/etc/nginx/conf.d/default.conf
-      # - public-data:/E-Commerce-Webapp-with-Stripe-Sync/public
-      # - tmp-data:/E-Commerce-Webapp-with-Stripe-Sync/tmp
       - ./public:/E-Commerce-Webapp-with-Stripe-Sync/public
 
   https-portal:
