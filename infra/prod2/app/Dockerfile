@@ -11,23 +11,12 @@ RUN apt-get update -qq && \
 #docker内の作業ディレクトリを作成＆設定
 WORKDIR /E-Commerce-Webapp-with-Stripe-Sync
 
+# Bundlerを使用してGemをインストール
+COPY Gemfile Gemfile.lock ./
+RUN bundle install
+
 # srcをE-Commerce-Webapp-with-Stripe-Syncにコピー
 COPY ./src /E-Commerce-Webapp-with-Stripe-Sync
 
-# 必要なディレクトリを作成
-RUN mkdir -p tmp/pids tmp/sockets
-
-# Bundlerを使用してGemをインストール
-RUN bundle install
-
-# TailwindCSSのインストール
-RUN yarn add -D tailwindcss
-
-# docker-prod-entrypoint.shをコピー
-COPY ./src/bin/docker-prod-entrypoint.sh /usr/local/bin/
-
-# docker-prod-entrypoint.shを実行可能にする
-RUN chmod +x /usr/local/bin/docker-prod-entrypoint.sh
-
 # エントリポイントを設定
-ENTRYPOINT ["/usr/local/bin/docker-prod-entrypoint.sh"]
+ENTRYPOINT ["/E-Commerce-Webapp-with-Stripe-Sync/bin/docker-prod-entrypoint.sh"]
