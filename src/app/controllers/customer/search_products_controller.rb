@@ -1,24 +1,11 @@
 class Customer::SearchProductsController < ApplicationController
-  # 許可するカラム名を指定
-  # TODO リリース日をVALID_COLUMNSに追加する
-  VALID_COLUMNS = {"name" => "商品名", "description" => "商品説明", "creator" => "作者", "category" => "カテゴリー"}
 
   def index
     @customer = true
-    @type = params[:type]
-    @keyword = params[:keyword]
-    @products = nil
-    @column_name = nil
+    @search.sorts = 'average_rating desc' if @search.sorts.empty?
+    @keyword = params[:q]["name_or_description_or_creator_or_product_category_name_cont"] || params[:q]["product_category_name_eq"]
+    @products = @keyword == "" ? nil : @search.result(distinct: true)
     @average_ratings = {}
-
-    if @type.present? && @keyword.present? && VALID_COLUMNS.keys.include?(@type)
-      if @type == "category"
-        @products = Product.joins(:product_category).where(product_category: { name: "#{@keyword}" }) 
-      else
-        @products = Product.where("#{@type} LIKE ?", "%#{@keyword}%")
-      end
-      @column_name = VALID_COLUMNS[@type]
-    end
 
     if @products.present?
       @products.each do |product|

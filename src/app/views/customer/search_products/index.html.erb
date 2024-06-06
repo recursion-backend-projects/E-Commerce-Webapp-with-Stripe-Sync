@@ -3,23 +3,36 @@
     <div class="flex flex-col md:w-3/4">
         <h1 class="ml-1 text-2xl font-bold md:text-4xl">商品リスト</h1>
         <h2 class="ml-1 py-3 text-lg text-gray-700 md:text-2xl">
-            <%= @column_name+"の" if @column_name %>検索結果 : <%= @keyword %>
+            <% if @keyword != "" %>
+                検索結果 : <%= @keyword %>
+            <% else %>
+                キーワードを入力して検索してください。
+            <% end %>
         </h2>
         <% if @products.present? %>
-            <form class="flex max-w-sm items-center">
-            <label for="sort-select" class="ml-1 block text-lg text-gray-900"
-                >並び替え :
-            </label>
-            <select
-                id="sort-select"
-                class="ml-2 block w-1/2 rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-            >
-                <option selected>高評価順</option>
-                <option value="new">新着順</option>
-                <option value="high-price">高価格順</option>
-                <option value="low-price">低価格順</option>
-            </select>
-            </form>
+            <%= search_form_for @search, url: search_products_path, method: :post, local: true, data: { turbo: false }, class: "flex max-w-sm items-center" do |form| %>
+                <% if !params[:q]["name_or_description_or_creator_or_product_category_name_cont"].nil? %>
+                    <%= form.hidden_field :name_or_description_or_creator_or_product_category_name_cont, value: params[:q]["name_or_description_or_creator_or_product_category_name_cont"] %>
+                <% elsif !params[:q]["product_category_name_eq"].nil? %>
+                    <%= form.hidden_field :product_category_name_eq, value: params[:q] && params[:q]["product_category_name_eq"] %>
+                <% end %>
+                <%= form.label :sorts, "並び替え :", class: "ml-1 block text-lg text-gray-900" %>
+                <%# TODO: 新着順は、リリース日に紐づくため、後で実装する %>
+                <%= form.select :sorts, 
+                    { 
+                        '高評価順': 'average_rating desc',
+                        '新着順': '',
+                        '高価格順': 'price desc',
+                        '低価格順': 'price asc',
+                    }, 
+                    { selected: params.dig(:q, :sorts) }, 
+                    { 
+                        onchange: 'this.form.submit()', 
+                        class: "ml-2 block w-1/2 rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" 
+                    }
+                %>
+                <%= form.submit '' %>
+            <% end %>
 
             <div class="grid grid-cols-2 items-center gap-4 py-4 md:grid-cols-5">
                 <% @products.each do |product| %>

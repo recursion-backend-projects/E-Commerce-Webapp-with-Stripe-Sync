@@ -7,13 +7,10 @@
         <span class="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">Art-SA2</span>
       <% end %>
       <!-- 検索欄 -->
-      <%= form_with(url: search_products_path, method: :get, local: true, data: { turbo: false }, class: "order-last w-full pt-2 md:order-none md:w-1/2 md:pt-0") do |form| %>
+      <%= search_form_for @search, url: search_products_path, method: :get, local: true, data: { turbo: false }, class: "order-last w-full pt-2 md:order-none md:w-1/2 md:pt-0" do |form| %>
         <div class="flex">
-          <!-- TODO リリース日を追加する -->
-          <%= form.select :type, options_for_select([["商品名", "name"], ["商品説明", "description"], ["作者", "creator"]]), {}, class: "flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-500 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600" %>
           <div class="relative w-full">
-            <%= form.label :keyword, class: "mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white" %>
-            <%= form.text_field :keyword, placeholder: "キーワードを検索", class: "block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" %>
+            <%= form.search_field :name_or_description_or_creator_or_product_category_name_cont, placeholder: "キーワードを検索", class: "block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" %>
             <%= button_tag type: 'submit', class: "absolute end-0 top-0 h-full rounded-e-lg border border-blue-700 bg-blue-700 p-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" do %>
                   <svg
                     class="h-4 w-4"
@@ -164,16 +161,16 @@
                 </p>
               </li>
               <li>
-                <%= link_to '絵画', search_products_path(type: 'category', keyword: '絵画'), data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
+                <%= link_to '絵画', search_products_path(q: { product_category_name_eq: '絵画' }), data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
               </li>
               <li>
-                <%= link_to '彫刻', search_products_path(type: 'category', keyword: '彫刻'), data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
+                <%= link_to '彫刻', search_products_path(q: { product_category_name_eq: '彫刻' }), data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
               </li>
               <li>
-                <%= link_to '写真', search_products_path(type: 'category', keyword: '写真'), data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
+                <%= link_to '写真', search_products_path(q: { product_category_name_eq: '写真' }), data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
               </li>
               <li>
-                <%= link_to 'イラスト', search_products_path(type: 'category', keyword: 'イラスト'), data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
+                <%= link_to 'イラスト', search_products_path(q: { product_category_name_eq: 'イラスト' }), data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
               </li>
             </ul>
           </div>
@@ -200,10 +197,10 @@
       </div>
       <!-- カテゴリー -->
       <div class="hidden md:flex md:w-1/2 md:justify-around md:items-center">
-        <%= link_to '絵画', search_products_path(type: 'category', keyword: '絵画'), data: { turbo_method: :get }, class: 'rounded-full px-4 py-2 font-bold hover:bg-gray-200 dark:text-white hover:dark:bg-gray-600' %>
-        <%= link_to '彫刻', search_products_path(type: 'category', keyword: '彫刻'), data: { turbo_method: :get }, class: 'rounded-full px-4 py-2 font-bold hover:bg-gray-200 dark:text-white hover:dark:bg-gray-600' %>
-        <%= link_to '写真', search_products_path(type: 'category', keyword: '写真'), data: { turbo_method: :get }, class: 'rounded-full px-4 py-2 font-bold hover:bg-gray-200 dark:text-white hover:dark:bg-gray-600' %>
-        <%= link_to 'イラスト', search_products_path(type: 'category', keyword: 'イラスト'), data: { turbo_method: :get }, class: 'rounded-full px-4 py-2 font-bold hover:bg-gray-200 dark:text-white hover:dark:bg-gray-600' %>
+        <%= link_to '絵画', search_products_path(q: { product_category_name_eq: '絵画' }), data: { turbo_method: :get }, class: 'rounded-full px-4 py-2 font-bold hover:bg-gray-200 dark:text-white hover:dark:bg-gray-600' %>
+        <%= link_to '彫刻', search_products_path(q: { product_category_name_eq: '彫刻' }), data: { turbo_method: :get }, class: 'rounded-full px-4 py-2 font-bold hover:bg-gray-200 dark:text-white hover:dark:bg-gray-600' %>
+        <%= link_to '写真', search_products_path(q: { product_category_name_eq: '写真' }), data: { turbo_method: :get }, class: 'rounded-full px-4 py-2 font-bold hover:bg-gray-200 dark:text-white hover:dark:bg-gray-600' %>
+        <%= link_to 'イラスト', search_products_path(q: { product_category_name_eq: 'イラスト' }), data: { turbo_method: :get }, class: 'rounded-full px-4 py-2 font-bold hover:bg-gray-200 dark:text-white hover:dark:bg-gray-600' %>
       </div>
     </div>
   </nav>
