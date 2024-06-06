@@ -1,8 +1,6 @@
 services:
   app:
-    build:
-      context: .
-    image: artsa2shop/art-sa2-shop-prod:app-latest
+    image: artsa2shop/art-sa2-shop:app-latest
     volumes:
       - ./:/E-Commerce-Webapp-with-Stripe-Sync
     environment:
@@ -13,7 +11,7 @@ services:
       - .env
 
   web:
-    image: artsa2shop/art-sa2-shop-prod:web-latest
+    image: artsa2shop/art-sa2-shop:web-latest
     depends_on:
       - app
     volumes:

@@ -12,7 +12,6 @@ RUN apt-get update -qq && \
 WORKDIR /E-Commerce-Webapp-with-Stripe-Sync
 
 # Bundlerを使用してGemをインストール
-COPY Gemfile Gemfile.lock ./
 RUN bundle install
 
 # srcをE-Commerce-Webapp-with-Stripe-Syncにコピー
