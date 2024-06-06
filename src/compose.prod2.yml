@@ -1,5 +1,7 @@
 services:
   app:
+    build:
+      context: .
     image: artsa2shop/art-sa2-shop-prod:app-latest
     volumes:
       - ./:/E-Commerce-Webapp-with-Stripe-Sync
