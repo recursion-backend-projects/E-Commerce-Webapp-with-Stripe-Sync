@@ -87,6 +87,15 @@
         <% end %>
       </div>
 
+      <div class="flex flex-col">
+        <!-- 
+        <%= form.label 'タグ', class: 'font-bold' %>
+          <%= form.text_field :tag_list, class: 'rounded border border-gray-300 p-2 focus:ring focus:ring-blue-500' %>
+        -->
+          <input id="product_tag_list" name='basic' value='tag1, tag2' autofocus>
+
+      </div>
+
       <div class="flex justify-between">
         <%= link_to 'キャンセル', admin_products_path, class: 'text-center my-2 w-1/4 rounded-lg border border-gray-300 bg-white py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700' %>
         <%= form.submit '保存する', class: 'my-2 w-1/4 rounded bg-yellow-400 py-2 hover:bg-yellow-500 hover:cursor-pointer' %>
