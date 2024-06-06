@@ -41,13 +41,13 @@ jobs:
         id: meta-app
         uses: docker/metadata-action@v5
         with:
-          images: artsa2/art-sa2-shop:app-prod
+          images: artsa2shop/art-sa2-shop-prod:app
 
       - name: Extract metadata for Web
         id: meta-web
         uses: docker/metadata-action@v5
         with:
-          images: artsa2/art-sa2-shop:web-prod
+          images: artsa2shop/art-sa2-shop-prod:web
 
       # App用のDockerイメージをビルドしてプッシュ
       - name: Build and push Docker image App
@@ -56,7 +56,7 @@ jobs:
           context: .
           file: ./infra/prod2/app/Dockerfile
           push: true
-          tags: artsa2/art-sa2-shop:app-prod-latest
+          tags: artsa2shop/art-sa2-shop-prod:app-latest
           labels: ${{ steps.meta-app.outputs.labels }}
 
       # Web用のDockerイメージをビルドしてプッシュ
@@ -66,7 +66,7 @@ jobs:
           context: .
           file: ./infra/prod2/web/Dockerfile
           push: true
-          tags: artsa2/art-sa2-shop:web-prod-latest
+          tags: artsa2shop/art-sa2-shop-prod:web-latest
           labels: ${{ steps.meta-web.outputs.labels }}
 
   # 本番環境へのデプロイジョブ
