@@ -4,7 +4,7 @@ echo "Starting docker-prod-entrypoint.sh"
 
 mkdir -p /E-Commerce-Webapp-with-Stripe-Sync/tmp/pids /E-Commerce-Webapp-with-Stripe-Sync/tmp/sockets
 
-bundle exec rails db:migrate
+bundle exec db:prepare
 
 # アセットプリコンパイルの実行(https://github.com/rails/rails/pull/46760)
 bundle exec rake assets:precompile SECRET_KEY_BASE_DUMMY=1 RAILS_ENV=production
