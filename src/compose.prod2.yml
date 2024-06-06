@@ -3,12 +3,14 @@ services:
     image: artsa2shop/art-sa2-shop-prod:app-latest
     volumes:
       - ./:/E-Commerce-Webapp-with-Stripe-Sync
+      - /E-Commerce-Webapp-with-Stripe-Sync/tmp/sockets:/E-Commerce-Webapp-with-Stripe-Sync/tmp/sockets # ソケットファイル用ボリュームを追加
     environment:
       RAILS_ENV: production
       TZ: Asia/Tokyo
     user: root
     env_file:
       - .env
+    command: /bin/bash -c "rm -f tmp/pids/server.pid"
 
   web:
     image: artsa2shop/art-sa2-shop-prod:web-latest
@@ -17,6 +19,7 @@ services:
     volumes:
       - ../infra/prod2/web/default.conf:/etc/nginx/conf.d/default.conf
       - ./public:/E-Commerce-Webapp-with-Stripe-Sync/public
+      - /E-Commerce-Webapp-with-Stripe-Sync/tmp/sockets:/E-Commerce-Webapp-with-Stripe-Sync/tmp/sockets # ソケットファイル用ボリュームを追加
 
   https-portal:
     image: steveltn/https-portal:1
