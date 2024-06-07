@@ -217,7 +217,7 @@ jobs:
              echo "RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}" >> .env
 
              # コンテナを起動する
-             sudo docker compose -f compose.prod.yml up -d
+             sudo docker compose -f compose.stg.yml up -d
           EOF
           rm -f private_key
 
