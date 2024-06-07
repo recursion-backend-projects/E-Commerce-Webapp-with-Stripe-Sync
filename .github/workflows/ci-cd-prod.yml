@@ -47,7 +47,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./infra/prod2/app/Dockerfile
+          file: ./infra/prod/app/Dockerfile
           push: true
           tags: artsa2shop/art-sa2-shop-prod:app-latest
           labels: ${{ steps.meta-app.outputs.labels }}
@@ -57,7 +57,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./infra/prod2/web/Dockerfile
+          file: ./infra/prod/web/Dockerfile
           push: true
           tags: artsa2shop/art-sa2-shop-prod:web-latest
           labels: ${{ steps.meta-web.outputs.labels }}
