@@ -3,15 +3,8 @@ run-name: ${{ github.actor }} is deploying to production
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-
-# 本番はこれを使う
-# on:
-#   push:
-#     tags:
-#       - "v*.*.*" # バージョンタグをトリガーにする
+    tags:
+      - "v*.*.*"
 
 jobs:
   # Dockerイメージのビルドとプッシュのジョブ
