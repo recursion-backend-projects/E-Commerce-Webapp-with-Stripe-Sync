@@ -69,18 +69,19 @@ products = [
   { name: '異世界の冒険者', price: 5800, stock: 0, description: '異世界で冒険する勇者たちを描いたイラスト。', status: 'draft', creator: '藤原優', product_category_name: 'イラスト', product_type: 0, stripe_product_id: 'prod_QASQuJHkOEtVnx9', stripe_price_id: 'price_1PK7Vj2KrybDMqMJUZMhUUTM9' }
 ]
 
-products.each do |product_data|
-  product_category = ProductCategory.find_or_create_by!(name: product_data.delete(:product_category_name))
-  Product.find_or_create_by!(name: product_data[:name]) do |product|
-    product.price = product_data[:price]
-    product.stock = product_data[:stock]
-    product.description = product_data[:description]
-    product.status = product_data[:status]
-    product.creator = product_data[:creator]
-    product.product_type = product_data[:product_type]
-    product.product_category = product_category
-    product.stripe_product_id = product_data[:stripe_product_id]
-    product.stripe_price_id = product_data[:stripe_price_id]
+if Rails.env.development?
+  products.each do |product_data|
+    product_category = ProductCategory.find_or_create_by!(name: product_data.delete(:product_category_name))
+    Product.find_or_create_by!(name: product_data[:name]) do |product|
+      product.price = product_data[:price]
+      product.stock = product_data[:stock]
+      product.description = product_data[:description]
+      product.status = product_data[:status]
+      product.creator = product_data[:creator]
+      product.product_type = product_data[:product_type]
+      product.product_category = product_category
+      product.stripe_product_id = product_data[:stripe_product_id]
+      product.stripe_price_id = product_data[:stripe_price_id]
+    end
   end
 end
-
