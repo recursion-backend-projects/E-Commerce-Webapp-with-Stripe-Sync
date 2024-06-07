@@ -144,7 +144,7 @@ jobs:
             echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> .env
 
             # Docker Hubから最新のイメージをプルしてコンテナを起動する
-            sudo docker compose -f compose.prod2.yml up -d --pull always
+            sudo docker compose -f compose.prod.yml up -d --pull always
           EOF
           rm -f private_key
 
