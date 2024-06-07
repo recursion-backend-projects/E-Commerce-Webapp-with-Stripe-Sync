@@ -1,9 +1,9 @@
 require "active_support/core_ext/integer/time"
 
-Rails.application.config.hosts << "art-sa2-stg.com"
-
 Rails.application.configure do
   # config.hosts << "localhost"
+
+  config.hosts << "art-sa2-stg.com"
 
   config.hosts << "art-sa2.com"
 
