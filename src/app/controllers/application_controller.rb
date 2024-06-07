@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   before_action :current_cart
   before_action :cart_items_count
   before_action :current_customer, if: :customer_account_signed_in?
-	before_action :set_search
+  before_action :set_search
 
   private
 
@@ -30,5 +30,4 @@ class ApplicationController < ActionController::Base
   def set_search
     @search = Product.ransack(params[:q])
   end
-
 end
