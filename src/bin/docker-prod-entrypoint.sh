@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "Starting docker-prod-entrypoint.sh2"
+echo "Starting docker-prod-entrypoint.sh"
 
 mkdir -p /E-Commerce-Webapp-with-Stripe-Sync/tmp/pids /E-Commerce-Webapp-with-Stripe-Sync/tmp/sockets
 
