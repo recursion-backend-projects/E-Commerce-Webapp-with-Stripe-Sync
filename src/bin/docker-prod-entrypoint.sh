@@ -10,6 +10,9 @@ bundle install
 # データベースの準備
 bundle exec rails db:prepare
 
+# esbuildのインストール
+yarn add esbuild
+
 # JavaScriptのビルド
 yarn build
 

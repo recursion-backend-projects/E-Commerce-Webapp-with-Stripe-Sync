@@ -20,9 +20,6 @@ RUN mkdir -p tmp/pids tmp/sockets
 # Bundlerを使用してGemをインストール
 RUN bundle install
 
-# esbuildをインストール
-RUN yarn add esbuild
-
 # docker-prod-entrypoint.shをコピー
 COPY ./src/bin/docker-prod-entrypoint.sh /usr/local/bin/
 
