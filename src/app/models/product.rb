@@ -26,5 +26,4 @@ class Product < ApplicationRecord
   has_many_attached :images
   has_one_attached :digital_file
   has_one :order_item, dependent: :destroy
-
 end

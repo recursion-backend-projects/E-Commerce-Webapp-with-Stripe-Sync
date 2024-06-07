@@ -95,4 +95,4 @@ gem 'active_storage_validations'
 
 gem 'active_hash', '~> 3.3'
 
-gem "acts-as-taggable-on", "~> 10.0"
+gem 'acts-as-taggable-on', '~> 10.0'
