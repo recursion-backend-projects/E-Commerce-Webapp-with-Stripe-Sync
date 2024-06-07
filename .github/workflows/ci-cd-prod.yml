@@ -145,6 +145,10 @@ jobs:
             echo "PROD_RDS_PASSWORD=${{ secrets.PROD_RDS_PASSWORD }}" >> .env
             echo "PROD_RDS_HOSTNAME=${{ secrets.PROD_RDS_HOSTNAME }}" >> .env
             echo "PROD_RDS_DB_NAME=${{ secrets.PROD_RDS_DB_NAME }}" >> .env
+            echo "S3_ACCESS_KEY_ID=${{ secrets.S3_ACCESS_KEY_ID }}" >> .env
+            echo "S3_SECRET_ACCESS_KEY=${{ secrets.S3_SECRET_ACCESS_KEY }}" >> .env
+            echo "S3_REGION=${{ secrets.S3_REGION }}" >> .env
+            echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> .env
 
             # Docker Hubから最新のイメージをプルしてコンテナを起動する
             sudo docker compose -f compose.prod2.yml up -d --pull always
