@@ -14,6 +14,9 @@ WORKDIR /E-Commerce-Webapp-with-Stripe-Sync
 # srcをE-Commerce-Webapp-with-Stripe-Syncにコピー
 COPY ./src /E-Commerce-Webapp-with-Stripe-Sync
 
+# esbuildをインストール
+RUN yarn add esbuild
+
 # docker-prod-entrypoint.shをコピー
 COPY ./src/bin/docker-prod-entrypoint.sh /usr/local/bin/
 
