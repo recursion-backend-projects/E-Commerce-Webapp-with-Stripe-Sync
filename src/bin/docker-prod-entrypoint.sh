@@ -14,4 +14,4 @@ bundle exec rails db:prepare
 bundle exec rake assets:precompile SECRET_KEY_BASE_DUMMY=1 RAILS_ENV=production
 
 # Pumaサーバーの起動
-bundle exec puma -C config/puma.rb
+bundle exec puma -C config/puma.rb -e production
