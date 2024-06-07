@@ -23,6 +23,7 @@ class Admin::ProductsController < ApplicationController
         redirect_to edit_admin_product_path(@product), notice: '商品が更新されました。'
       else
         @categories = ProductCategory.all
+        flash.now[:alert] = '更新に失敗しました'
         render :edit, status: :unprocessable_entity
       end
     rescue ActiveStorage::IntegrityError, ActiveRecord::RecordInvalid, ArgumentError => e
