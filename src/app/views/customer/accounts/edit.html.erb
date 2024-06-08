@@ -11,7 +11,7 @@
             </h1>
             <!-- 入力フォーム -->
             <%= form_with model: @current_customer, url: '/account', method: :patch, data:{turbo: false}, class: 'space-y-4 rounded-xl border border-gray-200 bg-white p-4 shadow-xl' do |form| %>
-            <%= render 'shared/error_messages', model: form.object %>
+                <%= render 'shared/error_messages', model: form.object %>
                 <h2 class="text-xl font-bold md:text-2xl">1. 基本情報</h2>
                 <%= form.fields_for :customer_account do |customer_account_form|%>
                     <div>
@@ -55,8 +55,26 @@
                 <h2 class="text-xl font-bold md:text-2xl">3. お支払い方法</h2>
                 <p class="text-base text-gray-500 md:text-lg">
                     デモサイトのため、金銭のやり取りは発生しません。<br />
-                    商品ご購入時に、テスト用のカードデータをご用意致します。
+                    商品ご購入時には、以下のカード情報を手動で入力してください。
                 </p>
+                <div>
+                    <p>カード番号</p>
+                    <p class="w-full rounded border border-gray-300 p-2">
+                        4242 4242 4242 4242
+                    </p>
+                </div>
+                <div>
+                    <p>有効期限(有効な将来の日付)</p>
+                    <p class="w-full rounded border border-gray-300 p-2">
+                        12/34
+                    </p>
+                </div>
+                <div>
+                    <p>セキュリティーコード(任意の3桁)</p>
+                    <p class="w-full rounded border border-gray-300 p-2">
+                        123
+                    </p>
+                </div>
                 <div class="flex flex-row justify-between py-4">
                     <%= link_to 'キャンセル', account_path, class: 'rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700' %>
                     <%= form.submit '保存する', class: 'rounded-lg bg-yellow-400 p-1.5 px-4 py-2 hover:bg-yellow-500 hover:cursor-pointer' %>
