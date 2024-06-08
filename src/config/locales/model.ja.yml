@@ -15,6 +15,8 @@ ja:
         password: "パスワード"
         password_confirmation: "パスワード（確認）"
         user_name: "ユーザー名"
+        phone_number: "電話番号"
+        shipping_name: "氏名"
       product:
         name: "名前"
         description: "説明"
@@ -24,3 +26,7 @@ ja:
         title: "タイトル"
         review: "レビュー"
         rating: "評価"
+      address:
+        zip_code: "郵便番号"
+        street_address: "住所(1行目)"
+        street_address_2: "住所(2行目)"
