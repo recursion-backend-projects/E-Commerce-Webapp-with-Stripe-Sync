@@ -11,10 +11,10 @@
         </h2>
         <% if @products.present? %>
             <%= search_form_for @search, url: search_products_path, method: :post, local: true, data: { turbo: false }, class: "flex max-w-sm items-center" do |form| %>
-                <% if !params[:q]["name_or_description_or_creator_or_product_category_name_cont"].nil? %>
-                    <%= form.hidden_field :name_or_description_or_creator_or_product_category_name_cont, value: params[:q]["name_or_description_or_creator_or_product_category_name_cont"] %>
-                <% elsif !params[:q]["product_category_name_eq"].nil? %>
-                    <%= form.hidden_field :product_category_name_eq, value: params[:q] && params[:q]["product_category_name_eq"] %>
+                <% if @search.name_or_description_or_creator_or_product_category_name_cont.present? %>
+                    <%= form.hidden_field :name_or_description_or_creator_or_product_category_name_cont, value: @search.name_or_description_or_creator_or_product_category_name_cont %>
+                <% elsif @search.product_category_name_eq.present? %>
+                    <%= form.hidden_field :product_category_name_eq, value: @search.product_category_name_eq %>
                 <% end %>
                 <%= form.label :sorts, "並び替え :", class: "ml-1 block text-lg text-gray-900" %>
                 <%# TODO: 新着順は、リリース日に紐づくため、後で実装する %>
