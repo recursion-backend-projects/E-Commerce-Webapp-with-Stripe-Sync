@@ -142,6 +142,7 @@ jobs:
             echo "S3_SECRET_ACCESS_KEY=${{ secrets.S3_SECRET_ACCESS_KEY }}" >> .env
             echo "S3_REGION=${{ secrets.S3_REGION }}" >> .env
             echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> .env
+            echo "RAILS_PRODUCTION_KEY=${{ secrets.RAILS_PRODUCTION_KEY }}" >> .env
 
             # Docker Hubから最新のイメージをプルしてコンテナを起動する
             sudo docker compose -f compose.prod.yml up -d --pull always
