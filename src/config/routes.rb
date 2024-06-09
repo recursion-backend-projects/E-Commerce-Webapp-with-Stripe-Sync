@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   # カスタマーのルーティング
   scope module: :customer do
     resources :products, only: %i[show]
+    resources :search_products, only: %i[index]
     resource :cart, only: %i[show create update destroy]
     resources :favorite_products, only: %i[index create destroy]
     resources :download_products, only: %i[index]
