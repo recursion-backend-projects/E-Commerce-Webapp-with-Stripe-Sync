@@ -11,14 +11,14 @@
         <!-- 商品情報 -->
         <div class="w-full space-y-2 px-12 py-4 md:w-1/3 md:px-2 md:py-0 lg:px-12">
             <h1 class="text-xl lg:text-2xl"><%= @product.name %></h1>
-            <p class="text-sm lg:text-base">作者 : エミリオ・ヴァレンティ</p>
+            <p class="text-sm lg:text-base"><%= @product.creator %></p>
             <p class="text-sm lg:text-base">リリース日 : 2021年4月25日</p>
             <!-- 星評価を★と☆で表現する -->
             <p class="text-sm font-bold text-orange-500 lg:text-base">
                 総合評価 : <%= star_rating(@average_rating) %>
             </p>
-            <p class="text-sm lg:text-base">在庫数 : 3</p>
-            <p class="text-sm lg:text-base">鮮やかな色合いが特徴の商品。</p>
+            <p class="text-sm lg:text-base">在庫数 : <%= @product.stock %></p>
+            <p class="text-sm lg:text-base"><%= @product.description %></p>
         </div>
         <!-- 商品の購入と価格に関するボックス -->
         <div class="w-4/5 rounded-2xl border border-black bg-white pl-3 md:ml-10 md:w-1/3 lg:w-1/4">

@@ -93,4 +93,6 @@ gem 'aws-sdk-s3', require: false
 
 gem 'active_storage_validations'
 
+gem 'ransack'
+
 gem 'active_hash', '~> 3.3'
