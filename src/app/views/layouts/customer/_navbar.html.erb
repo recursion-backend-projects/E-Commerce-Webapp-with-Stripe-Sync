@@ -85,7 +85,7 @@
               <%= link_to 'ダウンロードリスト', download_products_path, data: { turbo_method: :get }, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
               </li>
               <li>
-                <a href="#" class="block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">アカウント情報</a>
+                <%= link_to 'アカウント情報', account_path, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
               </li>
               <li>
                 <%= link_to 'ログアウト', destroy_customer_account_session_path, data: { turbo_method: :delete }, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>

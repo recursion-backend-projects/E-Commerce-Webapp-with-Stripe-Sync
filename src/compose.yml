@@ -53,7 +53,7 @@ services:
       STRIPE_API_KEY: ${STRIPE_API_KEY}
       STRIPE_DEVICE_NAME: ${STRIPE_DEVICE_NAME}
     command: "listen --forward-to localhost:3000/webhooks/stripe"
-    
+
   mail:
     image: mailhog/mailhog
     container_name: mailhog

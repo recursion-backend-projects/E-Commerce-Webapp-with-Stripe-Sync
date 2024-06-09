@@ -1,9 +1,9 @@
 services:
   app:
-    image: artsa2shop/art-sa2-shop-prod:app-latest
+    image: artsa2/art-sa2-shop:app-latest
     volumes:
-      - ./:/E-Commerce-Webapp-with-Stripe-Sync
-      - /E-Commerce-Webapp-with-Stripe-Sync/tmp/sockets:/E-Commerce-Webapp-with-Stripe-Sync/tmp/sockets
+      - public-data:/E-Commerce-Webapp-with-Stripe-Sync/public
+      - tmp-data:/E-Commerce-Webapp-with-Stripe-Sync/tmp
     environment:
       RAILS_ENV: production
       TZ: Asia/Tokyo
@@ -12,13 +12,13 @@ services:
       - .env
 
   web:
-    image: artsa2shop/art-sa2-shop-prod:web-latest
+    image: artsa2/art-sa2-shop:web-latest
     depends_on:
       - app
     volumes:
       - ../infra/prod/web/default.conf:/etc/nginx/conf.d/default.conf
-      - ./public:/E-Commerce-Webapp-with-Stripe-Sync/public
-      - /E-Commerce-Webapp-with-Stripe-Sync/tmp/sockets:/E-Commerce-Webapp-with-Stripe-Sync/tmp/sockets
+      - public-data:/E-Commerce-Webapp-with-Stripe-Sync/public
+      - tmp-data:/E-Commerce-Webapp-with-Stripe-Sync/tmp
 
   https-portal:
     image: steveltn/https-portal:1
@@ -26,12 +26,12 @@ services:
       - "80:80"
       - "443:443"
     environment:
-      DOMAINS: "art-sa2.com -> http://web:80"
+      DOMAINS: "art-sa2-stg.com -> http://web:80"
       STAGE: "production"
     volumes:
       - https-portal-data:/var/lib/https-portal
 
 volumes:
-  # public-data:
-  # tmp-data:
+  public-data:
+  tmp-data:
   https-portal-data: # HTTPS-PORTALをアップグレードする際に再署名を避けるために推奨されます

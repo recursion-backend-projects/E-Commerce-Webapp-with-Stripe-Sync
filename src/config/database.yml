@@ -53,4 +53,7 @@ test:
 #
 production:
   <<: *default
-  database: <%= ENV["MYSQL_DATABASE"] %>_production
+  username: <%= ENV["PROD_RDS_USERNAME"] %>
+  password: <%= ENV["PROD_RDS_PASSWORD"] %>
+  host: <%= ENV["PROD_RDS_HOSTNAME"] %>
+  database: <%= ENV["PROD_RDS_DB_NAME"] %>
