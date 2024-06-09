@@ -210,7 +210,7 @@ jobs:
              echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> .env
             
              # コンテナを起動する
-             sudo docker compose -f compose.stg.yml up -d
+             sudo docker compose -f compose.stg.yml up -d --pull always
           EOF
           rm -f private_key
 
