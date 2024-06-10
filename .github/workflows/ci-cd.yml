@@ -215,6 +215,10 @@ jobs:
              echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
              echo "MYSQL_HOST=${{ secrets.MYSQL_HOST_STG }}" >> .env
              echo "RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}" >> .env
+             echo "S3_ENV=stg" >> .env
+             echo "MAIL_HOST=${{ secrets.PROD_MAIL_HOST }}" >> .env
+             echo "MAIL_USERNAME=${{ secrets.PROD_MAIL_USERNAME }}" >> .env
+             echo "MAIL_PASSWORD=${{ secrets.PROD_MAIL_PASSWORD }}" >> .env
 
              # コンテナを起動する
              sudo docker compose -f compose.stg.yml up -d
