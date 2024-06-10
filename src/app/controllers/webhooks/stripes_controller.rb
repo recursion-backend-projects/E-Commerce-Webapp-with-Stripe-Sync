@@ -5,7 +5,7 @@ class Webhooks::StripesController < ApplicationController
   def create
     payload = request.body.read
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
-    endpoint_secret = Rails.application.credentials.dig(:stripe, :endpoint_secret)
+    endpoint_secret = ENV.fetch("STRIPE_ENDPOINT_SECRET_#{Rails.env.upcase}")
 
     event = construct_stripe_event(payload, sig_header, endpoint_secret)
     return head :bad_request unless event
