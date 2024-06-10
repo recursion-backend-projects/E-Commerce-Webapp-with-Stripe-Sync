@@ -26,6 +26,10 @@ Rails.application.routes.draw do
 
   # 管理者のルーティング
   namespace :admin do
+    namespace :products do
+      resources :tags, only: %i[index destroy]
+      get 'tags/whitelist', to: 'tags#whitelist'
+    end
     resources :products, only: %i[index edit destroy update]
     resources :shippings, only: %i[index edit update]
   end
