@@ -217,6 +217,8 @@ jobs:
              echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
              echo "MYSQL_HOST=${{ secrets.MYSQL_HOST_STG }}" >> .env
              echo "RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}" >> .env
+             echo "STRIPE_API_KEY=${{ secrets.STRIPE_API_KEY }}" >> .env
+             echo "STRIPE_ENDPOINT_SECRET_PRODUCTION=${{ secrets.STRIPE_ENDPOINT_SECRET_STG }}" >> .env
 
              # コンテナを起動する
              sudo docker compose -f compose.stg.yml up -d
