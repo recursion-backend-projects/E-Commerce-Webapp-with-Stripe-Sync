@@ -6,6 +6,7 @@
 	"dependencies": {
 		"@hotwired/stimulus": "^3.2.2",
 		"@hotwired/turbo-rails": "^8.0.4",
+		"@yaireo/tagify": "^4.26.5",
 		"flowbite": "^2.3.0"
 	},
 	"devDependencies": {
