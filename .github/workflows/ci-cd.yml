@@ -119,7 +119,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./infra/prod/app/Dockerfile
+          file: ./infra/stg/app/Dockerfile
           push: true
           tags: artsa2/art-sa2-shop:app-latest
           labels: ${{ steps.meta-app.outputs.labels }}
@@ -129,7 +129,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./infra/prod/web/Dockerfile
+          file: ./infra/stg/web/Dockerfile
           push: true
           tags: artsa2/art-sa2-shop:web-latest
           labels: ${{ steps.meta-web.outputs.labels }}
@@ -217,7 +217,7 @@ jobs:
              echo "RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}" >> .env
 
              # コンテナを起動する
-             sudo docker compose -f compose.prod.yml up -d
+             sudo docker compose -f compose.stg.yml up -d
           EOF
           rm -f private_key
 

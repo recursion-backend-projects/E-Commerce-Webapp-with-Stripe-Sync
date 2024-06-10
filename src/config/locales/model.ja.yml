@@ -16,6 +16,7 @@ ja:
         password_confirmation: "パスワード（確認）"
         user_name: "ユーザー名"
         phone_number: "電話番号"
+        shipping_name: "氏名"
       product:
         name: "名前"
         description: "説明"

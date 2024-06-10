@@ -1,0 +1,152 @@
+name: Deploy to Production
+run-name: ${{ github.actor }} is deploying to production
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  # Dockerイメージのビルドとプッシュのジョブ
+  build-and-push-docker-images:
+    runs-on: ubuntu-22.04
+    permissions:
+      packages: write
+      contents: read
+      attestations: write
+      id-token: write
+    steps:
+      # リポジトリの最新コミットをチェックアウト
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Docker Hubにログイン
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME_PROD }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN_PROD }}
+
+      # メタデータを設定してDockerイメージのタグとラベルを抽出
+      - name: Extract metadata for App
+        id: meta-app
+        uses: docker/metadata-action@v5
+        with:
+          images: artsa2shop/art-sa2-shop-prod:app
+
+      - name: Extract metadata for Web
+        id: meta-web
+        uses: docker/metadata-action@v5
+        with:
+          images: artsa2shop/art-sa2-shop-prod:web
+
+      # App用のDockerイメージをビルドしてプッシュ
+      - name: Build and push Docker image App
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./infra/prod/app/Dockerfile
+          push: true
+          tags: artsa2shop/art-sa2-shop-prod:app-latest
+          labels: ${{ steps.meta-app.outputs.labels }}
+
+      # Web用のDockerイメージをビルドしてプッシュ
+      - name: Build and push Docker image Web
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./infra/prod/web/Dockerfile
+          push: true
+          tags: artsa2shop/art-sa2-shop-prod:web-latest
+          labels: ${{ steps.meta-web.outputs.labels }}
+
+  # 本番環境へのデプロイジョブ
+  deploy-to-production:
+    runs-on: ubuntu-22.04
+    needs: build-and-push-docker-images
+    permissions:
+      packages: write
+      contents: read
+      attestations: write
+      id-token: write
+    steps:
+      # IP取得ライブラリをインストール
+      - name: Public IP Install
+        id: ip
+        uses: haythem/public-ip@v1.3
+
+      # AWS CLIをインストールする
+      - name: AWS CLI install
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install --update
+          aws --version
+
+      # AWS CLIにキーを設定をする
+      - name: AWS set Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-1
+
+      - name: Deploy to Production
+        run: |
+          # SSHのセキュリティグループを開放する
+          aws ec2 authorize-security-group-ingress --group-id ${{ secrets.PROD_EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+
+          # SSH接続
+          echo "${{ secrets.PROD_PRIVATE_KEY }}" > private_key
+          chmod 600 private_key
+
+          ssh -oStrictHostKeyChecking=no ${{ secrets.PROD_USER_NAME }}@${{ secrets.PROD_HOST_NAME }} -i private_key << 'EOF'
+            if [ -d ~/web/E-Commerce-Webapp-with-Stripe-Sync/src ]; then
+              cd ~/web/E-Commerce-Webapp-with-Stripe-Sync/src
+
+              # 起動中のコンテナを停止させる
+              sudo docker stop $(sudo docker ps -q)
+              sudo docker compose down
+
+              # 未使用のイメージ、コンテナ、ネットワークを削除
+              sudo docker system prune -af
+              # 未使用のボリュームを削除(ただし、再署名を避けるため、src_https_portalは削除しない)
+              sudo chmod +x ./bin/cleanup_volumes.sh
+              sudo ./bin/cleanup_volumes.sh
+
+              # 既存のリポジトリフォルダを削除
+              sudo rm -rf ~/web/E-Commerce-Webapp-with-Stripe-Sync
+            fi
+
+            # GitHubから新たにリポジトリをクローン
+            cd ~/web
+            git clone --branch ${{ github.ref_name }} git@github.com:recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync.git
+
+            cd ./E-Commerce-Webapp-with-Stripe-Sync/src
+
+            # 環境ファイルを作成する
+            touch .env
+            echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env
+            echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env
+            echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env
+            echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
+            echo "MYSQL_HOST=${{ secrets.MYSQL_HOST_PROD }}" >> .env
+            echo "RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}" >> .env
+            echo "PROD_RDS_USERNAME=${{ secrets.PROD_RDS_USERNAME }}" >> .env
+            echo "PROD_RDS_PASSWORD=${{ secrets.PROD_RDS_PASSWORD }}" >> .env
+            echo "PROD_RDS_HOSTNAME=${{ secrets.PROD_RDS_HOSTNAME }}" >> .env
+            echo "PROD_RDS_DB_NAME=${{ secrets.PROD_RDS_DB_NAME }}" >> .env
+            echo "S3_ACCESS_KEY_ID=${{ secrets.S3_ACCESS_KEY_ID }}" >> .env
+            echo "S3_SECRET_ACCESS_KEY=${{ secrets.S3_SECRET_ACCESS_KEY }}" >> .env
+            echo "S3_REGION=${{ secrets.S3_REGION }}" >> .env
+            echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> .env
+
+            # Docker Hubから最新のイメージをプルしてコンテナを起動する
+            sudo docker compose -f compose.prod.yml up -d --pull always
+          EOF
+          rm -f private_key
+
+          # SSHのセキュリティグループを閉じる
+          aws ec2 revoke-security-group-ingress --group-id ${{ secrets.PROD_EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32

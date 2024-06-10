@@ -14,8 +14,14 @@ WORKDIR /E-Commerce-Webapp-with-Stripe-Sync
 # srcをE-Commerce-Webapp-with-Stripe-Syncにコピー
 COPY ./src /E-Commerce-Webapp-with-Stripe-Sync
 
-# esbuildをインストール
-RUN yarn add esbuild
+# 必要なディレクトリを作成
+RUN mkdir -p tmp/pids tmp/sockets
+
+# Bundlerを使用してGemをインストール
+RUN bundle install
+
+# TailwindCSSのインストール
+RUN yarn add -D tailwindcss
 
 # docker-prod-entrypoint.shをコピー
 COPY ./src/bin/docker-prod-entrypoint.sh /usr/local/bin/

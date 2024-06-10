@@ -29,6 +29,20 @@ class Product < ApplicationRecord
   has_one_attached :digital_file
   has_one :order_item, dependent: :destroy
 
+  ransacker :average_rating do |_parent|
+    Arel.sql('(SELECT AVG(product_reviews.rating) FROM product_reviews WHERE product_reviews.product_id = products.id)')
+  end
+
+  # Ransackで検索可能な関連付けを指定するメソッド
+  def self.ransackable_associations(_auth_object = nil)
+    ['product_category']
+  end
+
+  # Ransackで検索可能な属性を指定するメソッド
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[creator description name price average_rating]
+  end
+
   private
 
   def validate_tag
