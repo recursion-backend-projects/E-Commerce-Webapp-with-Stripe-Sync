@@ -1,37 +1,39 @@
 <header class="antialiased">
   <nav class="border-gray-200 bg-white px-4 py-2.5 dark:bg-gray-800 md:px-6">
     <div class="flex flex-wrap items-center justify-between">
-      <div class="flex items-center justify-start">
-        <!-- アプリケーション名とロゴ -->
-        <%= link_to root_path, class: 'mr-4 flex' do %>
-          <img src="https://flowbite.s3.amazonaws.com/logo.svg" class="mr-3 h-8" alt="FlowBite Logo" />
-          <span class="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">Art-SA2</span>
-        <% end %>
-        <!-- 検索欄 -->
-        <form action="#" method="GET" class="hidden md:block md:pl-2">
-          <label for="topbar-search" class="sr-only">キーワードを検索</label>
-          <div class="relative mt-1 md:w-96">
-            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <svg class="size-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-              </svg>
-            </div>
-            <input type="text" name="topbar-search" id="topbar-search" class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-9 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400" placeholder="キーワードを検索" />
+      <!-- アプリケーション名とロゴ -->
+      <%= link_to root_path, class: 'mr-4 flex' do %>
+        <img src="https://flowbite.s3.amazonaws.com/logo.svg" class="mr-3 h-8" alt="FlowBite Logo" />
+        <span class="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">Art-SA2</span>
+      <% end %>
+      <!-- 検索欄 -->
+      <%= search_form_for @search, url: search_products_path, method: :get, local: true, data: { turbo: false }, class: "order-last w-full pt-2 md:order-none md:w-1/2 md:pt-0" do |form| %>
+        <div class="flex">
+          <div class="relative w-full">
+            <%= form.search_field :name_or_description_or_creator_or_product_category_name_cont, placeholder: "キーワードを検索", class: "block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" %>
+            <%= button_tag type: 'submit', class: "absolute end-0 top-0 h-full rounded-e-lg border border-blue-700 bg-blue-700 p-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" do %>
+                  <svg
+                    class="h-4 w-4"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                    />
+                  </svg>
+                  <span class="sr-only">検索</span>
+            <% end %>
           </div>
-        </form>
-      </div>
+        </div>
+      <% end %>
+
       <div class="flex items-center md:order-2">
-        <!-- レスポンシブ対応 モバイル画面サイズ時の検索欄 -->
-        <button id="toggleSidebarMobileSearch" type="button" class="rounded-lg p-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:hidden">
-          <span class="sr-only">キーワードを検索</span>
-          <svg class="size-4" data-tooltip-target="search-tooltip" data-tooltip-placement="bottom" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-          </svg>
-          <div id="search-tooltip" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm dark:bg-gray-700">
-            キーワードを検索
-            <div class="tooltip-arrow" data-popper-arrow></div>
-          </div>
-        </button>
         <!-- カートボタン -->
         <%= link_to cart_path, 
             data: { tooltip_target: 'cart-tooltip', 
@@ -151,7 +153,7 @@
               </li>
             <% end %>
           </ul>
-          <div class="py-1">
+          <div class="py-1 inline-block md:hidden">
             <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="menuDropdownButton">
               <li>
                 <p class="block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
@@ -159,29 +161,26 @@
                 </p>
               </li>
               <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">絵画</a>
+                <%= link_to '絵画', search_products_path(q: { product_category_name_eq: '絵画' }), data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
               </li>
               <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">彫刻</a>
+                <%= link_to '彫刻', search_products_path(q: { product_category_name_eq: '彫刻' }), data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
               </li>
               <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">写真</a>
+                <%= link_to '写真', search_products_path(q: { product_category_name_eq: '写真' }), data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
               </li>
               <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">イラスト</a>
+                <%= link_to 'イラスト', search_products_path(q: { product_category_name_eq: 'イラスト' }), data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
               </li>
             </ul>
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="flex pb-1 pt-4">
       <!-- ログインしているアカウント名(ログインしていない場合は、ゲストユーザー) -->
-      <div class="flex items-center gap-4 pb-1 pt-4">
-        <!-- デフォルトアバターアイコン -->
-        <div class="relative size-8 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-600">
-          <svg class="absolute -left-1 size-12 text-gray-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
-          </svg>
-        </div>
+      <div class="flex items-center gap-4 md:w-1/4">
         <div class="font-medium dark:text-white">
           <% if current_customer_account %>
             <div><%= current_customer_account.email %></div>
@@ -189,6 +188,13 @@
             <div>ゲストユーザー</div>
           <% end %>
         </div>
+      </div>
+      <!-- カテゴリー -->
+      <div class="hidden md:flex md:w-1/2 md:justify-around md:items-center">
+        <%= link_to '絵画', search_products_path(q: { product_category_name_eq: '絵画' }), data: { turbo_method: :get }, class: 'rounded-full px-4 py-2 font-bold hover:bg-gray-200 dark:text-white hover:dark:bg-gray-600' %>
+        <%= link_to '彫刻', search_products_path(q: { product_category_name_eq: '彫刻' }), data: { turbo_method: :get }, class: 'rounded-full px-4 py-2 font-bold hover:bg-gray-200 dark:text-white hover:dark:bg-gray-600' %>
+        <%= link_to '写真', search_products_path(q: { product_category_name_eq: '写真' }), data: { turbo_method: :get }, class: 'rounded-full px-4 py-2 font-bold hover:bg-gray-200 dark:text-white hover:dark:bg-gray-600' %>
+        <%= link_to 'イラスト', search_products_path(q: { product_category_name_eq: 'イラスト' }), data: { turbo_method: :get }, class: 'rounded-full px-4 py-2 font-bold hover:bg-gray-200 dark:text-white hover:dark:bg-gray-600' %>
       </div>
     </div>
   </nav>

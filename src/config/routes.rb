@@ -26,12 +26,17 @@ Rails.application.routes.draw do
 
   # 管理者のルーティング
   namespace :admin do
+    namespace :products do
+      resources :tags, only: %i[index destroy]
+      get 'tags/whitelist', to: 'tags#whitelist'
+    end
     resources :products, only: %i[index edit destroy update]
     resources :shippings, only: %i[index edit update]
   end
   # カスタマーのルーティング
   scope module: :customer do
     resources :products, only: %i[show]
+    resources :search_products, only: %i[index]
     resource :cart, only: %i[show create update destroy]
     resources :favorite_products, only: %i[index create destroy]
     resources :download_products, only: %i[index]

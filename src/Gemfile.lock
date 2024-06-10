@@ -82,6 +82,8 @@ GEM
       minitest (>= 5.1)
       mutex_m
       tzinfo (~> 2.0)
+    acts-as-taggable-on (10.0.0)
+      activerecord (>= 6.1, < 7.2)
     addressable (2.8.6)
       public_suffix (>= 2.0.2, < 6.0)
     ast (2.4.2)
@@ -201,6 +203,8 @@ GEM
     nio4r (2.7.1)
     nokogiri (1.16.3-aarch64-linux)
       racc (~> 1.4)
+    nokogiri (1.16.3-arm64-darwin)
+      racc (~> 1.4)
     nokogiri (1.16.3-x86_64-darwin)
       racc (~> 1.4)
     nokogiri (1.16.3-x86_64-linux)
@@ -258,6 +262,10 @@ GEM
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
     rake (13.2.1)
+    ransack (4.1.1)
+      activerecord (>= 6.1.5)
+      activesupport (>= 6.1.5)
+      i18n
     rdoc (6.6.3.1)
       psych (>= 4.0.0)
     regexp_parser (2.9.0)
@@ -363,12 +371,14 @@ GEM
 
 PLATFORMS
   aarch64-linux
+  arm64-darwin-23
   x86_64-darwin-23
   x86_64-linux
 
 DEPENDENCIES
   active_hash (~> 3.3)
   active_storage_validations
+  acts-as-taggable-on (~> 10.0)
   aws-sdk-s3
   bootsnap
   capybara
@@ -388,6 +398,7 @@ DEPENDENCIES
   puma (>= 5.0)
   rails (~> 7.1.3, >= 7.1.3.2)
   rails-i18n
+  ransack
   rspec-rails (~> 6.1, >= 6.1.2)
   rubocop (~> 1.63, >= 1.63.3)
   rubocop-capybara (~> 2.20)
