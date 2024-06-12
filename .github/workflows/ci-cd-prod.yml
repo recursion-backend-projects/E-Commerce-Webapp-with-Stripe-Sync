@@ -146,6 +146,8 @@ jobs:
             echo "MAIL_HOST=${{ secrets.PROD_MAIL_HOST }}" >> .env
             echo "MAIL_USERNAME=${{ secrets.PROD_MAIL_USERNAME }}" >> .env
             echo "MAIL_PASSWORD=${{ secrets.PROD_MAIL_PASSWORD }}" >> .env
+            echo "STRIPE_API_KEY=${{ secrets.STRIPE_API_KEY }}" >> .env
+            echo "STRIPE_ENDPOINT_SECRET_PRODUCTION=${{ secrets.STRIPE_ENDPOINT_SECRET_PROD }}" >> .env
 
             # Docker Hubから最新のイメージをプルしてコンテナを起動する
             sudo docker compose -f compose.prod.yml up -d --pull always

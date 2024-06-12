@@ -70,6 +70,7 @@ jobs:
           bundle exec rails db:prepare
         env:
           RAILS_ENV: test
+          STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
 
       - name: Run rspec
         run: |
@@ -77,6 +78,7 @@ jobs:
           bundle exec rspec
         env:
           RAILS_ENV: test
+          STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
 
   build-and-push-docker-images:
     runs-on: ubuntu-22.04
