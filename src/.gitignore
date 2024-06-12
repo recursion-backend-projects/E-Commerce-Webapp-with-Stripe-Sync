@@ -388,3 +388,5 @@ $RECYCLE.BIN/
 /config/credentials/development.key
 
 /config/master.key
+
+/config/credentials/*.key

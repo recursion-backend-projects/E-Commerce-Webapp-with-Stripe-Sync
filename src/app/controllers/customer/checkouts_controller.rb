@@ -11,7 +11,7 @@ class Customer::CheckoutsController < ApplicationController
                                                  #  ユーザーがCheckoutで戻るボタンをクリックするとこのページにリダイレクトされるURL
                                                  cancel_url: cart_url,
                                                  #  決済が完了したときにリダイレクトされるURL
-                                                 success_url: 'http://localhost:3000/checkout/success?session_id={CHECKOUT_SESSION_ID}',
+                                                 success_url:,
                                                  #  TODO:デジタル商品のみの場合はshipping_address_collectionを不要なので削除する
                                                  shipping_address_collection: {
                                                    allowed_countries: %w[JP]
@@ -58,5 +58,17 @@ class Customer::CheckoutsController < ApplicationController
     end
 
     line_items
+  end
+
+  def success_url
+    if Rails.env.production?
+      scheme = 'https'
+      host = request.domain
+      domain = "#{scheme}://#{host}"
+    else
+      domain = 'http://localhost:3000'
+    end
+
+    "#{domain}/checkout/success?session_id={CHECKOUT_SESSION_ID}"
   end
 end

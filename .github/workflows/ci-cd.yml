@@ -70,6 +70,7 @@ jobs:
           bundle exec rails db:prepare
         env:
           RAILS_ENV: test
+          STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
 
       - name: Run rspec
         run: |
@@ -77,6 +78,7 @@ jobs:
           bundle exec rspec
         env:
           RAILS_ENV: test
+          STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
 
   build-and-push-docker-images:
     runs-on: ubuntu-22.04
@@ -208,7 +210,11 @@ jobs:
              echo "S3_SECRET_ACCESS_KEY=${{ secrets.S3_SECRET_ACCESS_KEY }}" >> .env
              echo "S3_REGION=${{ secrets.S3_REGION }}" >> .env
              echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> .env
-            
+             echo "S3_ENV=stg" >> .env
+             echo "MAIL_HOST=${{ secrets.PROD_MAIL_HOST }}" >> .env
+             echo "MAIL_USERNAME=${{ secrets.PROD_MAIL_USERNAME }}" >> .env
+             echo "MAIL_PASSWORD=${{ secrets.PROD_MAIL_PASSWORD }}" >> .env
+
              # コンテナを起動する
              sudo docker compose -f compose.stg.yml up -d --pull always
           EOF

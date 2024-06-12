@@ -96,3 +96,5 @@ gem 'active_storage_validations'
 gem 'ransack'
 
 gem 'active_hash', '~> 3.3'
+
+gem 'acts-as-taggable-on', '~> 10.0'

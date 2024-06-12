@@ -5,7 +5,7 @@ class Webhooks::StripesController < ApplicationController
   def create
     payload = request.body.read
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
-    endpoint_secret = Rails.application.credentials.dig(:stripe, :endpoint_secret)
+    endpoint_secret = ENV.fetch("STRIPE_ENDPOINT_SECRET_#{Rails.env.upcase}")
 
     event = construct_stripe_event(payload, sig_header, endpoint_secret)
     return head :bad_request unless event
@@ -20,10 +20,10 @@ class Webhooks::StripesController < ApplicationController
     # イベントのハンドリング
     case event.type
     when 'product.created'
-      create_product(event.data.object.id)
+      create_product(event)
 
     when 'product.updated'
-      update_product_price(event.data.object.id)
+      update_product_price(event)
 
     when 'product.deleted'
       delete_product(event.data.object.id)
@@ -45,24 +45,24 @@ class Webhooks::StripesController < ApplicationController
     false
   end
 
-  def create_product(product_id)
-    stripe_product = Stripe::Product.retrieve(product_id)
+  def create_product(event)
+    stripe_product = event.data.object
     # product.createdの時はdefault_priceはnilになることがあるので、price: 0を入れておく
     # product.updatedイベント発火のタイミングで正しい金額に更新する
     product_category = ProductCategory.find_by(name: stripe_product.metadata.product_category)
     Product.create(name: stripe_product.name, price: 0,
-                   description: stripe_product.description, stripe_product_id: product_id,
+                   description: stripe_product.description, stripe_product_id: stripe_product.id,
                    product_category_id: product_category.id)
   end
 
-  def update_product_price(product_id)
-    stripe_product = Stripe::Product.retrieve(product_id)
+  def update_product_price(event)
+    stripe_product = event.data.object
 
     # 価格がnilの場合はそのままreturn
     return unless stripe_product.default_price
 
     stripe_price = Stripe::Price.retrieve(stripe_product.default_price)
-    product = Product.find_by(stripe_product_id: product_id)
+    product = Product.find_by(stripe_product_id: stripe_product.id)
     return unless product
 
     product.update(price: stripe_price.unit_amount, stripe_price_id: stripe_price.id)

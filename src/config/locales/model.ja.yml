@@ -22,6 +22,7 @@ ja:
         description: "説明"
         images: "画像"
         digital_file: "配信用"
+        tag_list: "タグ"
       product_review:
         title: "タイトル"
         review: "レビュー"
