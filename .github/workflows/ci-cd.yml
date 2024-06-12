@@ -136,21 +136,6 @@ jobs:
           tags: artsa2/art-sa2-shop:web-latest
           labels: ${{ steps.meta-web.outputs.labels }}
 
-      # ビルドプロセスの認証情報生成(ステージングでは、イメージが頻繁に更新されるため、対象外とする)
-      # - name: Generate artifact attestation App
-      #   uses: actions/attest-build-provenance@v1
-      #   with:
-      #      subject-name: docker.io/artsa2/art-sa2-shop # 認証情報を生成する対象の名前
-      #      subject-digest: ${{ steps.push-app.outputs.digest }} # 前のステップで生成されたイメージのダイジェストを使用する
-      #      push-to-registry: true
-
-      # - name: Generate artifact attestation Web
-      #   uses: actions/attest-build-provenance@v1
-      #   with:
-      #     subject-name: docker.io/artsa2/art-sa2-shop
-      #     subject-digest: ${{ steps.push-web.outputs.digest }}
-      #     push-to-registry: true
-
   deploy-to-staging:
     runs-on: ubuntu-22.04
     if: github.event_name == 'pull_request'
@@ -217,9 +202,21 @@ jobs:
              echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
              echo "MYSQL_HOST=${{ secrets.MYSQL_HOST_STG }}" >> .env
              echo "RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}" >> .env
+             echo "PROD_RDS_USERNAME=${{ secrets.MYSQL_USER }}" >> .env
+             echo "PROD_RDS_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
+             echo "PROD_RDS_HOSTNAME=${{ secrets.MYSQL_HOST_STG }}" >> .env
+             echo "PROD_RDS_DB_NAME=${{ secrets.MYSQL_DATABASE }}" >> .env
+             echo "S3_ACCESS_KEY_ID=${{ secrets.S3_ACCESS_KEY_ID }}" >> .env
+             echo "S3_SECRET_ACCESS_KEY=${{ secrets.S3_SECRET_ACCESS_KEY }}" >> .env
+             echo "S3_REGION=${{ secrets.S3_REGION }}" >> .env
+             echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> .env
+             echo "S3_ENV=stg" >> .env
+             echo "MAIL_HOST=${{ secrets.PROD_MAIL_HOST }}" >> .env
+             echo "MAIL_USERNAME=${{ secrets.PROD_MAIL_USERNAME }}" >> .env
+             echo "MAIL_PASSWORD=${{ secrets.PROD_MAIL_PASSWORD }}" >> .env
 
              # コンテナを起動する
-             sudo docker compose -f compose.stg.yml up -d
+             sudo docker compose -f compose.stg.yml up -d --pull always
           EOF
           rm -f private_key
 

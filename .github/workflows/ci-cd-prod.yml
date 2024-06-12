@@ -142,6 +142,10 @@ jobs:
             echo "S3_SECRET_ACCESS_KEY=${{ secrets.S3_SECRET_ACCESS_KEY }}" >> .env
             echo "S3_REGION=${{ secrets.S3_REGION }}" >> .env
             echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> .env
+            echo "S3_ENV=prod" >> .env
+            echo "MAIL_HOST=${{ secrets.PROD_MAIL_HOST }}" >> .env
+            echo "MAIL_USERNAME=${{ secrets.PROD_MAIL_USERNAME }}" >> .env
+            echo "MAIL_PASSWORD=${{ secrets.PROD_MAIL_PASSWORD }}" >> .env
             echo "STRIPE_API_KEY=${{ secrets.STRIPE_API_KEY }}" >> .env
             echo "STRIPE_ENDPOINT_SECRET_PRODUCTION=${{ secrets.STRIPE_ENDPOINT_SECRET_PROD }}" >> .env
 
