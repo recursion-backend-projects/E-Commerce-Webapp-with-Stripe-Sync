@@ -20,7 +20,6 @@ admin_email = ENV['ADMIN_EMAIL']
 admin_password = ENV['ADMIN_PASSWORD']
 
 if AdminAccount.where("email = ?", admin_email).empty?
-  admin
   AdminAccount.create(email: admin_email, password: admin_password, password_confirmation: admin_password, user_name: 'admin', admin_id: Admin.create.id)
 end
 
