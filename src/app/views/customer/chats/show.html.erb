@@ -1,0 +1,280 @@
+<div class="mb-10 flex flex-col items-center pt-10 antialiased">
+	<div class="flex w-full flex-col py-4 md:w-3/4 lg:w-1/2">
+		<div class="container items-center justify-center space-y-4 px-6 md:pl-0">
+			<h1 class="text-center text-2xl font-bold md:text-start md:text-4xl">
+				チャット
+			</h1>
+			<p class="text-base text-gray-500 md:text-lg">
+				カスタマーサポートの担当者がご質問に回答します。<br />
+				お気軽に相談ください。
+			</p>
+			<!-- カスタマーサポートアイコン -->
+			<div class="flex items-center gap-4">
+				<div
+					class="relative size-8 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-600"
+				>
+					<svg
+						class="absolute -left-1 size-12 text-gray-400"
+						fill="currentColor"
+						viewBox="0 0 24 24"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							fill-rule="evenodd"
+							d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+							clip-rule="evenodd"
+						></path>
+					</svg>
+				</div>
+				<div class="font-medium">
+					<div>カスタマーサポート</div>
+				</div>
+			</div>
+			<!-- チャット -->
+			<div
+				class="divide-y divide-gray-200 rounded-xl border border-gray-200 bg-white px-3 py-2 shadow-xl"
+			>
+				<div class="min-h-screen space-y-4 p-4">
+					<!-- ユーザー チャット1通目 -->
+					<div class="flex flex-row-reverse items-start gap-2.5">
+						<div class="flex w-full max-w-[320px] flex-col gap-1">
+							<div
+								class="leading-1.5 flex flex-col rounded-s-xl rounded-se-xl bg-sky-400 p-4"
+							>
+								<p class="text-sm font-normal text-white">
+									はじめまして<br />
+									出品されている商品について質問していいでしょうか?
+								</p>
+							</div>
+							<span class="text-sm font-normal text-gray-400">11:46</span>
+						</div>
+						<button
+							id="dropdownMenuIconButton1"
+							data-dropdown-toggle="dropdownDots1"
+							data-dropdown-placement="bottom-start"
+							class="inline-flex items-center self-center rounded-full p-2 text-center text-sm font-medium hover:bg-sky-100"
+							type="button"
+						>
+							<svg
+								class="size-4 text-gray-400"
+								aria-hidden="true"
+								xmlns="http://www.w3.org/2000/svg"
+								fill="currentColor"
+								viewBox="0 0 4 15"
+							>
+								<path
+									d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"
+								/>
+							</svg>
+						</button>
+						<div
+							id="dropdownDots1"
+							class="z-10 hidden w-40 divide-y divide-gray-100 rounded-lg bg-white shadow-xl"
+						>
+							<ul class="py-2 text-sm" aria-labelledby="dropdownMenuIconButton">
+								<li>
+									<a href="#" class="block px-4 py-2 hover:bg-gray-100">編集</a>
+								</li>
+								<li>
+									<a href="#" class="block px-4 py-2 hover:bg-gray-100"
+										>コピー</a
+									>
+								</li>
+								<li>
+									<a href="#" class="block px-4 py-2 hover:bg-gray-100">削除</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<!-- カスタマーサポート チャット2通目 -->
+					<div class="flex items-start gap-2.5">
+						<div class="flex w-full max-w-[320px] flex-col gap-1">
+							<div
+								class="leading-1.5 flex flex-col rounded-e-xl rounded-ss-xl border-gray-200 bg-gray-200 p-4"
+							>
+								<p class="text-sm font-normal text-gray-900">
+									商品に関することでしたら、なんでもご質問ください
+								</p>
+							</div>
+							<span class="text-sm font-normal text-gray-400">11:46</span>
+						</div>
+						<button
+							id="dropdownMenuIconButton2"
+							data-dropdown-toggle="dropdownDots2"
+							data-dropdown-placement="bottom-start"
+							class="inline-flex items-center self-center rounded-full p-2 text-center text-sm font-medium text-gray-900 hover:bg-gray-100"
+							type="button"
+						>
+							<svg
+								class="size-4 text-gray-400"
+								aria-hidden="true"
+								xmlns="http://www.w3.org/2000/svg"
+								fill="currentColor"
+								viewBox="0 0 4 15"
+							>
+								<path
+									d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"
+								/>
+							</svg>
+						</button>
+						<div
+							id="dropdownDots2"
+							class="z-10 hidden w-40 divide-y divide-gray-100 rounded-lg bg-white shadow-xl"
+						>
+							<ul class="py-2 text-sm" aria-labelledby="dropdownMenuIconButton">
+								<li>
+									<a href="#" class="block px-4 py-2 hover:bg-gray-100"
+										>コピー</a
+									>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<!-- ユーザー チャット3通目 -->
+					<div class="flex flex-row-reverse items-start gap-2.5">
+						<div class="flex w-full max-w-[320px] flex-col gap-1">
+							<div
+								class="leading-1.5 flex flex-col rounded-s-xl rounded-se-xl bg-sky-400 p-4"
+							>
+								<p class="text-sm font-normal text-white">
+									下記画像の商品が「SOLD
+									OUT」になっているのですが、再入荷予定はありますでしょうか?
+								</p>
+								<div class="group my-2.5">
+									<!-- モーダルトグル -->
+									<button
+										data-modal-target="default-modal"
+										data-modal-toggle="default-modal"
+										class="block w-fit"
+										type="button"
+									>
+										<img
+											src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg"
+											class="rounded-lg"
+										/>
+									</button>
+									<!-- モーダル -->
+									<div
+										id="default-modal"
+										tabindex="-1"
+										aria-hidden="true"
+										class="fixed inset-x-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"
+									>
+										<div class="relative max-h-full w-full max-w-2xl p-4">
+											<div class="relative">
+												<div class="space-y-4 p-4 md:p-5">
+													<img
+														src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg"
+													/>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<span class="text-sm font-normal text-gray-400">11:46</span>
+						</div>
+						<button
+							id="dropdownMenuIconButton3"
+							data-dropdown-toggle="dropdownDots3"
+							data-dropdown-placement="bottom-start"
+							class="inline-flex items-center self-center rounded-full p-2 text-center text-sm font-medium hover:bg-sky-100"
+							type="button"
+						>
+							<svg
+								class="size-4 text-gray-400"
+								aria-hidden="true"
+								xmlns="http://www.w3.org/2000/svg"
+								fill="currentColor"
+								viewBox="0 0 4 15"
+							>
+								<path
+									d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"
+								/>
+							</svg>
+						</button>
+						<div
+							id="dropdownDots3"
+							class="z-10 hidden w-40 divide-y divide-gray-100 rounded-lg bg-white shadow-xl"
+						>
+							<ul class="py-2 text-sm" aria-labelledby="dropdownMenuIconButton">
+								<li>
+									<a href="#" class="block px-4 py-2 hover:bg-gray-100">編集</a>
+								</li>
+								<li>
+									<a href="#" class="block px-4 py-2 hover:bg-gray-100"
+										>コピー</a
+									>
+								</li>
+								<li>
+									<a href="#" class="block px-4 py-2 hover:bg-gray-100">削除</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- チャット 入力フォーム -->
+				<form>
+					<label for="chat" class="sr-only">メッセージ</label>
+					<div class="flex items-center px-3 py-2">
+						<button
+							type="button"
+							class="inline-flex cursor-pointer justify-center rounded-lg p-2 text-sky-400 hover:bg-sky-100"
+						>
+							<svg
+								class="size-5"
+								aria-hidden="true"
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 20 18"
+							>
+								<path
+									fill="currentColor"
+									d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"
+								/>
+								<path
+									stroke="currentColor"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M18 1H2a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"
+								/>
+								<path
+									stroke="currentColor"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"
+								/>
+							</svg>
+							<span class="sr-only">画像のアップロード</span>
+						</button>
+						<textarea
+							id="chat"
+							rows="1"
+							class="mx-4 block w-full rounded-lg border border-gray-100 bg-gray-100 p-2.5 text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500"
+							placeholder="メッセージを送信"
+						></textarea>
+						<button
+							type="submit"
+							class="inline-flex cursor-pointer justify-center rounded-full p-2 text-sky-400 hover:bg-sky-100"
+						>
+							<svg
+								class="size-5 rotate-90 rtl:-rotate-90"
+								aria-hidden="true"
+								xmlns="http://www.w3.org/2000/svg"
+								fill="currentColor"
+								viewBox="0 0 18 20"
+							>
+								<path
+									d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z"
+								/>
+							</svg>
+							<span class="sr-only">メッセージを送信</span>
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
