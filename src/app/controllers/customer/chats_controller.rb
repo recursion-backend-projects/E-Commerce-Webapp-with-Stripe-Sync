@@ -4,7 +4,7 @@ class Customer::ChatsController < ApplicationController
     @customer = true
 
     # 有効なトークンを既に持っているか確認
-    if @current_customer && user_has_valid_token?
+    if @current_customer && customer_has_valid_token?
       if @current_customer.chat.present?
         @current_customer.chat.status = :waiting_for_admin
       else
@@ -26,7 +26,7 @@ class Customer::ChatsController < ApplicationController
 
   private
 
-  def user_has_valid_token?
+  def customer_has_valid_token?
     token = cookies.signed[:jwt]
     decoded_token = Customer.decode_jwt(token)
     decoded_token.present? && decoded_token['customer_id'].to_i == @current_customer.id
