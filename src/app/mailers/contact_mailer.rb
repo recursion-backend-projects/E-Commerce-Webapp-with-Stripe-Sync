@@ -1,7 +1,7 @@
 class ContactMailer < ApplicationMailer
     def send_contact_mail(contact)
         @contact = contact
-        mail(to: AdminAccount.first.email, subject: 'お問い合わせ') do |format|
+        mail(to: ENV['ADMIN_EMAIL'], subject: 'お問い合わせ') do |format|
             format.html { render template: 'customer/contacts/mailer/send_contact_mail' }
             format.text { render template: 'customer/contacts/mailer/send_contact_mail' }
         end
