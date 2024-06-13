@@ -234,6 +234,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_12_094107) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "taggings_count", default: 0
+    t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
   create_table "wish_products", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -248,7 +249,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_12_094107) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "admin_accounts", "admins"
   add_foreign_key "chats", "customers"
   add_foreign_key "customer_accounts", "customers"
   add_foreign_key "download_products", "customers"
