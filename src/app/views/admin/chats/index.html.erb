@@ -1,0 +1,160 @@
+<div class="flex flex-col items-center pt-10 antialiased">
+	<div class="flex w-full flex-col space-y-4 py-4 md:w-4/5 lg:w-1/2">
+		<h1 class="py-2 text-center text-2xl font-bold md:text-start md:text-4xl">
+			チャット一覧
+		</h1>
+		<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+			<table class="w-full text-left text-sm rtl:text-right">
+				<thead class="bg-gray-300 text-xs uppercase">
+					<tr>
+						<th scope="col" class="px-6 py-3">Eメール</th>
+						<th scope="col" class="px-6 py-3">開始時間</th>
+						<th scope="col" class="px-6 py-3">ステータス</th>
+						<th scope="col" class="px-6 py-3">アクション</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!-- 顧客01 -->
+					<tr class="bg-gre border-b bg-white hover:bg-gray-100">
+						<td class="px-6 py-4 font-semibold">test@gmail.com</td>
+						<td class="px-6 py-4">2024/06/11 09:23</td>
+						<td class="px-6 py-4">
+							<div class="flex items-center">
+								<!-- ステータスは、以下3種類 -->
+								<!-- 未対応 -->
+								<!-- <div class="flex items-center">
+									<div class="me-2 size-2.5 rounded-full bg-yellow-500"></div>
+									未対応
+								</div> -->
+								<!-- 対応中 -->
+								<div class="flex items-center">
+									<div class="me-2 h-2.5 w-2.5 rounded-full bg-green-500"></div>
+									対応中
+								</div>
+							</div>
+						</td>
+						<td class="space-x-2 px-2 py-4 md:space-x-10 md:px-6">
+							<a href="/admin/chats/1" class="font-medium text-sky-600 hover:underline"
+								>接続する</a
+							>
+						</td>
+					</tr>
+					<!-- 顧客02 -->
+					<tr class="bg-gre border-b bg-white hover:bg-gray-100">
+						<td class="px-6 py-4 font-semibold">user@gmail.com</td>
+						<td class="px-6 py-4">2024/06/11 15:23</td>
+						<td class="px-6 py-4">
+							<div class="flex items-center">
+								<!-- ステータスは、以下3種類 -->
+								<!-- 未対応 -->
+								<div class="flex items-center">
+									<div class="me-2 size-2.5 rounded-full bg-yellow-500"></div>
+									未対応
+								</div>
+								<!-- 対応中 -->
+								<!-- <div class="flex items-center">
+									<div class="me-2 h-2.5 w-2.5 rounded-full bg-green-500"></div>
+									対応中
+								</div> -->
+							</div>
+						</td>
+						<td class="space-x-2 px-2 py-4 md:space-x-10 md:px-6">
+							<a href="/admin/chats/2" class="font-medium text-sky-600 hover:underline"
+								>接続する</a
+							>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- ページネーション -->
+<div class="flex items-center justify-center py-6">
+	<nav aria-label="Page navigation">
+		<ul class="flex h-10 items-center -space-x-px text-base">
+			<li>
+				<a
+					href="#"
+					class="ms-0 flex h-10 items-center justify-center rounded-s-lg border border-e-0 border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+				>
+					<span class="sr-only">前へ</span>
+					<svg
+						class="h-3 w-3 rtl:rotate-180"
+						aria-hidden="true"
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 6 10"
+					>
+						<path
+							stroke="currentColor"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M5 1 1 5l4 4"
+						/>
+					</svg>
+				</a>
+			</li>
+			<li>
+				<a
+					href="#"
+					aria-current="page"
+					class="z-10 flex h-10 items-center justify-center border border-blue-300 bg-blue-50 px-4 leading-tight text-blue-600 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
+					>1</a
+				>
+			</li>
+			<li>
+				<a
+					href="#"
+					class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+					>2</a
+				>
+			</li>
+			<li>
+				<a
+					href="#"
+					class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+					>3</a
+				>
+			</li>
+			<li>
+				<a
+					href="#"
+					class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+					>4</a
+				>
+			</li>
+			<li>
+				<a
+					href="#"
+					class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+					>5</a
+				>
+			</li>
+			<li>
+				<a
+					href="#"
+					class="flex h-10 items-center justify-center rounded-e-lg border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+				>
+					<span class="sr-only">次へ</span>
+					<svg
+						class="h-3 w-3 rtl:rotate-180"
+						aria-hidden="true"
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 6 10"
+					>
+						<path
+							stroke="currentColor"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="m1 9 4-4-4-4"
+						/>
+					</svg>
+				</a>
+			</li>
+		</ul>
+	</nav>
+</div>
