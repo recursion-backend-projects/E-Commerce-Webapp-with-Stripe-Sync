@@ -10,7 +10,8 @@ class Customer::ContactsController < ApplicationController
     def create
         @contact = Contact.new(contact_params)
         if @contact.save
-            ContactMailer.send_mail(@contact).deliver_now
+            ContactMailer.send_contact_mail(@contact).deliver_now # 管理者向けメール送信
+            ContactMailer.send_user_confirm_mail(@contact).deliver_now # ユーザー向けの確認メール送信
             redirect_to root_path, notice: 'メールが送信されました'
         else
             flash[:errors] = @contact.errors.full_messages

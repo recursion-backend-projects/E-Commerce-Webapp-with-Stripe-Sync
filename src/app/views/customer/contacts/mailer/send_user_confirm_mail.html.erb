@@ -1,0 +1,16 @@
+<div class="container">
+    <div class="header">お問い合わせを受け付けました</div>
+    <div class="content">
+        <p><%= @contact.name %> 様</p>
+        <p>お問い合わせありがとうございます。<br>以下の内容でお問い合わせを受け付けました。</p>
+        <p>-------------------------------------------------------------------</p>
+        <p>氏名: <%= @contact.name %></p>
+        <p>メールアドレス: <%= @contact.email %></p>
+        <p>お問い合わせ内容:</p>
+        <p><span style="white-space: pre-wrap;"><%= @contact.message %></span></p>
+        <p>-------------------------------------------------------------------</p>
+    </div>
+    <div class="footer">
+        <p><strong>このメールは自動生成されました。返信しないでください。</strong></p>
+    </div>
+</div>
