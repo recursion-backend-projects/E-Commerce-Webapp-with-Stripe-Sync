@@ -99,4 +99,4 @@ gem 'active_hash', '~> 3.3'
 
 gem 'acts-as-taggable-on', '~> 10.0'
 
-gem "jwt", "~> 2.8"
+gem 'jwt', '~> 2.8'
