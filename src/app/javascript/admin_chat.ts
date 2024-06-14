@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", async function () {
 	async function getToken() {
-		let res = await fetch("/admin/chats/token");
+		let res = await fetch("/admin/token/chats");
 		let data = await res.json();
 		return data.token;
 	}
