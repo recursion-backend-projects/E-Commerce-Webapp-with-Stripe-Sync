@@ -23,7 +23,6 @@ class Admin::ChatsController < ApplicationController
         secure: Rails.env.production?, # 本番環境では true
         same_site: :strict
       }
-      logger.debug token
     end
   end
 
