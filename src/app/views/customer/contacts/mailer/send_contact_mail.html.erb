@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="header">お問い合わせがありました</div>
+  <div class="content">
+    <p>氏名: <%= @contact.name %></p>
+    <p>メールアドレス: <%= @contact.email %></p>
+    <p>お問い合わせ内容:</p>
+    <p><span style="white-space: pre-wrap;"><%= @contact.message %></span></p>
+  </div>
+  <div class="footer">
+    <p><strong>※このメールは、自動生成されたメールの為、返信しないでください。</strong></p>
+  </div>
+</div>

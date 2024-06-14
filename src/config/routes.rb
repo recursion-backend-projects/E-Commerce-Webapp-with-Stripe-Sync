@@ -52,6 +52,7 @@ Rails.application.routes.draw do
 
     resources :orders, only: [:index]
     resource :account, only: %i[show edit update]
+    resources :contacts, only: %i[new create]
     resource :chat, only: [:show]
   end
 
