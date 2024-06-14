@@ -9,6 +9,7 @@ class Admin::ChatsController < ApplicationController
   def show
     @admin = true
     @chat = Chat.find(params[:id])
+    @websocket_url = Rails.env.production? ? "wss://#{request.domain}/chat" : 'ws://localhost:8080/chat'
 
     # 有効なトークンを既に持っているか確認
     if @current_admin && admin_has_valid_token?
@@ -23,8 +24,11 @@ class Admin::ChatsController < ApplicationController
         same_site: :strict
       }
       logger.debug token
-      # TODO: goにトークンを渡す
     end
+  end
+
+  def token
+    render json: { token: cookies.signed[:jwt] }
   end
 
   private
