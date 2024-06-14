@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :chat do
-    status { 1 }
-    customer { nil }
+    status { :waiting_for_admin }
+    customer
   end
 end
