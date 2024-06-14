@@ -33,9 +33,9 @@ Rails.application.routes.draw do
     resources :products, only: %i[index edit destroy update]
     resources :shippings, only: %i[index edit update]
     resources :chats, only: %i[index show]
-    get '/chats/token', to: 'chats#token'
-
+    get 'token/chats', to: 'chats#token'
   end
+
   # カスタマーのルーティング
   scope module: :customer do
     resources :products, only: %i[show]
