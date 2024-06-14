@@ -2,6 +2,7 @@ class Customer::ChatsController < ApplicationController
   before_action :authenticate_customer_account!
   def show
     @customer = true
+    @websocket_url = Rails.env.production? ? "wss://#{request.domain}/chat" : 'ws://localhost:8080/chat'
 
     # 有効なトークンを既に持っているか確認
     if @current_customer && customer_has_valid_token?
@@ -19,9 +20,11 @@ class Customer::ChatsController < ApplicationController
         secure: Rails.env.production?, # 本番環境では true
         same_site: :strict
       }
-      logger.debug token
-      # TODO: goにトークンを渡す
     end
+  end
+
+  def token
+    render json: { token: cookies.signed[:jwt] }
   end
 
   private
