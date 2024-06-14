@@ -36,7 +36,7 @@
                                 </div>
                             </td>
                             <td class="space-x-2 px-2 py-4 md:space-x-10 md:px-6">
-								<%= link_to '接続する', admin_chat_path(chat), class: 'font-medium text-sky-600 hover:underline' %>
+								<%= link_to '接続する', admin_chat_path(chat),  data: { turbo: :false },  class: 'font-medium text-sky-600 hover:underline' %>
                             </td>
                         </tr>
                     <% end %>
