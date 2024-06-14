@@ -31,3 +31,7 @@ ja:
         zip_code: "郵便番号"
         street_address: "住所(1行目)"
         street_address_2: "住所(2行目)"
+      contact:
+        name: "氏名"
+        email: "メールアドレス"
+        message: "お問い合わせ内容"

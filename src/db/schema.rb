@@ -87,6 +87,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_12_094107) do
     t.index ["customer_id"], name: "index_chats_on_customer_id"
   end
 
+  create_table "contacts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "email", null: false
+    t.text "message", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "customer_id"
+    t.index ["customer_id"], name: "index_contacts_on_customer_id"
+  end
+
   create_table "customer_accounts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -250,6 +260,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_12_094107) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "chats", "customers"
+  add_foreign_key "contacts", "customers"
   add_foreign_key "customer_accounts", "customers"
   add_foreign_key "download_products", "customers"
   add_foreign_key "download_products", "products"
