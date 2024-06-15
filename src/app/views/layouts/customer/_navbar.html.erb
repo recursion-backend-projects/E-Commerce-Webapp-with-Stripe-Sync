@@ -76,7 +76,7 @@
                 <%= link_to 'お気に入り', favorite_products_path, data: { turbo_method: :get }, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
               </li>
               <li>
-                <%= link_to 'チャット', chat_path, data: { turbo_method: :get }, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'  %>
+                <%= link_to 'チャット', chat_path, data: { turbo: :false }, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'  %>
               </li>
               <li>
                 <%= link_to '購入履歴', orders_path, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
