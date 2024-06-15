@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_10_062552) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_12_094107) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -67,9 +67,24 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_10_062552) do
     t.string "unconfirmed_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "admin_id", null: false
+    t.index ["admin_id"], name: "index_admin_accounts_on_admin_id"
     t.index ["confirmation_token"], name: "index_admin_accounts_on_confirmation_token", unique: true
     t.index ["email"], name: "index_admin_accounts_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_accounts_on_reset_password_token", unique: true
+  end
+
+  create_table "admins", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "chats", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "status", default: 0
+    t.bigint "customer_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_chats_on_customer_id"
   end
 
   create_table "contacts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -229,6 +244,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_10_062552) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "taggings_count", default: 0
+    t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
   create_table "wish_products", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -243,6 +259,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_10_062552) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "chats", "customers"
   add_foreign_key "contacts", "customers"
   add_foreign_key "customer_accounts", "customers"
   add_foreign_key "download_products", "customers"
