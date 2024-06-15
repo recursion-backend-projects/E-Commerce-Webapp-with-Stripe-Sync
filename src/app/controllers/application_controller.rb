@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   before_action :current_cart
   before_action :cart_items_count
   before_action :current_customer, if: :customer_account_signed_in?
+  before_action :current_admin, if: :admin_account_signed_in?
   before_action :set_search
 
   private
@@ -29,5 +30,9 @@ class ApplicationController < ActionController::Base
 
   def set_search
     @search = Product.ransack(params[:q])
+  end
+
+  def current_admin
+    @current_admin ||= Admin.find_by(id: current_admin_account&.admin_id)
   end
 end

@@ -19,10 +19,8 @@ end
 admin_email = ENV['ADMIN_EMAIL']
 admin_password = ENV['ADMIN_PASSWORD']
 
-AdminAccount.find_or_create_by(email: admin_email) do |admin|
-  admin.password = admin_password
-  admin.password_confirmation = admin_password
-  admin.user_name = 'admin'
+if AdminAccount.where("email = ?", admin_email).empty?
+  AdminAccount.create(email: admin_email, password: admin_password, password_confirmation: admin_password, user_name: 'admin', admin_id: Admin.create.id)
 end
 
 #### Products ####

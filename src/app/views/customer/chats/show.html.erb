@@ -256,6 +256,7 @@
 							placeholder="メッセージを送信"
 						></textarea>
 						<button
+							id="submit"
 							type="submit"
 							class="inline-flex cursor-pointer justify-center rounded-full p-2 text-sky-400 hover:bg-sky-100"
 						>
@@ -278,3 +279,5 @@
 		</div>
 	</div>
 </div>
+<div id="websocket-url" data-websocket-url="<%= @websocket_url %>"></div>
+<%= javascript_include_tag 'customer_chat.js', type: "module" %>

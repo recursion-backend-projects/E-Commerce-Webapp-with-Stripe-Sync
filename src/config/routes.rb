@@ -33,7 +33,9 @@ Rails.application.routes.draw do
     resources :products, only: %i[index edit destroy update]
     resources :shippings, only: %i[index edit update]
     resources :chats, only: %i[index show]
+    get 'token/chats', to: 'chats#token'
   end
+
   # カスタマーのルーティング
   scope module: :customer do
     resources :products, only: %i[show]
@@ -54,6 +56,7 @@ Rails.application.routes.draw do
     resource :account, only: %i[show edit update]
     resources :contacts, only: %i[new create]
     resource :chat, only: [:show]
+    get '/chat/token', to: 'chats#token'
   end
 
   namespace :webhooks do
