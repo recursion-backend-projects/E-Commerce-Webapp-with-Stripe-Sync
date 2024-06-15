@@ -10,13 +10,27 @@ class Customer::SearchProductsController < ApplicationController
     end
     @keyword = @search.name_or_description_or_creator_or_product_category_name_cont ||
                @search.product_category_name_eq
-    @products = @keyword.blank? ? Product.all : @search.result(distinct: true)
-    @average_ratings = {}
 
-    return if @products.blank?
+    @products = if params[:tag]
+                  Product.tagged_with(params[:tag])
+                else
+                  @keyword.blank? ? Product.all : @search.result(distinct: true)
+                end
 
-    @products.each do |product|
-      @average_ratings[product.id] = product.product_reviews.average(:rating).to_i
+    @average_ratings = get_average_ratings(@products)
+  end
+
+  private
+
+  def get_average_ratings(products)
+    return {} if products.blank?
+
+    average_ratings = {}
+
+    products.each do |product|
+      average_ratings[product.id] = product.product_reviews.average(:rating).to_i
     end
+
+    average_ratings
   end
 end
