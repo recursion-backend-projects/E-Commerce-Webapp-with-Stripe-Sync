@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   socket.onmessage = function (event) {
     console.log(`server: ${event.data}`);
+    displayMessage(event.data, "received");
   };
 
   document.getElementById("submit")!.addEventListener("click", function (e) {
@@ -45,6 +46,35 @@ document.addEventListener("DOMContentLoaded", async function () {
     const message = chatInput?.value;
     socket.send(message);
     console.log(`me: ${message}`);
+    displayMessage(message, "sent");
     chatInput.value = "";
+  }
+
+  function displayMessage(message: string, type: string) {
+    const chatContainer = document.querySelector(".min-h-screen.space-y-4.p-4");
+
+    const messageElement = document.createElement("div");
+    messageElement.className =
+      type === "sent"
+        ? "flex flex-row-reverse items-start gap-2.5"
+        : "flex items-start gap-2.5";
+    messageElement.innerHTML = `
+      <div class="flex w-full max-w-[320px] flex-col gap-1">
+        <div class="${
+          type === "sent"
+            ? "leading-1.5 flex flex-col rounded-s-xl rounded-se-xl bg-sky-400 p-4"
+            : "leading-1.5 flex flex-col rounded-e-xl rounded-ss-xl border-gray-200 bg-gray-200 p-4"
+        }">
+          <p class="text-sm font-normal ${
+            type === "sent" ? "text-white" : "text-gray-900"
+          }">
+		  	${message.replace(/\n/g, "<br>")}
+          </p>
+        </div>
+        <span class="text-sm font-normal text-gray-400">${new Date().toLocaleTimeString()}</span>
+      </div>
+    `;
+    chatContainer?.appendChild(messageElement);
+    chatContainer?.scrollTo(0, chatContainer.scrollHeight);
   }
 });
