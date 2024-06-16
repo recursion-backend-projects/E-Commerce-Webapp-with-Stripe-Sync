@@ -78,7 +78,10 @@
                                 <dd class="text-base font-bold text-gray-900 dark:text-white">¥<%= @total %></dd>
                             </dl>
                         </div>
-                        <%= button_to 'レジに進む', "/checkout", data: { turbo: false }, class: 'flex w-full items-center justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' %>
+                        <%= form_with url: checkout_path, data: {turbo: false} do |f|%>
+                            <%= f.hidden_field :register_action, value: true %>
+                            <%= f.submit 'レジに進む', class:'flex w-full items-center justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:cursor-pointer' %>
+                        <%end %>
                     </div>
                 </div>
             <% end %>
