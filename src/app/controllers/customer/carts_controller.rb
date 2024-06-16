@@ -29,10 +29,8 @@ class Customer::CartsController < ApplicationController
   # カートに商品を追加するアクション
   def create
     quantity = params[:quantity].to_i
-    product_count_in_cart = session[:cart]&.dig(@product.id.to_s) || 0
-    @remaining_stock = @product.stock - product_count_in_cart
 
-    if quantity > @remaining_stock
+    if quantity > @product.remaining_stock
       flash[:alert] = '在庫数を超える数量はカートに追加できません'
       redirect_to @product
     else
