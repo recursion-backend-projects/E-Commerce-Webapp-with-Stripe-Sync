@@ -37,12 +37,12 @@ class Admin::ChatsController < ApplicationController
     decoded_token = Admin.decode_jwt(token)
     logger.debug(decoded_token)
     if decoded_token.present? &&
-      decoded_token['admin_id'].to_i == @current_admin.id &&
-      decoded_token['customer_id'].to_i == params[:id].to_i
-     return true
+       decoded_token['admin_id'].to_i == @current_admin.id &&
+       decoded_token['customer_id'].to_i == params[:id].to_i
+      true
     else
       logger.debug("Invalid token or ID mismatch: admin_id=#{decoded_token['admin_id']}, customer_id=#{decoded_token['customer_id']}, params_id=#{params[:id]}")
-      return false
-   end
+      false
+    end
   end
 end
