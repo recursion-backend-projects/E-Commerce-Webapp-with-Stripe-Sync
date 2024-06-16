@@ -36,6 +36,13 @@ class Admin::ChatsController < ApplicationController
     token = cookies.signed[:admin_jwt]
     decoded_token = Admin.decode_jwt(token)
     logger.debug(decoded_token)
-    decoded_token.present? && decoded_token['admin_id'].to_i == @current_admin.id
+    if decoded_token.present? &&
+      decoded_token['admin_id'].to_i == @current_admin.id &&
+      decoded_token['customer_id'].to_i == params[:id].to_i
+     return true
+    else
+      logger.debug("Invalid token or ID mismatch: admin_id=#{decoded_token['admin_id']}, customer_id=#{decoded_token['customer_id']}, params_id=#{params[:id]}")
+      return false
+   end
   end
 end
