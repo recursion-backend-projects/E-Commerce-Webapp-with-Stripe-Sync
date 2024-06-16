@@ -16,6 +16,15 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   socket.onopen = function (event) {
     console.log("Connected to WebSocket server.");
+
+    // 初回メッセージを送信
+    const initialMessage = `お客様への対応をスムーズに進めるために、以下の情報をお教えいただけますか？<br /><br />
+    1. ご注文番号<br />
+    2. ご注文日時<br />
+    3. 商品名<br />
+    4. その他お問い合わせ内容`;
+    socket.send(initialMessage);
+    displayMessage(initialMessage, "sent");
   };
 
   socket.onclose = function (event) {
