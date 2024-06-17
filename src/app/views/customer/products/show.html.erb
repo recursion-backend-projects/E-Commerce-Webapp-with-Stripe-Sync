@@ -34,7 +34,7 @@
                 <% if @product.stock > 0 %>
                     <!-- 在庫がある場合 -->
                     <!-- 数量のセレクトボックス -->
-                    <%= form_with url: cart_path ,method: :post do |f| %>
+                    <%= form_with  do |form| %>
                         <div class="flex max-w-sm items-center py-3">
                             <%= hidden_field_tag 'product_id', @product.id %>
                             <%= label_tag 'quantity', '数量:', class: 'ml-1 block text-lg text-gray-900' %>
@@ -42,12 +42,12 @@
                         </div>
                         <span class="text-xl">¥<%= @product.price %></span>
                         <div class="flex justify-center">
-                            <%= f.submit 'カートに入れる', class: 'my-2 w-3/4 rounded-full bg-emerald-400 py-2 hover:bg-emerald-500 hover:cursor-pointer' %>
+                            <%= form.button 'カートに入れる', type: :submit, formmethod: :POST, action: '/cart', class: 'my-2 w-3/4 rounded-full bg-emerald-400 py-2 hover:bg-emerald-500 hover:cursor-pointer' %>
                         </div>
                         <div class="flex justify-center">
-                            <%= hidden_field_tag 'checkout_action', true %>
-                            <%= f.submit 'ご購入手続きへ', formaction: checkout_path ,class: 'my-2 w-3/4 rounded-full bg-yellow-400 py-2 hover:bg-yellow-500 hover:cursor-pointer' %>
+                            <%= form.button 'ご購入手続きへ', type: :submit, formmethod: :post, action: '/checkout', class: 'my-2 w-3/4 rounded-full bg-yellow-400 py-2 hover:bg-yellow-500 hover:cursor-pointer'%>
                         </div>
+                        
                     <% end %>
                 <% else %>
                     <!-- 在庫がない場合 -->

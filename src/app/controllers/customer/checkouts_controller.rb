@@ -1,23 +1,30 @@
 class Customer::CheckoutsController < ApplicationController
   def create
     # 「ご購入手続きへ」からの購入の場合
-    if params[:checkout_action]
-      product_id = params[:product_id]
-      quantity = params[:quantity].to_i
-      line_items = generate_line_items({ product_id => quantity })
-      success_url = generate_success_url('direct')
+    if params[:commit] == 'ご購入手続きへ'
+      p '購入手続きに進むよ'
+      p params
+      # product_id = params[:product_id]
+      # quantity = params[:quantity].to_i
+      # line_items = generate_line_items({ product_id => quantity })
+      # success_url = generate_success_url('direct')
 
     # 「レジに進む」からの購入の場合
-    elsif params[:register_action]
+    elsif params[:commit] == 'レジに進む'
       line_items = generate_line_items(current_cart)
       success_url = generate_success_url('register')
+
+    elsif params[:commit] == 'カートに入れる'
+      p 'カートに入れるよ'
+      p params
     else
+      p params
       redirect_back fallback_location: root_path, alert: '不明なアクションです'
     end
 
-    customer = current_customer
-    session = create_checkout_session(customer, line_items, success_url)
-    redirect_to session.url, status: :see_other, allow_other_host: true
+    # customer = current_customer
+    # session = create_checkout_session(customer, line_items, success_url)
+    # redirect_to session.url, status: :see_other, allow_other_host: true
   end
 
   # 支払いが成功した時に表示するページを表示するアクション
