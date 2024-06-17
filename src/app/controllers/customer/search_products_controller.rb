@@ -10,7 +10,7 @@ class Customer::SearchProductsController < ApplicationController
     end
     @keyword = @search.name_or_description_or_creator_or_product_category_name_cont ||
                @search.product_category_name_eq
-    @products = @keyword.blank? ? Product.all.page(params[:page]) : @search.result(distinct: true).page(params[:page])
+    @products = @search.result(distinct: true).page(params[:page])
     @average_ratings = {}
 
     return if @products.blank?
