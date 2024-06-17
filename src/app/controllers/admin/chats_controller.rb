@@ -2,6 +2,7 @@ class Admin::ChatsController < ApplicationController
   before_action :authenticate_admin_account!
 
   def index
+    cookies.delete(:admin_jwt)
     @admin = true
     @chats = Chat.where(status: :waiting_for_admin).or(Chat.where(status: :chatting))
   end
@@ -35,13 +36,18 @@ class Admin::ChatsController < ApplicationController
   def admin_has_valid_token?
     token = cookies.signed[:admin_jwt]
     decoded_token = Admin.decode_jwt(token)
-    logger.debug(decoded_token)
-    if decoded_token.present? &&
-       decoded_token['admin_id'].to_i == @current_admin.id &&
-       decoded_token['customer_id'].to_i == params[:id].to_i
-      true
+    if decoded_token.present?
+      logger.debug(decoded_token)
+      admin_id = decoded_token['admin_id'].to_i
+      customer_id = decoded_token['customer_id'].to_i
+      if admin_id == @current_admin.id && customer_id == params[:id].to_i
+        true
+      else
+        logger.debug('Invalid token or ID mismatch: admin_id=#{admin_id}, customer_id=#{customer_id}, params_id=#{params[:id]}')
+        false
+      end
     else
-      logger.debug("Invalid token or ID mismatch: admin_id=#{decoded_token['admin_id']}, customer_id=#{decoded_token['customer_id']}, params_id=#{params[:id]}")
+      logger.debug('Token is invalid or could not be decoded')
       false
     end
   end
