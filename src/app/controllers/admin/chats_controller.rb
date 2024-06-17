@@ -43,7 +43,7 @@ class Admin::ChatsController < ApplicationController
       if admin_id == @current_admin.id && customer_id == params[:id].to_i
         true
       else
-        logger.debug('Invalid token or ID mismatch: admin_id=#{admin_id}, customer_id=#{customer_id}, params_id=#{params[:id]}')
+        logger.debug("Invalid token or ID mismatch: admin_id=#{admin_id}, customer_id=#{customer_id}, params_id=#{params[:id]}")
         false
       end
     else
