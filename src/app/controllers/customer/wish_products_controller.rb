@@ -4,7 +4,7 @@ class Customer::WishProductsController < ApplicationController
   before_action :set_is_my_wishlist, only: [:index]
 
   def index
-    @wish_products = @customer.wish_products
+    @wish_products = @customer.wish_products.joins(:product).where(products: { status: 'published' })
     @average_ratings = {}
 
     @wish_products.each do |wish_product|
