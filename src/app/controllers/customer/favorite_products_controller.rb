@@ -3,7 +3,7 @@ class Customer::FavoriteProductsController < ApplicationController
 
   def index
     @customer = true
-    @favorite_products = current_customer_account.customer.favorite_products
+    @favorite_products = current_customer_account.customer.favorite_products.joins(:product).where(products: { status: 'published' })
     @average_ratings = {}
 
     @favorite_products.each do |favorite_product|
