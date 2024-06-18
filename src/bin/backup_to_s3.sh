@@ -4,6 +4,7 @@
 export $(grep -v '^#' "$(dirname "$0")/../.env" | xargs)
 
 # 設定
+export TZ=Asia/Tokyo
 DATE=$(date +"%Y%m%d%H%M")
 S3_BUCKET=${S3_BUCKET_NAME}
 DB_NAME=${PROD_RDS_DB_NAME}
