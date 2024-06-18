@@ -15,5 +15,5 @@ class Customer::ProductsController < ApplicationController
       flash[:alert] = '商品が見つかりません'
       redirect_to root_path
     end
-  end  
+  end
 end

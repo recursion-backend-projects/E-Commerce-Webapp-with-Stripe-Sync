@@ -67,9 +67,11 @@ class Customer::ProductReviewsController < ApplicationController
   end
 
   def set_product
-    @product = Product.find(params[:product_id])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to root_path, alert: '商品が見つかりません'
+    @product = Product.find_by(id: params[:product_id], status: 'published')
+    if @product.nil?
+      flash[:alert] = '商品が見つかりません'
+      redirect_to root_path
+    end
   end
 
   def set_product_review
