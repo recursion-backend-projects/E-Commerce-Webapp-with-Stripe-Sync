@@ -4,7 +4,7 @@ class Customer::WishProductsController < ApplicationController
   before_action :set_is_my_wishlist, only: [:index]
 
   def index
-    @wish_products = @customer.wish_products
+    @wish_products = @customer.wish_products.page(params[:page])
     @average_ratings = {}
 
     @wish_products.each do |wish_product|
