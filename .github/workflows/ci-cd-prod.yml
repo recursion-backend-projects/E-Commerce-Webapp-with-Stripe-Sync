@@ -126,6 +126,9 @@ jobs:
 
             cd ./E-Commerce-Webapp-with-Stripe-Sync/src
 
+            # バックアップファイルに実行権限を与える
+            chmod +x /home/ubuntu/web/E-Commerce-Webapp-with-Stripe-Sync/src/bin/backup_to_s3.sh
+
             # 環境ファイルを作成する
             touch .env
             echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env
