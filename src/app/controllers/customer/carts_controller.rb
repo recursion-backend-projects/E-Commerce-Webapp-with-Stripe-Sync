@@ -10,6 +10,7 @@ class Customer::CartsController < ApplicationController
     @cart_items = []
     @average_ratings = {}
     @total = 0
+    @is_proceed_register = true
     return if @cart.empty?
 
     @cart.each_key do |product_id|
@@ -22,6 +23,7 @@ class Customer::CartsController < ApplicationController
         @total += product.price * session[:cart][product_id]
         @cart_items.push(product)
         @average_ratings[product_id.to_i] = product.product_reviews.average(:rating).to_i
+        @is_proceed_register = false if product.status != 'published'
       end
     end
   end
