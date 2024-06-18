@@ -5,8 +5,8 @@ class Customer::ProductReviewsController < ApplicationController
   before_action :set_product_review, only: %i[edit update]
 
   def show
-    @product_reviews = @product.product_reviews.order(created_at: :desc).includes(customer: :customer_account)
-    @average_rating = @product_reviews.average(:rating).to_i
+    @product_reviews = @product.product_reviews.order(created_at: :desc).includes(customer: :customer_account).page(params[:page])
+    @average_rating = @product.product_reviews.average(:rating).to_i
   end
 
   def new

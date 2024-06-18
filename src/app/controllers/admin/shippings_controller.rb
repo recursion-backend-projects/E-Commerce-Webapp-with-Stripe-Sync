@@ -1,7 +1,7 @@
 class Admin::ShippingsController < ApplicationController
   def index
     @admin = true
-    @shippings = Shipping.order(created_at: :desc)
+    @shippings = Shipping.order(created_at: :desc).page(params[:page])
   end
 
   def edit
