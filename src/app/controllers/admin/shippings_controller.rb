@@ -1,7 +1,8 @@
 class Admin::ShippingsController < ApplicationController
   def index
     @admin = true
-    @shippings = Shipping.order(created_at: :desc).page(params[:page])
+    @search = Shipping.ransack(params[:q])
+    @shippings = @search.result(distinct: true).order(updated_at: :desc).page(params[:page])
   end
 
   def edit
