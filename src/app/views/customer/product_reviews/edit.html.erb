@@ -13,7 +13,7 @@ class="flex flex-col items-center divide-y-2 divide-gray-300 pt-10 antialiased"
             <p class="text-center text-base text-gray-500 md:text-lg">
                 購入した商品への思いを投稿しよう
             </p>
-            <%= form_with(model: @product_review, url: product_product_reviews_path(@product), local: true, data: { turbo: false }, class: "space-y-4 rounded-xl border border-gray-200 bg-white p-4 shadow-xl") do |form| %>
+            <%= form_with(model: @product_review, url: product_product_review_path(@product, @product_review), local: true, data: { turbo: false }, class: "space-y-4 rounded-xl border border-gray-200 bg-white p-4 shadow-xl") do |form| %>
                 <%= render 'shared/flash_error_messages', errors: @errors %>
                 <div>
                     <%= form.label :title, "タイトル" %>

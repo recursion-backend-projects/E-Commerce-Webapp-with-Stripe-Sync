@@ -16,7 +16,7 @@ class Customer::ProductReviewsController < ApplicationController
     @errors = flash[:errors]
 
     if @existing_review
-      redirect_to edit_product_product_reviews_path(@product), alert: 'すでにレビューを投稿済みです。'
+      redirect_to edit_product_product_review_path(@product, @existing_review), alert: 'すでにレビューを投稿済みです。'
     else
       @product_review = ProductReview.new(product: @product)
     end
@@ -33,24 +33,24 @@ class Customer::ProductReviewsController < ApplicationController
     @product_review = ProductReview.new(product_review_params)
 
     if @existing_review
-      redirect_to edit_product_product_reviews_path(@product), alert: 'すでにレビューを投稿済みです。'
+      redirect_to edit_product_product_review_path(@product, @existing_review), alert: 'すでにレビューを投稿済みです。'
       return
     end
 
     if @product_review.save
-      redirect_to product_product_reviews_path(@product), notice: 'レビューが投稿されました。'
+      redirect_to product_product_review_path(@product, @product_review), notice: 'レビューが投稿されました。'
     else
       flash[:errors] = @product_review.errors.full_messages
-      redirect_to new_product_product_reviews_path(@product)
+      redirect_to new_product_product_review_path(@product)
     end
   end
 
   def update
     if @product_review.update(product_review_params)
-      redirect_to product_product_reviews_path(@product), notice: 'レビューが更新されました。'
+      redirect_to product_product_review_path(@product, @product_review), notice: 'レビューが更新されました。'
     else
       flash[:errors] = @product_review.errors.full_messages
-      redirect_to edit_product_product_reviews_path(@product)
+      redirect_to edit_product_product_review_path(@product, @product_review)
     end
   end
 
