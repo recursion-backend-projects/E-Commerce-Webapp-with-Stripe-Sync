@@ -60,7 +60,7 @@
                 <% end %>
             </div>
             <!-- ページネーション -->
-            <%= render 'layouts/pagenation' %>
+            <%= paginate @products %>
         <% else %>
             <p class="text-center text-lg md:text-2xl py-6">商品がみつかりませんでした</p>
         <% end %>

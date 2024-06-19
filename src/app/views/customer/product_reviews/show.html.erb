@@ -1,8 +1,6 @@
 <%= render 'layouts/flash' %>
 <!-- レビューリスト -->
-<div
-class="flex flex-col items-center divide-y-2 divide-gray-300 pt-10 antialiased"
->
+<div class="flex flex-col items-center divide-y-2 divide-gray-300 pt-10 antialiased">
     <%= render 'product_info', product_review: @product_review %>
     <!-- レビューリスト -->
     <div class="flex w-full flex-col py-4 md:w-1/2">
@@ -26,97 +24,12 @@ class="flex flex-col items-center divide-y-2 divide-gray-300 pt-10 antialiased"
                     </div>
                     <p class="w-5/6 text-sm md:w-2/3"><%=safe_join(review.review.split("\n"),tag(:br))%></p>
                 <% end %>
+                
                 <!-- ページネーション -->
-                <div class="flex items-center justify-center py-12">
-                    <nav aria-label="Page navigation">
-                        <ul class="flex h-10 items-center -space-x-px text-base">
-                            <li>
-                                <a
-                    href="#"
-                    class="ms-0 flex h-10 items-center justify-center rounded-s-lg border border-e-0 border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                    >
-                                    <span class="sr-only">前へ</span>
-                                    <svg
-                        class="h-3 w-3 rtl:rotate-180"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 6 10"
-                    >
-                                        <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M5 1 1 5l4 4"
-                        />
-                                        </svg>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                    href="#"
-                    aria-current="page"
-                    class="z-10 flex h-10 items-center justify-center border border-blue-300 bg-blue-50 px-4 leading-tight text-blue-600 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-                    >1</a
-                    >
-                                </li>
-                                <li>
-                                    <a
-                    href="#"
-                    class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                    >2</a
-                    >
-                                </li>
-                                <li>
-                                    <a
-                    href="#"
-                    class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                    >3</a
-                    >
-                                </li>
-                                <li>
-                                    <a
-                    href="#"
-                    class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                    >4</a
-                    >
-                                </li>
-                                <li>
-                                    <a
-                    href="#"
-                    class="flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                    >5</a
-                    >
-                                </li>
-                                <li>
-                                    <a
-                    href="#"
-                    class="flex h-10 items-center justify-center rounded-e-lg border border-gray-300 bg-white px-4 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                    >
-                                        <span class="sr-only">次へ</span>
-                                        <svg
-                        class="h-3 w-3 rtl:rotate-180"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 6 10"
-                    >
-                                            <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="m1 9 4-4-4-4"
-                        />
-                                            </svg>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    <% else %>
-                        <p class="text-sm lg:text-base py-4">この商品にはまだレビューがありません。</p>
-                    <% end %>
-                </div>
-            </div>
+                <%= paginate @product_reviews %>
+            <% else %>
+                <p class="text-sm lg:text-base py-4">この商品にはまだレビューがありません。</p>
+            <% end %>
+        </div>
+    </div>
+</div>

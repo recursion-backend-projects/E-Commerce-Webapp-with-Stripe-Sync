@@ -14,7 +14,7 @@ class Customer::ChatsController < ApplicationController
     else
       # 有効なトークンを持っていない場合は再作成
       token = @current_customer.generate_jwt
-      cookies.signed[:jwt] = {
+      cookies.signed[:customer_jwt] = {
         value: token,
         httponly: true,
         secure: Rails.env.production?, # 本番環境では true
@@ -24,13 +24,13 @@ class Customer::ChatsController < ApplicationController
   end
 
   def token
-    render json: { token: cookies.signed[:jwt] }
+    render json: { token: cookies.signed[:customer_jwt] }
   end
 
   private
 
   def customer_has_valid_token?
-    token = cookies.signed[:jwt]
+    token = cookies.signed[:customer_jwt]
     decoded_token = Customer.decode_jwt(token)
     decoded_token.present? && decoded_token['customer_id'].to_i == @current_customer.id
   end
