@@ -9,13 +9,10 @@ class Customer::SearchProductsController < ApplicationController
         @search.name_or_description_or_creator_or_product_category_name_cont.gsub(/　/, ' ').strip
     end
     @keyword = @search.name_or_description_or_creator_or_product_category_name_cont ||
-               @search.product_category_name_eq
+               @search.product_category_name_eq ||
+               @search.tags_name_eq
 
-    @products = if params[:tag]
-                  Product.tagged_with(params[:tag])
-                else
-                  @keyword.blank? ? Product.all : @search.result(distinct: true)
-                end
+    @products = @search.result(distinct: true)
 
     @average_ratings = get_average_ratings(@products)
   end
