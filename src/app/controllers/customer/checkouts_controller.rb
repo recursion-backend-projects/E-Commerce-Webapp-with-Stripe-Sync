@@ -1,30 +1,25 @@
 class Customer::CheckoutsController < ApplicationController
   def create
     # 「ご購入手続きへ」からの購入の場合
-    if params[:commit] == 'ご購入手続きへ'
-      p '購入手続きに進むよ'
-      p params
-      # product_id = params[:product_id]
-      # quantity = params[:quantity].to_i
-      # line_items = generate_line_items({ product_id => quantity })
-      # success_url = generate_success_url('direct')
+    if params.key?(:checkout_action)
+      product_id = params[:product][:id]
+      quantity = params[:product][:quantity].to_i
+      line_items = generate_line_items({ product_id => quantity })
+      success_url = generate_success_url('direct')
+      cancel_url = "#{domain}/products/#{product_id}"
 
     # 「レジに進む」からの購入の場合
-    elsif params[:commit] == 'レジに進む'
+    elsif params.key?(:register_action)
       line_items = generate_line_items(current_cart)
       success_url = generate_success_url('register')
-
-    elsif params[:commit] == 'カートに入れる'
-      p 'カートに入れるよ'
-      p params
+      cancel_url = "#{domain}/cart"
     else
-      p params
       redirect_back fallback_location: root_path, alert: '不明なアクションです'
     end
 
-    # customer = current_customer
-    # session = create_checkout_session(customer, line_items, success_url)
-    # redirect_to session.url, status: :see_other, allow_other_host: true
+    customer = current_customer
+    session = create_checkout_session(customer, line_items, success_url, cancel_url)
+    redirect_to session.url, status: :see_other, allow_other_host: true
   end
 
   # 支払いが成功した時に表示するページを表示するアクション
@@ -68,6 +63,10 @@ class Customer::CheckoutsController < ApplicationController
   end
 
   def generate_success_url(checkout_type)
+    "#{domain}/checkout/success?checkout_type=#{checkout_type}&session_id={CHECKOUT_SESSION_ID}"
+  end
+
+  def domain
     if Rails.env.production?
       scheme = 'https'
       host = request.domain
@@ -75,18 +74,17 @@ class Customer::CheckoutsController < ApplicationController
     else
       domain = 'http://localhost:3000'
     end
-
-    "#{domain}/checkout/success?session_id={CHECKOUT_SESSION_ID}&checkout_type=#{checkout_type}"
+    domain
   end
 
-  def create_checkout_session(customer, line_items, success_url)
+  def create_checkout_session(customer, line_items, success_url, cancel_url)
     Stripe::Checkout::Session.create({
                                        client_reference_id: customer.present? ? customer.id : nil,
                                        customer: customer.present? ? customer&.stripe_customer_id : nil,
                                        line_items:,
                                        mode: 'payment',
                                        #  ユーザーがCheckoutで戻るボタンをクリックするとこのページにリダイレクトされるURL
-                                       cancel_url: cart_url,
+                                       cancel_url:,
                                        #  決済が完了したときにリダイレクトされるURL
                                        success_url:,
                                        #  TODO:デジタル商品のみの場合はshipping_address_collectionを不要なので削除する
