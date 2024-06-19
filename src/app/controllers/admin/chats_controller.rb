@@ -4,7 +4,7 @@ class Admin::ChatsController < ApplicationController
   def index
     cookies.delete(:admin_jwt)
     @admin = true
-    @chats = Chat.where(status: :waiting_for_admin).or(Chat.where(status: :chatting))
+    @chats = Chat.where(status: :waiting_for_admin).or(Chat.where(status: :chatting)).page(params[:page])
   end
 
   def show

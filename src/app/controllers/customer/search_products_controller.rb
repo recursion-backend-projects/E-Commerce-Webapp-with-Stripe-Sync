@@ -10,7 +10,7 @@ class Customer::SearchProductsController < ApplicationController
     end
     @keyword = @search.name_or_description_or_creator_or_product_category_name_cont ||
                @search.product_category_name_eq
-    @products = @search.result(distinct: true).where(status: 'published')
+    @products = @search.result(distinct: true).where(status: 'published').page(params[:page])
     @average_ratings = {}
 
     return if @products.blank?

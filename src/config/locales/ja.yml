@@ -15,3 +15,8 @@ ja:
       nihon_yubin: "日本郵便"
       seinou: "西濃運輸"
       hukuyama: "福山運輸"
+  views:
+    pagination:
+      previous: "<"
+      next: ">"
+      truncate: "..."
