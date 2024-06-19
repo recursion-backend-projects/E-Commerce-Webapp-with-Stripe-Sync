@@ -126,6 +126,9 @@ jobs:
 
             cd ./E-Commerce-Webapp-with-Stripe-Sync/src
 
+            # バックアップファイルに実行権限を与える
+            sudo chmod +x /home/ubuntu/web/E-Commerce-Webapp-with-Stripe-Sync/src/bin/backup_to_s3.sh
+
             # 環境ファイルを作成する
             touch .env
             echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env
@@ -150,6 +153,7 @@ jobs:
             echo "STRIPE_ENDPOINT_SECRET_PRODUCTION=${{ secrets.STRIPE_ENDPOINT_SECRET_PROD }}" >> .env
             echo "ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}" >> .env
             echo "WEBSOCKET_URL=${{ secrets.PROD_WEBSOCKET_URL }}" >> .env
+            echo "JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}" >> .env
 
             # Docker Hubから最新のイメージをプルしてコンテナを起動する
             sudo docker compose -f compose.prod.yml up -d --pull always

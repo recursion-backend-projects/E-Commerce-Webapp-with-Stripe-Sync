@@ -32,6 +32,4 @@ services:
       - https-portal-data:/var/lib/https-portal
 
 volumes:
-  # public-data:
-  # tmp-data:
   https-portal-data: # HTTPS-PORTALをアップグレードする際に再署名を避けるために推奨されます
