@@ -1,7 +1,7 @@
 class Admin::ProductsController < ApplicationController
   def index
     @admin = true
-    @products = Product.all.page(params[:page])
+    @products = Product.all.order(updated_at: :desc).page(params[:page])
   end
 
   def edit
