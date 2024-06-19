@@ -23,7 +23,7 @@
                 <div class="mt-1">
                     <p class="mb-1">タグ:</p>
                     <% @product.tags.each do |tag|%>
-                        <%= link_to tag.name, search_products_path(tag: tag.name), class: 'bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300' %>
+                        <%= link_to tag.name, search_products_path(q: { tags_name_eq: tag.name }), data: { turbo_method: :get }, class: 'bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300' %>
                     <% end %>
                 </div>
             <% end %>
