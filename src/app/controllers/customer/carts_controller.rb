@@ -13,19 +13,7 @@ class Customer::CartsController < ApplicationController
     @is_proceed_register = true
     return if @cart.empty?
 
-    @cart.each_key do |product_id|
-      product = Product.find_by(id: product_id.to_i)
-      if product.nil? || product.stock <= 0
-        session[:cart].delete(product_id.to_s)
-        flash.now[:alert] = 'カート内の商品が削除されました'
-        update_cart_items_count
-      else
-        @total += product.price * session[:cart][product_id]
-        @cart_items.push(product)
-        @average_ratings[product_id.to_i] = product.product_reviews.average(:rating).to_i
-        @is_proceed_register = false if product.status != 'published'
-      end
-    end
+    set_show_info
   end
 
   # カートに商品を追加するアクション
@@ -93,5 +81,22 @@ class Customer::CartsController < ApplicationController
     end
 
     session[:cart_items_count] = counter
+  end
+
+  # showに関わる情報を設定するメソッド
+  def set_show_info
+    @cart.each_key do |product_id|
+      product = Product.find_by(id: product_id.to_i)
+      if product.nil? || product.stock <= 0
+        session[:cart].delete(product_id.to_s)
+        flash.now[:alert] = 'カート内の商品が削除されました'
+        update_cart_items_count
+      else
+        @total += product.price * session[:cart][product_id]
+        @cart_items.push(product)
+        @average_ratings[product_id.to_i] = product.product_reviews.average(:rating).to_i
+        @is_proceed_register = false if product.status != 'published'
+      end
+    end
   end
 end

@@ -68,10 +68,10 @@ class Customer::ProductReviewsController < ApplicationController
 
   def set_product
     @product = Product.find_by(id: params[:product_id], status: 'published')
-    if @product.nil?
-      flash[:alert] = '商品が見つかりません'
-      redirect_to root_path
-    end
+    return unless @product.nil?
+
+    flash[:alert] = '商品が見つかりません'
+    redirect_to root_path
   end
 
   def set_product_review

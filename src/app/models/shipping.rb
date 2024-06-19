@@ -4,7 +4,7 @@ class Shipping < ApplicationRecord
   enum :carrier, { sagawa: 0, yamato: 1, nihon_yubin: 2, seinou: 3, hukuyama: 4 }
   validates :carrier, inclusion: { in: carriers.keys.map(&:to_s) }, on: :update
   validates :tracking_number, uniqueness: true, length: { in: 8..18 }, format: { with: /\A[A-Z0-9]+\z/ }, on: :update
-  
+
   # Ransackで検索可能な属性を指定するメソッド
   def self.ransackable_attributes(_auth_object = nil)
     %w[status]
