@@ -28,7 +28,7 @@ class Customer::CartsController < ApplicationController
 
   # カートに商品を追加するアクション
   def create
-    quantity = params[:quantity].to_i
+    quantity = params[:product][:quantity].to_i
 
     if quantity > @product.remaining_stock
       flash[:alert] = '在庫数を超える数量はカートに追加できません'
@@ -41,7 +41,7 @@ class Customer::CartsController < ApplicationController
 
   # カート内の商品の数量を更新するアクション
   def update
-    quantity = params[:quantity].to_i
+    quantity = params[:product][:quantity].to_i
     session[:cart][@product.id.to_s] = quantity
     redirect_to cart_path
   end
@@ -56,7 +56,7 @@ class Customer::CartsController < ApplicationController
 
   # 商品を設定するメソッド
   def set_product
-    @product = Product.find(params[:product_id].to_i)
+    @product = Product.find(params[:product][:id].to_i)
   rescue ActiveRecord::RecordNotFound
     flash[:alert] = '商品が見つかりません'
     redirect_to cart_path
@@ -64,7 +64,7 @@ class Customer::CartsController < ApplicationController
 
   # 数量を検証するメソッド
   def validate_quantity
-    quantity = params[:quantity].to_i
+    quantity = params[:product][:quantity].to_i
     return unless quantity <= 0
 
     flash[:alert] = '数量は1以上でなければなりません'
