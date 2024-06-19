@@ -1,3 +1,4 @@
+<%= render 'layouts/flash' %>
 <!-- Toast container -->
 <div id="toast-container" class="fixed bottom-5 right-5 flex flex-col gap-3"></div>
 <!-- お気に入りリスト -->
@@ -19,17 +20,16 @@
                             <% end %>
                         </div>
                         <!-- 商品情報 -->
-                        <div class="ml-4 flex w-1/2 flex-col justify-between md:w-full md:flex-row md:ml-6">
+                        <div class="ml-4 flex w-1/2 flex-col justify-between md:w-full md:flex-row md:ml-6 product-item">
                             <div class="space-y-2 md:w-2/3">
                                 <%= link_to favorite_product.product.name, favorite_product.product, class: 'text-lg font-semibold text-sky-500 hover:text-orange-400 hover:underline' %>
                                 <p class="text-sm text-gray-700"><%= favorite_product.product.creator %></p>
                                 <p class="text-sm font-bold text-orange-500 lg:text-base"><%= star_rating(@average_ratings[favorite_product.product.id]) %></p>
                                 <!-- 数量のセレクトボックス -->
-                                <div class="flex items-center">
-                                    <%= hidden_field_tag 'product_id', favorite_product.product.id %>
-                                    <%= label_tag 'quantity', '数量:', class: 'ml-1 block text-sm text-gray-900 lg:text-base' %>
-                                    <%= select_tag 'quantity', options_for_select((1..favorite_product.product.remaining_stock).to_a.collect { |n| [n, n] }, selected: 1), class: 'ml-2 block rounded-lg border border-gray-300 bg-gray-200 p-1 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500'%>
-                                </div>
+                                <%= form_with model: favorite_product.product, class: 'flex items-center' do |form|%>
+                                    <%= form.label :quantity, '数量:', class: 'ml-1 block text-sm text-gray-900 lg:text-base' %>
+                                    <%= form.select :quantity, options_for_select((1..favorite_product.product.remaining_stock).to_a.collect { |n| [n, n] }, selected: 1),{} ,class: 'ml-2 block rounded-lg border border-gray-300 bg-gray-200 p-1 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500'%>
+                                <% end %>
                                 <p class="text-sm lg:text-base">デジタル商品</p>
                                 <p class="text-sm font-semibold text-gray-900">¥<%= favorite_product.product.price %></p>
                             </div>
@@ -41,6 +41,12 @@
                 class="w-full rounded-full bg-yellow-400 p-3 text-sm text-white hover:bg-yellow-500 lg:p-2 lg:text-base">
                                     ご購入手続きへ
                                 </button>
+                                <%= form_with url: checkout_path, model: @product,method: :post, local:true,  data:{turbo: false} do |form|%>
+                                    <%= form.hidden_field :id %>
+                                    <%= form.hidden_field :quantity , class: 'checkout-quantity' %>
+                                    <%= hidden_field_tag :checkout_action, true %>
+                                    <%= form.submit 'ご購入手続きへ',class: 'my-2 w-3/4 rounded-full bg-yellow-400 py-2 hover:bg-yellow-500 hover:cursor-pointer checkout-button'%>
+                                <% end %>
                                 <%= form_with(url: favorite_product_path(favorite_product), method: :delete, class: 'w-full') do %>
                                     <button
                   type="submit"
@@ -78,3 +84,4 @@
     <!-- ページネーション -->
     <%= render 'layouts/pagenation' %>
     <%= javascript_include_tag "clipboard", "data-turbo-track": "reload", type: "module" %>
+    <%= javascript_include_tag 'checkout_button', type: 'module' %>
