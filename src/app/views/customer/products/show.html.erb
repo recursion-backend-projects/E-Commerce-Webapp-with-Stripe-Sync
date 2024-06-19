@@ -34,21 +34,26 @@
                 <% if @product.stock > 0 %>
                     <!-- 在庫がある場合 -->
                     <!-- 数量のセレクトボックス -->
-                    <%= form_with  do |form| %>
-                        <div class="flex max-w-sm items-center py-3">
-                            <%= hidden_field_tag 'product_id', @product.id %>
-                            <%= label_tag 'quantity', '数量:', class: 'ml-1 block text-lg text-gray-900' %>
-                            <%= select_tag 'quantity', options_for_select((1..(@remaining_stock)).to_a.collect { |n| [n, n] }, selected: 1), { class: 'ml-2 block rounded-lg border border-gray-300 bg-gray-200 p-1 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500' } %>
-                        </div>
-                        <span class="text-xl">¥<%= @product.price %></span>
-                        <div class="flex justify-center">
-                            <%= form.button 'カートに入れる', type: :submit, formmethod: :POST, action: '/cart', class: 'my-2 w-3/4 rounded-full bg-emerald-400 py-2 hover:bg-emerald-500 hover:cursor-pointer' %>
-                        </div>
-                        <div class="flex justify-center">
-                            <%= form.button 'ご購入手続きへ', type: :submit, formmethod: :post, action: '/checkout', class: 'my-2 w-3/4 rounded-full bg-yellow-400 py-2 hover:bg-yellow-500 hover:cursor-pointer'%>
-                        </div>
-                        
-                    <% end %>
+                    <div class='product-item'>
+                        <%= form_with model: @product do  |form| %>
+                            <div class="flex max-w-sm items-center py-3">
+                                <%= form.label :quantity, '数量:', class: 'ml-1 block text-lg text-gray-900' %>
+                                <%= form.select :quantity, options_for_select((1..(@remaining_stock)).to_a.collect { |n| [n, n] }, selected: 1),{}, { class: 'quantity ml-2 block rounded-lg border border-gray-300 bg-gray-200 p-1 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500' } %>
+                            </div>
+                            <span class="text-xl">¥<%= @product.price %></span>
+                        <% end %>
+                        <%= form_with url: cart_path ,model: @product, method: :post,local:true,  data:{turbo: false},  class: 'flex justify-center cart-form' do |form| %>
+                            <%= form.hidden_field :id %>
+                            <%= form.hidden_field :quantity , class: 'cart-quantity' %>
+                            <%= form.submit 'カートに入れる', class: 'my-2 w-3/4 rounded-full bg-emerald-400 py-2 hover:bg-emerald-500 hover:cursor-pointer add-to-cart-button' %>
+                        <% end %>
+                        <%= form_with url: checkout_path, model: @product,method: :post, local:true,  data:{turbo: false}, class: 'flex justify-center checkout-form' do |form|%>
+                            <%= form.hidden_field :id %>
+                            <%= form.hidden_field :quantity , class: 'checkout-quantity' %>
+                            <%= hidden_field_tag :checkout_action, true %>
+                            <%= form.submit 'ご購入手続きへ',class: 'my-2 w-3/4 rounded-full bg-yellow-400 py-2 hover:bg-yellow-500 hover:cursor-pointer checkout-button'%>
+                        <% end %>
+                    </div>
                 <% else %>
                     <!-- 在庫がない場合 -->
                     <div class="flex justify-center">
@@ -138,3 +143,4 @@
     </div>
 </div>
 </main>
+<%= javascript_include_tag 'checkout_button', type: 'module' %>
