@@ -67,14 +67,7 @@
             
             <% if @shippings.empty? %>
                 <div class="items-center flex-wrap space-y-4 rounded-xl border border-gray-200 bg-white p-4 shadow-xl">
-                    <% case params[:status_eq].to_i %>
-                    <% when 0 %>
-                        <p class="w-full text-center">現在発送待ちの商品はありません。</p>
-                    <% when 1 %>
-                        <p class="w-full text-center">現在発送済みの商品はありません。</p>
-                    <% else %>
-                        <p class="w-full text-center">現在物理商品の注文はありません。</p>
-                    <% end %>
+                    <p class="w-full text-center">現在管理している商品はありません。</p>
                 </div>
             <% else %>
                 <!-- ページネーション -->
