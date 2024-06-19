@@ -76,11 +76,7 @@
             </li>
             <!-- ログインユーザーの場合 -->
             <li>
-              <a
-                href="#"
-                class="block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >ログアウト</a
-              >
+            <%= link_to 'ログアウト', destroy_admin_account_session_path, data: { turbo_method: :delete }, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:text-red-200' %>
             </li>
           </ul>
         </div>
