@@ -12,7 +12,7 @@ class Customer::SearchProductsController < ApplicationController
                @search.product_category_name_eq ||
                @search.tags_name_eq
 
-    @products = @search.result(distinct: true)
+    @products = @search.result(distinct: true).page(params[:page])
 
     @average_ratings = get_average_ratings(@products)
   end
