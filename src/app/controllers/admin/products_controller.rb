@@ -1,7 +1,7 @@
 class Admin::ProductsController < ApplicationController
   def index
     @admin = true
-    @products = Product.all.order(updated_at: :desc).page(params[:page])
+    @products = @search.result(distinct: true).order(updated_at: :desc).page(params[:page])
   end
 
   def edit

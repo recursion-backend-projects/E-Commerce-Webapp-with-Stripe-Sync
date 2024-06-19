@@ -4,27 +4,22 @@
     <h1 class="py-2 text-center text-2xl font-bold md:text-start md:text-4xl">商品管理</h1>
     <div class="mx-2 flex flex-row justify-between">
       <div>
-        <button
-          id="dropdownActionButton"
-          data-dropdown-toggle="dropdownAction"
-          class="inline-flex items-center rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
-          type="button"
-        >
-          <span class="sr-only">フィルターボタン</span>
-          フィルター
-          <svg class="ms-2.5 h-2.5 w-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
-          </svg>
-        </button>
-        <!-- ドロップボタンメニュー -->
-        <div id="dropdownAction" class="z-10 hidden w-44 divide-y divide-gray-100 rounded-lg bg-white shadow dark:divide-gray-600 dark:bg-gray-700">
-          <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownActionButton">
-            <li><a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">すべての商品</a></li>
-            <li><a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">下書き</a></li>
-            <li><a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">公開中</a></li>
-            <li><a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">アーカイブ済み</a></li>
-          </ul>
-        </div>
+        <%= search_form_for @search, url: admin_products_path, method: :post, local: true, data: { turbo: false }, class: "flex max-w-sm items-center" do |form| %>
+             <%= form.select :status_eq, 
+                {
+                    'すべての商品': '',
+                    '下書き': 0,
+                    '公開中': 1,
+                    'アーカイブ済み': 2,
+                }, 
+                { selected: params.dig(:q, :status_eq) }, 
+                { 
+                    onchange: 'this.form.submit()', 
+                    class: "ml-2 block rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" 
+                }
+            %>
+            <%= form.submit '' %>
+        <% end %>
       </div>
       <a href="#" class="flex items-center justify-center rounded-lg border border-gray-300 bg-white p-1.5 text-gray-500 hover:bg-gray-100 hover:text-gray-700">商品を追加する</a>
     </div>
