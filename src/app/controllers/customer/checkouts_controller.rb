@@ -2,8 +2,10 @@ class Customer::CheckoutsController < ApplicationController
   def create
     # 「ご購入手続きへ」からの購入の場合
     if params.key?(:checkout_action)
-      product_id = params[:product][:id]
       quantity = params[:product][:quantity].to_i
+      redirect_back fallback_location: root_path, alert: '数量は1以上でなければなりません' if quantity <= 0
+
+      product_id = params[:product][:id]
       line_items = generate_line_items({ product_id => quantity })
       success_url = generate_success_url('direct')
 

@@ -31,8 +31,7 @@ class Customer::CartsController < ApplicationController
     quantity = params[:product][:quantity].to_i
 
     if quantity > @product.remaining_stock
-      flash[:alert] = '在庫数を超える数量はカートに追加できません'
-      redirect_to @product
+      redirect_back fallback_location: root_path, alert: '在庫数を超える数量はカートに追加できません'
     else
       flash[:notice] = 'カートに追加しました'
       add_or_update @product.id.to_s, quantity
@@ -67,8 +66,7 @@ class Customer::CartsController < ApplicationController
     quantity = params[:product][:quantity].to_i
     return unless quantity <= 0
 
-    flash[:alert] = '数量は1以上でなければなりません'
-    redirect_to @product
+    redirect_back fallback_location: root_path, alert: '数量は1以上でなければなりません'
   end
 
   # カートに商品を追加または更新するメソッド
