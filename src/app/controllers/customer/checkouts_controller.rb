@@ -6,19 +6,18 @@ class Customer::CheckoutsController < ApplicationController
       quantity = params[:product][:quantity].to_i
       line_items = generate_line_items({ product_id => quantity })
       success_url = generate_success_url('direct')
-      cancel_url = "#{domain}/products/#{product_id}"
 
     # 「レジに進む」からの購入の場合
     elsif params.key?(:register_action)
       line_items = generate_line_items(current_cart)
       success_url = generate_success_url('register')
-      cancel_url = "#{domain}/cart"
+
     else
       redirect_back fallback_location: root_path, alert: '不明なアクションです'
     end
 
     customer = current_customer
-    session = create_checkout_session(customer, line_items, success_url, cancel_url)
+    session = create_checkout_session(customer, line_items, success_url, request.referer)
     redirect_to session.url, status: :see_other, allow_other_host: true
   end
 
