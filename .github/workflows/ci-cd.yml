@@ -25,7 +25,7 @@ jobs:
         run: yarn --cwd src install
 
       - name: Lint Frontend file
-        run: cd src && ./node_modules/.bin/eslint ./app --max-warnings=0
+        run: cd src && yarn lint --max-warnings=0
 
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@v1
