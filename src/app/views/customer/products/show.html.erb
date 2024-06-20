@@ -44,12 +44,12 @@
                         <% end %>
                         <%= form_with url: cart_path ,model: @product, method: :post,local:true,  data:{turbo: false},  class: 'flex justify-center cart-form' do |form| %>
                             <%= form.hidden_field :id %>
-                            <%= form.hidden_field :quantity , class: 'cart-quantity' %>
+                            <%= form.hidden_field :quantity , class: 'cart-quantity', value: 1 %>
                             <%= form.submit 'カートに入れる', class: 'my-2 w-3/4 rounded-full bg-emerald-400 py-2 hover:bg-emerald-500 hover:cursor-pointer add-to-cart-button' %>
                         <% end %>
                         <%= form_with url: checkout_path, model: @product,method: :post, local:true,  data:{turbo: false}, class: 'flex justify-center checkout-form' do |form|%>
                             <%= form.hidden_field :id %>
-                            <%= form.hidden_field :quantity , class: 'checkout-quantity' %>
+                            <%= form.hidden_field :quantity , class: 'checkout-quantity', value: 1 %>
                             <%= hidden_field_tag :checkout_action, true %>
                             <%= form.submit 'ご購入手続きへ',class: 'my-2 w-3/4 rounded-full bg-yellow-400 py-2 hover:bg-yellow-500 hover:cursor-pointer checkout-button'%>
                         <% end %>
