@@ -28,24 +28,23 @@
                                 <!-- 数量のセレクトボックス -->
                                 <%= form_with model: favorite_product.product, class: 'flex items-center' do |form|%>
                                     <%= form.label :quantity, '数量:', class: 'ml-1 block text-sm text-gray-900 lg:text-base' %>
-                                    <%= form.select :quantity, options_for_select((1..favorite_product.product.remaining_stock).to_a.collect { |n| [n, n] }, selected: 1),{} ,class: 'ml-2 block rounded-lg border border-gray-300 bg-gray-200 p-1 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500'%>
+                                    <%= form.select :quantity, options_for_select((1..favorite_product.product.remaining_stock).to_a.collect { |n| [n, n] }, selected: 1),{} ,class: 'ml-2 block rounded-lg border border-gray-300 bg-gray-200 p-1 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 quantity'%>
                                 <% end %>
                                 <p class="text-sm lg:text-base">デジタル商品</p>
                                 <p class="text-sm font-semibold text-gray-900">¥<%= favorite_product.product.price %></p>
                             </div>
                             <!-- オプションボタン -->
                             <div class="flex flex-col items-center space-y-2 md:space-y-4 md:pt-0 md:w-1/3">
-                                <%= f.submit 'カートに入れる', class: 'w-full rounded-full bg-emerald-400 p-3 text-sm text-white hover:bg-emerald-500 lg:p-2 lg:text-base'%>
-                                <button
-                type="button"
-                class="w-full rounded-full bg-yellow-400 p-3 text-sm text-white hover:bg-yellow-500 lg:p-2 lg:text-base">
-                                    ご購入手続きへ
-                                </button>
-                                <%= form_with url: checkout_path, model: @product,method: :post, local:true,  data:{turbo: false} do |form|%>
+                                <%= form_with url: cart_path ,model: favorite_product.product, method: :post,local:true,  data:{turbo: false}, class: 'w-full cart-form' do |form| %>
+                                    <%= form.hidden_field :id %>
+                                    <%= form.hidden_field :quantity , class: 'cart-quantity', value: 1 %>
+                                    <%= form.submit 'カートに入れる', class: 'w-full rounded-full bg-emerald-400 p-3 text-sm text-white hover:bg-emerald-500 lg:p-2 lg:text-base add-to-cart-button hover:cursor-pointer' %>
+                                <% end %>
+                                <%= form_with url: checkout_path, model: favorite_product.product,method: :post, local:true,  data:{turbo: false} ,class: 'w-full  checkout-form' do |form|%>
                                     <%= form.hidden_field :id %>
                                     <%= form.hidden_field :quantity , class: 'checkout-quantity' %>
                                     <%= hidden_field_tag :checkout_action, true %>
-                                    <%= form.submit 'ご購入手続きへ',class: 'my-2 w-3/4 rounded-full bg-yellow-400 py-2 hover:bg-yellow-500 hover:cursor-pointer checkout-button'%>
+                                    <%= form.submit 'ご購入手続きへ',class: 'w-full rounded-full bg-yellow-400 p-3 text-sm text-white hover:bg-yellow-500 lg:p-2 lg:text-base hover:cursor-pointer  checkout-button'%>
                                 <% end %>
                                 <%= form_with(url: favorite_product_path(favorite_product), method: :delete, class: 'w-full') do %>
                                     <button
