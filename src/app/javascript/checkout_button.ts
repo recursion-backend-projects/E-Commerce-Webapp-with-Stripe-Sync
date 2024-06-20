@@ -1,6 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
-	console.log("js loading.");
-
+document.addEventListener("turbo:load", function () {
 	document.querySelectorAll(".add-to-cart-button").forEach(function (button) {
 		button.addEventListener("click", function (event) {
 			event.preventDefault();
