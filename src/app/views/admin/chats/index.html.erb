@@ -1,6 +1,6 @@
 <div class="flex flex-col items-center py-10 antialiased">
     <div class="flex w-full flex-col space-y-4 py-4 md:w-4/5 lg:w-1/2">
-        <h1 class="py-2 text-center text-2xl font-bold md:text-start md:text-4xl">
+        <h1 class="px-4 py-2 text-2xl font-bold md:text-4xl">
             チャット一覧
         </h1>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -15,20 +15,20 @@
                 </thead>
                 <tbody>
                     <% @chats.each do |chat|%>
-                        <tr class="bg-gre border-b bg-white hover:bg-gray-100">
-                            <td class="px-6 py-4 font-semibold"><%= chat.customer.customer_account.email %></td>
-                            <td class="px-6 py-4"><%= chat.created_at.strftime("%Y-%m-%d %H:%M") %></td>
-                            <td class="px-6 py-4">
+                        <tr class="bg-gre border-b bg-white hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:border-gray-700 dark:bg-gray-800">
+                            <td class="px-6 py-4 font-semibold dark:text-white"><%= chat.customer.customer_account.email %></td>
+                            <td class="px-6 py-4 dark:text-white"><%= chat.created_at.strftime("%Y-%m-%d %H:%M") %></td>
+                            <td class="px-6 py-4 dark:text-white">
                                 <div class="flex items-center">
                                     <% if chat.status == "waiting_for_admin"%>
                                         <!-- 未対応 -->
-                                        <div class="flex items-center">
+                                        <div class="flex items-center dark:text-white">
                                             <div class="me-2 size-2.5 rounded-full bg-yellow-500"></div>
                                             未対応
                                         </div>
                                     <% else %>
                                         <!-- 対応中 -->
-                                        <div class="flex items-center">
+                                        <div class="flex items-center dark:text-white">
                                             <div class="me-2 h-2.5 w-2.5 rounded-full bg-green-500"></div>
                                             対応中
                                         </div>

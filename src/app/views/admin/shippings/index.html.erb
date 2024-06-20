@@ -1,12 +1,12 @@
-<section class="py-8 antialiased dark:bg-gray-900 md:py-16">
+<section class="py-8 antialiased md:py-16">
     <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
         <div class="mx-auto max-w-5xl">
             <div class="gap-4 sm:flex sm:items-center sm:justify-between">
-                <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">発送管理</h2>
+                <h1 class="px-2 py-2 text-2xl font-bold md:text-4xl">発送管理</h1>
                 <div class="mt-6 gap-4 space-y-4 sm:mt-0 sm:flex sm:items-center sm:justify-end sm:space-y-0">
                     <!-- TODO: フィルタリングの実装-->
                     <div>
-                        <label for="order-type" class="sr-only mb-2 block text-sm font-medium text-gray-900 dark:text-white">Select order type</label>
+                        <label for="order-type" class="sr-only mb-2 block text-sm font-medium text-gray-900">Select order type</label>
                         <select id="order-type" class="block w-full min-w-[8rem] rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
                             <option selected>全て</option>
                             <option value="pre-order">未発送</option>
@@ -15,11 +15,11 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-6 flow-root sm:mt-8">
+            <div class="mt-6 flow-root sm:mt-8 dark:border-gray-700 dark:bg-gray-800">
                 <div class="divide-y divide-gray-200 dark:divide-gray-700">
                     <% @shippings.each do |shipping| %>
-                        <div class="flex flex-wrap items-center gap-y-4 py-6">
-                            <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1 mr-2">
+                        <div class="flex flex-wrap items-center gap-y-4 py-6 hover:bg-gray-200 px-2 dark:hover:bg-gray-700 dark:hover:border-gray-600">
+                            <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1 mr-1">
                                 <dt class="text-base font-medium text-gray-500 dark:text-gray-400">注文番号:</dt>
                                 <dd class="mt-1.5 text-base font-semibold text-gray-900 dark:text-white">
                                     <p><%= shipping.order.order_number%></p>
