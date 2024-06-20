@@ -79,7 +79,7 @@ class Customer::CartsController < ApplicationController
     else
       session[:cart][product_id] = quantity
     end
-    redirect_to product_path(product_id)
+    redirect_back fallback_location: root_path
   end
 
   def update_cart_items_count
