@@ -27,7 +27,7 @@
                                     <div>
                                         <%= link_to cart_item.name, cart_item, class: 'text-lg text-sky-400 hover:text-orange-400 hover:underline' %>
                                     </div>
-                                    <p class="text-sm md:text-base dark:text-white"><%= cart_item.creator %></p>
+                                    <p class="text-sm lg:text-base dark:text-white"><%= cart_item.creator %></p>
                                     <p class="text-sm font-bold text-orange-500 md:text-base"><%= star_rating(@average_ratings[cart_item.id]) %></p>
                                     <!-- 数量のセレクトボックス -->
                                     <div class="flex max-w-sm items-center">
