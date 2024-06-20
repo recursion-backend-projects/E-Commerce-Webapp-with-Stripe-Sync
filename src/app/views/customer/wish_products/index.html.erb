@@ -124,6 +124,8 @@
                             </div>
                         </div>
                     <% end %>
+                    <!-- ページネーション -->
+                    <%= paginate @wish_products %>
                 <% else %>
                     <div class="text-center text-gray-700">
                         ウィッシュリストに商品がありません。

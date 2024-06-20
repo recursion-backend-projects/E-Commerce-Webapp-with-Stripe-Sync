@@ -73,6 +73,8 @@
                         </div>
                     <% end %>
                 <% end %>
+                <!-- ページネーション -->
+                <%= paginate @favorite_products %>
             <% else %>
                 <div class="text-center text-gray-700">
                     お気に入りリストに商品がありません。
@@ -80,7 +82,5 @@
             <% end %>
         </div>
     </div>
-    <!-- ページネーション -->
-    <%= render 'layouts/pagenation' %>
     <%= javascript_include_tag "clipboard", "data-turbo-track": "reload", type: "module" %>
     <%= javascript_include_tag 'checkout_button', type: 'module' %>
