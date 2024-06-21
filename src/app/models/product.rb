@@ -43,6 +43,11 @@ class Product < ApplicationRecord
     %w[creator description name price average_rating]
   end
 
+  def remaining_stock
+    product_count_in_cart = @current_cart&.dig(id.to_s) || 0
+    stock - product_count_in_cart
+  end
+
   private
 
   def validate_tag
