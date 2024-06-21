@@ -31,10 +31,10 @@ class Admin::ProductsController < ApplicationController
         @product.stripe_price_id = stripe_price.id
         @product.save
         redirect_to edit_admin_product_path(@product), notice: '商品が追加されました。'
-
       end
     else
-      render :new, status: :unprocessable_entity, alert: '商品の追加に失敗しました'
+      flash.now[:alert] = '商品の追加に失敗しました'
+      render :new, status: :unprocessable_entity
     end
   end
 
