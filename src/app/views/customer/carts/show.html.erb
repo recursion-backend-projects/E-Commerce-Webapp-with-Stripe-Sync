@@ -1,13 +1,13 @@
 <%= render 'layouts/flash' %>
-<section class="py-8 antialiased dark:bg-gray-900 md:py-16">
+<section class="py-8 antialiased md:py-16">
     <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">カートリスト</h2>
+        <h1 class="text-2xl font-bold md:text-4xl">カートリスト</h1>
         <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
             <div class="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
                 <!-- 各アイテム -->
                 <% if @cart_items.empty? %>
                     <div class="mx-2 rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800 p-3 md:p-6">
-                        <p class="text-center">お客様のカートに商品はありません</p>
+                        <p class="text-center md:text-xl dark:text-white">お客様のカートに商品はありません</p>
                     </div>
                 <% else %>
                     <!-- 商品 -->
@@ -27,17 +27,17 @@
                                     <div>
                                         <%= link_to cart_item.name, cart_item, class: 'text-lg text-sky-400 hover:text-orange-400 hover:underline' %>
                                     </div>
-                                    <p class="text-sm md:text-base"><%= cart_item.creator %></p>
+                                    <p class="text-sm lg:text-base dark:text-white"><%= cart_item.creator %></p>
                                     <p class="text-sm font-bold text-orange-500 md:text-base"><%= star_rating(@average_ratings[cart_item.id]) %></p>
                                     <!-- 数量のセレクトボックス -->
                                     <div class="flex max-w-sm items-center">
-                                        <%= form_with url: cart_path, method: :patch do %>
+                                        <%= form_with url: cart_path, method: :patch, class: 'flex' do %>
                                             <%= hidden_field_tag 'product_id', cart_item.id %>
-                                            <%= label_tag 'quantity', '数量:', class: 'ml-1 block text-sm text-gray-900 md:text-lg' %>
+                                            <%= label_tag 'quantity', '数量:', class: 'py-1 ml-1 block text-sm text-gray-900 md:text-lg dark:text-white' %>
                                             <%= select_tag 'quantity', options_for_select((1..cart_item.stock).to_a.collect { |n| [n, n] }, selected: @cart[cart_item.id.to_s]), { class: 'ml-2 block rounded-lg border border-gray-300 bg-gray-200 p-1 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500', onchange: 'this.form.submit()', data: { turbo: false } } %>
                                         <% end %>
                                     </div>
-                                    <p class="text-sm lg:text-base"><%= I18n.t("products.product_type.#{cart_item.product_type}") + "商品" %></p>
+                                    <p class="text-sm lg:text-base dark:text-white"><%= I18n.t("products.product_type.#{cart_item.product_type}") + "商品" %></p>
                                 </div>
                                 <!-- 削除ボタン -->
                                 <div class="flex w-full flex-col items-center justify-center space-y-2 pt-2 md:w-1/3 md:space-y-6 md:pt-0">
