@@ -1,14 +1,13 @@
 class Product < ApplicationRecord
   acts_as_taggable_on :tags
 
-  belongs_to :product_category
+  belongs_to :product_category, optional: true
   enum :status, { draft: 0, published: 1, archived: 2 }
   enum :product_type, { digital: 0, physics: 1 }
 
   with_options presence: true do
-    validates :name
-    validates :price, numericality: { only_integer: true }
-    validates :description
+    validates :name, length: { maximum: 250 }
+    validates :price, numericality: { only_integer: true, in: 0..99_999_999 }
   end
 
   # 商品画像バリデーション

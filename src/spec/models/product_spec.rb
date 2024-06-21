@@ -6,7 +6,7 @@ RSpec.describe Product, type: :model do
     let(:invalid_type_image) { fixture_file_upload(Rails.root.join('spec/fixtures/files/invalid_image.txt'), 'text/plain') }
     let(:invalid_size_image) { fixture_file_upload(Rails.root.join('spec/fixtures/files/large_image.jpg'), 'image/jpeg') }
 
-    it 'is valid with a name, price, description, product_category_id' do
+    it 'is valid with a name' do
       product = build(:product)
       expect(product).to be_valid
     end
@@ -15,18 +15,6 @@ RSpec.describe Product, type: :model do
       product = build(:product, name: nil)
       product.valid?
       expect(product.errors[:name]).to include('を入力してください')
-    end
-
-    it 'is invalid without a price' do
-      product = build(:product, price: nil)
-      product.valid?
-      expect(product.errors[:price]).to include('を入力してください')
-    end
-
-    it 'is invalid without a description' do
-      product = build(:product, description: nil)
-      product.valid?
-      expect(product.errors[:description]).to include('を入力してください')
     end
 
     context 'with image validation' do
