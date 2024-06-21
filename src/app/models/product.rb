@@ -8,7 +8,6 @@ class Product < ApplicationRecord
   with_options presence: true do
     validates :name, length: { maximum: 250 }
     validates :price, numericality: { only_integer: true, in: 0..99_999_999 }
-    validates :description
   end
 
   # 商品画像バリデーション
