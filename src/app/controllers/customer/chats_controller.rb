@@ -2,11 +2,9 @@ class Customer::ChatsController < ApplicationController
   before_action :authenticate_customer_account!
   def show
     @customer = true
-    @websocket_url = Rails.env.production? ? ENV['WEBSOCKET_URL'] : 'ws://localhost:8080/chat'
+    @websocket_url = Rails.env.production? ? ENV.fetch('WEBSOCKET_URL', nil) : 'ws://localhost:8080/chat'
 
-    unless @current_customer.chat.present?
-      @current_customer.create_chat(status: :waiting_for_admin)
-    end
+    @current_customer.create_chat(status: :waiting_for_admin) if @current_customer.chat.blank?
 
     if @current_customer && customer_has_valid_token?
       @current_customer.chat.update(status: :waiting_for_admin)
