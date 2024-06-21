@@ -4,10 +4,38 @@ class Admin::ProductsController < ApplicationController
     @products = Product.all.page(params[:page])
   end
 
+  def new
+    @admin = true
+    @product = Product.new
+    @categories = ProductCategory.all
+  end
+
   def edit
     @admin = true
     @product = Product.find(params[:id])
     @categories = ProductCategory.all
+  end
+
+  def create
+    @admin = true
+    @categories = ProductCategory.all
+    @product = Product.new(product_params)
+
+    # stripe オブジェクト作成時にエラーにならないようにここでバリデーション
+    if @product.valid?
+      stripe_product = Stripe::Product.create({ name: @product.name })
+      stripe_price = Stripe::Price.create({ currency: 'jpy', unit_amount: @product.price, product: stripe_product.id })
+
+      if stripe_product && stripe_price
+        @product.stripe_product_id = stripe_product.id
+        @product.stripe_price_id = stripe_price.id
+        @product.save
+        redirect_to edit_admin_product_path(@product), notice: '商品が追加されました。'
+
+      end
+    else
+      render :new, status: :unprocessable_entity, alert: '商品の追加に失敗しました'
+    end
   end
 
   def update
