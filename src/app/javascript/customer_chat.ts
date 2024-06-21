@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   let token = await getToken();
-  console.log(`token: ${token}`);
 
   const websocketUrl = document
     .getElementById("websocket-url")
