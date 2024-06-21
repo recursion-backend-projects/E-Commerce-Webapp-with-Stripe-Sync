@@ -12,9 +12,17 @@
                 <% else %>
                     <!-- 商品 -->
                     <% @cart_items.each do |cart_item| %>
-                        <div class="mx-2 flex rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800 p-3 md:p-6">
+                        <div class="mx-2 flex flex-col rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800 p-3 md:p-6">
                             <% if cart_item.status != 'published' %>
-                                <p class="text-sm md:text-base text-red-500 font-bold">この商品は、購入できません</p>
+                                <div class="flex items-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-700 dark:text-red-400" role="alert">
+                                    <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                                    </svg>
+                                    <span class="sr-only">Info</span>
+                                    <div>
+                                        <span class="font-medium">この商品は現在購入できません
+                                    </div>
+                                </div>
                             <% end %>
                             <div class="flex w-full">
                                 <!-- 商品画像 -->
@@ -66,7 +74,15 @@
                 <div class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
                     <div class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
                         <% unless @is_proceed_register %>
-                            <p class="text-sm md:text-base text-red-500 font-bold">購入できない商品が含まれています。<br>削除してください。</p>
+                            <div class="flex items-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-700 dark:text-red-400" role="alert">
+                                <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                                </svg>
+                                <span class="sr-only">Info</span>
+                                <div>
+                                    <span class="font-medium">購入できない商品が含まれています。<br>削除してください。
+                                </div>
+                            </div>
                         <% end %>
                         <p class="text-xl font-semibold text-gray-900 dark:text-white">注文内容</p>
                         <div class="space-y-4">
