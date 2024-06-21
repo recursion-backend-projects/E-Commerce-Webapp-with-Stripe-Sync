@@ -35,7 +35,7 @@ class Product < ApplicationRecord
 
   # Ransackで検索可能な関連付けを指定するメソッド
   def self.ransackable_associations(_auth_object = nil)
-    ['product_category']
+    %w[product_category taggings tags]
   end
 
   # Ransackで検索可能な属性を指定するメソッド

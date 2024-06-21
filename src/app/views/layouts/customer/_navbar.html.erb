@@ -10,7 +10,7 @@
       <%= search_form_for @search, url: search_products_path, method: :get, local: true, data: { turbo: false }, class: "order-last w-full pt-2 md:order-none md:w-1/2 md:pt-0" do |form| %>
         <div class="flex">
           <div class="relative w-full">
-            <%= form.search_field :name_or_description_or_creator_or_product_category_name_cont, placeholder: "キーワードを検索", class: "block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" %>
+            <%= form.search_field :name_or_description_or_creator_or_product_category_name_cont, placeholder: "キーワードを検索", class: "block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg border-gray-50 border-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" %>
             <%= button_tag type: 'submit', class: "absolute end-0 top-0 h-full rounded-e-lg border border-blue-700 bg-blue-700 p-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" do %>
                   <svg
                     class="h-4 w-4"
@@ -34,11 +34,16 @@
       <% end %>
 
       <div class="flex items-center md:order-2">
+        <!-- テーマ(ダーク/ライト)切り替えボタン -->
+        <div>
+          <button id="theme-button" data-tooltip-target="theme-tooltip" data-tooltip-placement="bottom" aria-expanded="true" aria-controls="sidebar" class="p-2 md:px-4 md:py-2.5  dark:text-whiteml-1 cursor-pointer rounded text-gray-800 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:ml-3 md:inline"></button>
+          <div id="theme-tooltip" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm dark:bg-gray-700">
+            <div class="tooltip-arrow" data-popper-arrow></div>
+          </div>
+        </div>
         <!-- カートボタン -->
         <%= link_to cart_path, 
-            data: { tooltip_target: 'cart-tooltip', 
-                    tooltip_placement: 'bottom', 
-                    dropdown_toggle: 'menuDropdown' }, 
+            data: { tooltip_target: 'cart-tooltip', tooltip_placement: 'bottom' }, 
             aria: { expanded: 'true', controls: 'sidebar' }, 
             class: 'ml-1 cursor-pointer rounded p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:ml-3 md:inline' do %>
           <div class="flex">
@@ -199,3 +204,5 @@
     </div>
   </nav>
 </header>
+
+<%= javascript_include_tag 'theme.js', type: "module" %>

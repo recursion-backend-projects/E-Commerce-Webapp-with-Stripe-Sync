@@ -1,5 +1,5 @@
 <!-- 商品リスト -->
-<div class="flex justify-center pt-10 antialiased">
+<div class="flex justify-center py-10 antialiased">
     <div class="flex flex-col md:w-3/4">
         <h1 class="ml-1 text-2xl font-bold md:text-4xl">商品リスト</h1>
         <h2 class="ml-1 py-3 text-lg text-gray-700 md:text-2xl">
@@ -15,6 +15,9 @@
                     <%= form.hidden_field :name_or_description_or_creator_or_product_category_name_cont, value: @search.name_or_description_or_creator_or_product_category_name_cont %>
                 <% elsif @search.product_category_name_eq.present? %>
                     <%= form.hidden_field :product_category_name_eq, value: @search.product_category_name_eq %>
+                <% end %>
+                <% if @search.tags_name_eq.present? %>
+                    <%= form.hidden_field :tags_name_eq, value: @search.tags_name_eq %>
                 <% end %>
                 <%= form.label :sorts, "並び替え :", class: "ml-1 block text-lg text-gray-900" %>
                 <%# TODO: 新着順は、リリース日に紐づくため、後で実装する %>
@@ -33,7 +36,6 @@
                 %>
                 <%= form.submit '' %>
             <% end %>
-
             <div class="grid grid-cols-2 items-center gap-4 py-4 md:grid-cols-5">
                 <% @products.each do |product| %>
                     <div class="rounded-lg bg-gray-200 p-3">
@@ -57,7 +59,6 @@
                     </div>
                 <% end %>
             </div>
-
             <!-- ページネーション -->
             <%= paginate @products %>
         <% else %>

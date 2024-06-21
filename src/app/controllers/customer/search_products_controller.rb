@@ -9,14 +9,23 @@ class Customer::SearchProductsController < ApplicationController
         @search.name_or_description_or_creator_or_product_category_name_cont.gsub(/　/, ' ').strip
     end
     @keyword = @search.name_or_description_or_creator_or_product_category_name_cont ||
-               @search.product_category_name_eq
+               @search.product_category_name_eq ||
+               @search.tags_name_eq
     @products = @search.result(distinct: true).where(status: 'published').page(params[:page])
-    @average_ratings = {}
+    @average_ratings = get_average_ratings(@products)
+  end
 
-    return if @products.blank?
+  private
 
-    @products.each do |product|
-      @average_ratings[product.id] = product.product_reviews.average(:rating).to_i
+  def get_average_ratings(products)
+    return {} if products.blank?
+
+    average_ratings = {}
+
+    products.each do |product|
+      average_ratings[product.id] = product.product_reviews.average(:rating).to_i
     end
+
+    average_ratings
   end
 end
