@@ -1,12 +1,11 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
-  darkMode: "media",
+  darkMode: "class",
   content: [
     "./public/*.html",
     "./app/helpers/*.rb",
     "./app/javascript/**/*.js",
-    "./app/javascript/*.js",
     "./app/views/**/*",
     "./node_modules/flowbite/**/*.js",
   ],
