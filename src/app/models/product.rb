@@ -7,7 +7,15 @@ class Product < ApplicationRecord
 
   with_options presence: true do
     validates :name, length: { maximum: 250 }
+  end
+
+  with_options allow_blank: true do
     validates :price, numericality: { only_integer: true, in: 0..99_999_999 }
+    validates :stock, numericality: { only_integer: true, in: 0..99_999_999 }
+    validates :description, length: { maximum: 250 }
+    validates :creator, length: { maximum: 150 }
+    validates :stripe_product_id, length: { maximum: 250 }
+    validates :stripe_price_id, length: { maximum: 250 }
   end
 
   # 商品画像バリデーション
