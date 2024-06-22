@@ -1,4 +1,6 @@
 class Admin::ShippingsController < ApplicationController
+  before_action :authenticate_admin_account!
+
   def index
     @admin = true
     @search = Shipping.ransack(params[:q])

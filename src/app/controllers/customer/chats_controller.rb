@@ -2,15 +2,12 @@ class Customer::ChatsController < ApplicationController
   before_action :authenticate_customer_account!
   def show
     @customer = true
-    @websocket_url = Rails.env.production? ? "wss://#{request.domain}/chat" : 'ws://localhost:8080/chat'
+    @websocket_url = Rails.env.production? ? ENV.fetch('WEBSOCKET_URL', nil) : 'ws://localhost:8080/chat'
 
-    # 有効なトークンを既に持っているか確認
+    @current_customer.create_chat(status: :waiting_for_admin) if @current_customer.chat.blank?
+
     if @current_customer && customer_has_valid_token?
-      if @current_customer.chat.present?
-        @current_customer.chat.status = :waiting_for_admin
-      else
-        Chat.create(customer: @current_customer)
-      end
+      @current_customer.chat.update(status: :waiting_for_admin)
     else
       # 有効なトークンを持っていない場合は再作成
       token = @current_customer.generate_jwt

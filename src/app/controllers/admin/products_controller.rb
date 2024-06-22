@@ -1,4 +1,6 @@
 class Admin::ProductsController < ApplicationController
+  before_action :authenticate_admin_account!
+
   def index
     @admin = true
     @products = @search.result(distinct: true).order(updated_at: :desc).page(params[:page])
