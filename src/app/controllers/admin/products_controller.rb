@@ -1,4 +1,6 @@
 class Admin::ProductsController < ApplicationController
+  before_action :authenticate_admin_account!
+
   def index
     @admin = true
     @products = Product.all.page(params[:page])

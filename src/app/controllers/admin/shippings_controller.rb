@@ -1,4 +1,6 @@
 class Admin::ShippingsController < ApplicationController
+  before_action :authenticate_admin_account!
+
   def index
     @admin = true
     @shippings = Shipping.order(created_at: :desc).page(params[:page])

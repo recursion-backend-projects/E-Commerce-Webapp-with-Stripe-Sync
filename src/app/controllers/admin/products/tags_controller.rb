@@ -1,4 +1,6 @@
 class Admin::Products::TagsController < ApplicationController
+  before_action :authenticate_admin_account!
+
   def index
     @admin = true
     @tags = Product.tags_on(:tags)
