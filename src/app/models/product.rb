@@ -55,6 +55,27 @@ class Product < ApplicationRecord
     stock - product_count_in_cart
   end
 
+  def update_stripe_product_name
+    return unless saved_change_to_name?
+
+    Stripe::Product.update(stripe_product_id, { name: })
+  end
+
+  def update_stripe_price
+    return unless saved_change_to_price?
+
+    old_price = Stripe::Price.retrieve(stripe_price_id)
+    new_price = Stripe::Price.create({
+                                       currency: 'jpy',
+                                       unit_amount: price,
+                                       product: stripe_product_id
+                                     })
+    Stripe::Product.update(stripe_product_id, {
+                             default_price: new_price.id
+                           })
+    Stripe::Price.update(old_price.id, { active: false })
+  end
+
   private
 
   def validate_tag

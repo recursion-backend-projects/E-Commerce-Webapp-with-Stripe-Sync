@@ -46,10 +46,9 @@ class Admin::ProductsController < ApplicationController
 
     begin
       if @product.update(product_params)
-        update_stripe_product(@product)
-        update_stripe_price(@product) if price_changed?(@product)
+        @product.update_stripe_product_name
+        @product.update_stripe_price
 
-        expires_now
         redirect_to edit_admin_product_path(@product), notice: '商品が更新されました。'
       else
         @categories = ProductCategory.all
@@ -79,33 +78,6 @@ class Admin::ProductsController < ApplicationController
     permitted_params << :digital_file if params[:product][:digital_file].present? || params[:product][:remove_digital_file] == '1'
     params[:product][:digital_file] = nil if params[:product][:remove_digital_file] == '1'
     params.require(:product).permit(permitted_params)
-  end
-
-  def update_stripe_product(product)
-    product_category = ProductCategory.find(product.product_category_id)
-    Stripe::Product.update(product.stripe_product_id, {
-                             name: product.name,
-                             description: product.description,
-                             metadata: { product_category: product_category.name }
-                           })
-  end
-
-  def update_stripe_price(product)
-    old_price = Stripe::Price.retrieve(product.stripe_price_id)
-    new_price = Stripe::Price.create({
-                                       currency: 'jpy',
-                                       unit_amount: product.price,
-                                       product: product.stripe_product_id
-                                     })
-    Stripe::Product.update(product.stripe_product_id, {
-                             default_price: new_price.id
-                           })
-    Stripe::Price.update(old_price.id, { active: false })
-  end
-
-  def price_changed?(product)
-    old_price = Stripe::Price.retrieve(product.stripe_price_id)
-    product.price != old_price.unit_amount
   end
 
   def handle_update_error(error)
