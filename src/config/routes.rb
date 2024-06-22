@@ -30,7 +30,7 @@ Rails.application.routes.draw do
       resources :tags, only: %i[index destroy]
       get 'tags/whitelist', to: 'tags#whitelist'
     end
-    resources :products, only: %i[index edit destroy update]
+    resources :products, only: %i[index edit destroy update new create]
     resources :shippings, only: %i[index edit update]
     resources :chats, only: %i[index show]
     get 'token/chats', to: 'chats#token'

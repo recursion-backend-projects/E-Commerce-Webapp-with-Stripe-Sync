@@ -5,8 +5,7 @@ class Customer::ProductsController < ApplicationController
     @customer = true
     @product_reviews = @product.product_reviews.order(created_at: :desc).includes(customer: :customer_account).limit(5)
     @average_rating = @product.product_reviews.average(:rating).to_i
-    @product_count_in_cart = @current_cart&.dig(@product.id.to_s) || 0
-    @remaining_stock = @product.stock - @product_count_in_cart
+    @remaining_stock = @product.remaining_stock
   end
 
   def set_product

@@ -18,13 +18,10 @@ class Customer::CartsController < ApplicationController
 
   # カートに商品を追加するアクション
   def create
-    quantity = params[:quantity].to_i
-    product_count_in_cart = session[:cart]&.dig(@product.id.to_s) || 0
-    @remaining_stock = @product.stock - product_count_in_cart
+    quantity = params[:product][:quantity].to_i
 
-    if quantity > @remaining_stock
-      flash[:alert] = '在庫数を超える数量はカートに追加できません'
-      redirect_to @product
+    if quantity > @product.remaining_stock
+      redirect_back fallback_location: root_path, alert: '在庫数を超える数量はカートに追加できません'
     else
       flash[:notice] = 'カートに追加しました'
       add_or_update @product.id.to_s, quantity
@@ -33,7 +30,7 @@ class Customer::CartsController < ApplicationController
 
   # カート内の商品の数量を更新するアクション
   def update
-    quantity = params[:quantity].to_i
+    quantity = params[:product][:quantity].to_i
     session[:cart][@product.id.to_s] = quantity
     redirect_to cart_path
   end
@@ -48,7 +45,7 @@ class Customer::CartsController < ApplicationController
 
   # 商品を設定するメソッド
   def set_product
-    @product = Product.find(params[:product_id].to_i)
+    @product = Product.find(params[:product][:id].to_i)
   rescue ActiveRecord::RecordNotFound
     flash[:alert] = '商品が見つかりません'
     redirect_to cart_path
@@ -56,11 +53,10 @@ class Customer::CartsController < ApplicationController
 
   # 数量を検証するメソッド
   def validate_quantity
-    quantity = params[:quantity].to_i
+    quantity = params[:product][:quantity].to_i
     return unless quantity <= 0
 
-    flash[:alert] = '数量は1以上でなければなりません'
-    redirect_to @product
+    redirect_back fallback_location: root_path, alert: '数量は1以上でなければなりません'
   end
 
   # カートに商品を追加または更新するメソッド
@@ -71,7 +67,7 @@ class Customer::CartsController < ApplicationController
     else
       session[:cart][product_id] = quantity
     end
-    redirect_to product_path(product_id)
+    redirect_back fallback_location: root_path
   end
 
   def update_cart_items_count

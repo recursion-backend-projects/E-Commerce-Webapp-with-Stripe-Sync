@@ -1,50 +1,48 @@
+<%= render 'layouts/flash' %>
 <!-- Toast container -->
 <div id="toast-container" class="fixed bottom-5 right-5 flex flex-col gap-3"></div>
-
 <!-- ウィッシュリスト -->
 <div class="flex flex-col items-center py-10 antialiased">
   <div class="flex w-full flex-col space-y-4 py-4 md:w-4/5 lg:w-3/5">
     <h1 class="py-2 text-2xl font-bold text-start px-4 md:text-4xl">
-      ウィッシュリスト
+        ウィッシュリスト
     </h1>
-
     <div class="flex flex-col md:flex-row md:justify-between space-y-2 px-4 md:px-6 md:items-center">
-      <!-- ウィッシュリストのアカウント名 -->
-      <div class="flex justify-start items-start gap-4">
+        <!-- ウィッシュリストのアカウント名 -->
+        <div class="flex justify-start items-start gap-4">
+          <% if @is_my_wishlist %>
+            <div class="font-medium">あなたのウィッシュリスト</div>
+          <% else %>
+            <div class="font-medium"><%= @customer.customer_account.user_name %>さんのウィッシュリスト</div>
+          <% end %>
+        </div>
         <% if @is_my_wishlist %>
-          <div class="font-medium">あなたのウィッシュリスト</div>
-        <% else %>
-          <div class="font-medium"><%= @customer.customer_account.user_name %>さんのウィッシュリスト</div>
+            <button id="share-link" data-url="<%= request.original_url %>" class="flex items-center text-sky-400 hover:text-orange-400 hover:underline bg-transparent border-none p-0 cursor-pointer">
+                <svg
+                  class="h-6 w-6"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13.213 9.787a3.391 3.391 0 0 0-4.795 0l-3.425 3.426a3.39 3.39 0 0 0 4.795 4.794l.321-.304m-.321-4.49a3.39 3.39 0 0 0 4.795 0l3.424-3.426a3.39 3.39 0 0 0-4.794-4.795l-1.028.961"
+                  />
+                </svg>
+                <p>リンクの共有</p>
+            </button>
         <% end %>
-      </div>
-
-      <% if @is_my_wishlist %>
-      <button id="share-link" data-url="<%= request.original_url %>" class="flex items-center text-sky-400 hover:text-orange-400 hover:underline bg-transparent border-none p-0 cursor-pointer">
-        <svg
-          class="h-6 w-6"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M13.213 9.787a3.391 3.391 0 0 0-4.795 0l-3.425 3.426a3.39 3.39 0 0 0 4.795 4.794l.321-.304m-.321-4.49a3.39 3.39 0 0 0 4.795 0l3.424-3.426a3.39 3.39 0 0 0-4.794-4.795l-1.028.961"
-          />
-        </svg>
-        <p>リンクの共有</p>
-      </button>
-      <% end %>
     </div>
 
     <% if @wish_products.any? %>
       <% @wish_products.each_with_index do |wish_product, index| %>
-        <div class="mx-2 flex flex-col rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800 p-3 md:p-6">
+        <div class="mx-2 flex flex-col rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800 p-3 md:p-6 product-item">
           <% if wish_product.product.status != 'published' %>
             <div class="flex items-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-700 dark:text-red-400" role="alert">
               <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -70,25 +68,14 @@
               <!-- 商品情報 -->
               <div class="ml-4 flex w-1/2 flex-col justify-between md:w-full md:flex-row md:ml-6">
                 <div class="py-3 space-y-1 md:space-y-2 md:w-2/3">
-                  <%= link_to wish_product.product.name, wish_product.product, class: "text-lg font-semibold text-sky-500 hover:text-orange-400 hover:underline" %>
+                  <%= link_to wish_product.product.name, wish_product.product, class: 'text-lg font-semibold text-sky-500 hover:text-orange-400 hover:underline' %>
                   <p class="text-sm lg:text-base dark:text-white"><%= wish_product.product.creator %></p>
-                  <p class="text-sm font-bold text-orange-500 md:text-base"><%= star_rating(@average_ratings[wish_product.product.id]) %></p>
-
+                  <p class="text-sm font-bold text-orange-500 lg:text-base"><%= star_rating(@average_ratings[wish_product.product.id]) %></p>
                   <!-- 数量のセレクトボックス -->
-                  <div class="flex items-center">
-                    <label for="sort-select" class="ml-1 block text-sm text-gray-900 lg:text-base dark:text-white">数量 :</label>
-                    <select
-                      id="sort-select"
-                      class="ml-2 block rounded-lg border border-gray-300 bg-gray-200 p-1 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
-                    >
-                      <option selected>1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                    </select>
-                  </div>
-
+                  <%= form_with model: wish_product.product, class: 'flex' do |form|%>
+                      <%= form.label :quantity, '数量:', class: 'py-1 block text-sm text-gray-900 lg:text-base dark:text-white' %>
+                      <%= form.select :quantity, options_for_select((1..wish_product.product.remaining_stock).to_a.collect { |n| [n, n] }, selected: 1),{} ,class: 'ml-2 block rounded-lg border border-gray-300 bg-gray-200 p-1 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 quantity'%>
+                  <% end %>
                   <p class="text-sm lg:text-base dark:text-white">デジタル商品</p>
                   <p class="text-sm font-semibold text-gray-900 dark:text-white">¥<%= wish_product.product.price %></p>
                 </div>
@@ -98,18 +85,17 @@
             <!-- オプションボタン -->
             <div class="flex w-full items-end md:w-1/3 flex-col mt-2 pt-2 space-y-4 md:pt-0">
               <% if wish_product.product.status == 'published' %>
-                <button
-                  type="button"
-                  class="w-full rounded-full bg-emerald-400 p-3 text-sm text-white hover:bg-emerald-500 lg:p-2 lg:text-base"
-                >
-                  カートに入れる
-                </button>
-                <button
-                  type="button"
-                  class="w-full rounded-full bg-yellow-400 p-3 text-sm text-white hover:bg-yellow-500 lg:p-2 lg:text-base"
-                >
-                  ご購入手続きへ
-                </button>
+                <%= form_with url: cart_path ,model: wish_product.product, method: :post,local:true,  data:{turbo: false}, class: 'w-full cart-form' do |form| %>
+                    <%= form.hidden_field :id %>
+                    <%= form.hidden_field :quantity , class: 'cart-quantity', value: 1 %>
+                    <%= form.submit 'カートに入れる', class: 'w-full rounded-full bg-emerald-400 p-3 text-sm text-white hover:bg-emerald-500 lg:p-2 lg:text-base add-to-cart-button hover:cursor-pointer' %>
+                <% end %>
+                <%= form_with url: checkout_path, model: wish_product.product,method: :post, local:true,  data:{turbo: false} ,class: 'w-full  checkout-form' do |form|%>
+                    <%= form.hidden_field :id %>
+                    <%= form.hidden_field :quantity , class: 'checkout-quantity' %>
+                    <%= hidden_field_tag :checkout_action, true %>
+                    <%= form.submit 'ご購入手続きへ',class: 'w-full rounded-full bg-yellow-400 p-3 text-sm text-white hover:bg-yellow-500 lg:p-2 lg:text-base hover:cursor-pointer  checkout-button'%>
+                <% end %>
               <% else %>
                 <div class="w-full" data-tooltip-target="cart-tooltip-wish-product-<%= index %>" data-tooltip-placement="top">
                   <button type="button" class="w-full rounded-full border border-gray-300 bg-gray-200 px-6 py-2 text-gray-500 cursor-not-allowed lg:p-2 lg:text-base" disabled>
@@ -173,3 +159,4 @@
 </div>
 
 <%= javascript_include_tag "clipboard", "data-turbo-track": "reload", type: "module" %>
+<%= javascript_include_tag 'checkout_button', type: 'module' %>

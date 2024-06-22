@@ -46,12 +46,12 @@
             <% elsif expired %>
               <button disabled class="w-full text-center rounded-full bg-gray-400 p-3 text-sm text-white lg:p-2 lg:text-base">ダウンロード</button>
             <% end %>
-            <button
-              type="button"
-              class="w-full rounded-full bg-yellow-400 p-3 text-sm text-white hover:bg-yellow-500 lg:p-2 lg:text-base"
-            >
-              再度購入
-            </button>
+            <%= form_with url: checkout_path, model: download_product.product, method: :post, local:true, data:{turbo: false}, class:'w-full' do |form|%>
+              <%= form.hidden_field :id %>
+              <%= form.hidden_field :quantity , value: 1 %>
+              <%= hidden_field_tag :checkout_action, true %>
+              <%= form.submit '再度購入', class: 'w-full rounded-full bg-yellow-400 p-3 text-sm text-white hover:bg-yellow-500 lg:p-2 lg:text-base'%>
+            <% end %>
           </div>
         </div>
       <% end %>
