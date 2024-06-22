@@ -23,7 +23,7 @@ class Webhooks::StripesController < ApplicationController
       create_product(event)
 
     when 'product.updated'
-      update_product_price(event)
+      update_product(event)
 
     when 'product.deleted'
       delete_product(event.data.object.id)
@@ -47,29 +47,41 @@ class Webhooks::StripesController < ApplicationController
 
   def create_product(event)
     stripe_product = event.data.object
-    # product.createdの時はdefault_priceはnilになることがあるので、price: 0を入れておく
-    # product.updatedイベント発火のタイミングで正しい金額に更新する
-    product_category = ProductCategory.find_by(name: stripe_product.metadata.product_category)
-    Product.create(name: stripe_product.name, price: 0,
-                   description: stripe_product.description, stripe_product_id: stripe_product.id,
-                   product_category_id: product_category.id)
+    # product.updatedイベント発火のタイミングで金額は設定する
+    Product.create(name: stripe_product.name)
   end
 
-  def update_product_price(event)
+  def update_product(event)
     stripe_product = event.data.object
 
     # 価格がnilの場合はそのままreturn
     return unless stripe_product.default_price
 
-    stripe_price = Stripe::Price.retrieve(stripe_product.default_price)
     product = Product.find_by(stripe_product_id: stripe_product.id)
     return unless product
 
-    product.update(price: stripe_price.unit_amount, stripe_price_id: stripe_price.id)
+    stripe_price = Stripe::Price.retrieve(stripe_product.default_price)
+
+    if stripe_price_invalid?(stripe_price)
+      stripe_price = Stripe::Price.create({ currency: 'jpy', unit_amount: stripe_price.unit_amount,
+                                            product: stripe_product.id })
+    end
+
+    product.update(name: stripe_product.name, price: stripe_price.unit_amount, stripe_price_id: stripe_price.id)
 
     # product削除時に、product.updatedが発火してエラーが出るのでキャッチする
   rescue Stripe::InvalidRequestError => e
     logger.error(e)
+  end
+
+  ##
+  # 受け取ったStripe Price Objectが以下のいずれかの条件を満たしていない場合はtrueを返す
+  # 条件1: 1回限り (type: one_time)
+  # 条件2: 定額 (billing_scheme: per_unit)
+  # 条件3: 日本円 (currency: jpy)
+  ##
+  def stripe_price_invalid?(stripe_price)
+    stripe_price.billing_scheme != 'per_unit' || stripe_price.type != 'one_time' || stripe_price.currency != 'jpy'
   end
 
   def delete_product(product_id)
