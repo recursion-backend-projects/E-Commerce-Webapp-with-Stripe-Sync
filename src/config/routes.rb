@@ -46,8 +46,8 @@ Rails.application.routes.draw do
     resources :customer_accounts, only: [] do
       resources :wish_products, only: %i[index create destroy]
     end
-    resources :products, only: [] do
-      resource :product_reviews, only: %i[show new create edit update destroy]
+    resources :products do
+      resources :product_reviews, only: %i[show new create edit update destroy]
     end
     resource :checkout, only: %i[create]
     get 'checkout/success', to: 'checkouts#success'

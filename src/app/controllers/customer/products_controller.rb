@@ -9,8 +9,9 @@ class Customer::ProductsController < ApplicationController
   end
 
   def set_product
-    @product = Product.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
+    @product = Product.find_by(id: params[:id], status: 'published')
+    return unless @product.nil?
+
     flash[:alert] = '商品が見つかりません'
     redirect_to root_path
   end
