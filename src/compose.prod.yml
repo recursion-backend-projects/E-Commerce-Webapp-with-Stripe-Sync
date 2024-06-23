@@ -30,7 +30,7 @@ services:
       STAGE: "production"
     volumes:
       - https-portal-data:/var/lib/https-portal
-      - ../infra/prod/https_portal/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ../infra/prod/https-portal/https-portal-default.conf:/etc/nginx/conf.d/https-portal-default.conf:ro
 
 volumes:
   https-portal-data: # HTTPS-PORTALをアップグレードする際に再署名を避けるために推奨されます
