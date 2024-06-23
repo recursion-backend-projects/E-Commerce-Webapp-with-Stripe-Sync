@@ -46,8 +46,10 @@ class Admin::ProductsController < ApplicationController
 
     begin
       if @product.update(product_params)
-        @product.update_stripe_product_name
-        @product.update_stripe_price
+        # 名前が変更された場合、Stirpe側の名前も更新する
+        Stripe::Product.update(@product.stripe_product_id, { name: @product.name }) if @product.saved_change_to_name?
+        # 価格が変更された場合、Stirpe側の価格も更新する
+        @product.update_stripe_price if @product.saved_change_to_price?
 
         redirect_to edit_admin_product_path(@product), notice: '商品が更新されました。'
       else
