@@ -50,20 +50,22 @@ class Product < ApplicationRecord
     %w[creator description name price average_rating]
   end
 
+  ##
+  # 受け取ったStripe Price Objectが以下のいずれかの条件を満たしていない場合はtrueを返す
+  # 条件1: 1回限り (type: one_time)
+  # 条件2: 定額 (billing_scheme: per_unit)
+  # 条件3: 日本円 (currency: jpy)
+  ##
+  def self.stripe_price_invalid?(stripe_price)
+    stripe_price.billing_scheme != 'per_unit' || stripe_price.type != 'one_time' || stripe_price.currency != 'jpy' || !stripe_price.transform_quantity.nil?
+  end
+
   def remaining_stock
     product_count_in_cart = @current_cart&.dig(id.to_s) || 0
     stock - product_count_in_cart
   end
 
-  def update_stripe_product_name
-    return unless saved_change_to_name?
-
-    Stripe::Product.update(stripe_product_id, { name: })
-  end
-
   def update_stripe_price
-    return unless saved_change_to_price?
-
     old_price = Stripe::Price.retrieve(stripe_price_id)
     new_price = Stripe::Price.create({
                                        currency: 'jpy',
