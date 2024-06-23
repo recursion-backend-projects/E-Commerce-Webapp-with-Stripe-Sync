@@ -48,7 +48,7 @@ class Webhooks::StripesController < ApplicationController
   def create_product(event)
     stripe_product = event.data.object
     # product.updatedイベント発火のタイミングで金額は設定する
-    Product.create(name: stripe_product.name)
+    Product.create(name: stripe_product.name, stripe_product_id: stripe_product.id)
   end
 
   def update_product(event)
@@ -62,9 +62,17 @@ class Webhooks::StripesController < ApplicationController
 
     stripe_price = Stripe::Price.retrieve(stripe_product.default_price)
 
-    if stripe_price_invalid?(stripe_price)
-      stripe_price = Stripe::Price.create({ currency: 'jpy', unit_amount: stripe_price.unit_amount,
-                                            product: stripe_product.id })
+    if Product.stripe_price_invalid?(stripe_price)
+      old_price = stripe_price
+      # 条件を満たした新しいStripe Priceを作成する
+      stripe_price = Stripe::Price.create({ currency: 'jpy', unit_amount: old_price.unit_amount,
+                                            product: old_price.product })
+      # 新しいStripe Priceを適用する
+      Stripe::Product.update(old_price.product, {
+                               default_price: stripe_price.id
+                             })
+      # 条件を満たしていないStripe Priceをアーカイブにする
+      Stripe::Price.update(old_price.id, { active: false })
     end
 
     product.update(name: stripe_product.name, price: stripe_price.unit_amount, stripe_price_id: stripe_price.id)
@@ -72,16 +80,6 @@ class Webhooks::StripesController < ApplicationController
     # product削除時に、product.updatedが発火してエラーが出るのでキャッチする
   rescue Stripe::InvalidRequestError => e
     logger.error(e)
-  end
-
-  ##
-  # 受け取ったStripe Price Objectが以下のいずれかの条件を満たしていない場合はtrueを返す
-  # 条件1: 1回限り (type: one_time)
-  # 条件2: 定額 (billing_scheme: per_unit)
-  # 条件3: 日本円 (currency: jpy)
-  ##
-  def stripe_price_invalid?(stripe_price)
-    stripe_price.billing_scheme != 'per_unit' || stripe_price.type != 'one_time' || stripe_price.currency != 'jpy'
   end
 
   def delete_product(product_id)
