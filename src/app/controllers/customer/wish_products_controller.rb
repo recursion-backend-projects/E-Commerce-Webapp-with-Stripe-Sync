@@ -12,7 +12,7 @@ class Customer::WishProductsController < ApplicationController
                              token: WishProductToken.generate_token, customer_id: @customer.id
                            )
                          end
-    @sharelink = "#{request.base_url}/share/#{wish_product_token}"
+    @sharelink = "#{request.base_url}/wish_products/share/#{wish_product_token}"
     @average_ratings = get_average_ratings(@wish_products)
   end
 
