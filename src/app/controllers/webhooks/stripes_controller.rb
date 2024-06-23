@@ -98,7 +98,7 @@ class Webhooks::StripesController < ApplicationController
     customer = is_guest_order ? nil : Customer.find_by(id: session_object.client_reference_id.to_i)
 
     order = Order.create(
-      order_number: generate_order_number,
+      order_number: Order.generate_order_number,
       total: session.amount_total,
       order_date: Time.current,
       guest_email: is_guest_order ? session_object.customer_details.email : nil,
@@ -154,18 +154,6 @@ class Webhooks::StripesController < ApplicationController
         Rails.logger.debug { "DownloadProductを更新しました - customer_id: #{order.customer_id}, product_id: #{product.id}" }
       end
     end
-  end
-
-  def generate_order_number
-    loop do
-      new_order_number = "#{generate_random_digit(3)}-#{generate_random_digit(7)}-#{generate_random_digit(7)}"
-
-      return new_order_number unless Order.exists?(order_number: new_order_number)
-    end
-  end
-
-  def generate_random_digit(digit)
-    Array.new(digit) { rand(9) }.join
   end
 
   def create_shipping(order)
