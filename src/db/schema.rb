@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_21_062234) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_23_082100) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -202,6 +202,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_21_062234) do
     t.bigint "product_category_id"
     t.string "stripe_price_id"
     t.integer "product_type", default: 0
+    t.string "token"
     t.index ["product_category_id"], name: "index_products_on_product_category_id"
   end
 
@@ -246,6 +247,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_21_062234) do
     t.integer "taggings_count", default: 0
   end
 
+  create_table "wish_product_tokens", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "token"
+    t.bigint "customer_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_wish_product_tokens_on_customer_id"
+    t.index ["token"], name: "index_wish_product_tokens_on_token", unique: true
+  end
+
   create_table "wish_products", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "customer_id", null: false
     t.bigint "product_id", null: false
@@ -274,6 +284,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_21_062234) do
   add_foreign_key "products", "product_categories"
   add_foreign_key "shippings", "orders"
   add_foreign_key "taggings", "tags"
+  add_foreign_key "wish_product_tokens", "customers"
   add_foreign_key "wish_products", "customers"
   add_foreign_key "wish_products", "products"
 end
