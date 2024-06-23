@@ -32,6 +32,7 @@ services:
       - "client_max_body_size 100m"
     volumes:
       - https-portal-data:/var/lib/https-portal
+      - ../infra/prod/web/default.conf:/etc/nginx/conf.d/default.conf:ro
 
 volumes:
   # public-data:
