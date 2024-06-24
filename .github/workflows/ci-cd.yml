@@ -217,6 +217,7 @@ jobs:
              echo "STRIPE_API_KEY=${{ secrets.STRIPE_API_KEY }}" >> .env
              echo "STRIPE_ENDPOINT_SECRET_PRODUCTION=${{ secrets.STRIPE_ENDPOINT_SECRET_STG }}" >> .env
              echo "ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}" >> .env
+             echo "ADMIN_EMAIL=${{ secrets.ADMIN_PASSWORD }}" >> .env
              echo "WEBSOCKET_URL=${{ secrets.STG_WEBSOCKET_URL }}" >> .env
              echo "JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}" >> .env
 
