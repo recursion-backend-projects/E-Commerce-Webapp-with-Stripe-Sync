@@ -51,7 +51,7 @@ class Admin::ProductsController < ApplicationController
     begin
       if @product.update(product_params)
         # released_at の更新
-        @status_changes = @product.previous_changes["status"]
+        @status_changes = @product.previous_changes['status']
         @product.update(released_at: @product.updated_at) if @status_changes.present? && @status_changes[0] != 'published' && @status_changes[1] == 'published'
 
         update_stripe_product(@product)
