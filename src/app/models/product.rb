@@ -39,7 +39,7 @@ class Product < ApplicationRecord
 
   # Ransackで検索可能な属性を指定するメソッド
   def self.ransackable_attributes(_auth_object = nil)
-    %w[creator description name price average_rating status]
+    %w[creator description name price average_rating status product_type]
   end
 
   def remaining_stock
