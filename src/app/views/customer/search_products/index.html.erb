@@ -13,17 +13,11 @@
             <%# カテゴリー %>
             <div>
                 <%= form.select :product_category_name_eq, 
-                    { 
-                        '全てのカテゴリー': '',
-                        '絵画': '絵画',
-                        '彫刻': '彫刻',
-                        '写真': '写真',
-                        'イラスト': 'イラスト',
-                    }, 
+                    { '全てのカテゴリー': '' }.merge(@categories.map { |name| [name, name] }.to_h),
                     { selected: params.dig(:q, :product_category_name_eq) }, 
                     { 
                         onchange: 'this.form.submit()', 
-                        class: "m-2 block rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" 
+                        class: "m-2 block rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 hover:cursor-pointer" 
                     }
                 %>
                 <%= form.submit '', class: 'hidden' %>
@@ -40,7 +34,7 @@
                     { selected: params.dig(:q, :product_type_eq) }, 
                     { 
                         onchange: 'this.form.submit()', 
-                        class: "m-2 block rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" 
+                        class: "m-2 block rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 hover:cursor-pointer" 
                     }
                 %>
                 <%= form.submit '', class: 'hidden' %>
@@ -49,15 +43,11 @@
             <%# 作者 %>
             <div>
                 <%= form.select :creator_eq, 
-                    { 
-                        '全ての作者': '',
-                        'あきみち': 'あきみち',
-                        'ジョーダン': 'ジョーダン',
-                    }, 
+                    { '全ての作者': '' }.merge(@creators.map { |name| [name, name] }.to_h),
                     { selected: params.dig(:q, :creator_eq) }, 
                     { 
                         onchange: 'this.form.submit()', 
-                        class: "m-2 block rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" 
+                        class: "m-2 block rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 hover:cursor-pointer" 
                     }
                 %>
                 <%= form.submit '', class: 'hidden' %>
@@ -66,15 +56,11 @@
             <%# タグ %>
             <div>
                 <%= form.select :tags_name_eq, 
-                    { 
-                        '全てのタグ': '',
-                        '人気': '人気',
-                        '新発売': '新発売',
-                    }, 
+                    { '全てのタグ': '' }.merge(@tag_names.map { |name| [name, name] }.to_h),
                     { selected: params.dig(:q, :tags_name_eq) }, 
                     { 
                         onchange: 'this.form.submit()', 
-                        class: "m-2 block rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" 
+                        class: "m-2 block rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 hover:cursor-pointer" 
                     }
                 %>
                 <%= form.submit '', class: 'hidden' %>
@@ -82,36 +68,36 @@
 
             <%# リリース日 %>
             <div>
-                <%= form.select :release_eq, 
+                <%= form.select :released_at_gteq, 
                     { 
                         '全期間': '',
-                        '7日まで': 7,
-                        '30日まで': 30,
-                        '90日まで': 90,
-                        '180日まで': 180,
+                        '1週間以内': 1.week.ago.to_date,
+                        '1ヶ月以内': 1.month.ago.to_date,
+                        '3ヶ月以内': 3.months.ago.to_date,
+                        '6ヶ月以内': 6.months.ago.to_date,
+                        '1年以内': 1.year.ago.to_date,
                     }, 
-                    { selected: params.dig(:q, :release_eq) }, 
+                    { selected: params.dig(:q, :released_at_gteq) }, 
                     { 
                         onchange: 'this.form.submit()', 
-                        class: "m-2 block rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" 
+                        class: "m-2 block rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 hover:cursor-pointer" 
                     }
                 %>
                 <%= form.submit '', class: 'hidden' %>
             </div>
 
             <div>
-                <%# TODO: 新着順は、リリース日に紐づくため、後で実装する %>
                 <%= form.select :sorts, 
                     { 
                         '高評価順': 'average_rating desc',
-                        '新着順': '',
+                        '新着順': 'released_at desc',
                         '高価格順': 'price desc',
                         '低価格順': 'price asc',
                     }, 
                     { selected: params.dig(:q, :sorts) }, 
                     { 
                         onchange: 'this.form.submit()', 
-                        class: "m-2 block rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" 
+                        class: "m-2 block rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 hover:cursor-pointer" 
                     }
                 %>
                 <%= form.submit '', class: 'hidden' %>

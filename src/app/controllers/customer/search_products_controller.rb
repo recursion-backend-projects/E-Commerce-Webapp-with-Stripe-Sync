@@ -8,10 +8,19 @@ class Customer::SearchProductsController < ApplicationController
       @search.name_or_description_or_creator_or_product_category_name_or_tags_name_cont =
         @search.name_or_description_or_creator_or_product_category_name_or_tags_name_cont.gsub(/　/, ' ').strip
     end
+    # 日付のみ扱うように変換
+    if @search.released_at_gteq.present?
+      @search.released_at_gteq = @search.released_at_gteq.to_date
+    end
+
     @keyword = "検索結果 : #{@search.name_or_description_or_creator_or_product_category_name_or_tags_name_cont}" if
                 @search.name_or_description_or_creator_or_product_category_name_or_tags_name_cont.present?
     @products = @search.result(distinct: true).where(status: 'published').page(params[:page])
     @average_ratings = get_average_ratings(@products)
+
+    @tag_names = Tag.joins(:taggings).where(taggings: { taggable_id: Product.where(status: 'published').map(&:id), taggable_type: 'Product' }).distinct.map(&:name)
+    @creators = Product.all.where(status: 'published').map(&:creator)
+    @categories = ProductCategory.all.map(&:name)
   end
 
   private
