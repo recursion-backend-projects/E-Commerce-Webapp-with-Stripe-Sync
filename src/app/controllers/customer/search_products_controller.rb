@@ -4,13 +4,12 @@ class Customer::SearchProductsController < ApplicationController
     # デフォルトの並び替えを高評価順で設定する
     @search.sorts = 'average_rating desc' if @search.sorts.empty?
     # 不要な全角空白があれば、削除する
-    if @search.name_or_description_or_creator_or_product_category_name_cont.present?
-      @search.name_or_description_or_creator_or_product_category_name_cont =
-        @search.name_or_description_or_creator_or_product_category_name_cont.gsub(/　/, ' ').strip
+    if @search.name_or_description_or_creator_or_product_category_name_or_tags_name_cont.present?
+      @search.name_or_description_or_creator_or_product_category_name_or_tags_name_cont =
+        @search.name_or_description_or_creator_or_product_category_name_or_tags_name_cont.gsub(/　/, ' ').strip
     end
-    @keyword = @search.name_or_description_or_creator_or_product_category_name_cont ||
-               @search.product_category_name_eq ||
-               @search.tags_name_eq
+    @keyword = "検索結果 : " + @search.name_or_description_or_creator_or_product_category_name_or_tags_name_cont if 
+                @search.name_or_description_or_creator_or_product_category_name_or_tags_name_cont.present? 
     @products = @search.result(distinct: true).where(status: 'published').page(params[:page])
     @average_ratings = get_average_ratings(@products)
   end

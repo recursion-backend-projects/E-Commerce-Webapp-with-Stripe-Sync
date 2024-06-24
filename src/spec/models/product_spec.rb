@@ -53,19 +53,19 @@ RSpec.describe Product, type: :model do
     end
 
     it 'searches products' do
-      search = described_class.ransack(name_or_description_or_creator_or_product_category_name_cont: 'モナリザ')
+      search = described_class.ransack(name_or_description_or_creator_or_product_category_name_or_tags_name_cont: 'モナリザ')
       results = search.result(distinct: true).to_a
       expect(results).to include(monalisa)
     end
 
     it 'searches products not include' do
-      search = described_class.ransack(name_or_description_or_creator_or_product_category_name_cont: 'モナリザ')
+      search = described_class.ransack(name_or_description_or_creator_or_product_category_name_or_tags_name_cont: 'モナリザ')
       results = search.result(distinct: true).to_a
       expect(results).not_to include(sunflower, starry_night)
     end
 
     it 'searches products not found' do
-      search = described_class.ransack(name_or_description_or_creator_or_product_category_name_cont: 'ピカソ')
+      search = described_class.ransack(name_or_description_or_creator_or_product_category_name_or_tags_name_cont: 'ピカソ')
       results = search.result(distinct: true).to_a
       expect(results).to be_empty
     end

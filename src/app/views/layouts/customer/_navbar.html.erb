@@ -10,7 +10,7 @@
       <%= search_form_for @search, url: search_products_path, method: :get, local: true, data: { turbo: false }, class: "order-last w-full pt-2 md:order-none md:w-1/2 md:pt-0" do |form| %>
         <div class="flex">
           <div class="relative w-full">
-            <%= form.search_field :name_or_description_or_creator_or_product_category_name_cont, placeholder: "キーワードを検索", class: "block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg border-gray-50 border-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" %>
+            <%= form.search_field :name_or_description_or_creator_or_product_category_name_or_tags_name_cont, placeholder: "キーワードを検索", class: "block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg border-gray-50 border-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" %>
             <%= button_tag type: 'submit', class: "absolute end-0 top-0 h-full rounded-e-lg border border-blue-700 bg-blue-700 p-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" do %>
                   <svg
                     class="h-4 w-4"
