@@ -8,8 +8,8 @@ class Customer::SearchProductsController < ApplicationController
       @search.name_or_description_or_creator_or_product_category_name_or_tags_name_cont =
         @search.name_or_description_or_creator_or_product_category_name_or_tags_name_cont.gsub(/　/, ' ').strip
     end
-    @keyword = "検索結果 : " + @search.name_or_description_or_creator_or_product_category_name_or_tags_name_cont if 
-                @search.name_or_description_or_creator_or_product_category_name_or_tags_name_cont.present? 
+    @keyword = "検索結果 : #{@search.name_or_description_or_creator_or_product_category_name_or_tags_name_cont}" if
+                @search.name_or_description_or_creator_or_product_category_name_or_tags_name_cont.present?
     @products = @search.result(distinct: true).where(status: 'published').page(params[:page])
     @average_ratings = get_average_ratings(@products)
   end
