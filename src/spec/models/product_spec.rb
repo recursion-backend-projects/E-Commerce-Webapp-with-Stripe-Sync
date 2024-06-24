@@ -6,15 +6,202 @@ RSpec.describe Product, type: :model do
     let(:invalid_type_image) { fixture_file_upload(Rails.root.join('spec/fixtures/files/invalid_image.txt'), 'text/plain') }
     let(:invalid_size_image) { fixture_file_upload(Rails.root.join('spec/fixtures/files/large_image.jpg'), 'image/jpeg') }
 
-    it 'is valid with a name' do
-      product = build(:product)
-      expect(product).to be_valid
+    context 'when validating name' do
+      it 'is valid with a name' do
+        name = 'a' * 250
+        product = described_class.new(name:)
+        expect(product).to be_valid
+      end
+
+      it 'is invalid without a name' do
+        product = described_class.new(name: nil)
+        product.valid?
+        expect(product.errors[:name]).to include('を入力してください')
+
+        # 空文字も禁止
+        product = described_class.new(name: ' ')
+        product.valid?
+        expect(product.errors[:name]).to include('を入力してください')
+      end
+
+      it 'is invalid with a name longer than 250 characters' do
+        name = 'a' * 251
+        product = described_class.new(name:)
+        product.valid?
+        expect(product.errors[:name]).to include('は250文字以内で入力してください')
+      end
     end
 
-    it 'is invalid without a name' do
-      product = build(:product, name: nil)
-      product.valid?
-      expect(product.errors[:name]).to include('を入力してください')
+    context 'when validating price' do
+      it 'is valid with a blank price' do
+        product = build(:product)
+        product.price = nil
+        expect(product).to be_valid
+
+        product = build(:product)
+        product.price = ''
+        expect(product).to be_valid
+      end
+
+      it 'is valid with an integer price within range' do
+        product = build(:product)
+        product.price = 0
+        expect(product).to be_valid
+
+        product = build(:product)
+        product.price = 99_999_999
+        expect(product).to be_valid
+      end
+
+      it 'is invalid with a non-integer price' do
+        product = build(:product)
+        product.price = 1.1
+        product.valid?
+        expect(product.errors[:price]).to include('は整数で入力してください')
+      end
+
+      it 'is invalid with a price out of range' do
+        product = build(:product)
+        product.price = 100_000_000
+        product.valid?
+        expect(product.errors[:price]).to include('は0..99999999の範囲に含めてください')
+      end
+    end
+
+    context 'when validating stock' do
+      it 'is valid with a blank stock' do
+        product = build(:product)
+        product.stock = nil
+        expect(product).to be_valid
+
+        product = build(:product)
+        product.stock = ''
+        expect(product).to be_valid
+      end
+
+      it 'is valid with an integer stock within range' do
+        product = build(:product)
+        product.stock = 0
+        expect(product).to be_valid
+
+        product = build(:product)
+        product.stock = 99_999_999
+        expect(product).to be_valid
+      end
+
+      it 'is invalid with a non-integer stock' do
+        product = build(:product)
+        product.stock = 1.1
+        product.valid?
+        expect(product.errors[:stock]).to include('は整数で入力してください')
+      end
+
+      it 'is invalid with a stock out of range' do
+        product = build(:product)
+        product.stock = 100_000_000
+        product.valid?
+        expect(product.errors[:stock]).to include('は0..99999999の範囲に含めてください')
+      end
+    end
+
+    context 'when validating description' do
+      it 'is valid with a blank description' do
+        product = build(:product)
+        product.description = nil
+        expect(product).to be_valid
+
+        product = build(:product)
+        product.description = ''
+        expect(product).to be_valid
+      end
+
+      it 'is valid with a description within length limit' do
+        product = build(:product)
+        product.description = 'あ' * 250
+        expect(product).to be_valid
+      end
+
+      it 'is invalid with a description exceeding length limit' do
+        product = build(:product)
+        product.description = 'あ' * 251
+        product.valid?
+        expect(product.errors[:description]).to include('は250文字以内で入力してください')
+      end
+    end
+
+    context 'when validating creator' do
+      it 'is valid with a blank creator' do
+        product = build(:product)
+        product.creator = nil
+        expect(product).to be_valid
+
+        product = build(:product)
+        product.creator = ''
+        expect(product).to be_valid
+      end
+
+      it 'is valid with a creator within length limit' do
+        product = build(:product)
+        product.creator = 'あ' * 150
+        expect(product).to be_valid
+      end
+
+      it 'is invalid with a creator exceeding length limit' do
+        product = build(:product)
+        product.creator = 'あ' * 251
+        product.valid?
+        expect(product.errors[:creator]).to include('は150文字以内で入力してください')
+      end
+    end
+
+    context 'when validating stripe_product_id' do
+      it 'is valid with a blank stripe_product_id' do
+        product = build(:product)
+        product.stripe_product_id = nil
+        expect(product).to be_valid
+
+        product = build(:product)
+        product.stripe_product_id = ''
+        expect(product).to be_valid
+      end
+
+      it 'is valid with a stripe_product_id within length limit' do
+        product = build(:product)
+        product.stripe_product_id = 'a' * 250
+        expect(product).to be_valid
+      end
+
+      it 'is invalid with a stripe_product_id exceeding length limit' do
+        product = build(:product)
+        product.stripe_product_id = 'a' * 251
+        product.valid?
+        expect(product.errors[:stripe_product_id]).to include('は250文字以内で入力してください')
+      end
+    end
+
+    context 'when validating stripe_price_id' do
+      it 'is valid with a blank stripe_price_id' do
+        product = build(:product)
+        product.stripe_price_id = nil
+        expect(product).to be_valid
+
+        product = build(:product)
+        product.stripe_price_id = ''
+        expect(product).to be_valid
+      end
+
+      it 'is valid with a stripe_price_id within length limit' do
+        product = build(:product)
+        product.stripe_price_id = 'a' * 250
+        expect(product).to be_valid
+      end
+
+      it 'is invalid with a stripe_price_id exceeding length limit' do
+        product = build(:product)
+        product.stripe_price_id = 'a' * 251
+        product.valid?
+        expect(product.errors[:stripe_price_id]).to include('は250文字以内で入力してください')
+      end
     end
 
     context 'with image validation' do
