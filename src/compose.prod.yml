@@ -28,6 +28,7 @@ services:
     environment:
       DOMAINS: "art-sa2.com -> http://web:80"
       STAGE: "production"
+      CLIENT_MAX_BODY_SIZE: 100M
     volumes:
       - https-portal-data:/var/lib/https-portal
 
