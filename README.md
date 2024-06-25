@@ -184,6 +184,7 @@ ECサイト利用時に操作方法を確認したい場合は、以下のリン
 </table>
 
 ※2. 使用しているGemについては、[Gemfile](https://github.com/recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync/blob/main/src/Gemfile)を確認してください。
+
 ※3. 使用しているイメージについては、[環境ごとの一貫性と分離](#1-環境ごとの一貫性と分離)を確認してください。
 
 ## 🗄️ソフトウェア設計
