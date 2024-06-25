@@ -12,7 +12,11 @@ https://art-sa2.com/
 
 ECサイト利用時に操作方法を確認したい場合は、以下のリンクにアクセスしてください。
 
-<!-- DEMO動画と使用方法を記載したマークダウンファイルへのリンク -->
+<!-- 
+    【TODO】
+    DEMO動画と使用方法を記載したマークダウンファイルへのリンク
+    [#44](https://github.com/recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync/issues/44)でリンクを追記する
+ -->
 
 ### 通常のユーザー(ゲストユーザー　または　ログインユーザー)
 
@@ -80,19 +84,31 @@ ECサイト利用時に操作方法を確認したい場合は、以下のリン
 
 カード情報には、以下の情報を手動で入力してください。
 
-(お客様がお持ちのクレジットカード情報は、使用できません)
-
 | 項目 | 内容 |
 | ------- | ------- |
 | カード番号 | 4242 4242 4242 4242 |
 | 有効期限(有効な将来の日付) | 12/34 |
 | セキュリティーコード(任意の3桁) | 123 |
 
+##### 参考
+
+- [テストカードの使用方法](https://docs.stripe.com/testing?locale=ja-JP#use-test-cards)
+
+#### 購入された商品について
+
+デジタル商品を購入された場合は、zip形式の画像をダウンロードすることができます。
+
+画像には、著作権フリー画像やChatGPTにより生成された画像を使用していますが、インターネット上での利用はお控えください。
+
+万が一、画像が流出した場合、その対応はご自身の責任となります。
+
+ご了承ください。
+
 #### 一部の機能について
 
 以下の機能については、機能として完成していますが、運用することが難しいため、対応できない場合がございます。
 
-何卒ご理解いただけますようお願い申し上げます。
+ご理解いただけますようお願い申し上げます。
 
 - お問い合わせ
 - チャット
@@ -129,17 +145,20 @@ ECサイト利用時に操作方法を確認したい場合は、以下のリン
   <td>Go 1.22</td>
 </tr>
 <tr>
-  <td>フレームワーク : Ruby on Rails 7.1.3.2</td>
+  <td>フレームワーク : Ruby on Rails 7.1.3.2 (※2)</td>
 </tr>
 <tr>
-  <td rowspan=4>インフラ</td>
+  <td rowspan=5>インフラ</td>
   <td>Amazon EC2</td>
 </tr>
 <tr>
   <td>Amazon RDS</td>
 </tr>
 <tr>
-  <td>Docker</td>
+  <td>Amazon S3</td>
+</tr>
+<tr>
+  <td>Docker (※3)</td>
 </tr>
 <tr>
   <td>GitHub Actions</td>
@@ -164,6 +183,8 @@ ECサイト利用時に操作方法を確認したい場合は、以下のリン
 </tr>
 </table>
 
+※2. 使用しているGemについては、[Gemfile](https://github.com/recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync/blob/main/src/Gemfile)を確認してください。
+※3. 使用しているイメージについては、[環境ごとの一貫性と分離](#1-環境ごとの一貫性と分離)を確認してください。
 
 ## 🗄️ソフトウェア設計
 
@@ -211,28 +232,31 @@ ER図は、CustomerテーブルとProductテーブルをメインとして各機
 
 ## 👀機能一覧
 
-- 商品検索
-- ダークモードとライトモードの切り替え
-- ホームページへのアクセス
-- 商品ページ
-- ウィッシュリスト(※1)
-- お気に入り(※1)
-- チャット(※1)
-- 購入履歴(※1)
-- ダウンロードリスト(※1)
-- アカウント情報(※1)
-- アカウント作成
-- ログイン
-- ログアウト(※1)
-- お問い合わせ
+### 通常のユーザー(ゲストユーザー　または　ログインユーザー)
+
+| 機能 | 内容 |
+| ------- | ------- |
+| 商品検索とフィルタリング | ヘッダーの検索欄を利用することで、検索ワードをもとに商品リストを表示します。<br>検索ワードを空欄で検索した場合、すべての商品が商品リストの対象となります。<br>商品リストページのフィルターを利用して、目的の商品を絞り込むことが可能です。<br>この機能には、[ransack](https://github.com/activerecord-hackery/ransack)というGemを利用しています。 |
+| ダークモードとライトモードの切り替え | ヘッダーのカートボタン左にある切替ボタンでダークモードとライトモードの切り替えができます。<br>ローカルストレージの値を参照してどちらに切り替えるか処理しています。 |
+| 各ページへのアクセス | 各ページには、ヘッダーまたはフッターのボタンをクリックすることで、アクセスすることができます。<br>一部の機能は、ログインする必要があり、ボタンにカーソルを当てるとツールチップでメッセージが表示されます。  |
+| 商品ページ | 商品ページでは、商品に関わる情報を確認できます。<br>気に入った商品は、カートに追加したりすぐに購入することも可能です。<br>商品の購入を検討している場合は、ウィッシュリストやお気に入り、チャットやレビューなどの機能を利用することができます。<br>また、販売が終了した商品は、アクセスできませんので、ご注意ください。 |
+| ウィッシュリスト | ウィッシュリストは、将来的に購入したい商品を記録しておくためのリストです。<br>機能としては、商品の数量変更、カートへの追加、購入、削除ができます。<br>また、他のユーザーとウィッシュリストを共有したい場合は、`リンクの共有`でURLをコピーできます。 |
+| お気に入り | お気に入りは、気に入った商品やよく見る商品を保存するためのリストです。<br>機能としては、商品の数量変更、カートへの追加、購入、削除ができます。 |
+| チャット | カスタマーサポートの担当者とチャットすることができます。<br>この機能には、Goで実装したマイクロサービスを利用しています。<br>マイクロサービスでは、JWTによる認証とWebSocketによるリアルタイムなメッセージ共有が行われます。<br>詳細は、[マイクロサービス](#マイクロサービス) を確認してください。|
+| 購入履歴 | 購入履歴では、購入した商品をリストとして表示します。<br>機能としては、領収書の発行やレビューの作成/編集/削除ができます。<br>・領収書の発行は、Stripeが用意した対象商品の領収書を閲覧できます。<br>・レビューは、購入した商品を評価して投稿することができます。<br>　投稿したレビューは、商品ページのレビューに表示されます。 |
+| ダウンロードリスト | ダウンロードリストは、購入したデジタル商品のリストが表示されます。<br>`ダウンロード`ボタンをクリックすることで、zip形式の画像をダウンロードすることができます。<br>不正防止のためリンクの期限は30日で切れるようになっていますので、ご注意ください。 |
+| アカウント情報 | アカウント情報は、商品購入時の自動入力やお問い合わせに利用されます。<br>アカウント情報は、編集することができます。<br>また、デモサイトのため、氏名や電話番号、お届け先などの項目は、架空の情報でも問題ありません。 |
+| ユーザー認証 | アカウント作成やログイン、ログアウトなどの認証機能には、[devise](https://github.com/heartcombo/devise)というGemを利用しています。<br>これにより、ユーザーの認証に関わる情報の管理と実装が可能になりました。 |
+| お問い合わせ | お問い合わせは、ECサイトや商品に関わる質問を入力フォームからできます。<br>必要事項を記入後に送信すると、管理者へお問い合わせのメールと入力されたメールアドレスへ控えのメールが送信されます。<br>管理者はお問い合わせ内容を確認後は、Gmailなどのアプリケーションを利用して、入力されたメールアドレスへ返信する流れになります。 |
 
 ### 管理者(通常のユーザーは、アクセスできません)
 
-- 商品管理
-- 発送管理
-- タグ一覧の確認と削除
-- ユーザーからのチャット対応
-
+| 機能 | 内容 |
+| ------- | ------- |
+| 商品管理 | 管理者用のログインフォームからログインすると、商品管理ページへアクセスできます。<br>商品管理ページでは、ECサイトに出品する商品の追加や編集、削除などができます。<br>商品を管理する際には、ステータスのフィルターやページネーション機能など補助的な機能を利用できます。<br>また、商品に関わるデータは、StripeやAmazon S3と同期させています。 |
+| 発送管理 | 発送管理は、通常のユーザーが購入した物理商品の発送を管理します。<br>管理者が入力フォームで追跡番号を入力すると発送通知のメールが商品を購入したユーザーに送られます。<br>同時にステータスが未発送から発送済みに切り替わります。<br>また、補助的な機能としてステータスのフィルターも利用できます。 |
+| タグ一覧 | タグ一覧では、商品追加や編集時の入力フォームで設定したタグの確認と削除ができます。<br>タグの実装には、[acts-as-taggable-on](https://github.com/mbleigh/acts-as-taggable-on)というGemを利用しています。 |
+| ユーザーからのチャット対応 | ユーザーからチャットがあるとチャットリストに表示されます。<br>チャットページにアクセすると、リアルタイムでユーザーとのチャットが開始されます。<br>この機能には、Goで実装したマイクロサービスを利用しています。<br>マイクロサービスでは、JWTによる認証とWebSocketによるリアルタイムなメッセージ共有が行われます。<br>詳細は、[マイクロサービス](#マイクロサービス) を確認してください。|
 
 ## 📜作成の経緯
 
@@ -266,14 +290,23 @@ ER図は、CustomerテーブルとProductテーブルをメインとして各機
 
 適切な設定が適用されるように`infra`ディレクトリ配下に各環境の設定ファイルを用意しました。
   
-また、dockerのcomposeファイルも各環境ごとにファイルを分けて管理するようにしました。
+また、Dockerのcomposeファイルも各環境ごとにファイルを分けて管理するようにしました。
   
 これらの設定ファイルについては、以下から確認してください。
+
+**ECサイト**
 
 - [infra](https://github.com/recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync/tree/main/infra)
 - ローカル環境 : [compose.yml](https://github.com/recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync/blob/main/src/compose.yml)
 - ステージング環境 : [compose.stg.yml](https://github.com/recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync/blob/main/src/compose.stg.yml)
 - 本番環境 :[compose.prod.yml](https://github.com/recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync/blob/main/src/compose.prod.yml)
+
+**マイクロサービス**
+
+- [infra](https://github.com/recursion-backend-projects/E-Commerce-Chat-Microservice/tree/main/infra)
+- ローカル環境 : [compose.yml](https://github.com/recursion-backend-projects/E-Commerce-Chat-Microservice/blob/main/compose.yml)
+- ステージング環境 : [compose.stg.yml](https://github.com/recursion-backend-projects/E-Commerce-Chat-Microservice/blob/main/compose.stg.yml)
+- 本番環境 :[compose.prod.yml](https://github.com/recursion-backend-projects/E-Commerce-Chat-Microservice/blob/main/compose.prod.yml)
 
 ##### 環境変数の活用
 
@@ -287,8 +320,17 @@ ER図は、CustomerテーブルとProductテーブルをメインとして各機
 
 これらの設定ファイルについては、以下から確認してください。
 
+**ECサイト**
+
 - [ci-cd.yml](https://github.com/recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync/blob/main/.github/workflows/ci-cd.yml)
 - [ci-cd-prod.yml](https://github.com/recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync/blob/main/.github/workflows/ci-cd-prod.yml)
+
+**マイクロサービス**
+
+CIについては、開発工数の関係によりマイクロサービスのみ省略しています。
+
+- [cd-stg.yml](https://github.com/recursion-backend-projects/E-Commerce-Chat-Microservice/blob/main/.github/workflows/cd-stg.yml)
+- [cd-prod.yml](https://github.com/recursion-backend-projects/E-Commerce-Chat-Microservice/blob/main/.github/workflows/cd-prod.yml)
 
 ##### 継続的インテグレーション
 
@@ -307,3 +349,4 @@ GitHub Actionsを使用して、mainブランチへのプルリクエストま�
 
 ステージング環境では、最新の機能や修正を確認しやすくするために、プルリクエストをトリガーとしてデプロイを行い、レビューをスムーズに進めることができるようにしました。
 
+### マイクロサービス
