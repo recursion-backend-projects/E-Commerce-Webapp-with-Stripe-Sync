@@ -14,11 +14,12 @@ ECサイト利用時に操作方法を確認したい場合は、以下のリン
 
 <!-- 
     【TODO】
-    DEMO動画と使用方法を記載したマークダウンファイルへのリンク
+    DEMO動画と使用方法を記載したマークダウンファイルへのリンク → DEMO.md
+    項目は、仮記載なので変更する可能性あり。
     [#44](https://github.com/recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync/issues/44)でリンクを追記する
  -->
 
-### 通常のユーザー(ゲストユーザー　または　ログインユーザー)
+### 通常のユーザー
 
 - [商品検索]()
 - [ダークモードとライトモードの切り替え]()
@@ -139,16 +140,16 @@ ECサイト利用時に操作方法を確認したい場合は、以下のリン
 </tr>
 <tr>
   <td rowspan=3>バックエンド</td>
-  <td>Ruby 3.3.0</td>
+  <td>Ruby v3.3.0</td>
 </tr>
 <tr>
-  <td>Go 1.22</td>
+  <td>Go v1.22</td>
 </tr>
 <tr>
-  <td>フレームワーク : Ruby on Rails 7.1.3.2 (※2)</td>
+  <td>フレームワーク : Ruby on Rails v7.1.3.2 (※2)</td>
 </tr>
 <tr>
-  <td rowspan=5>インフラ</td>
+  <td rowspan=10>インフラ</td>
   <td>Amazon EC2</td>
 </tr>
 <tr>
@@ -161,11 +162,26 @@ ECサイト利用時に操作方法を確認したい場合は、以下のリン
   <td>Docker (※3)</td>
 </tr>
 <tr>
+  <td>Nginx v1.25.4</td>
+</tr>
+<tr>
+  <td>HTTPS-PORTAL v1</td>
+</tr>
+<tr>
+  <td>開発用メールサーバー : mailhog</td>
+</tr>
+<tr>
+  <td>支払いゲートウェイ : Stripe</td>
+</tr>
+<tr>
+  <td>Stripeの開発者向けツール : Stripe CLI v1.19.5</td>
+</tr>
+<tr>
   <td>GitHub Actions</td>
 </tr>
 <tr>
   <td>データベース</td>
-  <td>MySQL 8.0.36</td>
+  <td>MySQL v8.0.36</td>
 </tr>
 <tr>
   <td >デザイン</td>
@@ -246,7 +262,7 @@ ER図は、CustomerテーブルとProductテーブルをメインとして各機
 
 | 機能 | 内容 |
 | ------- | ------- |
-| 商品検索とフィルタリング | ヘッダーの検索欄を利用することで、検索ワードをもとに商品リストを表示します。<br>検索ワードを空欄で検索した場合、すべての商品が商品リストの対象となります。<br>商品リストページのフィルターを利用して、目的の商品を絞り込むことが可能です。<br>この機能には、[ransack](https://github.com/activerecord-hackery/ransack)というGemを利用しています。 |
+| 商品検索とフィルタリング | ヘッダーの検索欄を利用することで、検索ワードをもとに商品リストを表示します。<br>検索対象は、商品名、商品説明、作者、カテゴリー、タグに含まれる文字列です。<br>検索ワードを空欄で検索した場合、すべての商品が商品リストの対象となります。<br>商品リストページのフィルターを利用して、目的の商品を絞り込むことが可能です。<br>この機能には、[ransack](https://github.com/activerecord-hackery/ransack)というGemを利用しています。 |
 | 各ページへのアクセス | 各ページには、ヘッダーまたはフッターのボタンをクリックすることで、アクセスすることができます。<br>一部の機能は、ログインする必要があり、ボタンにカーソルを当てるとツールチップでメッセージが表示されます。  |
 | 商品ページ | 商品ページでは、商品に関わる情報を確認できます。<br>気に入った商品は、カートに追加したりすぐに購入することも可能です。<br>商品の購入を検討している場合は、ウィッシュリストやお気に入り、チャットやレビューなどの機能を利用することができます。<br>また、販売が終了した商品は、アクセスできませんので、ご注意ください。 |
 | カートリスト | カートリストは、購入を検討している商品を管理するリストです。<br>各ページの`カートに入れる`ボタンをクリックすると、カートに追加されます。<br>カートリストの商品は、`レジに進む`ボタンをクリックすると、まとめて購入することができます。<br>また、購入できない商品が含まれている場合は、`レジに進む`ボタンが表示されません。 |
@@ -267,6 +283,7 @@ ER図は、CustomerテーブルとProductテーブルをメインとして各機
 | 発送管理 | 発送管理は、通常のユーザーが購入した物理商品の発送を管理します。<br>管理者が入力フォームで追跡番号を入力すると発送通知のメールが商品を購入したユーザーに送られます。<br>同時にステータスが未発送から発送済みに切り替わります。<br>また、補助的な機能としてステータスのフィルターも利用できます。 |
 | タグ一覧 | タグ一覧では、商品追加や編集時の入力フォームで設定したタグの確認と削除ができます。<br>タグの実装には、[acts-as-taggable-on](https://github.com/mbleigh/acts-as-taggable-on)というGemを利用しています。 |
 | チャットリスト | ユーザーからチャットがあるとチャットリストに表示されます。<br>チャットページにアクセすると、リアルタイムでユーザーとのチャットが開始されます。<br>この機能には、Goで実装したマイクロサービスを利用しています。<br>マイクロサービスでは、JWTによる認証とWebSocketによるリアルタイムなメッセージ共有が行われます。<br>詳細は、[マイクロサービス](#マイクロサービス) を確認してください。|
+| DBの定期バックアップ | 障害が起きた際にデータを復元するため、cronを利用してDBのバックアップを実行するスクリプトを定期実行するようにしました。<br>バックアップは、Amazon S3に保存され、古いバックアップファイルは削除するようにしています。　|
 
 ## 📜作成の経緯
 
@@ -361,4 +378,24 @@ GitHub Actionsを使用して、mainブランチへのプルリクエストま�
 
 ### マイクロサービス
 
+<!-- 【TODO】記載する -->
+
 ### Stripe
+
+<!-- 【TODO】記載する -->
+
+## 📑開発について
+
+- [スプリントスケジュール](https://github.com/recursion-backend-projects/dev-log/blob/main/sprint-schedule.md)
+- [ミーティング議事録](https://github.com/recursion-backend-projects/dev-log/blob/main/README.md)
+- [Gitチュートリアル](https://github.com/recursion-backend-projects/dev-log/blob/main/git-tutorial.md)
+
+## 🔑ライセンス
+
+[LICENSE](https://github.com/recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync/blob/main/LICENSE)
+
+## 👤開発者及び著作者
+
+- [seiichikick0404](https://github.com/seiichikick0404)
+- [AkinoJoey](https://github.com/AkinoJoey)
+- [Aki158](https://github.com/Aki158)
