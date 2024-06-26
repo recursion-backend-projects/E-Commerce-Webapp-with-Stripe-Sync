@@ -188,7 +188,7 @@ ECサイト利用時に操作方法を確認したい場合は、以下のリン
   <td>Figma</td>
 </tr>
 <tr>
-  <td rowspan=3>その他</td>
+  <td rowspan=4>その他</td>
   <td>Git</td>
 </tr>
 <tr>
@@ -196,6 +196,9 @@ ECサイト利用時に操作方法を確認したい場合は、以下のリン
 </tr>
 <tr>
   <td>Docker Hub</td>
+</tr>
+<tr>
+  <td>トークンベースの認証 : JWT</td>
 </tr>
 </table>
 
