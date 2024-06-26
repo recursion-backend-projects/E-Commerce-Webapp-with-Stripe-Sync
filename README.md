@@ -150,7 +150,7 @@ ECサイト利用時に操作方法を確認したい場合は、以下のリン
 </tr>
 <tr>
   <td rowspan=10>インフラ</td>
-  <td>Amazon EC2</td>
+  <td>Amazon EC2 (Ubuntu 24.04)</td>
 </tr>
 <tr>
   <td>Amazon RDS</td>
@@ -168,7 +168,7 @@ ECサイト利用時に操作方法を確認したい場合は、以下のリン
   <td>HTTPS-PORTAL v1</td>
 </tr>
 <tr>
-  <td>開発用メールサーバー : mailhog</td>
+  <td>開発用メールサーバー : MailHog</td>
 </tr>
 <tr>
   <td>支払いゲートウェイ : Stripe</td>
@@ -245,7 +245,13 @@ ER図は、CustomerテーブルとProductテーブルをメインとして各機
 
 ### インフラ構成図
 
-<!-- ここも、書かないとな。。。 -->
+本プロダクトのインフラは、AWSをメインとして　GitHub Actions, Docker, Docker Hub で構成しました。
+
+これらの技術を利用して、[CI/CD](#2-cicdパイプラインの自動化)を構築しました。
+
+これにより、開発工程が自動化されスムーズ開発を進めることができました。
+
+実際のAWSのインフラ構成図は、[aws-architecture.md](https://github.com/recursion-backend-projects/dev-log/blob/main/aws-architecture.md)を確認してください。
 
 ## 👀機能一覧
 
