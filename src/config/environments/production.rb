@@ -116,4 +116,6 @@ Rails.application.configure do
       password: ENV['MAIL_PASSWORD'],
       authentication: :login
     }
+
+    Rails.application.routes.default_url_options = { host: 'art-sa2.com' }
 end
