@@ -61,9 +61,9 @@ class Product < ApplicationRecord
   private
 
   def digital_file_required_for_digital_product
-    if product_type == 'digital' && !digital_file.attached?
-      errors.add(:digital_file, 'デジタル製品の場合は配信ファイルが必須です。')
-    end
+    return unless product_type == 'digital' && !digital_file.attached?
+
+    errors.add(:digital_file, 'デジタル製品の場合は配信ファイルが必須です。')
   end
 
   def validate_tag
