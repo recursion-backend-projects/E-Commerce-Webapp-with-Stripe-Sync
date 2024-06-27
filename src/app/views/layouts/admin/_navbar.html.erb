@@ -3,18 +3,10 @@
     <div class="flex flex-wrap items-center justify-between">
       <div class="flex items-center justify-start">
         <!-- アプリケーション名とロゴ -->
-        <a href="#" class="mr-4 flex">
-          <!-- ロゴは、後で作成するか。。。 -->
-          <img
-            src="https://flowbite.s3.amazonaws.com/logo.svg"
-            class="mr-3 h-8"
-            alt="FlowBite Logo"
-          />
-          <span
-            class="self-center whitespace-nowrap text-2xl font-semibold dark:text-white"
-            >Art-SA2</span
-          >
-        </a>
+        <%= link_to admin_products_path, class: 'mr-4 flex' do %>
+          <%= image_tag 'art-sa2-logo.png', class: 'mt-1 mr-2 h-8' %>
+          <span class="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">Art-SA2</span>
+        <% end %>
       </div>
 
       <div class="flex items-center md:order-2">
