@@ -26,6 +26,9 @@ class Product < ApplicationRecord
   validates :digital_file, attached: false, content_type: ['application/zip'],
                            size: { less_than: 20.megabytes }
 
+  # デジタル製品の場合の配信ファイル必須バリデーション
+  validate :digital_file_required_for_digital_product
+
   validate :validate_tag
 
   has_many :wish_products, dependent: :destroy
@@ -56,6 +59,12 @@ class Product < ApplicationRecord
   end
 
   private
+
+  def digital_file_required_for_digital_product
+    if product_type == 'digital' && !digital_file.attached?
+      errors.add(:digital_file, 'デジタル製品の場合は配信ファイルが必須です。')
+    end
+  end
 
   def validate_tag
     tag_list.each do |tag_name|
