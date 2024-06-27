@@ -117,5 +117,5 @@ Rails.application.configure do
       authentication: :login
     }
 
-    Rails.application.routes.default_url_options = { host: 'art-sa2.com' }
+    Rails.application.routes.default_url_options = { host: ENV['HOST'] }
 end
