@@ -219,6 +219,7 @@ jobs:
              echo "ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}" >> .env
              echo "WEBSOCKET_URL=${{ secrets.STG_WEBSOCKET_URL }}" >> .env
              echo "JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}" >> .env
+             echo "HOST=${{ secrets.STG_HOST }}" >> .env
 
              # コンテナを起動する
              sudo docker compose -f compose.stg.yml up -d --pull always

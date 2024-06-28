@@ -32,6 +32,10 @@ class Admin::ProductsController < ApplicationController
         @product.stripe_product_id = stripe_product.id
         @product.stripe_price_id = stripe_price.id
         @product.save
+
+        # released_at の更新
+        @product.update(released_at: @product.updated_at) if @product.status == 'published'
+
         redirect_to edit_admin_product_path(@product), notice: '商品が追加されました。'
       end
     else
@@ -50,6 +54,10 @@ class Admin::ProductsController < ApplicationController
         Stripe::Product.update(@product.stripe_product_id, { name: @product.name }) if @product.saved_change_to_name?
         # 価格が変更された場合、Stirpe側の価格も更新する
         @product.update_stripe_price if @product.saved_change_to_price?
+
+        # released_at の更新
+        @status_changes = @product.previous_changes['status']
+        @product.update(released_at: @product.updated_at) if @status_changes.present? && @status_changes[0] != 'published' && @status_changes[1] == 'published'
 
         redirect_to edit_admin_product_path(@product), notice: '商品が更新されました。'
       else

@@ -9,7 +9,7 @@
     >
     <%= link_to @product.name, @product, class: 'text-xl text-sky-400 hover:text-orange-400 hover:underline lg:text-2xl'%>
     <p class="text-sm lg:text-base"><%= @product.creator %></p>
-    <p class="text-sm lg:text-base">リリース日 : 2021年4月25日</p>
+    <p class="text-sm lg:text-base">リリース日 : <%= @product.released_at.strftime("%Y年%m月%d日") %></p>
     <p class="text-sm font-bold text-orange-500 lg:text-base">総合評価 : <%= star_rating(@average_rating) %></p>
     </div>
 </div>
