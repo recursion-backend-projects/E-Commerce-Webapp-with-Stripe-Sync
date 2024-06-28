@@ -4,7 +4,7 @@
 
 以下のデモ動画を通じて、操作方法を確認してください。
 
-このドキュメントで記載されているユーザーの種類については、[説明](https://github.com/recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync/blob/main/README.md#%E8%AA%AC%E6%98%8E)を確認してください。
+このドキュメントに記載されているユーザーの種類については、[説明](https://github.com/recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync/blob/main/README.md#%E8%AA%AC%E6%98%8E)を確認してください。
 
 ## 目次
 
