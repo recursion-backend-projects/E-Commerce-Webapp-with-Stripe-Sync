@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'art-sa2.shop@gmail.com'
+  default from: ENV.fetch('ADMIN_EMAIL', nil)
   layout 'mailer'
 end
