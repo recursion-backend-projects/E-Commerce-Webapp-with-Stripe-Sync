@@ -1,41 +1,110 @@
 <!-- 商品リスト -->
 <div class="flex justify-center py-10 antialiased">
     <div class="flex flex-col md:w-3/4">
-        <h1 class="ml-1 text-2xl font-bold md:text-4xl">商品リスト</h1>
-        <h2 class="ml-1 py-3 text-lg text-gray-700 md:text-2xl">
-            <% if @keyword.blank? %>
-                キーワードを入力して検索してください。
-            <% else %>
-                検索結果 : <%= @keyword %>
-            <% end %>
+        <h1 class="px-4 text-2xl font-bold md:text-4xl">商品リスト</h1>
+        <h2 class="px-4 py-3 text-lg text-gray-700 md:text-2xl">
+            <%= @keyword %>
         </h2>
-        <% if @products.present? %>
-            <%= search_form_for @search, url: search_products_path, method: :post, local: true, data: { turbo: false }, class: "flex max-w-sm items-center" do |form| %>
-                <% if @search.name_or_description_or_creator_or_product_category_name_cont.present? %>
-                    <%= form.hidden_field :name_or_description_or_creator_or_product_category_name_cont, value: @search.name_or_description_or_creator_or_product_category_name_cont %>
-                <% elsif @search.product_category_name_eq.present? %>
-                    <%= form.hidden_field :product_category_name_eq, value: @search.product_category_name_eq %>
-                <% end %>
-                <% if @search.tags_name_eq.present? %>
-                    <%= form.hidden_field :tags_name_eq, value: @search.tags_name_eq %>
-                <% end %>
-                <%= form.label :sorts, "並び替え :", class: "ml-1 block text-lg text-gray-900" %>
-                <%# TODO: 新着順は、リリース日に紐づくため、後で実装する %>
+
+        <%= search_form_for @search, url: search_products_path, method: :post, local: true, data: { turbo: false }, class: "flex flex-wrap" do |form| %>
+            <% if @search.name_or_description_or_creator_or_product_category_name_or_tags_name_cont.present? %>
+                <%= form.hidden_field :name_or_description_or_creator_or_product_category_name_or_tags_name_cont, value: @search.name_or_description_or_creator_or_product_category_name_or_tags_name_cont %>
+            <% end %>
+            <%# カテゴリー %>
+            <div>
+                <%= form.select :product_category_name_eq, 
+                    { '全てのカテゴリー': '' }.merge(@categories.map { |name| [name, name] }.to_h),
+                    { selected: params.dig(:q, :product_category_name_eq) }, 
+                    { 
+                        onchange: 'this.form.submit()', 
+                        class: "m-2 block rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 hover:cursor-pointer" 
+                    }
+                %>
+                <%= form.submit '', class: 'hidden' %>
+            </div>
+
+            <%# 商品タイプ %>
+            <div>
+                <%= form.select :product_type_eq, 
+                    { 
+                        '全ての商品タイプ': '',
+                        'デジタル商品': 0,
+                        '物理商品': 1,
+                    }, 
+                    { selected: params.dig(:q, :product_type_eq) }, 
+                    { 
+                        onchange: 'this.form.submit()', 
+                        class: "m-2 block rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 hover:cursor-pointer" 
+                    }
+                %>
+                <%= form.submit '', class: 'hidden' %>
+            </div>
+
+            <%# 作者 %>
+            <div>
+                <%= form.select :creator_eq, 
+                    { '全ての作者': '' }.merge(@creators.map { |name| [name, name] }.to_h),
+                    { selected: params.dig(:q, :creator_eq) }, 
+                    { 
+                        onchange: 'this.form.submit()', 
+                        class: "m-2 block rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 hover:cursor-pointer" 
+                    }
+                %>
+                <%= form.submit '', class: 'hidden' %>
+            </div>
+
+            <%# タグ %>
+            <div>
+                <%= form.select :tags_name_eq, 
+                    { '全てのタグ': '' }.merge(@tag_names.map { |name| [name, name] }.to_h),
+                    { selected: params.dig(:q, :tags_name_eq) }, 
+                    { 
+                        onchange: 'this.form.submit()', 
+                        class: "m-2 block rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 hover:cursor-pointer" 
+                    }
+                %>
+                <%= form.submit '', class: 'hidden' %>
+            </div>
+
+            <%# リリース日 %>
+            <div>
+                <%= form.select :released_at_gteq, 
+                    { 
+                        '全期間': '',
+                        '1週間以内': 1.week.ago.to_date,
+                        '1ヶ月以内': 1.month.ago.to_date,
+                        '3ヶ月以内': 3.months.ago.to_date,
+                        '6ヶ月以内': 6.months.ago.to_date,
+                        '1年以内': 1.year.ago.to_date,
+                    }, 
+                    { selected: params.dig(:q, :released_at_gteq) }, 
+                    { 
+                        onchange: 'this.form.submit()', 
+                        class: "m-2 block rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 hover:cursor-pointer" 
+                    }
+                %>
+                <%= form.submit '', class: 'hidden' %>
+            </div>
+
+            <div>
                 <%= form.select :sorts, 
                     { 
                         '高評価順': 'average_rating desc',
-                        '新着順': '',
+                        '新着順': 'released_at desc',
                         '高価格順': 'price desc',
                         '低価格順': 'price asc',
                     }, 
                     { selected: params.dig(:q, :sorts) }, 
                     { 
                         onchange: 'this.form.submit()', 
-                        class: "ml-2 block w-1/2 rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" 
+                        class: "m-2 block rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 hover:cursor-pointer" 
                     }
                 %>
-                <%= form.submit '' %>
-            <% end %>
+                <%= form.submit '', class: 'hidden' %>
+            </div>
+        <% end %>
+
+        <% if @products.present? %>
             <div class="grid grid-cols-2 items-center gap-4 py-4 md:grid-cols-5">
                 <% @products.each do |product| %>
                     <div class="rounded-lg bg-gray-200 p-3">

@@ -7,7 +7,15 @@ class Product < ApplicationRecord
 
   with_options presence: true do
     validates :name, length: { maximum: 250 }
+  end
+
+  with_options allow_blank: true do
     validates :price, numericality: { only_integer: true, in: 0..99_999_999 }
+    validates :stock, numericality: { only_integer: true, in: 0..99_999_999 }
+    validates :description, length: { maximum: 250 }
+    validates :creator, length: { maximum: 150 }
+    validates :stripe_product_id, length: { maximum: 250 }
+    validates :stripe_price_id, length: { maximum: 250 }
   end
 
   # 商品画像バリデーション
@@ -17,6 +25,9 @@ class Product < ApplicationRecord
   # ダウンロード用zipバリデーション
   validates :digital_file, attached: false, content_type: ['application/zip'],
                            size: { less_than: 20.megabytes }
+
+  # デジタル製品の場合の配信ファイル必須バリデーション
+  validate :digital_file_required_for_digital_product
 
   validate :validate_tag
 
@@ -39,7 +50,17 @@ class Product < ApplicationRecord
 
   # Ransackで検索可能な属性を指定するメソッド
   def self.ransackable_attributes(_auth_object = nil)
-    %w[creator description name price average_rating status]
+    %w[creator description name price average_rating status product_type released_at]
+  end
+
+  ##
+  # 受け取ったStripe Price Objectが以下のいずれかの条件を満たしていない場合はtrueを返す
+  # 条件1: 1回限り (type: one_time)
+  # 条件2: 定額 (billing_scheme: per_unit)
+  # 条件3: 日本円 (currency: jpy)
+  ##
+  def self.stripe_price_invalid?(stripe_price)
+    stripe_price.billing_scheme != 'per_unit' || stripe_price.type != 'one_time' || stripe_price.currency != 'jpy' || !stripe_price.transform_quantity.nil?
   end
 
   def remaining_stock
@@ -47,7 +68,26 @@ class Product < ApplicationRecord
     stock - product_count_in_cart
   end
 
+  def update_stripe_price
+    old_price = Stripe::Price.retrieve(stripe_price_id)
+    new_price = Stripe::Price.create({
+                                       currency: 'jpy',
+                                       unit_amount: price,
+                                       product: stripe_product_id
+                                     })
+    Stripe::Product.update(stripe_product_id, {
+                             default_price: new_price.id
+                           })
+    Stripe::Price.update(old_price.id, { active: false })
+  end
+
   private
+
+  def digital_file_required_for_digital_product
+    return unless product_type == 'digital' && !digital_file.attached?
+
+    errors.add(:digital_file, 'デジタル製品の場合は配信ファイルが必須です。')
+  end
 
   def validate_tag
     tag_list.each do |tag_name|

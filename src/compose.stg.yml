@@ -28,10 +28,9 @@ services:
     environment:
       DOMAINS: "art-sa2-stg.com -> http://web:80"
       STAGE: "production"
+      CLIENT_MAX_BODY_SIZE: 100M
     volumes:
       - https-portal-data:/var/lib/https-portal
 
 volumes:
-  # public-data:
-  # tmp-data:
   https-portal-data: # HTTPS-PORTALをアップグレードする際に再署名を避けるために推奨されます

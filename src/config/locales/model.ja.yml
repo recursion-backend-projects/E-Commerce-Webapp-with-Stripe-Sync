@@ -19,10 +19,15 @@ ja:
         shipping_name: "氏名"
       product:
         name: "名前"
+        price: "価格"
+        stock: "在庫数"
+        creator: "作者"
         description: "説明"
         images: "画像"
         digital_file: "配信用"
         tag_list: "タグ"
+        stripe_product_id: "Stripe Product ID"
+        stripe_price_id: "Stripe Product ID"
       product_review:
         title: "タイトル"
         review: "レビュー"
