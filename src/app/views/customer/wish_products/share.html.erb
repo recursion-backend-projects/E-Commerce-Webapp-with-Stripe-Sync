@@ -1,0 +1,20 @@
+<%= render 'layouts/flash' %>
+<!-- Toast container -->
+<div id="toast-container" class="fixed bottom-5 right-5 flex flex-col gap-3"></div>
+<!-- ウィッシュリスト -->
+<div class="flex flex-col items-center py-10 antialiased">
+    <div class="flex w-full flex-col space-y-4 py-4 md:w-4/5 lg:w-3/5">
+        <h1 class="py-2 text-2xl font-bold text-start px-4 md:text-4xl">
+            ウィッシュリスト
+        </h1>
+        <div class="flex flex-col md:flex-row md:justify-between space-y-2 px-4 md:px-6 md:items-center">
+            <!-- ウィッシュリストのアカウント名 -->
+            <div class="flex justify-start items-start gap-4">
+                <div class="font-medium"><%= @customer_account.user_name %>さんのウィッシュリスト</div>
+            </div>
+        </div>
+        <%= render 'wish_products', wish_products: @wish_products, average_ratings: @average_ratings, is_my_wishlist: nil %>
+    </div>
+</div>
+<%= javascript_include_tag "clipboard", "data-turbo-track": "reload", type: "module" %>
+<%= javascript_include_tag 'checkout_button', type: 'module' %>

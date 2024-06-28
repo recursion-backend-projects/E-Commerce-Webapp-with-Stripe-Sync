@@ -46,6 +46,7 @@ Rails.application.routes.draw do
     resources :customer_accounts, only: [] do
       resources :wish_products, only: %i[index create destroy]
     end
+    get 'wish_products/share/:token', to: 'wish_products#share'
     resources :products do
       resources :product_reviews, only: %i[show new create edit update destroy]
     end

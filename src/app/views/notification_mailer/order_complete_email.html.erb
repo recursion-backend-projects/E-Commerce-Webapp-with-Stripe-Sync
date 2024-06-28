@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>注文完了のお知らせ</title>
+</head>
+<body>
+  <p>ご注文番号 <%= @order.order_number %> の注文が完了しました。</p>
+  <p>ご注文いただきありがとうございました。</p>
+  <p>以下のリンクから領収書をご確認いただけます:</p>
+  <p><%= link_to '領収書を見る', @order.receipt_url %></p>
+
+  <% if @download_urls.any? %>
+    <p>以下のリンクからダウンロード商品を取得できます:</p>
+    <ul>
+      <% @download_urls.each do |url| %>
+        <li><%= link_to url, url %></li>
+      <% end %>
+    </ul>
+  <% end %>
+</body>
+</html>

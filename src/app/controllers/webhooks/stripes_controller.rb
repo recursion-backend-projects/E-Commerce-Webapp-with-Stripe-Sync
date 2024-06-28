@@ -108,7 +108,10 @@ class Webhooks::StripesController < ApplicationController
 
     create_order_items(line_items, order)
     create_shipping(order)
-    create_download_products(line_items, order)
+    download_urls = create_download_products(line_items, order)
+
+    email = is_guest_order ? order.guest_email : order.customer.customer_account.email
+    NotificationMailer.with(email:, order:, download_urls:).order_complete_email.deliver_later
   end
 
   def create_order_items(line_items, order)
@@ -127,33 +130,63 @@ class Webhooks::StripesController < ApplicationController
   end
 
   def create_download_products(line_items, order)
-    unless order.customer_id
-      Rails.logger.debug { "注文 #{order.id} に customer_id が見つかりませんでした" }
-      return
-    end
-
     digital_status = 'digital'
+    download_urls = []
 
     line_items.data.each do |line_item|
       product = Product.find_by(stripe_product_id: line_item.price.product)
-
-      # 商品がデジタル商品でない場合は登録せず次のループに飛ばす
       next unless product.product_type == digital_status
 
-      # 既に同じ顧客と商品の組み合わせが存在する場合は更新
-      download_product = DownloadProduct.find_or_initialize_by(
-        customer_id: order.customer_id,
-        product_id: product.id
-      )
-
-      if download_product.new_record?
-        download_product.save
-        Rails.logger.debug { "DownloadProductを新規作成しました - customer_id: #{order.customer_id}, product_id: #{product.id}" }
+      if order.customer_id
+        download_product = find_or_create_download_product(order.customer_id, product.id)
+        log_download_product_action(download_product, order.customer_id, product.id)
       else
-        download_product.generate_download_url
-        Rails.logger.debug { "DownloadProductを更新しました - customer_id: #{order.customer_id}, product_id: #{product.id}" }
+        download_product = generate_guest_download_product(product)
       end
+
+      download_urls << generate_download_url(download_product)
     end
+
+    download_urls
+  end
+
+  def find_or_create_download_product(customer_id, product_id)
+    download_product = DownloadProduct.find_or_initialize_by(
+      customer_id:,
+      product_id:
+    )
+
+    download_product.save if download_product.new_record?
+    download_product.generate_download_url unless download_product.new_record?
+
+    download_product
+  end
+
+  def generate_guest_download_product(product)
+    DownloadProduct.new(
+      customer_id: nil,
+      product_id: product.id,
+      download_url: generate_temporary_download_url(product)
+    )
+  end
+
+  def generate_temporary_download_url(product)
+    Rails.application.routes.url_helpers.rails_blob_path(
+      product.digital_file,
+      only_path: false,
+      disposition: 'attachment'
+    )
+  end
+
+  def log_download_product_action(download_product, customer_id, product_id)
+    action = download_product.new_record? ? '新規作成しました' : '更新しました'
+    Rails.logger.debug { "DownloadProductを#{action} - customer_id: #{customer_id}, product_id: #{product_id}" }
+  end
+
+  def generate_download_url(download_product)
+    host = Rails.application.config.action_mailer.default_url_options[:host]
+    protocol = Rails.application.config.action_mailer.default_url_options[:protocol] || 'http'
+    "#{protocol}://#{host}#{download_product.download_url}"
   end
 
   def create_shipping(order)

@@ -1,0 +1,13 @@
+ご注文番号 <%= @order.order_number %> が完了しました。
+
+ご注文いただきありがとうございました。
+
+以下のリンクから領収書をご確認いただけます:
+<%= @order.receipt_url %>
+
+<% if @download_urls.any? %>
+  以下のリンクからダウンロード商品を取得できます:
+  <% @download_urls.each do |url| %>
+    <%= url %>
+  <% end %>
+<% end %>
