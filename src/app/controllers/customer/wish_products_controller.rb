@@ -8,7 +8,7 @@ class Customer::WishProductsController < ApplicationController
     wish_product_token = if WishProductToken.exists?(customer_id: @customer.id)
                            WishProductToken.find_by(customer_id: @customer.id).token
                          else
-                           WishProduct.create(
+                           WishProductToken.create(
                              token: WishProductToken.generate_token, customer_id: @customer.id
                            )
                          end
