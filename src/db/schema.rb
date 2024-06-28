@@ -202,6 +202,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_24_054816) do
     t.bigint "product_category_id"
     t.string "stripe_price_id"
     t.integer "product_type", default: 0
+    t.string "token"
     t.datetime "released_at"
     t.index ["product_category_id"], name: "index_products_on_product_category_id"
   end
