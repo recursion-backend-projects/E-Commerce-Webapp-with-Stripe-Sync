@@ -50,11 +50,8 @@ class Admin::ProductsController < ApplicationController
 
     begin
       if @product.update(product_params)
-        # 名前が変更された場合、Stirpe側の名前も更新する
-        Stripe::Product.update(@product.stripe_product_id, { name: @product.name }) if @product.saved_change_to_name?
-        # 価格が変更された場合、Stirpe側の価格も更新する
-        @product.update_stripe_price if @product.saved_change_to_price?
-
+        # Stripe側の更新
+        update_stripe_product_and_price(@product)
         # released_at の更新
         @status_changes = @product.previous_changes['status']
         @product.update(released_at: @product.updated_at) if @status_changes.present? && @status_changes[0] != 'published' && @status_changes[1] == 'published'
@@ -100,5 +97,12 @@ class Admin::ProductsController < ApplicationController
     Rails.logger.error "Stripe Error: #{error.message}"
     @categories = ProductCategory.all
     render :edit, status: :unprocessable_entity
+  end
+
+  def update_stripe_product_and_price(product)
+    # 名前が変更された場合、Stirpe側の名前も更新する
+    Stripe::Product.update(product.stripe_product_id, { name: product.name }) if product.saved_change_to_name?
+    # 価格が変更された場合、Stirpe側の価格も更新する
+    product.update_stripe_price if product.saved_change_to_price?
   end
 end
