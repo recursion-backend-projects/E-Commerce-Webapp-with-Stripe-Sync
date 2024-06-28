@@ -10,4 +10,14 @@ class Order < ApplicationRecord
   end
 
   validates :guest_email, format: { with: URI::MailTo::EMAIL_REGEXP }, allow_nil: true
+
+  def self.generate_order_number
+    generate_random_digit = ->(digit) { Array.new(digit) { rand(10) }.join }
+
+    loop do
+      new_order_number = "#{generate_random_digit.call(3)}-#{generate_random_digit.call(7)}-#{generate_random_digit.call(7)}"
+
+      return new_order_number unless Order.exists?(order_number: new_order_number)
+    end
+  end
 end

@@ -23,7 +23,7 @@ class Webhooks::StripesController < ApplicationController
       create_product(event)
 
     when 'product.updated'
-      update_product_price(event)
+      update_product(event)
 
     when 'product.deleted'
       delete_product(event.data.object.id)
@@ -47,25 +47,35 @@ class Webhooks::StripesController < ApplicationController
 
   def create_product(event)
     stripe_product = event.data.object
-    # product.createdの時はdefault_priceはnilになることがあるので、price: 0を入れておく
-    # product.updatedイベント発火のタイミングで正しい金額に更新する
-    product_category = ProductCategory.find_by(name: stripe_product.metadata.product_category)
-    Product.create(name: stripe_product.name, price: 0,
-                   description: stripe_product.description, stripe_product_id: stripe_product.id,
-                   product_category_id: product_category.id)
+    # product.updatedイベント発火のタイミングで金額は設定する
+    Product.create(name: stripe_product.name, stripe_product_id: stripe_product.id)
   end
 
-  def update_product_price(event)
+  def update_product(event)
     stripe_product = event.data.object
 
     # 価格がnilの場合はそのままreturn
     return unless stripe_product.default_price
 
-    stripe_price = Stripe::Price.retrieve(stripe_product.default_price)
     product = Product.find_by(stripe_product_id: stripe_product.id)
     return unless product
 
-    product.update(price: stripe_price.unit_amount, stripe_price_id: stripe_price.id)
+    stripe_price = Stripe::Price.retrieve(stripe_product.default_price)
+
+    if Product.stripe_price_invalid?(stripe_price)
+      old_price = stripe_price
+      # 条件を満たした新しいStripe Priceを作成する
+      stripe_price = Stripe::Price.create({ currency: 'jpy', unit_amount: old_price.unit_amount,
+                                            product: old_price.product })
+      # 新しいStripe Priceを適用する
+      Stripe::Product.update(old_price.product, {
+                               default_price: stripe_price.id
+                             })
+      # 条件を満たしていないStripe Priceをアーカイブにする
+      Stripe::Price.update(old_price.id, { active: false })
+    end
+
+    product.update(name: stripe_product.name, price: stripe_price.unit_amount, stripe_price_id: stripe_price.id)
 
     # product削除時に、product.updatedが発火してエラーが出るのでキャッチする
   rescue Stripe::InvalidRequestError => e
@@ -88,7 +98,7 @@ class Webhooks::StripesController < ApplicationController
     customer = is_guest_order ? nil : Customer.find_by(id: session_object.client_reference_id.to_i)
 
     order = Order.create(
-      order_number: generate_order_number,
+      order_number: Order.generate_order_number,
       total: session.amount_total,
       order_date: Time.current,
       guest_email: is_guest_order ? session_object.customer_details.email : nil,
@@ -144,18 +154,6 @@ class Webhooks::StripesController < ApplicationController
         Rails.logger.debug { "DownloadProductを更新しました - customer_id: #{order.customer_id}, product_id: #{product.id}" }
       end
     end
-  end
-
-  def generate_order_number
-    loop do
-      new_order_number = "#{generate_random_digit(3)}-#{generate_random_digit(7)}-#{generate_random_digit(7)}"
-
-      return new_order_number unless Order.exists?(order_number: new_order_number)
-    end
-  end
-
-  def generate_random_digit(digit)
-    Array.new(digit) { rand(9) }.join
   end
 
   def create_shipping(order)

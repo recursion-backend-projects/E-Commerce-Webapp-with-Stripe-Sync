@@ -50,14 +50,12 @@ class Admin::ProductsController < ApplicationController
 
     begin
       if @product.update(product_params)
+        # Stripe側の更新
+        update_stripe_product_and_price(@product)
         # released_at の更新
         @status_changes = @product.previous_changes['status']
         @product.update(released_at: @product.updated_at) if @status_changes.present? && @status_changes[0] != 'published' && @status_changes[1] == 'published'
 
-        update_stripe_product(@product)
-        update_stripe_price(@product) if price_changed?(@product)
-
-        expires_now
         redirect_to edit_admin_product_path(@product), notice: '商品が更新されました。'
       else
         @categories = ProductCategory.all
@@ -89,33 +87,6 @@ class Admin::ProductsController < ApplicationController
     params.require(:product).permit(permitted_params)
   end
 
-  def update_stripe_product(product)
-    product_category = ProductCategory.find(product.product_category_id)
-    Stripe::Product.update(product.stripe_product_id, {
-                             name: product.name,
-                             description: product.description,
-                             metadata: { product_category: product_category.name }
-                           })
-  end
-
-  def update_stripe_price(product)
-    old_price = Stripe::Price.retrieve(product.stripe_price_id)
-    new_price = Stripe::Price.create({
-                                       currency: 'jpy',
-                                       unit_amount: product.price,
-                                       product: product.stripe_product_id
-                                     })
-    Stripe::Product.update(product.stripe_product_id, {
-                             default_price: new_price.id
-                           })
-    Stripe::Price.update(old_price.id, { active: false })
-  end
-
-  def price_changed?(product)
-    old_price = Stripe::Price.retrieve(product.stripe_price_id)
-    product.price != old_price.unit_amount
-  end
-
   def handle_update_error(error)
     Rails.logger.error "Update Error: #{error.message}"
     @categories = ProductCategory.all
@@ -126,5 +97,12 @@ class Admin::ProductsController < ApplicationController
     Rails.logger.error "Stripe Error: #{error.message}"
     @categories = ProductCategory.all
     render :edit, status: :unprocessable_entity
+  end
+
+  def update_stripe_product_and_price(product)
+    # 名前が変更された場合、Stirpe側の名前も更新する
+    Stripe::Product.update(product.stripe_product_id, { name: product.name }) if product.saved_change_to_name?
+    # 価格が変更された場合、Stirpe側の価格も更新する
+    product.update_stripe_price if product.saved_change_to_price?
   end
 end
