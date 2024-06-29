@@ -368,7 +368,7 @@ GitHub Actionsを使用して、mainブランチへのプルリクエストま�
 
 ## 🔑ライセンス
 
-[LICENSE](https://github.com/recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync/blob/main/LICENSE)
+[LICENSE](https://github.com/recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync/blob/main/LICENSE.md)
 
 ## 👤開発者及び著作者
 
