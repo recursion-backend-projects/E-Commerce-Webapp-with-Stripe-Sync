@@ -31,7 +31,7 @@ class="flex flex-col items-center divide-y-2 divide-gray-300 py-10 antialiased"
             </div>
             <div>
                 <%= form.hidden_field :product_id, value: @product.id %>
-                <%= form.hidden_field :customer_id, value: current_customer_account.id %>
+                <%= form.hidden_field :customer_id, value: @current_customer.id %>
                 <%= form.submit "投稿する", class: "my-2 w-full rounded bg-yellow-400 py-2 hover:bg-yellow-500" %>
             </div>
         <% end %>

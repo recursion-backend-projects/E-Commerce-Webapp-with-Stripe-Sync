@@ -10,7 +10,7 @@ class Customer::ProductReviewsController < ApplicationController
   end
 
   def new
-    @existing_review = ProductReview.find_by(product: @product, customer: current_customer_account)
+    @existing_review = ProductReview.find_by(product: @product, customer: @current_customer)
     @product_reviews = @product.product_reviews.includes(customer: :customer_account)
     @average_rating = @product_reviews.average(:rating).to_i
     @errors = flash[:errors]
@@ -29,7 +29,7 @@ class Customer::ProductReviewsController < ApplicationController
   end
 
   def create
-    @existing_review = ProductReview.find_by(product: @product, customer: current_customer_account)
+    @existing_review = ProductReview.find_by(product: @product, customer: @current_customer)
     @product_review = ProductReview.new(product_review_params)
 
     if @existing_review
@@ -75,7 +75,7 @@ class Customer::ProductReviewsController < ApplicationController
   end
 
   def set_product_review
-    @product_review = ProductReview.find_by(product: @product, customer: current_customer_account)
+    @product_review = ProductReview.find_by(product: @product, customer: @current_customer)
     redirect_to root_path, alert: 'レビューが見つかりません' if @product_review.nil?
   end
 
