@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root 'home#index'
+  mount ActionCable.server => '/cable'
 
   # アカウント認証(カスタマー)
   devise_for :customer_accounts, controllers: {
