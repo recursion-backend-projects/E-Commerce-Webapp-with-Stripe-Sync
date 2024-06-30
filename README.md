@@ -10,40 +10,7 @@ https://art-sa2.com/
 
 ## ✨ご利用ガイド
 
-ECサイト利用時に操作方法を確認したい場合は、以下のリンクにアクセスしてください。
-
-<!-- 
-    【TODO】
-    DEMO動画と使用方法を記載したマークダウンファイルへのリンク → DEMO.md
-    項目は、仮記載なので変更する可能性あり。
-    [#44](https://github.com/recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync/issues/44)でリンクを追記する
- -->
-
-### 通常のユーザー
-
-- [商品検索]()
-- [ダークモードとライトモードの切り替え]()
-- [ホームページへのアクセス]()
-- [商品ページ]()
-- [ウィッシュリスト(※1)]()
-- [お気に入り(※1)]()
-- [チャット(※1)]()
-- [購入履歴(※1)]()
-- [ダウンロードリスト(※1)]()
-- [アカウント情報(※1)]()
-- [アカウント作成]()
-- [ログイン]()
-- [ログアウト(※1)]()
-- [お問い合わせ]()
-
-### 管理者(通常のユーザーは、アクセスできません)
-
-- [商品管理]()
-- [発送管理]()
-- [タグ一覧の確認と削除]()
-- [ユーザーからのチャット対応]()
-
-※1. ログインすると、機能を利用できます
+ECサイト利用時の操作方法は、[DEMO.md](https://github.com/recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync/blob/main/DEMO.md)を確認してください
 
 ## 📝説明
 
@@ -467,7 +434,7 @@ Stripeダッシュボードから商品を追加した場合、webhookを通じ�
 
 ## 🔑ライセンス
 
-[LICENSE](https://github.com/recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync/blob/main/LICENSE)
+[LICENSE](https://github.com/recursion-backend-projects/E-Commerce-Webapp-with-Stripe-Sync/blob/main/LICENSE.md)
 
 ## 👤開発者及び著作者
 
