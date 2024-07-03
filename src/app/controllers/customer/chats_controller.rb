@@ -7,7 +7,7 @@ class Customer::ChatsController < ApplicationController
     if @current_customer.chat.blank?
       chat = @current_customer.create_chat(status: :waiting_for_admin)
       ActionCable.server.broadcast 'chat_channel', { action: 'create', chat: chat }
-    else
+    end
 
     if @current_customer && customer_has_valid_token?
       @current_customer.chat.update(status: :waiting_for_admin)
