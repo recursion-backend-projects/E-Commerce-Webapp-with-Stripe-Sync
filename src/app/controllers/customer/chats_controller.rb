@@ -4,7 +4,10 @@ class Customer::ChatsController < ApplicationController
     @customer = true
     @websocket_url = Rails.env.production? ? ENV.fetch('WEBSOCKET_URL', nil) : 'ws://localhost:8080/chat'
 
-    @current_customer.create_chat(status: :waiting_for_admin) if @current_customer.chat.blank?
+    if @current_customer.chat.blank?
+      chat = @current_customer.create_chat(status: :waiting_for_admin)
+      ActionCable.server.broadcast 'chat_channel', { action: 'create', chat: chat }
+    else
 
     if @current_customer && customer_has_valid_token?
       @current_customer.chat.update(status: :waiting_for_admin)
