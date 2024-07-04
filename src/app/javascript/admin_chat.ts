@@ -5,6 +5,25 @@ document.addEventListener("DOMContentLoaded", async function () {
     return data.token;
   }
 
+  async function updateChatStatus(chatId: string, status: string) {
+    let response = await fetch(`/admin/chats/${chatId}/update_status`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+      },
+      body: JSON.stringify({ status: status })
+    });
+
+    let data = await response.json();
+    if (data.status === 'ok') {
+      console.log('Chat status updated successfully');
+    } else {
+      alert('予期せぬエラーが発生しました。再接続をしてください。');
+      return;
+    }
+  }
+
   let token = await getToken();
 
   const websocketUrl = document
@@ -13,8 +32,14 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   const socket = new WebSocket(`${websocketUrl}?token=${token}`);
 
-  socket.onopen = function (event) {
+  socket.onopen =  async function (event) {
     console.log("Connected to WebSocket server.");
+
+    const chatIdElement = document.getElementById("chat-id");
+    const chatId = chatIdElement?.getAttribute("data-chat-id");
+    if (chatId) {
+      await updateChatStatus(chatId, 'chatting');
+    }
 
     // 初回メッセージを送信
     const initialMessage = `お客様への対応をスムーズに進めるために、以下の情報をお教えいただけますか？<br /><br />

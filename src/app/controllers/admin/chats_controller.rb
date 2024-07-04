@@ -31,6 +31,15 @@ class Admin::ChatsController < ApplicationController
     render json: { token: cookies.signed[:admin_jwt] }
   end
 
+  def update_status
+    @chat = Chat.find(params[:id])
+    if @chat.update(status: params[:status])
+      render json: { status: 'ok' }
+    else
+      render json: { status: 'error', message: @chat.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def admin_has_valid_token?

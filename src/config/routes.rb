@@ -33,7 +33,11 @@ Rails.application.routes.draw do
     end
     resources :products, only: %i[index edit destroy update new create]
     resources :shippings, only: %i[index edit update]
-    resources :chats, only: %i[index show]
+    resources :chats, only: %i[index show] do
+      member do
+        post :update_status
+      end
+    end
     get 'token/chats', to: 'chats#token'
   end
 
