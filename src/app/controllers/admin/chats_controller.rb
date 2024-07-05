@@ -34,6 +34,7 @@ class Admin::ChatsController < ApplicationController
   def update_status
     @chat = Chat.find(params[:id])
     if @chat.update(status: params[:status])
+      ActionCable.server.broadcast 'chat_channel', { action: 'update_status', chat: @chat }
       render json: { status: 'ok' }
     else
       render json: { status: 'error', message: @chat.errors.full_messages }, status: :unprocessable_entity

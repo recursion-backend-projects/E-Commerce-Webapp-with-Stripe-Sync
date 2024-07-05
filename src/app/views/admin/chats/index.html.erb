@@ -15,10 +15,10 @@
                 </thead>
                 <tbody>
                     <% @chats.each do |chat|%>
-                        <tr class="bg-gre border-b bg-white hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:border-gray-700 dark:bg-gray-800">
+                        <tr id="chat-<%= chat.id %>" class="bg-gre border-b bg-white hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:border-gray-700 dark:bg-gray-800">
                             <td class="px-6 py-4 font-semibold dark:text-white"><%= chat.customer.customer_account.email %></td>
                             <td class="px-6 py-4 dark:text-white"><%= chat.created_at.strftime("%Y-%m-%d %H:%M") %></td>
-                            <td class="px-6 py-4 dark:text-white">
+                            <td id="status-cell" class="px-6 py-4 dark:text-white">
                                 <div class="flex items-center">
                                     <% if chat.status == "waiting_for_admin"%>
                                         <!-- 未対応 -->
