@@ -35,8 +35,10 @@
                                     <% end %>
                                 </div>
                             </td>
-                            <td class="space-x-2 px-2 py-4 md:space-x-10 md:px-6">
-								<%= link_to '接続する', admin_chat_path(chat),  data: { turbo: :false },  class: 'font-medium text-sky-600 hover:underline' %>
+                            <td id="action-cell" class="space-x-2 px-2 py-4 md:space-x-10 md:px-6">
+                                <% if chat.status == "waiting_for_admin"%>
+								    <%= link_to '接続する', admin_chat_path(chat),  data: { turbo: :false },  class: 'font-medium text-sky-600 hover:underline' %>
+                                <% end %>
                             </td>
                         </tr>
                     <% end %>

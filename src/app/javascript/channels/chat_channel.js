@@ -76,5 +76,12 @@ function updateChatStatus(chat) {
         `;
       }
     }
+
+    const actionCell = chatRow.querySelector('#action-cell');
+      if (actionCell) {
+        actionCell.innerHTML = chat.status !== 'chatting' ? `
+          <a href="/admin/chats/${chat.id}" data-turbo="false" class="font-medium text-sky-600 hover:underline">接続する</a>
+        ` : '';
+      }
   }
 }
