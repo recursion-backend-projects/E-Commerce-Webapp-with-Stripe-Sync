@@ -20,7 +20,6 @@ consumer.subscriptions.create("ChatChannel", {
   }
 });
 
-
 function addChat(chat, customerAccount) {
   const chatList = document.querySelector('tbody');
   const chatRow = document.createElement('tr');
@@ -37,15 +36,17 @@ function addChat(chat, customerAccount) {
             未対応
           </div>
         ` : `
-          <div class="flex items"center dark:text-white">
+          <div class="flex items-center dark:text-white">
             <div class="me-2 h-2.5 w-2.5 rounded-full bg-green-500"></div>
             対応中
           </div>
         `}
       </div>
     </td>
-    <td class="space-x-2 px-2 py-4 md:space-x-10 md:px-6">
-      <a href="/admin/chats/${chat.id}" data-turbo="false" class="font-medium text-sky-600 hover:underline">接続する</a>
+    <td id="action-cell" class="space-x-2 px-2 py-4 md:space-x-10 md:px-6">
+      ${chat.status !== 'chatting' ? `
+        <a href="/admin/chats/${chat.id}" data-turbo="false" class="font-medium text-sky-600 hover:underline">接続する</a>
+      ` : ''}
     </td>
   `;
   chatList.appendChild(chatRow);
@@ -75,13 +76,13 @@ function updateChatStatus(chat) {
           </div>
         `;
       }
-    }
 
-    const actionCell = chatRow.querySelector('#action-cell');
+      const actionCell = chatRow.querySelector('#action-cell');
       if (actionCell) {
         actionCell.innerHTML = chat.status !== 'chatting' ? `
           <a href="/admin/chats/${chat.id}" data-turbo="false" class="font-medium text-sky-600 hover:underline">接続する</a>
         ` : '';
       }
+    }
   }
 }
