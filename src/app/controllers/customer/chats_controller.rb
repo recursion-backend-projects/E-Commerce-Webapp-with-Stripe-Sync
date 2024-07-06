@@ -12,6 +12,7 @@ class Customer::ChatsController < ApplicationController
 
     if @current_customer && customer_has_valid_token?
       @current_customer.chat.update(status: :waiting_for_admin)
+      ActionCable.server.broadcast 'chat_channel', { action: 'create', chat: @chat, customer_account: @current_customer.customer_account }
     else
       # 有効なトークンを持っていない場合は再作成
       token = @current_customer.generate_jwt
