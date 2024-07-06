@@ -53,6 +53,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   socket.onclose = function (event) {
     console.log("Disconnected from WebSocket server.");
+    alert("通信が切断されました。")
   };
 
   socket.onmessage = function (event) {
@@ -73,7 +74,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       await updateChatStatus(chatId, 'offline');
     }
     socket.close();
-    alert('接続を解除しました。');
   });
 
   const chatInput = document.getElementById("chat") as HTMLInputElement;
