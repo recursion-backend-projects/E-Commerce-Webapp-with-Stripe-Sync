@@ -1,106 +1,114 @@
 <div class="mb-10 flex flex-col items-center py-10 antialiased">
-	<div class="flex w-full flex-col py-4 md:w-3/4 lg:w-1/2">
-		<div class="container items-center justify-center space-y-4 px-6 md:pl-0">
-			<h1 class="text-center text-2xl font-bold md:text-start md:text-4xl">
-				チャット
-			</h1>
-			<p class="text-base text-gray-500 md:text-lg">
-				カスタマーサポートの担当者がご質問に回答します。<br />
-				お気軽に相談ください。
-			</p>
-			<!-- カスタマーサポートアイコン -->
-			<div class="flex items-center gap-4">
-				<div
-					class="relative size-8 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-600"
-				>
-					<svg
-						class="absolute -left-1 size-12 text-gray-400"
-						fill="currentColor"
-						viewBox="0 0 24 24"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-						<path
-							fill-rule="evenodd"
-							d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-							clip-rule="evenodd"
-						></path>
-					</svg>
-				</div>
-				<div class="font-medium">
-					<div>カスタマーサポート</div>
-				</div>
-			</div>
-			<!-- チャット -->
-			<div
-				class="divide-y divide-gray-200 rounded-xl border border-gray-200 bg-white px-3 py-2 shadow-xl"
-			>
-				<div class="min-h-screen space-y-4 p-4" id="chat-container">
-				</div>
-				<!-- チャット 入力フォーム -->
-				<form>
-					<label for="chat" class="sr-only">メッセージ</label>
-					<div class="flex items-center px-3 py-2">
-						<button
-							type="button"
-							class="inline-flex cursor-pointer justify-center rounded-lg p-2 text-sky-400 hover:bg-sky-100"
-						>
-							<svg
-								class="size-5"
-								aria-hidden="true"
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 20 18"
-							>
-								<path
-									fill="currentColor"
-									d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"
-								/>
-								<path
-									stroke="currentColor"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M18 1H2a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"
-								/>
-								<path
-									stroke="currentColor"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"
-								/>
-							</svg>
-							<span class="sr-only">画像のアップロード</span>
-						</button>
-						<textarea
-							id="chat"
-							rows="1"
-							class="mx-4 block w-full rounded-lg border border-gray-100 bg-gray-100 p-2.5 text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500"
-							placeholder="メッセージを送信"
-						></textarea>
-						<button
-							id="submit"
-							type="submit"
-							class="inline-flex cursor-pointer justify-center rounded-full p-2 text-sky-400 hover:bg-sky-100"
-						>
-							<svg
-								class="size-5 rotate-90 rtl:-rotate-90"
-								aria-hidden="true"
-								xmlns="http://www.w3.org/2000/svg"
-								fill="currentColor"
-								viewBox="0 0 18 20"
-							>
-								<path
-									d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z"
-								/>
-							</svg>
-							<span class="sr-only">メッセージを送信</span>
-						</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+  <div class="flex w-full flex-col py-4 md:w-3/4 lg:w-1/2">
+    <div class="container items-center justify-center space-y-4 px-6 md:pl-0">
+      <h1 class="text-center text-2xl font-bold md:text-start md:text-4xl">
+        チャット
+      </h1>
+      <p class="text-base text-gray-500 md:text-lg">
+        カスタマーサポートの担当者がご質問に回答します。<br />
+        お気軽に相談ください。
+      </p>
+      <!-- カスタマーサポートアイコンと接続解除ボタン -->
+      <div class="flex items-center justify-between w-full">
+        <div class="flex items-center gap-4">
+          <div
+            class="relative size-8 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-600"
+          >
+            <svg
+              class="absolute -left-1 size-12 text-gray-400"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </div>
+          <div class="font-medium">
+            <div>カスタマーサポート</div>
+          </div>
+        </div>
+        <button
+          id="disconnect"
+          class="inline-flex cursor-pointer justify-center rounded-lg bg-red-500 p-2 text-white hover:bg-red-700"
+        >
+          接続解除
+        </button>
+      </div>
+      <!-- チャット -->
+      <div
+        class="divide-y divide-gray-200 rounded-xl border border-gray-200 bg-white px-3 py-2 shadow-xl"
+      >
+        <div class="min-h-screen space-y-4 p-4" id="chat-container"></div>
+        <!-- チャット 入力フォーム -->
+        <form>
+          <label for="chat" class="sr-only">メッセージ</label>
+          <div class="flex items-center px-3 py-2">
+            <button
+              type="button"
+              class="inline-flex cursor-pointer justify-center rounded-lg p-2 text-sky-400 hover:bg-sky-100"
+            >
+              <svg
+                class="size-5"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 18"
+              >
+                <path
+                  fill="currentColor"
+                  d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"
+                />
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M18 1H2a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"
+                />
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"
+                />
+              </svg>
+              <span class="sr-only">画像のアップロード</span>
+            </button>
+            <textarea
+              id="chat"
+              rows="1"
+              class="mx-4 block w-full rounded-lg border border-gray-100 bg-gray-100 p-2.5 text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500"
+              placeholder="メッセージを送信"
+            ></textarea>
+            <button
+              id="submit"
+              type="submit"
+              class="inline-flex cursor-pointer justify-center rounded-full p-2 text-sky-400 hover:bg-sky-100"
+            >
+              <svg
+                class="size-5 rotate-90 rtl:-rotate-90"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 18 20"
+              >
+                <path
+                  d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z"
+                />
+              </svg>
+              <span class="sr-only">メッセージを送信</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 <div id="websocket-url" data-websocket-url="<%= @websocket_url %>"></div>
+<div id="chat-id" data-chat-id="<%= @chat.id %>"></div>
 <%= javascript_include_tag 'customer_chat.js', type: "module" %>

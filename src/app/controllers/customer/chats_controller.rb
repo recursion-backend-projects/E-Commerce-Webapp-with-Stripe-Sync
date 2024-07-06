@@ -3,8 +3,9 @@ class Customer::ChatsController < ApplicationController
   def show
     @customer = true
     @websocket_url = Rails.env.production? ? ENV.fetch('WEBSOCKET_URL', nil) : 'ws://localhost:8080/chat'
+    @chat = current_customer.chat
 
-    if @current_customer.chat.blank?
+    if @chat.blank?
       chat = @current_customer.create_chat(status: :waiting_for_admin)
       ActionCable.server.broadcast 'chat_channel', { action: 'create', chat:, customer_account: @current_customer.customer_account }
     end
@@ -25,6 +26,19 @@ class Customer::ChatsController < ApplicationController
 
   def token
     render json: { token: cookies.signed[:customer_jwt] }
+  end
+
+  def update_status
+    @chat = current_customer_account.customer.chat
+    if @chat.update(status: params[:status])
+      ActionCable.server.broadcast 'chat_channel', {
+        action: 'update_status',
+        chat: @chat.as_json
+      }
+      render json: { status: 'ok' }
+    else
+      render json: { status: 'error', message: @chat.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   private

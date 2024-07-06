@@ -5,6 +5,26 @@ document.addEventListener("DOMContentLoaded", async function () {
     return data.token;
   }
 
+  async function updateChatStatus(status: string) {
+    let response = await fetch(`/chat/update_status`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+      },
+      body: JSON.stringify({ status: status })
+    });
+
+    let data = await response.json();
+    console.log(data);
+    if (data.status === 'ok') {
+      console.log('Chat status updated successfully');
+    } else {
+      alert('予期せぬエラーが発生しました。再接続をしてください。');
+      return;
+    }
+  }
+
   let token = await getToken();
 
   const websocketUrl = document
@@ -29,6 +49,13 @@ document.addEventListener("DOMContentLoaded", async function () {
   document.getElementById("submit")!.addEventListener("click", function (e) {
     e.preventDefault();
     sendMessage();
+  });
+
+  document.getElementById("disconnect")!.addEventListener("click", async function (e) {
+    e.preventDefault();
+    await updateChatStatus('offline');
+    socket.close();
+    alert('接続を解除しました。');
   });
 
   const chatInput = document.getElementById("chat") as HTMLInputElement;

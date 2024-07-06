@@ -65,6 +65,17 @@ document.addEventListener("DOMContentLoaded", async function () {
     sendMessage();
   });
 
+  document.getElementById("disconnect")!.addEventListener("click", async function (e) {
+    e.preventDefault();
+    const chatIdElement = document.getElementById("chat-id");
+    const chatId = chatIdElement?.getAttribute("data-chat-id");
+    if (chatId) {
+      await updateChatStatus(chatId, 'offline');
+    }
+    socket.close();
+    alert('接続を解除しました。');
+  });
+
   const chatInput = document.getElementById("chat") as HTMLInputElement;
   chatInput?.focus();
 
