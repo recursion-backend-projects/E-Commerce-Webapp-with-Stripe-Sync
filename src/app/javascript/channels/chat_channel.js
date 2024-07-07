@@ -22,6 +22,12 @@ consumer.subscriptions.create("ChatChannel", {
 
 function addChat(chat, customerAccount) {
   const chatList = document.querySelector('tbody');
+
+  // 既に該当チャットが存在する場合は追加しない
+  if (document.getElementById(`chat-${chat.id}`)) {
+    return;
+  }
+
   const chatRow = document.createElement('tr');
   chatRow.className = 'bg-gre border-b bg-white hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:border-gray-700 dark:bg-gray-800';
   chatRow.id = `chat-${chat.id}`;
