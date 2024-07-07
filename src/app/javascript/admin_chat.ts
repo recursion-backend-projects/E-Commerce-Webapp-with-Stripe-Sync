@@ -61,6 +61,15 @@ document.addEventListener("DOMContentLoaded", async function () {
     displayMessage(event.data, "received");
   };
 
+  window.addEventListener("beforeunload", async function (event) {
+    const chatIdElement = document.getElementById("chat-id");
+    const chatId = chatIdElement?.getAttribute("data-chat-id");
+    if (chatId) {
+      await updateChatStatus(chatId, 'offline');
+    }
+    socket.close();
+  });
+
   document.getElementById("submit")!.addEventListener("click", function (e) {
     e.preventDefault();
     sendMessage();

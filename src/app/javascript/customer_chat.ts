@@ -47,6 +47,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     displayMessage(event.data, "received");
   };
 
+  window.addEventListener("beforeunload", async function (event) {
+    await updateChatStatus('offline');
+    socket.close();
+  });
+
   document.getElementById("submit")!.addEventListener("click", function (e) {
     e.preventDefault();
     sendMessage();
