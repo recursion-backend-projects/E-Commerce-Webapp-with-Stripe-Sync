@@ -71,29 +71,29 @@
         <div id="menuDropdown" class="z-10 hidden w-44 divide-y divide-gray-100 rounded bg-white shadow dark:divide-gray-600 dark:bg-gray-700">
           <ul class="py-1 text-sm text-gray-800 dark:text-gray-200" aria-labelledby="menuDropdownButton">
             <li>
-              <%= link_to 'ホーム', root_path, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
+              <%= link_to 'ホーム', root_path, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white', data: { turbo: false } %>
             </li>
             <% if current_customer_account %>
               <li>
-                <%= link_to 'ウィッシュリスト', customer_account_wish_products_path(current_customer_account), data: { turbo_method: :get }, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
+                <%= link_to 'ウィッシュリスト', customer_account_wish_products_path(current_customer_account), data: { turbo_method: :get }, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white', data: { turbo: false } %>
               </li>
               <li>
-                <%= link_to 'お気に入り', favorite_products_path, data: { turbo_method: :get }, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
+                <%= link_to 'お気に入り', favorite_products_path, data: { turbo_method: :get }, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white', data: { turbo: false } %>
               </li>
               <li>
-                <%= link_to 'チャット', chat_path, data: { turbo: :false }, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'  %>
+                <%= link_to 'チャット', chat_path, data: { turbo: :false }, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white', data: { turbo: false }  %>
               </li>
               <li>
-                <%= link_to '購入履歴', orders_path, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
+                <%= link_to '購入履歴', orders_path, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white', data: { turbo: false } %>
               </li>
               <li>
-              <%= link_to 'ダウンロードリスト', download_products_path, data: { turbo_method: :get }, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
+              <%= link_to 'ダウンロードリスト', download_products_path, data: { turbo_method: :get }, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white', data: { turbo: false } %>
               </li>
               <li>
-                <%= link_to 'アカウント情報', account_path, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
+                <%= link_to 'アカウント情報', account_path, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white', data: { turbo: false } %>
               </li>
               <li>
-                <%= link_to 'ログアウト', destroy_customer_account_session_path, data: { turbo_method: :delete }, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
+                <%= link_to 'ログアウト', destroy_customer_account_session_path, data: { turbo_method: :delete }, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white', data: { turbo: false } %>
               </li>
             <% else %>
               <li>
@@ -151,10 +151,10 @@
                 </div>
               </li>
               <li>
-                <%= link_to 'アカウント作成', new_customer_account_registration_path, data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
+                <%= link_to 'アカウント作成', new_customer_account_registration_path, data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white', data: { turbo: false } %>
               </li>
               <li>
-                <%= link_to 'ログイン', new_customer_account_session_path, data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
+                <%= link_to 'ログイン', new_customer_account_session_path, data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white', data: { turbo: false } %>
               </li>
             <% end %>
           </ul>
@@ -166,16 +166,16 @@
                 </p>
               </li>
               <li>
-                <%= link_to '絵画', search_products_path(q: { product_category_name_eq: '絵画' }), data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
+                <%= link_to '絵画', search_products_path(q: { product_category_name_eq: '絵画' }), data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white', data: { turbo: false } %>
               </li>
               <li>
-                <%= link_to '彫刻', search_products_path(q: { product_category_name_eq: '彫刻' }), data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
+                <%= link_to '彫刻', search_products_path(q: { product_category_name_eq: '彫刻' }), data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white', data: { turbo: false } %>
               </li>
               <li>
-                <%= link_to '写真', search_products_path(q: { product_category_name_eq: '写真' }), data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
+                <%= link_to '写真', search_products_path(q: { product_category_name_eq: '写真' }), data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white', data: { turbo: false } %>
               </li>
               <li>
-                <%= link_to 'イラスト', search_products_path(q: { product_category_name_eq: 'イラスト' }), data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
+                <%= link_to 'イラスト', search_products_path(q: { product_category_name_eq: 'イラスト' }), data: { turbo_method: :get }, class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white', data: { turbo: false } %>
               </li>
             </ul>
           </div>

@@ -62,20 +62,20 @@
             aria-labelledby="menuDropdownButton"
           >
             <li>
-              <%= link_to '商品管理', admin_products_path, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
+              <%= link_to '商品管理', admin_products_path, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white', data: { turbo: false } %>
             </li>
             <li>
-              <%= link_to '発送管理', admin_shippings_path, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
+              <%= link_to '発送管理', admin_shippings_path, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white', data: { turbo: false } %>
             </li>
             <li>
-              <%= link_to 'タグ一覧', admin_products_tags_path, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
+              <%= link_to 'タグ一覧', admin_products_tags_path, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white', data: { turbo: false } %>
             </li>
             <li>
-              <%= link_to 'チャット一覧', admin_chats_path, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
+              <%= link_to 'チャット一覧', admin_chats_path, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white', data: { turbo: false } %>
             </li>
             <!-- ログインユーザーの場合 -->
             <li>
-            <%= link_to 'ログアウト', destroy_admin_account_session_path, data: { turbo_method: :delete }, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white' %>
+            <%= link_to 'ログアウト', destroy_admin_account_session_path, data: { turbo_method: :delete }, class: 'block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white', data: { turbo: false } %>
             </li>
           </ul>
         </div>
