@@ -5,9 +5,8 @@ test:
   adapter: test
 
 production:
-  adapter: async
+  adapter: 
+  url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
+  channel_prefix: art_sa2
   # 管理者側のチャットリストだけのためasyncに設定してます。
   # 大量のアクセスが来る場合はredisに変更します
-  # adapter: redis
-  # url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
-  # channel_prefix: docker_rails_test_production
