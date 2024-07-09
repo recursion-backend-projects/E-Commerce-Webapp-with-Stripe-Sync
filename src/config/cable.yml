@@ -5,7 +5,7 @@ test:
   adapter: test
 
 production:
-  adapter: 
+  adapter: async
   url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
   channel_prefix: art_sa2
   # 管理者側のチャットリストだけのためasyncに設定してます。
