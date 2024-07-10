@@ -11,7 +11,6 @@ consumer.subscriptions.create("ChatChannel", {
 
   received(data) {
     // ブロードキャストされたデータをキャッチ
-    console.log(data.chat)
     if (data.action === 'create') {
       addChat(data.chat, data.customer_account);
     } else if (data.action === 'update_status') {

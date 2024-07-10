@@ -16,7 +16,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 
     let data = await response.json();
-    console.log(data);
     if (data.status === 'ok') {
       console.log('Chat status updated successfully');
     } else {
