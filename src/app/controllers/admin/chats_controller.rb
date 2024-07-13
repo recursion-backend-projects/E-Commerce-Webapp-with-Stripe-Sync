@@ -10,6 +10,7 @@ class Admin::ChatsController < ApplicationController
   def show
     @admin = true
     @chat = Chat.find(params[:id])
+    @customer_account = @chat.customer.customer_account
     @websocket_url = Rails.env.production? ? ENV.fetch('WEBSOCKET_URL', nil) : 'ws://localhost:8080/chat'
 
     # 有効なトークンを既に持っているか確認
