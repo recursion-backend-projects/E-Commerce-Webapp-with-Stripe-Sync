@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", async function () {
-  async function getToken() {
+  async function getToken(): Promise<string> {
     let res = await fetch("/admin/token/chats");
     let data = await res.json();
     return data.token;
   }
 
-  async function updateChatStatus(chatId: string, status: string) {
+  async function updateChatStatus(chatId: string, status: string): Promise<void> {
     let response = await fetch(`/admin/chats/${chatId}/update_status`, {
       method: 'POST',
       headers: {
@@ -30,9 +30,13 @@ document.addEventListener("DOMContentLoaded", async function () {
     .getElementById("websocket-url")
     ?.getAttribute("data-websocket-url");
 
+  if (!websocketUrl) {
+    throw new Error("WebSocket URL is not defined");
+  }
+
   const socket = new WebSocket(`${websocketUrl}?token=${token}`);
 
-  socket.onopen =  async function (event) {
+  socket.onopen = async function (event) {
     console.log("Connected to WebSocket server.");
 
     const chatIdElement = document.getElementById("chat-id");
@@ -54,6 +58,16 @@ document.addEventListener("DOMContentLoaded", async function () {
   socket.onclose = function (event) {
     console.log("Disconnected from WebSocket server.");
     alert("通信が切断されました。")
+
+    // 接続解除後に送信ボタンとエンターキー送信を無効にする
+    const submitButton = document.getElementById("submit") as HTMLButtonElement;
+    if (submitButton) {
+      submitButton.disabled = true;
+    }
+    const chatInput = document.getElementById("chat") as HTMLTextAreaElement;
+    if (chatInput) {
+      chatInput.removeEventListener("keydown", handleEnterKey);
+    }
   };
 
   socket.onmessage = function (event) {
@@ -70,12 +84,14 @@ document.addEventListener("DOMContentLoaded", async function () {
     socket.close();
   });
 
-  document.getElementById("submit")!.addEventListener("click", function (e) {
+  const submitButton = document.getElementById("submit") as HTMLButtonElement;
+  submitButton.addEventListener("click", function (e) {
     e.preventDefault();
     sendMessage();
   });
 
-  document.getElementById("disconnect")!.addEventListener("click", async function (e) {
+  const disconnectButton = document.getElementById("disconnect") as HTMLButtonElement;
+  disconnectButton.addEventListener("click", async function (e) {
     e.preventDefault();
     const confirmDisconnect = confirm("本当に接続を解除しますか？");
     if (!confirmDisconnect) {
@@ -90,15 +106,17 @@ document.addEventListener("DOMContentLoaded", async function () {
     socket.close();
   });
 
-  const chatInput = document.getElementById("chat") as HTMLInputElement;
+  const chatInput = document.getElementById("chat") as HTMLTextAreaElement;
   chatInput?.focus();
 
-  chatInput?.addEventListener("keydown", function (e) {
+  function handleEnterKey(e: KeyboardEvent) {
     if (e.key === "Enter" && e.shiftKey) {
       e.preventDefault();
       sendMessage();
     }
-  });
+  }
+
+  chatInput?.addEventListener("keydown", handleEnterKey);
 
   function sendMessage() {
     const message = chatInput?.value;
@@ -126,7 +144,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           <p class="text-sm font-normal ${
             type === "sent" ? "text-white" : "text-gray-900"
           }">
-		  	${message.replace(/\n/g, "<br>")}
+            ${message.replace(/\n/g, "<br>")}
           </p>
         </div>
         <span class="text-sm font-normal text-gray-400">${new Date().toLocaleTimeString()}</span>
