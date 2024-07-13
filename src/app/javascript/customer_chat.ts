@@ -96,7 +96,10 @@ document.addEventListener("DOMContentLoaded", async function () {
   chatInput?.addEventListener("keydown", handleEnterKey);
 
   function sendMessage() {
-    const message = chatInput?.value;
+    const message = chatInput?.value.trim();
+    if (!message) {
+      return;
+    }
     socket.send(message);
     console.log(`me: ${message}`);
     displayMessage(message, "sent");
