@@ -77,6 +77,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   document.getElementById("disconnect")!.addEventListener("click", async function (e) {
     e.preventDefault();
+    const confirmDisconnect = confirm("本当に接続を解除しますか？");
+    if (!confirmDisconnect) {
+      return;
+    }
+
     const chatIdElement = document.getElementById("chat-id");
     const chatId = chatIdElement?.getAttribute("data-chat-id");
     if (chatId) {

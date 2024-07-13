@@ -58,6 +58,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   document.getElementById("disconnect")!.addEventListener("click", async function (e) {
     e.preventDefault();
+    const confirmDisconnect = confirm("本当に接続を解除しますか？");
+    if (!confirmDisconnect) {
+      return;
+    }
+
     await updateChatStatus('offline');
     socket.close();
   });
