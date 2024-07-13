@@ -46,7 +46,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     // 初回メッセージを送信
-    const initialMessage = `お客様への対応をスムーズに進めるために、以下の情報をお教えいただけますか？<br /><br />
+    const initialMessage = `お待たせ致しました。<br />これよりサポートを開始いたします。
+    お客様への対応をスムーズに進めるために、以下の情報をお教えいただけますか？<br /><br />
     1. ご注文番号<br />
     2. ご注文日時<br />
     3. 商品名<br />

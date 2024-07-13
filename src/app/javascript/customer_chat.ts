@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   socket.onopen = function (event) {
     console.log("Connected to WebSocket server.");
+    initNotification();
   };
 
   socket.onclose = function (event) {
@@ -91,6 +92,13 @@ document.addEventListener("DOMContentLoaded", async function () {
       e.preventDefault();
       sendMessage();
     }
+  }
+
+  function initNotification() {
+    const notificationMessage = `カスタマーサポートの担当者が対応します。しばらくお待ちください。<br>
+      ※カスタマーサポートから次のメッセージが表示されるまでは、メッセージを送信してもカスタマーサポートには、表示されませんのでご注意ください。
+    `;
+    displayMessage(notificationMessage, "received");
   }
 
   chatInput?.addEventListener("keydown", handleEnterKey);
