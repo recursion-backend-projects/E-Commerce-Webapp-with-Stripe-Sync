@@ -47,8 +47,8 @@ Rails.application.configure do
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
-  # config.action_cable.url = "wss://example.com/cable"
-  # config.action_cable.allowed_request_origins = [ "http://example.com", /http:\/\/example.*/ ]
+  config.action_cable.url = "wss://#{ENV['MAIL_HOST']}/cable"
+  config.action_cable.allowed_request_origins = [ "https://#{ENV['MAIL_HOST']}", /https:\/\/#{Regexp.escape(ENV['MAIL_HOST'])}.*/ ]
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   # Can be used together with config.force_ssl for Strict-Transport-Security and secure cookies.
@@ -56,7 +56,7 @@ Rails.application.configure do
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # アプリへのアクセスをすべて強制的にSSL経由にする
-  config.force_ssl = true 
+  config.force_ssl = false
 
   # Log to STDOUT by default
   config.logger = ActiveSupport::Logger.new(STDOUT)

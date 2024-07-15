@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root 'home#index'
+  mount ActionCable.server => '/cable'
 
   # アカウント認証(カスタマー)
   devise_for :customer_accounts, controllers: {
@@ -21,9 +22,6 @@ Rails.application.routes.draw do
   get 'sample', to: 'samples#index'
   get 'customer-test', to: 'customer_tests#index'
 
-  # Defines the root path route ("/")
-  # root "posts#index"
-
   # 管理者のルーティング
   namespace :admin do
     namespace :products do
@@ -32,7 +30,11 @@ Rails.application.routes.draw do
     end
     resources :products, only: %i[index edit destroy update new create]
     resources :shippings, only: %i[index edit update]
-    resources :chats, only: %i[index show]
+    resources :chats, only: %i[index show] do
+      member do
+        post :update_status
+      end
+    end
     get 'token/chats', to: 'chats#token'
   end
 
@@ -56,7 +58,9 @@ Rails.application.routes.draw do
     resources :orders, only: [:index]
     resource :account, only: %i[show edit update]
     resources :contacts, only: %i[new create]
-    resource :chat, only: [:show]
+    resource :chat, only: [:show] do
+      post :update_status, on: :member # 修正点
+    end
     get '/chat/token', to: 'chats#token'
   end
 

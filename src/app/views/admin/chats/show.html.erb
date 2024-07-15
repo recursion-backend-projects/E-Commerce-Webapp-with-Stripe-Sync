@@ -5,27 +5,35 @@
 				チャット
 			</h1>
 			<!-- カスタマーアイコン -->
-			<div class="flex items-center gap-4">
-				<div
-					class="relative size-8 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-600"
-				>
-					<svg
-						class="absolute -left-1 size-12 text-gray-400"
-						fill="currentColor"
-						viewBox="0 0 24 24"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-						<path
-							fill-rule="evenodd"
-							d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-							clip-rule="evenodd"
-						></path>
-					</svg>
-				</div>
-				<div class="font-medium">
-					<div>ユーザーID、名前、Eメールなど</div>
-				</div>
-			</div>
+			<div class="flex w-full items-center justify-between">
+        <div class="flex items-center gap-4">
+          <div
+            class="relative size-8 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-600"
+          >
+            <svg
+              class="absolute -left-1 size-12 text-gray-400"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </div>
+          <div class="font-medium">
+            <div><%= @customer_account.email %></div>
+          </div>
+        </div>
+        <button
+          id="disconnect"
+          class="inline-flex cursor-pointer justify-center rounded-lg bg-red-500 p-2 text-white hover:bg-red-700"
+        >
+          接続解除
+        </button>
+      </div>
 			<!-- チャット -->
 			<div
 				class="divide-y divide-gray-200 rounded-xl border border-gray-200 bg-white px-3 py-2 shadow-xl"
@@ -99,4 +107,5 @@
 	</div>
 </div>
 <div id="websocket-url" data-websocket-url="<%= @websocket_url %>"></div>
+<div id="chat-id" data-chat-id="<%= @chat.id %>"></div>
 <%= javascript_include_tag 'admin_chat.js', type: "module" %>

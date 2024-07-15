@@ -10,6 +10,7 @@ class Admin::ChatsController < ApplicationController
   def show
     @admin = true
     @chat = Chat.find(params[:id])
+    @customer_account = @chat.customer.customer_account
     @websocket_url = Rails.env.production? ? ENV.fetch('WEBSOCKET_URL', nil) : 'ws://localhost:8080/chat'
 
     # 有効なトークンを既に持っているか確認
@@ -29,6 +30,16 @@ class Admin::ChatsController < ApplicationController
 
   def token
     render json: { token: cookies.signed[:admin_jwt] }
+  end
+
+  def update_status
+    @chat = Chat.find(params[:id])
+    if @chat.update(status: params[:status])
+      ActionCable.server.broadcast 'chat_channel', { action: 'update_status', chat: @chat }
+      render json: { status: 'ok' }
+    else
+      render json: { status: 'error', message: @chat.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   private
