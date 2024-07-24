@@ -42,64 +42,58 @@
   <div class="bg-gray-100 w-full py-16 md:py-24">
     <div class="container mx-auto px-4">
       <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">今月の特集作品</h2>
-      <div id="featured-carousel" class="relative">
+      <div id="featured-carousel" class="relative" data-carousel="static">
         <!-- カルーセルラッパー -->
-        <div class="relative h-56 overflow-hidden rounded-lg md:h-96 flex transition-transform duration-700 ease-in-out">
-          <% ['painting1.jpg', 'sculpture1.jpg', 'photography1.jpg', 'illustration1.jpg'].each_with_index do |image, index| %>
-            <div class="w-1/3 p-2 flex-none <%= index == 0 ? 'block' : 'hidden' %>" data-carousel-item>
-              <%= image_tag image, alt: "#{File.basename(image, '.*').capitalize} of the month", class: 'w-full h-full object-cover rounded-lg' %>
-              <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                <div class="text-center text-white">
-                  <h3 class="text-2xl md:text-3xl font-bold mb-2"><%= File.basename(image, '.*').capitalize %> of the Month</h3>
-                  <%= link_to '詳細を見る', '#', class: 'inline-block bg-white text-gray-900 py-2 px-4 rounded-full text-sm font-semibold hover:bg-gray-100 transition duration-300' %>
+        <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+          <% ['painting', 'sculpture', 'photography', 'illustration'].each do |category| %>
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <img src="/api/placeholder/800/600" alt="<%= category %> of the month" class="block w-full h-full object-cover">
+                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                  <div class="text-center text-white">
+                    <h3 class="text-2xl md:text-3xl font-bold mb-2"><%= category.capitalize %> of the Month</h3>
+                    <%= link_to '詳細を見る', '#', class: 'inline-block bg-white text-gray-900 py-2 px-4 rounded-full text-sm font-semibold hover:bg-gray-100 transition duration-300' %>
+                  </div>
                 </div>
               </div>
             </div>
           <% end %>
         </div>
         <!-- スライダーコントロール -->
-        <button type="button" class="absolute top-1/2 left-0 z-30 flex items-center justify-center h-12 w-12 transform -translate-y-1/2 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white dark:bg-gray-800/30 dark:group-hover:bg-gray-800/60 dark:group-focus:ring-gray-800/70" data-carousel-prev>
-          <svg class="w-6 h-6 text-white rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1L1 5l4 4"/>
-          </svg>
-          <span class="sr-only">前へ</span>
+        <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+          <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white group-focus:outline-none">
+            <svg class="w-4 h-4 text-white rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+            </svg>
+            <span class="sr-only">前へ</span>
+          </span>
         </button>
-        <button type="button" class="absolute top-1/2 right-0 z-30 flex items-center justify-center h-12 w-12 transform -translate-y-1/2 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white dark:bg-gray-800/30 dark:group-hover:bg-gray-800/60 dark:group-focus:ring-gray-800/70" data-carousel-next>
-          <svg class="w-6 h-6 text-white rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-          </svg>
-          <span class="sr-only">次へ</span>
+        <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+          <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white group-focus:outline-none">
+            <svg class="w-4 h-4 text-white rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+            </svg>
+            <span class="sr-only">次へ</span>
+          </span>
         </button>
       </div>
     </div>
   </div>
 
-  <!-- アーティスト紹介セクション -->
+  <!-- 人気アーティストの作品紹介セクション -->
   <div class="container mx-auto px-4 py-16 md:py-24">
-    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">注目のアーティスト</h2>
+    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">人気アーティストの作品紹介</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <% 3.times do |i| %>
+      <% ['painting2.jpg', 'sculpture2.jpg', 'photography2.jpg'].each_with_index do |image, index| %>
         <div class="bg-white rounded-lg shadow-md overflow-hidden">
-          <%= image_tag "artist#{i+1}.jpg", alt: "Artist #{i+1}", class: 'w-full h-64 object-cover object-center' %>
+          <%= image_tag image, alt: "Popular Artist #{index + 1} work", class: 'w-full h-64 object-cover object-center' %>
           <div class="p-6">
-            <h3 class="text-xl font-semibold mb-2">アーティスト名 <%= i+1 %></h3>
-            <p class="text-gray-600 mb-4">アーティスト <%= i+1 %> の作品は、独自の視点と斬新な技法で注目を集めています。</p>
-            <%= link_to 'プロフィールを見る', '#', class: 'text-blue-500 hover:text-blue-700 font-semibold' %>
+            <h3 class="text-xl font-semibold mb-2">人気アーティスト <%= index + 1 %></h3>
+            <p class="text-gray-600 mb-4">このアーティストの作品は、独自の視点と斬新な技法で注目を集めています。</p>
+            <%= link_to '詳細を見る', '#', class: 'text-blue-500 hover:text-blue-700 font-semibold' %>
           </div>
         </div>
       <% end %>
-    </div>
-  </div>
-
-  <!-- ニュースレター登録セクション -->
-  <div class="bg-gray-900 text-white w-full py-16">
-    <div class="container mx-auto px-4 text-center">
-      <h2 class="text-3xl md:text-4xl font-bold mb-4">最新情報をお届けします</h2>
-      <p class="text-xl mb-8">新作情報やイベント案内をいち早くお知らせします。</p>
-      <form class="max-w-md mx-auto flex">
-        <input type="email" placeholder="メールアドレスを入力" class="flex-grow px-4 py-2 rounded-l-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900">
-        <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-r-full hover:bg-blue-600 transition duration-300">登録</button>
-      </form>
     </div>
   </div>
 </div>
