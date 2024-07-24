@@ -45,10 +45,10 @@
       <div id="featured-carousel" class="relative" data-carousel="static">
         <!-- カルーセルラッパー -->
         <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
-          <% ['painting', 'sculpture', 'photography', 'illustration'].each do |category| %>
+          <% ['painting-slider', 'sculpture-slider', 'photography-slider', 'illustration-slider'].each do |category| %>
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
               <div class="absolute inset-0 flex items-center justify-center">
-                <img src="/api/placeholder/800/600" alt="<%= category %> of the month" class="block w-full h-full object-cover">
+                <%= image_tag "#{category}.jpeg", alt: "#{category.capitalize} of the month", class: 'w-full h-full object-cover' %>
                 <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                   <div class="text-center text-white">
                     <h3 class="text-2xl md:text-3xl font-bold mb-2"><%= category.capitalize %> of the Month</h3>
