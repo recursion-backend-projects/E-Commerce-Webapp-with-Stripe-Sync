@@ -2,16 +2,19 @@
 
 <div class="flex flex-col items-center justify-center antialiased">
   <!-- ヒーローセクション -->
-  <div class="relative w-full bg-gray-900 text-white" style="background-image: url(<%= asset_path('top-sample.jpg') %>)">
-    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+  <div class="relative w-full bg-gray-900 text-white">
+    <div class="absolute inset-0">
+      <%= image_tag 'top-sample.jpg', class: 'w-full h-full object-cover' %>
+      <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+    </div>
     <div class="relative z-10 container mx-auto px-4 py-32 md:py-48">
       <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-4">
         ここでしか出会えない<br />アートを見つけよう
       </h1>
-      <p class="text-xl md:text-2xl mb-8">独自の視点で選りすぐられた作品群をご覧ください</p>
       <%= link_to '作品を探す', search_products_path, class: 'bg-white text-gray-900 py-3 px-6 rounded-full text-lg font-semibold hover:bg-gray-100 transition duration-300' %>
     </div>
   </div>
+
 
   <!-- カテゴリーセクション -->
   <div class="container mx-auto px-4 py-16 md:py-24">
