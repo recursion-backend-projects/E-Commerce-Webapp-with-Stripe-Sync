@@ -46,14 +46,19 @@
       <div id="featured-carousel" class="relative" data-carousel="static">
         <!-- カルーセルラッパー -->
         <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
-          <% ['painting-slider', 'sculpture-slider', 'photography-slider', 'illustration-slider'].each do |category| %>
+          <% @featured_products.each do |product| %>
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
               <div class="absolute inset-0 flex items-center justify-center">
-                <%= image_tag "#{category}.jpeg", alt: "#{category.capitalize} of the month", class: 'w-full h-full object-cover' %>
+                <% if product.images.attached? %>
+                  <%= image_tag product.images.first, alt: product.name, class: 'w-full h-full object-cover' %>
+                <% else %>
+                  <%= image_tag 'sample_image.jpg', alt: 'デフォルト画像', class: 'w-full h-full object-cover' %>
+                <% end %>
                 <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                   <div class="text-center text-white">
-                    <h3 class="text-2xl md:text-3xl font-bold mb-2"><%= category.capitalize %> of the Month</h3>
-                    <%= link_to '詳細を見る', '#', class: 'inline-block bg-white text-gray-900 py-2 px-4 rounded-full text-sm font-semibold hover:bg-gray-100 transition duration-300' %>
+                  <h3 class="text-2xl md:text-3xl font-bold mb-2">Featured Artwork of the Month</h3>
+                    <p class="mb-4"><%= product.description.truncate(50) %></p>
+                    <%= link_to '詳細を見る', product_path(product), class: 'inline-block bg-white text-gray-900 py-2 px-4 rounded-full text-sm font-semibold hover:bg-gray-100 transition duration-300' %>
                   </div>
                 </div>
               </div>
@@ -81,17 +86,22 @@
     </div>
   </div>
 
+
   <!-- 人気アーティストの作品紹介セクション -->
   <div class="container mx-auto px-4 py-16 md:py-24">
     <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">人気アーティストの作品紹介</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <% ['painting2.jpg', 'sculpture2.jpg', 'photography2.jpg'].each_with_index do |image, index| %>
+      <% @popular_products.each_with_index do |product, index| %>
         <div class="bg-white rounded-lg shadow-md overflow-hidden">
-          <%= image_tag image, alt: "Popular Artist #{index + 1} work", class: 'w-full h-64 object-cover object-center' %>
+          <% if product.images.attached? %>
+            <%= image_tag product.images.first, alt: "Popular Artist #{index + 1} work", class: 'w-full h-64 object-cover object-center' %>
+          <% else %>
+            <%= image_tag 'sample_image.jpg', alt: 'デフォルト画像', class: 'w-full h-64 object-cover object-center' %>
+          <% end %>
           <div class="p-6">
-            <h3 class="text-xl font-semibold mb-2">人気アーティスト <%= index + 1 %></h3>
-            <p class="text-gray-600 mb-4">このアーティストの作品は、独自の視点と斬新な技法で注目を集めています。</p>
-            <%= link_to '詳細を見る', '#', class: 'text-blue-500 hover:text-blue-700 font-semibold' %>
+            <h3 class="text-xl font-semibold mb-2"><%= product.creator %> <%= index + 1 %></h3>
+            <p class="text-gray-600 mb-4"><%= product.description.truncate(50) %></p>
+            <%= link_to '詳細を見る', product_path(product), class: 'text-blue-500 hover:text-blue-700 font-semibold' %>
           </div>
         </div>
       <% end %>
